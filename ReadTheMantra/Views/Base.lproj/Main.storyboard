@@ -158,7 +158,7 @@
                                     <constraint firstAttribute="height" constant="50" id="Vcr-aG-2yl"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dBV-0g-Qvz">
                                 <rect key="frame" x="20" y="172" width="335" height="475"/>
