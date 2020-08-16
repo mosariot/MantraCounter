@@ -17,7 +17,9 @@ class DetailsViewController: UIViewController {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var mantraTextTextView: UITextView!
     @IBOutlet weak var detailsTextView: UITextView!
     
     required init?(coder: NSCoder) {
@@ -35,6 +37,7 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         titleTextField.delegate = self
+        mantraTextTextView.delegate = self
         detailsTextView.delegate = self
         
         navigationItem.largeTitleDisplayMode = .never
@@ -45,10 +48,11 @@ class DetailsViewController: UIViewController {
     //MARK: - Action Methods
     
     @objc func doneButtonPressed() {
-        if let title = titleTextField.text, let details = detailsTextView.text, title != "" {
-            processMantra(title: title, details: details)
+        if let title = titleTextField.text, let text = mantraTextTextView.text, let details = detailsTextView.text, title != "" {
+            processMantra(title: title, text: text, details: details)
             saveMantras()
             titleTextField.resignFirstResponder()
+            mantraTextTextView.resignFirstResponder()
             detailsTextView.resignFirstResponder()
             navigationItem.rightBarButtonItem = nil
         } else {
@@ -58,8 +62,9 @@ class DetailsViewController: UIViewController {
     
     //MARK: - Supportive Methods
     
-    private func processMantra(title: String, details: String) {
+    private func processMantra(title: String, text: String, details: String) {
         mantra.title = title
+        mantra.text = text
         mantra.details = details
         if mode == .add {
             mantra.position = Int32(position)
@@ -76,14 +81,22 @@ class DetailsViewController: UIViewController {
     }
     
     private func setupUI() {
+        image.image = UIImage(named: "default")
+        image.makeRounded()
+        
+        mantraTextTextView.layer.borderWidth = 0.4
+        mantraTextTextView.layer.borderColor = UIColor.systemGray.cgColor
         detailsTextView.layer.borderWidth = 0.4
         detailsTextView.layer.borderColor = UIColor.systemGray.cgColor
+
         navigationItem.rightBarButtonItem = nil
+        
         if mode == .add {
             titleTextField.becomeFirstResponder()
         }
         
         titleTextField.text = mantra.title
+        mantraTextTextView.text = mantra.text
         detailsTextView.text = mantra.details
     }
     
