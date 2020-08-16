@@ -36,11 +36,9 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        titleTextField.delegate = self
-        mantraTextTextView.delegate = self
-        detailsTextView.delegate = self
         
         navigationItem.largeTitleDisplayMode = .never
+        hideKeyboardWhenTappedAround()
         
         setupUI()
     }
@@ -54,10 +52,21 @@ class DetailsViewController: UIViewController {
             titleTextField.resignFirstResponder()
             mantraTextTextView.resignFirstResponder()
             detailsTextView.resignFirstResponder()
-            navigationItem.rightBarButtonItem = nil
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
         } else {
             incorrectTitleAlert()
         }
+        titleTextField.isUserInteractionEnabled = false
+        mantraTextTextView.isEditable = false
+        detailsTextView.isEditable = false
+    }
+    
+    @objc func editButtonPressed() {
+        titleTextField.isUserInteractionEnabled = true
+        mantraTextTextView.isEditable = true
+        detailsTextView.isEditable = true
+        titleTextField.becomeFirstResponder()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
     }
     
     //MARK: - Supportive Methods
@@ -88,11 +97,16 @@ class DetailsViewController: UIViewController {
         mantraTextTextView.layer.borderColor = UIColor.systemGray.cgColor
         detailsTextView.layer.borderWidth = 0.4
         detailsTextView.layer.borderColor = UIColor.systemGray.cgColor
-
-        navigationItem.rightBarButtonItem = nil
         
-        if mode == .add {
+        switch mode {
+        case .add:
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
             titleTextField.becomeFirstResponder()
+        case .view:
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
+            titleTextField.isUserInteractionEnabled = false
+            mantraTextTextView.isEditable = false
+            detailsTextView.isEditable = false
         }
         
         titleTextField.text = mantra.title
@@ -108,21 +122,5 @@ class DetailsViewController: UIViewController {
         } catch {
             print("Error saving context, \(error)")
         }
-    }
-}
-
-//MARK: - UITextFiedDelegate Methods
-
-extension DetailsViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
-    }
-}
-
-//MARK: - UITextViewDelegate Methods
-
-extension DetailsViewController: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
     }
 }

@@ -9,6 +9,6 @@
 import Foundation
 
 enum DetailsMode {
-    case edit
+    case view
     case add
 }

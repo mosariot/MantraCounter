@@ -52,7 +52,7 @@ class ReadsCountViewController: UIViewController {
         guard let detailsViewController = storyboard?.instantiateViewController(
             identifier: "DetailsViewController",
             creator: { coder in
-                DetailsViewController(mantra: self.mantra, mode: .edit, position: Int(self.mantra.position), coder: coder)
+                DetailsViewController(mantra: self.mantra, mode: .view, position: Int(self.mantra.position), coder: coder)
         }) else { return }
         navigationController?.pushViewController(detailsViewController, animated: true)
     }
