@@ -135,7 +135,7 @@
                             <outlet property="delegate" destination="uTg-Qt-T5r" id="5w1-6F-KDd"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Mantra Counter" largeTitleDisplayMode="always" id="XMg-W9-LLq"/>
+                    <navigationItem key="navigationItem" title="Mantra Counter" id="XMg-W9-LLq"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PxV-EI-kJr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -195,16 +195,8 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wHb-0Y-49R"/>
                     </view>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="xCI-HI-0a3">
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="lMd-sB-cGr">
-                            <connections>
-                                <action selector="doneButtonPressed:" destination="oME-Mn-XWI" id="3vR-eb-Ebr"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
                         <outlet property="detailsTextView" destination="dBV-0g-Qvz" id="9J1-jv-14H"/>
-                        <outlet property="doneButton" destination="lMd-sB-cGr" id="qAq-Fj-cx7"/>
                         <outlet property="titleTextField" destination="YbO-xG-hna" id="XJ4-Gp-cQO"/>
                     </connections>
                 </viewController>

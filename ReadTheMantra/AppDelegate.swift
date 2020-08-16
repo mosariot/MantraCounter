@@ -47,13 +47,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         removeData()
         let context = persistentContainer.viewContext
         
-        for (id, details) in initialMantraData {
+        for (id, description) in initialMantraData {
             let mantra = Mantra(context: context)
             for (position, title) in id {
                 mantra.position = Int32(position)
                 mantra.title = title
             }
-            mantra.details = details
+            for (text, details) in description {
+                mantra.text = text
+                mantra.details = details
+            }
         }
         
         saveContext()

@@ -35,11 +35,27 @@ class ReadsCountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let infoButton = UIButton(type: .infoLight)
+        infoButton.addTarget(self, action: #selector(infoButtonPressed), for: .touchUpInside)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: infoButton)
+        
         setButtonsTitles()
-        titleLabel.text = mantra.title
+
         updateUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        updateUI()
+    }
+    
+    @objc func infoButtonPressed() {
+        guard let detailsViewController = storyboard?.instantiateViewController(
+            identifier: "DetailsViewController",
+            creator: { coder in
+                DetailsViewController(mantra: self.mantra, mode: .edit, position: Int(self.mantra.position), coder: coder)
+        }) else { return }
+        navigationController?.pushViewController(detailsViewController, animated: true)
+    }
     
     //MARK: - Action Methods
     
@@ -119,6 +135,7 @@ class ReadsCountViewController: UIViewController {
     //MARK: - Update UI
     
     private func updateUI() {
+        titleLabel.text = mantra.title
         formatter.groupingSeparator = " "
         formatter.numberStyle = .decimal
         let formattedReads = formatter.string(from: NSNumber(value: mantra.reads))

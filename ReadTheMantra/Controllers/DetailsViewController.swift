@@ -17,7 +17,6 @@ class DetailsViewController: UIViewController {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    @IBOutlet var doneButton: UIBarButtonItem!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var detailsTextView: UITextView!
     
@@ -38,13 +37,14 @@ class DetailsViewController: UIViewController {
         titleTextField.delegate = self
         detailsTextView.delegate = self
         
+        navigationItem.largeTitleDisplayMode = .never
+        
         setupUI()
     }
     
     //MARK: - Action Methods
     
-    
-    @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
+    @objc func doneButtonPressed() {
         if let title = titleTextField.text, let details = detailsTextView.text, title != "" {
             processMantra(title: title, details: details)
             saveMantras()
@@ -102,7 +102,7 @@ class DetailsViewController: UIViewController {
 
 extension DetailsViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        navigationItem.rightBarButtonItem = doneButton
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
     }
 }
 
@@ -110,6 +110,6 @@ extension DetailsViewController: UITextFieldDelegate {
 
 extension DetailsViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        navigationItem.rightBarButtonItem = doneButton
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
     }
 }

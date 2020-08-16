@@ -13,13 +13,13 @@ class MantraTableViewController: UITableViewController {
     
     private var mantraArray = [Mantra]()
     
-    private var currentMantra: Int? { tableView?.indexPathForSelectedRow?.row }
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(addNewMantraButtonPressed))
         
@@ -44,22 +44,12 @@ class MantraTableViewController: UITableViewController {
         cell.detailTextLabel?.text = currentReadingsCount + " \(mantra.reads)"
         cell.detailTextLabel?.textColor = .systemGray
         cell.imageView?.image = UIImage(systemName: "book")
-        cell.accessoryType = .detailDisclosureButton
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     
     //MARK: - TableView Delegate
-    
-    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        let mantra = mantraArray[indexPath.row]
-        guard let detailsViewController = storyboard?.instantiateViewController(
-            identifier: "DetailsViewController",
-            creator: { coder in
-                DetailsViewController(mantra: mantra, mode: .edit, position: self.mantraArray.count, coder: coder)
-        }) else { return }
-        navigationController?.pushViewController(detailsViewController, animated: true)
-    }
-    
+      
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
