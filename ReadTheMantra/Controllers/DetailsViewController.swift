@@ -1,0 +1,115 @@
+//
+//  DetailsViewController.swift
+//  ReadTheMantra
+//
+//  Created by Александр Воробьев on 02.08.2020.
+//  Copyright © 2020 Александр Воробьев. All rights reserved.
+//
+
+import UIKit
+import CoreData
+
+class DetailsViewController: UIViewController {
+    
+    private var mantra: Mantra
+    private var mode: DetailsMode
+    private var position: Int
+    
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    @IBOutlet var doneButton: UIBarButtonItem!
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var detailsTextView: UITextView!
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    init?(mantra: Mantra, mode: DetailsMode, position: Int, coder: NSCoder) {
+        self.mantra = mantra
+        self.position = position
+        self.mode = mode
+        
+        super.init(coder: coder)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        titleTextField.delegate = self
+        detailsTextView.delegate = self
+        
+        setupUI()
+    }
+    
+    //MARK: - Action Methods
+    
+    
+    @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
+        if let title = titleTextField.text, let details = detailsTextView.text, title != "" {
+            processMantra(title: title, details: details)
+            saveMantras()
+            titleTextField.resignFirstResponder()
+            detailsTextView.resignFirstResponder()
+            navigationItem.rightBarButtonItem = nil
+        } else {
+            incorrectTitleAlert()
+        }
+    }
+    
+    //MARK: - Supportive Methods
+    
+    private func processMantra(title: String, details: String) {
+        mantra.title = title
+        mantra.details = details
+        if mode == .add {
+            mantra.position = Int32(position)
+        }
+    }
+    
+    private func incorrectTitleAlert() {
+        let alert = UIAlertController(title: NSLocalizedString("Please add a valid title", comment: "Alert Title on DetailsViewController"),
+                                      message: "",
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func setupUI() {
+        detailsTextView.layer.borderWidth = 0.4
+        detailsTextView.layer.borderColor = UIColor.systemGray.cgColor
+        navigationItem.rightBarButtonItem = nil
+        if mode == .add {
+            titleTextField.becomeFirstResponder()
+        }
+        
+        titleTextField.text = mantra.title
+        detailsTextView.text = mantra.details
+    }
+    
+    //MARK: - Model Manipulation
+    
+    private func saveMantras() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context, \(error)")
+        }
+    }
+}
+
+//MARK: - UITextFiedDelegate Methods
+
+extension DetailsViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        navigationItem.rightBarButtonItem = doneButton
+    }
+}
+
+//MARK: - UITextViewDelegate Methods
+
+extension DetailsViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        navigationItem.rightBarButtonItem = doneButton
+    }
+}

@@ -1,0 +1,454 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9F5FE68424E7141400D0475E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE68324E7141400D0475E /* AppDelegate.swift */; };
+		9F5FE68624E7141400D0475E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE68524E7141400D0475E /* SceneDelegate.swift */; };
+		9F5FE68B24E7141400D0475E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F5FE68924E7141400D0475E /* Main.storyboard */; };
+		9F5FE68E24E7141400D0475E /* ReadTheMantra.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE68C24E7141400D0475E /* ReadTheMantra.xcdatamodeld */; };
+		9F5FE69024E7141700D0475E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F5FE68F24E7141700D0475E /* Assets.xcassets */; };
+		9F5FE69324E7141700D0475E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F5FE69124E7141700D0475E /* LaunchScreen.storyboard */; };
+		9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE69A24E717A200D0475E /* DetailsViewController.swift */; };
+		9F5FE69E24E717A200D0475E /* MantraTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE69B24E717A200D0475E /* MantraTableViewController.swift */; };
+		9F5FE69F24E717A200D0475E /* ReadsCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE69C24E717A200D0475E /* ReadsCountViewController.swift */; };
+		9F5FE6A524E7183E00D0475E /* InitialMantraData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */; };
+		9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6A424E7183E00D0475E /* DetailsMode.swift */; };
+		9F5FE6AB24E78EE400D0475E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F5FE6AD24E78EE400D0475E /* Localizable.strings */; };
+		9F5FE6B124E7994400D0475E /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9F5FE6B024E7994400D0475E /* IQKeyboardManagerSwift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9F5FE68024E7141400D0475E /* MantraCounter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MantraCounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F5FE68324E7141400D0475E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9F5FE68524E7141400D0475E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		9F5FE68A24E7141400D0475E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9F5FE68D24E7141400D0475E /* ReadTheMantra.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ReadTheMantra.xcdatamodel; sourceTree = "<group>"; };
+		9F5FE68F24E7141700D0475E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9F5FE69224E7141700D0475E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9F5FE69424E7141700D0475E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9F5FE69A24E717A200D0475E /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		9F5FE69B24E717A200D0475E /* MantraTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MantraTableViewController.swift; sourceTree = "<group>"; };
+		9F5FE69C24E717A200D0475E /* ReadsCountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadsCountViewController.swift; sourceTree = "<group>"; };
+		9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialMantraData.swift; sourceTree = "<group>"; };
+		9F5FE6A424E7183E00D0475E /* DetailsMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsMode.swift; sourceTree = "<group>"; };
+		9F5FE6A824E71E1200D0475E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
+		9F5FE6AC24E78EE400D0475E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9F5FE6AE24E78EEF00D0475E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9F5FE67D24E7141400D0475E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F5FE6B124E7994400D0475E /* IQKeyboardManagerSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9F5FE67724E7141300D0475E = {
+			isa = PBXGroup;
+			children = (
+				9F5FE68224E7141400D0475E /* ReadTheMantra */,
+				9F5FE68124E7141400D0475E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9F5FE68124E7141400D0475E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9F5FE68024E7141400D0475E /* MantraCounter.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9F5FE68224E7141400D0475E /* ReadTheMantra */ = {
+			isa = PBXGroup;
+			children = (
+				9F5FE68324E7141400D0475E /* AppDelegate.swift */,
+				9F5FE68524E7141400D0475E /* SceneDelegate.swift */,
+				9F5FE6A224E7181B00D0475E /* Models */,
+				9F5FE6A124E7181000D0475E /* Views */,
+				9F5FE6A024E717FE00D0475E /* Controllers */,
+				9F5FE6A724E71C9100D0475E /* SupportingFiles */,
+			);
+			path = ReadTheMantra;
+			sourceTree = "<group>";
+		};
+		9F5FE6A024E717FE00D0475E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9F5FE69B24E717A200D0475E /* MantraTableViewController.swift */,
+				9F5FE69A24E717A200D0475E /* DetailsViewController.swift */,
+				9F5FE69C24E717A200D0475E /* ReadsCountViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		9F5FE6A124E7181000D0475E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9F5FE68924E7141400D0475E /* Main.storyboard */,
+				9F5FE69124E7141700D0475E /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9F5FE6A224E7181B00D0475E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9F5FE68C24E7141400D0475E /* ReadTheMantra.xcdatamodeld */,
+				9F5FE6A424E7183E00D0475E /* DetailsMode.swift */,
+				9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9F5FE6A724E71C9100D0475E /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				9F5FE68F24E7141700D0475E /* Assets.xcassets */,
+				9F5FE6AD24E78EE400D0475E /* Localizable.strings */,
+				9F5FE69424E7141700D0475E /* Info.plist */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9F5FE67F24E7141400D0475E /* ReadTheMantra */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9F5FE69724E7141700D0475E /* Build configuration list for PBXNativeTarget "ReadTheMantra" */;
+			buildPhases = (
+				9F5FE67C24E7141400D0475E /* Sources */,
+				9F5FE67D24E7141400D0475E /* Frameworks */,
+				9F5FE67E24E7141400D0475E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ReadTheMantra;
+			packageProductDependencies = (
+				9F5FE6B024E7994400D0475E /* IQKeyboardManagerSwift */,
+			);
+			productName = ReadTheMantra;
+			productReference = 9F5FE68024E7141400D0475E /* MantraCounter.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9F5FE67824E7141300D0475E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1160;
+				LastUpgradeCheck = 1160;
+				ORGANIZATIONNAME = "Александр Воробьев";
+				TargetAttributes = {
+					9F5FE67F24E7141400D0475E = {
+						CreatedOnToolsVersion = 11.6;
+					};
+				};
+			};
+			buildConfigurationList = 9F5FE67B24E7141300D0475E /* Build configuration list for PBXProject "ReadTheMantra" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				ru,
+			);
+			mainGroup = 9F5FE67724E7141300D0475E;
+			packageReferences = (
+				9F5FE6AF24E7994400D0475E /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+			);
+			productRefGroup = 9F5FE68124E7141400D0475E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9F5FE67F24E7141400D0475E /* ReadTheMantra */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9F5FE67E24E7141400D0475E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F5FE69324E7141700D0475E /* LaunchScreen.storyboard in Resources */,
+				9F5FE6AB24E78EE400D0475E /* Localizable.strings in Resources */,
+				9F5FE69024E7141700D0475E /* Assets.xcassets in Resources */,
+				9F5FE68B24E7141400D0475E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9F5FE67C24E7141400D0475E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F5FE69E24E717A200D0475E /* MantraTableViewController.swift in Sources */,
+				9F5FE6A524E7183E00D0475E /* InitialMantraData.swift in Sources */,
+				9F5FE68424E7141400D0475E /* AppDelegate.swift in Sources */,
+				9F5FE68E24E7141400D0475E /* ReadTheMantra.xcdatamodeld in Sources */,
+				9F5FE68624E7141400D0475E /* SceneDelegate.swift in Sources */,
+				9F5FE69F24E717A200D0475E /* ReadsCountViewController.swift in Sources */,
+				9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */,
+				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		9F5FE68924E7141400D0475E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9F5FE68A24E7141400D0475E /* Base */,
+				9F5FE6A824E71E1200D0475E /* ru */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		9F5FE69124E7141700D0475E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9F5FE69224E7141700D0475E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		9F5FE6AD24E78EE400D0475E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9F5FE6AC24E78EE400D0475E /* ru */,
+				9F5FE6AE24E78EEF00D0475E /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9F5FE69524E7141700D0475E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9F5FE69624E7141700D0475E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9F5FE69824E7141700D0475E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R89YUVSKU6;
+				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.ReadTheMantra;
+				PRODUCT_NAME = MantraCounter;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		9F5FE69924E7141700D0475E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R89YUVSKU6;
+				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.ReadTheMantra;
+				PRODUCT_NAME = MantraCounter;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9F5FE67B24E7141300D0475E /* Build configuration list for PBXProject "ReadTheMantra" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9F5FE69524E7141700D0475E /* Debug */,
+				9F5FE69624E7141700D0475E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9F5FE69724E7141700D0475E /* Build configuration list for PBXNativeTarget "ReadTheMantra" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9F5FE69824E7141700D0475E /* Debug */,
+				9F5FE69924E7141700D0475E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9F5FE6AF24E7994400D0475E /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.5.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9F5FE6B024E7994400D0475E /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9F5FE6AF24E7994400D0475E /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		9F5FE68C24E7141400D0475E /* ReadTheMantra.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9F5FE68D24E7141400D0475E /* ReadTheMantra.xcdatamodel */,
+			);
+			currentVersion = 9F5FE68D24E7141400D0475E /* ReadTheMantra.xcdatamodel */;
+			path = ReadTheMantra.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 9F5FE67824E7141300D0475E /* Project object */;
+}
