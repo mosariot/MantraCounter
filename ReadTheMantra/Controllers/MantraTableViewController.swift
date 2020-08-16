@@ -91,6 +91,16 @@ class MantraTableViewController: UITableViewController {
         mantraArray.insert(movedMantra, at: destinationIndexPath.row)
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let mantra = mantraArray[indexPath.row]
+        guard let readsCountViewController = storyboard?.instantiateViewController(
+            identifier: "ReadsCountViewController",
+            creator: { coder in
+                ReadsCountViewController(mantra: mantra, coder: coder)
+        }) else { return }
+        navigationController?.pushViewController(readsCountViewController, animated: true)
+    }
+    
     //MARK: - Action Methods
        
     @objc func addNewMantraButtonPressed() {
@@ -111,12 +121,6 @@ class MantraTableViewController: UITableViewController {
     @objc func editButtonPressed() {
         self.setEditing(true, animated: true)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
-    }
-    
-    @IBSegueAction func goToReadingsCount(_ coder: NSCoder) -> ReadsCountViewController? {
-        guard let currentMantra = currentMantra else { return nil }
-        let mantra = mantraArray[currentMantra]
-        return ReadsCountViewController(mantra: mantra, coder: coder)
     }
     
     //MARK: - Cells Manipulation Methods
