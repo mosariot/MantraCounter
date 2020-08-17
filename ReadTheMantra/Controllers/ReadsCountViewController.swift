@@ -15,6 +15,7 @@ class ReadsCountViewController: UIViewController {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    @IBOutlet weak var mantraImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var readsLabel: UILabel!
     @IBOutlet weak var progressView: UIProgressView!
@@ -135,12 +136,15 @@ class ReadsCountViewController: UIViewController {
     //MARK: - Update UI
     
     private func updateUI() {
+        mantraImage.image = UIImage(named: "default")
+        mantraImage.makeRounded()
         titleLabel.text = mantra.title
         formatter.groupingSeparator = " "
         formatter.numberStyle = .decimal
         let formattedReads = formatter.string(from: NSNumber(value: mantra.reads))
         readsLabel.text = formattedReads
         progressView.progress = Float(mantra.reads) / Float(100_000)
+        
         setBackground()
     }
     

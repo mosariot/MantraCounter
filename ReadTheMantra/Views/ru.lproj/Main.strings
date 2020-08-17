@@ -8,7 +8,7 @@
 "rxE-9v-7MR.text" = "Текст мантры";
 
 /* Class = "UILabel"; text = "Description"; ObjectID = "oer-C2-YaE"; */
-"oer-C2-YaE.text" = "Описание";
+"oer-C2-YaE.text" = "Краткое описание";
 
 /* Class = "UITextField"; placeholder = "Enter Mantra Title"; ObjectID = "YbO-xG-hna"; */
 "YbO-xG-hna.placeholder" = "Введите название мантры";

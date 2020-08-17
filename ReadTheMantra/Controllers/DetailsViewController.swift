@@ -17,7 +17,7 @@ class DetailsViewController: UIViewController {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    @IBOutlet weak var image: UIImageView!
+    @IBOutlet weak var mantraImage: UIImageView!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var mantraTextTextView: UITextView!
     @IBOutlet weak var detailsTextView: UITextView!
@@ -90,13 +90,8 @@ class DetailsViewController: UIViewController {
     }
     
     private func setupUI() {
-        image.image = UIImage(named: "default")
-        image.makeRounded()
-        
-        mantraTextTextView.layer.borderWidth = 0.4
-        mantraTextTextView.layer.borderColor = UIColor.systemGray.cgColor
-        detailsTextView.layer.borderWidth = 0.4
-        detailsTextView.layer.borderColor = UIColor.systemGray.cgColor
+        mantraImage.image = UIImage(named: "default")
+        mantraImage.makeRounded()
         
         switch mode {
         case .add:
