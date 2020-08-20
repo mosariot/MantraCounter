@@ -10,5 +10,5 @@ import Foundation
 
 enum DetailsMode {
     case view
-    case add
+    case addOrEdit
 }

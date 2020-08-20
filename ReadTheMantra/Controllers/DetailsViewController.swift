@@ -17,7 +17,7 @@ class DetailsViewController: UIViewController {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    @IBOutlet weak var mantraImage: UIImageView!
+    @IBOutlet weak var setPhotoButton: UIButton!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var mantraTextTextView: UITextView!
     @IBOutlet weak var detailsTextView: UITextView!
@@ -43,7 +43,7 @@ class DetailsViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         hideKeyboardWhenTappedAround()
         
-        setupUI()
+        updateUI()
         
         mantraTextTextView.delegate = self
         detailsTextView.delegate = self
@@ -64,12 +64,14 @@ class DetailsViewController: UIViewController {
         } else {
             incorrectTitleAlert()
         }
+        setPhotoButton.isUserInteractionEnabled = false
         titleTextField.isUserInteractionEnabled = false
         mantraTextTextView.isEditable = false
         detailsTextView.isEditable = false
     }
     
     @objc func editButtonPressed() {
+        setPhotoButton.isUserInteractionEnabled = true
         titleTextField.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
         detailsTextView.isEditable = true
@@ -77,13 +79,22 @@ class DetailsViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
     }
     
+    @IBAction func setPhotoButtonPressed(_ sender: UIButton) {
+        let picker = UIImagePickerController()
+        picker.allowsEditing = true
+        picker.sourceType = .photoLibrary
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
+    
     //MARK: - Supportive Methods
     
     private func processMantra(title: String, text: String, details: String) {
         mantra.title = title
         mantra.text = text
         mantra.details = details
-        if mode == .add {
+        if mode == .addOrEdit {
             mantra.position = Int32(position)
         }
     }
@@ -97,18 +108,24 @@ class DetailsViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    private func setupUI() {
-        mantraImage.image = UIImage(named: "default")
-        mantraImage.makeRounded()
+    private func updateUI() {
+        if let imageData = mantra.image {
+            setPhotoButton.setImage(UIImage(data: imageData), for: .normal)
+        } else {
+            setPhotoButton.setImage(UIImage(named: "default"), for: .normal)
+        }
+        setPhotoButton.imageView?.makeRounded()
+        
         
         titleTextField.frame.size.height = mantraTextTextView.frame.size.height
         
         switch mode {
-        case .add:
+        case .addOrEdit:
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
             titleTextField.becomeFirstResponder()
         case .view:
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
+            setPhotoButton.isUserInteractionEnabled = false
             titleTextField.isUserInteractionEnabled = false
             mantraTextTextView.isEditable = false
             detailsTextView.isEditable = false
@@ -159,5 +176,21 @@ extension DetailsViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         mantraTextPlaceholderLabel.isHidden = !mantraTextTextView.text.isEmpty
         detailsPlaceholderLabel.isHidden = !detailsTextView.text.isEmpty
+    }
+}
+
+//MARK: - ImagePickerController Delegate
+
+extension DetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.editedImage] as? UIImage else  { return }
+        
+        if let imageData = image.pngData() {
+            mantra.image = imageData
+            mode = .addOrEdit
+            updateUI()
+        }
+        dismiss(animated: true)
     }
 }

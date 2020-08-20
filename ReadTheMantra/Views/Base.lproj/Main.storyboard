@@ -18,13 +18,13 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="e9C-J1-yrM">
                                 <rect key="frame" x="30" y="30" width="315" height="577"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cxe-LD-qcS">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="edW-d6-v0N">
                                         <rect key="frame" x="117.5" y="0.0" width="80" height="80"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="80" id="raW-vt-MRg"/>
-                                            <constraint firstAttribute="height" constant="80" id="v2y-Bn-ZeW"/>
+                                            <constraint firstAttribute="width" constant="80" id="kCO-j0-HK3"/>
+                                            <constraint firstAttribute="height" constant="80" id="kJn-cj-tX0"/>
                                         </constraints>
-                                    </imageView>
+                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="BHh-S2-BgG">
                                         <rect key="frame" x="0.0" y="106" width="315" height="41"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
@@ -91,7 +91,7 @@
                     <connections>
                         <outlet property="addReadingsButton" destination="srd-KZ-7xV" id="A58-33-z0x"/>
                         <outlet property="addRoundsButton" destination="AvQ-mc-bMd" id="pkf-wA-EaL"/>
-                        <outlet property="mantraImage" destination="Cxe-LD-qcS" id="iqg-Hi-gbc"/>
+                        <outlet property="mantraImage" destination="edW-d6-v0N" id="ZVh-yI-eXR"/>
                         <outlet property="manualCorrectionButton" destination="rqc-d1-Viy" id="yFi-Ys-kUe"/>
                         <outlet property="progressView" destination="DFs-zT-Tdp" id="9pv-Gf-Eqx"/>
                         <outlet property="readsLabel" destination="0NB-L1-wFq" id="SLp-hZ-HEO"/>
@@ -159,33 +159,25 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="k9h-cR-IWt">
-                                        <rect key="frame" x="0.0" y="20" width="375" height="354.5"/>
+                                        <rect key="frame" x="0.0" y="20" width="375" height="334.5"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z8c-Ja-tTp" userLabel="Mantra Image View">
-                                                <rect key="frame" x="20" y="0.0" width="335" height="100"/>
-                                                <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bGa-Mt-54H">
-                                                        <rect key="frame" x="127.5" y="10" width="80" height="80"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="80" id="muI-t6-7Jc"/>
-                                                            <constraint firstAttribute="width" constant="80" id="ypU-7r-Tbu"/>
-                                                        </constraints>
-                                                    </imageView>
-                                                </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KXK-gN-mOv">
+                                                <rect key="frame" x="147.5" y="0.0" width="80" height="80"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="100" id="1of-c5-vlN"/>
-                                                    <constraint firstItem="bGa-Mt-54H" firstAttribute="centerY" secondItem="Z8c-Ja-tTp" secondAttribute="centerY" id="LOh-bg-3pP"/>
-                                                    <constraint firstItem="bGa-Mt-54H" firstAttribute="centerX" secondItem="Z8c-Ja-tTp" secondAttribute="centerX" id="fZx-7l-oFl"/>
+                                                    <constraint firstAttribute="width" constant="80" id="4jJ-ze-gCt"/>
+                                                    <constraint firstAttribute="height" constant="80" id="kZH-dg-36F"/>
                                                 </constraints>
-                                            </view>
+                                                <connections>
+                                                    <action selector="setPhotoButtonPressed:" destination="oME-Mn-XWI" eventType="touchUpInside" id="TVH-xh-y4m"/>
+                                                </connections>
+                                            </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGu-qb-SNX" userLabel="Title Label">
-                                                <rect key="frame" x="20" y="110" width="335" height="21.5"/>
+                                                <rect key="frame" x="20" y="90" width="335" height="21.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Mantra Title" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="YbO-xG-hna">
-                                                <rect key="frame" x="20" y="141.5" width="335" height="43"/>
+                                                <rect key="frame" x="20" y="121.5" width="335" height="43"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="43" id="klb-EA-vbT"/>
                                                 </constraints>
@@ -194,24 +186,24 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mantra text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxE-9v-7MR">
-                                                <rect key="frame" x="20" y="194.5" width="335" height="21.5"/>
+                                                <rect key="frame" x="20" y="174.5" width="335" height="21.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Xhj-0A-Osd">
-                                                <rect key="frame" x="15" y="226" width="345" height="43.5"/>
+                                                <rect key="frame" x="15" y="206" width="345" height="43.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oer-C2-YaE" userLabel="Description Label">
-                                                <rect key="frame" x="20" y="279.5" width="335" height="21.5"/>
+                                                <rect key="frame" x="20" y="259.5" width="335" height="21.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dBV-0g-Qvz">
-                                                <rect key="frame" x="15" y="311" width="345" height="43.5"/>
+                                                <rect key="frame" x="15" y="291" width="345" height="43.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
@@ -254,8 +246,8 @@
                     </view>
                     <connections>
                         <outlet property="detailsTextView" destination="dBV-0g-Qvz" id="9J1-jv-14H"/>
-                        <outlet property="mantraImage" destination="bGa-Mt-54H" id="DHV-sT-diS"/>
                         <outlet property="mantraTextTextView" destination="Xhj-0A-Osd" id="ySH-db-OsM"/>
+                        <outlet property="setPhotoButton" destination="KXK-gN-mOv" id="yjL-oR-mog"/>
                         <outlet property="titleTextField" destination="YbO-xG-hna" id="XJ4-Gp-cQO"/>
                     </connections>
                 </viewController>

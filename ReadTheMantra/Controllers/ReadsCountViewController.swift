@@ -15,7 +15,7 @@ class ReadsCountViewController: UIViewController {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    @IBOutlet weak var mantraImage: UIImageView!
+    @IBOutlet weak var mantraImage: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var readsLabel: UILabel!
     @IBOutlet weak var progressView: UIProgressView!
@@ -40,8 +40,9 @@ class ReadsCountViewController: UIViewController {
         infoButton.addTarget(self, action: #selector(infoButtonPressed), for: .touchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: infoButton)
         
+        mantraImage.isUserInteractionEnabled = false
         setButtonsTitles()
-
+        
         updateUI()
     }
     
@@ -136,8 +137,12 @@ class ReadsCountViewController: UIViewController {
     //MARK: - Update UI
     
     private func updateUI() {
-        mantraImage.image = UIImage(named: "default")
-        mantraImage.makeRounded()
+        if let image = mantra.image {
+            mantraImage.setImage(UIImage(data: image), for: .normal)
+        } else {
+            mantraImage.setImage(UIImage(named: "default"), for: .normal)
+        }
+        mantraImage.imageView?.makeRounded()
         titleLabel.text = mantra.title
         formatter.groupingSeparator = " "
         formatter.numberStyle = .decimal

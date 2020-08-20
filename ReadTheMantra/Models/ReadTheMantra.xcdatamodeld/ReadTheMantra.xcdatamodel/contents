@@ -2,12 +2,13 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Mantra" representedClassName="Mantra" syncable="YES" codeGenerationType="class">
         <attribute name="details" attributeType="String"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="position" attributeType="Integer 32" usesScalarValueType="YES"/>
         <attribute name="reads" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="text" optional="YES" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Mantra" positionX="-63" positionY="-18" width="128" height="118"/>
+        <element name="Mantra" positionX="-63" positionY="-18" width="128" height="133"/>
     </elements>
 </model>

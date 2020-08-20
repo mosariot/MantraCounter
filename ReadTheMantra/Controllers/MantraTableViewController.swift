@@ -98,7 +98,7 @@ class MantraTableViewController: UITableViewController {
         guard let detailsViewController = storyboard?.instantiateViewController(
             identifier: "DetailsViewController",
             creator: { coder in
-                DetailsViewController(mantra: mantra, mode: .add, position: self.mantraArray.count, coder: coder)
+                DetailsViewController(mantra: mantra, mode: .addOrEdit, position: self.mantraArray.count, coder: coder)
         }) else { return }
         navigationController?.pushViewController(detailsViewController, animated: true)
     }
