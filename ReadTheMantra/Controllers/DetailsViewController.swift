@@ -34,9 +34,7 @@ class DetailsViewController: UIViewController {
         self.mantra = mantra
         self.position = position
         self.mode = mode
-        if let imageData = mantra.image {
-            mantraImageData = imageData
-        }
+        mantraImageData = mantra.image ?? nil
         super.init(coder: coder)
     }
     
@@ -106,14 +104,8 @@ class DetailsViewController: UIViewController {
         mantra.title = title
         mantra.text = text
         mantra.details = details
-        if let imageData = mantraImageData {
-            mantra.image = imageData
-        } else {
-            mantra.image = nil
-        }
-        if mode == .addOrEdit {
-            mantra.position = Int32(position)
-        }
+        mantra.position = Int32(position)
+        mantra.image = mantraImageData ?? nil
     }
     
     private func incorrectTitleAlert() {

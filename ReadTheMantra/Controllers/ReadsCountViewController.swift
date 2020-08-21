@@ -99,7 +99,7 @@ class ReadsCountViewController: UIViewController {
             alertTextField.keyboardType = .numberPad
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on ReadsCountViewController"),
-                                         style: .destructive,
+                                         style: .cancel,
                                          handler: nil)
         alert.addAction(addAction)
         alert.addAction(cancelAction)
