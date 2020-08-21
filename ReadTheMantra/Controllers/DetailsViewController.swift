@@ -14,6 +14,7 @@ class DetailsViewController: UIViewController {
     private var mantra: Mantra
     private var mode: DetailsMode
     private var position: Int
+    private var mantraImageData: Data?
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -33,7 +34,9 @@ class DetailsViewController: UIViewController {
         self.mantra = mantra
         self.position = position
         self.mode = mode
-        
+        if let imageData = mantra.image {
+            mantraImageData = imageData
+        }
         super.init(coder: coder)
     }
     
@@ -53,6 +56,15 @@ class DetailsViewController: UIViewController {
     
     //MARK: - Action Methods
     
+    @objc func editButtonPressed() {
+        setPhotoButton.isUserInteractionEnabled = true
+        titleTextField.isUserInteractionEnabled = true
+        mantraTextTextView.isEditable = true
+        detailsTextView.isEditable = true
+        titleTextField.becomeFirstResponder()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
+    }
+    
     @objc func doneButtonPressed() {
         if let title = titleTextField.text, let text = mantraTextTextView.text, let details = detailsTextView.text, title != "" {
             processMantra(title: title, text: text, details: details)
@@ -70,23 +82,23 @@ class DetailsViewController: UIViewController {
         detailsTextView.isEditable = false
     }
     
-    @objc func editButtonPressed() {
-        setPhotoButton.isUserInteractionEnabled = true
-        titleTextField.isUserInteractionEnabled = true
-        mantraTextTextView.isEditable = true
-        detailsTextView.isEditable = true
-        titleTextField.becomeFirstResponder()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
-    }
-    
     @IBAction func setPhotoButtonPressed(_ sender: UIButton) {
-        let picker = UIImagePickerController()
-        picker.allowsEditing = true
-        picker.sourceType = .photoLibrary
-        picker.delegate = self
-        present(picker, animated: true)
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let photoLibraryAction = UIAlertAction(title: NSLocalizedString("Photo Library", comment: "Alert Title on DetailsViewController"),
+                                               style: .default) { [weak self] (action) in
+                                                self?.callImagePicker()
+        }
+        let defaultPhotoAction = UIAlertAction(title: NSLocalizedString("Default Photo", comment: "Alert Title on DetailsViewController"),
+                                               style: .default) { [weak self] (action) in
+                                                self?.setPhotoButton.setImage(UIImage(named: "default"), for: .normal)
+                                                self?.mantraImageData = nil
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(photoLibraryAction)
+        alert.addAction(defaultPhotoAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
     }
-    
     
     //MARK: - Supportive Methods
     
@@ -94,6 +106,11 @@ class DetailsViewController: UIViewController {
         mantra.title = title
         mantra.text = text
         mantra.details = details
+        if let imageData = mantraImageData {
+            mantra.image = imageData
+        } else {
+            mantra.image = nil
+        }
         if mode == .addOrEdit {
             mantra.position = Int32(position)
         }
@@ -108,16 +125,21 @@ class DetailsViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    func callImagePicker() {
+        let picker = UIImagePickerController()
+        picker.allowsEditing = true
+        picker.sourceType = .photoLibrary
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
     private func updateUI() {
-        if let imageData = mantra.image {
+        if let imageData = mantraImageData {
             setPhotoButton.setImage(UIImage(data: imageData), for: .normal)
         } else {
             setPhotoButton.setImage(UIImage(named: "default"), for: .normal)
         }
         setPhotoButton.imageView?.makeRounded()
-        
-        
-        titleTextField.frame.size.height = mantraTextTextView.frame.size.height
         
         switch mode {
         case .addOrEdit:
@@ -187,7 +209,7 @@ extension DetailsViewController: UIImagePickerControllerDelegate, UINavigationCo
         guard let image = info[.editedImage] as? UIImage else  { return }
         
         if let imageData = image.pngData() {
-            mantra.image = imageData
+            mantraImageData = imageData
             mode = .addOrEdit
             updateUI()
         }
