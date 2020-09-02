@@ -20,13 +20,16 @@ class MantraTableViewController: UITableViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(addNewMantraButtonPressed))
         
         loadMantras()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(addNewMantraButtonPressed))
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         loadMantras()
     }
     
@@ -43,7 +46,13 @@ class MantraTableViewController: UITableViewController {
         let currentReadingsCount = NSLocalizedString("Current readings count:", comment: "Current readings count")
         cell.detailTextLabel?.text = currentReadingsCount + " \(mantra.reads)"
         cell.detailTextLabel?.textColor = .systemGray
-        cell.imageView?.image = UIImage(systemName: "book")
+
+        if let imageData = mantra.image {
+            cell.imageView?.image = UIImage(data: imageData)
+        } else {
+            cell.imageView?.image = UIImage(named: "kid_80")
+        }
+        
         cell.accessoryType = .disclosureIndicator
         return cell
     }
@@ -98,7 +107,7 @@ class MantraTableViewController: UITableViewController {
         guard let detailsViewController = storyboard?.instantiateViewController(
             identifier: "DetailsViewController",
             creator: { coder in
-                DetailsViewController(mantra: mantra, mode: .addOrEdit, position: self.mantraArray.count, coder: coder)
+                DetailsViewController(mantra: mantra, mode: .edit, position: self.mantraArray.count, coder: coder)
         }) else { return }
         navigationController?.pushViewController(detailsViewController, animated: true)
     }

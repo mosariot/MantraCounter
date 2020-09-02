@@ -137,12 +137,14 @@ class ReadsCountViewController: UIViewController {
     //MARK: - Update UI
     
     private func updateUI() {
-        if let image = mantra.image {
-            mantraImage.setImage(UIImage(data: image), for: .normal)
+        if let imageData = mantra.image {
+            let image = UIImage(data: imageData)
+            mantraImage.setImage(image, for: .normal)
         } else {
-            mantraImage.setImage(UIImage(named: "default"), for: .normal)
+            let image = UIImage(named: "kid_80")
+            mantraImage.setImage(image, for: .normal)
         }
-        mantraImage.imageView?.makeRounded()
+        
         titleLabel.text = mantra.title
         formatter.groupingSeparator = " "
         formatter.numberStyle = .decimal
@@ -150,7 +152,7 @@ class ReadsCountViewController: UIViewController {
         readsLabel.text = formattedReads
         progressView.progress = Float(mantra.reads) / Float(100_000)
         
-        setBackground()
+        setReadsLabelColor()
     }
     
     func setButtonsTitles() {
@@ -179,20 +181,19 @@ class ReadsCountViewController: UIViewController {
         manualCorrectionButton.setAttributedTitle(manualCorrectionButtonString, for: .normal)
     }
     
-    func setBackground() {
-//        var color = ""
-//        switch mantra.reads {
-//        case 0...39999:
-//            color = "0-40background"
-//        case 40000...99999:
-//            color = "40-10background"
-//        case 100_000...:
-//            color = "100-background"
-//        default:
-//            break
-//        }
-//        view.backgroundColor = UIColor(named: color)
-//        navigationController?.navigationBar.backgroundColor = UIColor(named: color)
+    func setReadsLabelColor() {
+        var color = UIColor()
+        switch mantra.reads {
+        case 0...39999:
+            color = UIColor.label
+        case 40000...99999:
+            color = UIColor.systemOrange
+        case 100_000...:
+            color = UIColor.systemPurple
+        default:
+            break
+        }
+        readsLabel.textColor = color
     }
     
     //MARK: - Model Manipulation

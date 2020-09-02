@@ -59,25 +59,19 @@ class DetailsViewController: UIViewController {
         titleTextField.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
         detailsTextView.isEditable = true
-        titleTextField.becomeFirstResponder()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
+        mode = .edit
+        updateUI()
     }
     
     @objc func doneButtonPressed() {
         if let title = titleTextField.text, let text = mantraTextTextView.text, let details = detailsTextView.text, title != "" {
             processMantra(title: title, text: text, details: details)
             saveMantras()
-            titleTextField.resignFirstResponder()
-            mantraTextTextView.resignFirstResponder()
-            detailsTextView.resignFirstResponder()
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
+            mode = .view
+            updateUI()
         } else {
             incorrectTitleAlert()
         }
-        setPhotoButton.isUserInteractionEnabled = false
-        titleTextField.isUserInteractionEnabled = false
-        mantraTextTextView.isEditable = false
-        detailsTextView.isEditable = false
     }
     
     @IBAction func setPhotoButtonPressed(_ sender: UIButton) {
@@ -127,14 +121,15 @@ class DetailsViewController: UIViewController {
     
     private func updateUI() {
         if let imageData = mantraImageData {
-            setPhotoButton.setImage(UIImage(data: imageData), for: .normal)
+            let image = UIImage(data: imageData)
+            setPhotoButton.setImage(image, for: .normal)
         } else {
-            setPhotoButton.setImage(UIImage(named: "default"), for: .normal)
+            let image = UIImage(named: "kid_80")
+            setPhotoButton.setImage(image, for: .normal)
         }
-        setPhotoButton.imageView?.makeRounded()
         
         switch mode {
-        case .addOrEdit:
+        case .edit:
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
             titleTextField.becomeFirstResponder()
         case .view:
@@ -143,6 +138,9 @@ class DetailsViewController: UIViewController {
             titleTextField.isUserInteractionEnabled = false
             mantraTextTextView.isEditable = false
             detailsTextView.isEditable = false
+            titleTextField.resignFirstResponder()
+            mantraTextTextView.resignFirstResponder()
+            detailsTextView.resignFirstResponder()
         }
         
         titleTextField.text = mantra.title
@@ -198,12 +196,13 @@ extension DetailsViewController: UITextViewDelegate {
 extension DetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image = info[.editedImage] as? UIImage else  { return }
+        guard let image = info[.editedImage] as? UIImage else { return }
+        let roundImage = image.circle()
+        let resizedRoundImage = roundImage.resizeSquaredImage(targetSize: 80)
         
-        if let imageData = image.pngData() {
+        if let imageData = resizedRoundImage?.pngData() {
             mantraImageData = imageData
-            mode = .addOrEdit
-            updateUI()
+            setPhotoButton.setImage(resizedRoundImage, for: .normal)
         }
         dismiss(animated: true)
     }

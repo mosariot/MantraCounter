@@ -43,20 +43,20 @@
                                             <constraint firstAttribute="height" constant="5" id="UmR-gN-ifH"/>
                                         </constraints>
                                     </progressView>
-                                    <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AvQ-mc-bMd">
-                                        <rect key="frame" x="104" y="368" width="107" height="36"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <state key="normal" title="Add Rounds"/>
-                                        <connections>
-                                            <action selector="addRoundsPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aeU-gi-suA"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="srd-KZ-7xV">
-                                        <rect key="frame" x="96.5" y="454.5" width="122" height="36"/>
+                                        <rect key="frame" x="96.5" y="368" width="122" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Add Readings"/>
                                         <connections>
                                             <action selector="addReadsPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZAb-mg-IKY"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AvQ-mc-bMd">
+                                        <rect key="frame" x="104" y="454.5" width="107" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Add Rounds"/>
+                                        <connections>
+                                            <action selector="addRoundsPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aeU-gi-suA"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rqc-d1-Viy">
