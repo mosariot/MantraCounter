@@ -11,30 +11,26 @@ import UIKit
 extension UIImage {
     
     func circle() -> UIImage? {
-        let square = size.width < size.height ? CGSize(width: size.width, height: size.width) : CGSize(width: size.height, height: size.height)
-        let imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: square))
-        imageView.contentMode = UIView.ContentMode.scaleAspectFill
-        imageView.image = self
-        imageView.layer.cornerRadius = square.width / 2
-        imageView.layer.borderColor = UIColor.systemGray.cgColor
-        imageView.layer.borderWidth = 10
-        imageView.layer.masksToBounds = true
-        UIGraphicsBeginImageContext(imageView.bounds.size)
-        if let uiGraphicsGetCurrentContext = UIGraphicsGetCurrentContext() {
-            imageView.layer.render(in: uiGraphicsGetCurrentContext)
+        let isPortrait =  size.height > size.width
+        let isLandscape = size.width > size.height
+        let breadth: CGFloat = min(size.width, size.height)
+        let breadthSize = CGSize(width: breadth, height: breadth)
+        let breadthRect = CGRect(origin: .zero, size: breadthSize)
+        
+        guard let cgImage = cgImage?.cropping(to: CGRect(origin: CGPoint(x: isLandscape ? ((size.width-size.height)/2).rounded(.down) : 0,
+                                                                         y: isPortrait  ? ((size.height-size.width)/2).rounded(.down) : 0),
+                                                         size: breadthSize)) else { return nil }
+        let format = imageRendererFormat
+        format.opaque = false
+        return UIGraphicsImageRenderer(size: breadthSize, format: format).image { _ in
+            UIBezierPath(ovalIn: breadthRect).addClip()
+            UIImage(cgImage: cgImage, scale: 1, orientation: imageOrientation).draw(in: CGRect(origin: .zero, size: breadthSize))
         }
-        let result = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return result
     }
     
-    func resizeSquaredImage(targetSize: Int) -> UIImage? {
-        let newSize = CGSize(width: targetSize, height: targetSize)
-        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        self.draw(in: rect)
-        let result = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return result
+    func resize(to size: CGSize) -> UIImage {
+        return UIGraphicsImageRenderer(size: size).image { _ in
+            draw(in: CGRect(origin: .zero, size: size))
+        }
     }
 }

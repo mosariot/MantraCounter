@@ -197,12 +197,12 @@ extension DetailsViewController: UIImagePickerControllerDelegate, UINavigationCo
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
-        let roundImage = image.circle()
-        let resizedRoundImage = roundImage?.resizeSquaredImage(targetSize: 160)
+        let circledImage = image.circle()
+        let resizedCircledImage = circledImage?.resize(to: CGSize(width: 160, height: 160))
         
-        if let imageData = resizedRoundImage?.pngData() {
+        if let imageData = resizedCircledImage?.pngData() {
             mantraImageData = imageData
-            setPhotoButton.setImage(resizedRoundImage, for: .normal)
+            setPhotoButton.setImage(resizedCircledImage, for: .normal)
         }
         dismiss(animated: true)
     }

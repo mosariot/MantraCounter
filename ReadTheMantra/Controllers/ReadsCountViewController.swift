@@ -128,10 +128,10 @@ class ReadsCountViewController: UIViewController {
     }
     
     private func readsCongratulationsCheck(oldReads: Int32, newReads: Int32) {
-        if oldReads < 40_000 && newReads >= 40_000 {
+        if oldReads < 40_000 && (40_000...99_999) ~= newReads {
             readsCongratulationsAlert(stage: .fourty)
         }
-        if oldReads < 100000 && newReads >= 100_000 {
+        if oldReads < 100_000 && newReads >= 100_000 {
             readsCongratulationsAlert(stage: .hundred)
         }
     }
