@@ -10,23 +10,21 @@ import UIKit
 
 extension UIImage {
     
-    func circle() -> UIImage {
-        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        let renderer = UIGraphicsImageRenderer(size: rect.size)
-        let result = renderer.image { c in
-            let isPortrait = size.height > size.width
-            let isLandscape = size.width > size.height
-            let breadth = min(size.width, size.height)
-            let breadthSize = CGSize(width: breadth, height: breadth)
-            let breadthRect = CGRect(origin: .zero, size: breadthSize)
-            let origin = CGPoint(x: isLandscape ? floor((size.width - size.height) / 2) : 0,
-                                 y: isPortrait  ? floor((size.height - size.width) / 2) : 0)
-            let circle = UIBezierPath(ovalIn: breadthRect)
-            circle.addClip()
-            if let cgImage = self.cgImage?.cropping(to: CGRect(origin: origin, size: breadthSize)) {
-                UIImage(cgImage: cgImage, scale: self.scale, orientation: self.imageOrientation).draw(in: rect)
-            }
+    func circle() -> UIImage? {
+        let square = size.width < size.height ? CGSize(width: size.width, height: size.width) : CGSize(width: size.height, height: size.height)
+        let imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: square))
+        imageView.contentMode = UIView.ContentMode.scaleAspectFill
+        imageView.image = self
+        imageView.layer.cornerRadius = square.width / 2
+        imageView.layer.borderColor = UIColor.systemGray.cgColor
+        imageView.layer.borderWidth = 10
+        imageView.layer.masksToBounds = true
+        UIGraphicsBeginImageContext(imageView.bounds.size)
+        if let uiGraphicsGetCurrentContext = UIGraphicsGetCurrentContext() {
+            imageView.layer.render(in: uiGraphicsGetCurrentContext)
         }
+        let result = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
         return result
     }
     

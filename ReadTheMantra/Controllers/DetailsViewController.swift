@@ -111,7 +111,7 @@ class DetailsViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func callImagePicker() {
+    private func callImagePicker() {
         let picker = UIImagePickerController()
         picker.allowsEditing = true
         picker.sourceType = .photoLibrary
@@ -124,7 +124,7 @@ class DetailsViewController: UIViewController {
             let image = UIImage(data: imageData)
             setPhotoButton.setImage(image, for: .normal)
         } else {
-            let image = UIImage(named: "kid_80")
+            let image = UIImage(named: "kid_160")
             setPhotoButton.setImage(image, for: .normal)
         }
         
@@ -198,7 +198,7 @@ extension DetailsViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
         let roundImage = image.circle()
-        let resizedRoundImage = roundImage.resizeSquaredImage(targetSize: 80)
+        let resizedRoundImage = roundImage?.resizeSquaredImage(targetSize: 160)
         
         if let imageData = resizedRoundImage?.pngData() {
             mantraImageData = imageData

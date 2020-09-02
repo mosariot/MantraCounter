@@ -107,6 +107,7 @@ class ReadsCountViewController: UIViewController {
     }
     
     private func updateReadsCount(from alert: UIAlertController, with updatingType: UpdatingType) {
+        let oldReads = mantra.reads
         if let alertTextField = alert.textFields?.first?.text {
             if let alertNumber = Int32(alertTextField) {
                 switch updatingType {
@@ -119,9 +120,38 @@ class ReadsCountViewController: UIViewController {
                 }
                 saveMantras()
                 updateUI()
+                readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
             } else {
                 incorrectData()
             }
+        }
+    }
+    
+    private func readsCongratulationsCheck(oldReads: Int32, newReads: Int32) {
+        if oldReads < 40_000 && newReads >= 40_000 {
+            readsCongratulationsAlert(stage: .fourty)
+        }
+        if oldReads < 100000 && newReads >= 100_000 {
+            readsCongratulationsAlert(stage: .hundred)
+        }
+    }
+    
+    private func readsCongratulationsAlert(stage: Stage) {
+        switch stage {
+        case .fourty:
+            let alert = UIAlertController(title: NSLocalizedString("Congratulations! You've reached 40 000 reads!", comment: "Alert Title on ReadsCountViewController"),
+                                          message: "",
+                                          preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(okAction)
+            present(alert, animated: true, completion: nil)
+        case .hundred:
+            let alert = UIAlertController(title: NSLocalizedString("Congratulations! You've reached 100 000 reads!", comment: "Alert Title on ReadsCountViewController"),
+                                          message: "",
+                                          preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(okAction)
+            present(alert, animated: true, completion: nil)
         }
     }
     
@@ -141,7 +171,7 @@ class ReadsCountViewController: UIViewController {
             let image = UIImage(data: imageData)
             mantraImage.setImage(image, for: .normal)
         } else {
-            let image = UIImage(named: "kid_80")
+            let image = UIImage(named: "kid_160")
             mantraImage.setImage(image, for: .normal)
         }
         
@@ -155,7 +185,7 @@ class ReadsCountViewController: UIViewController {
         setReadsLabelColor()
     }
     
-    func setButtonsTitles() {
+    private func setButtonsTitles() {
         let roundsImageAttachment = NSTextAttachment()
         roundsImageAttachment.image = UIImage(systemName: "goforward")
         let roundsButtonString = NSMutableAttributedString(string: "")
@@ -181,7 +211,7 @@ class ReadsCountViewController: UIViewController {
         manualCorrectionButton.setAttributedTitle(manualCorrectionButtonString, for: .normal)
     }
     
-    func setReadsLabelColor() {
+    private func setReadsLabelColor() {
         var color = UIColor()
         switch mantra.reads {
         case 0...39999:
@@ -215,5 +245,15 @@ extension ReadsCountViewController {
         case rounds
         case readings
         case manualCorrection
+    }
+}
+
+//MARK: - Stage Type
+
+extension ReadsCountViewController {
+    
+    enum Stage {
+        case fourty
+        case hundred
     }
 }

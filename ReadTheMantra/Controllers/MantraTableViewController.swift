@@ -50,7 +50,7 @@ class MantraTableViewController: UITableViewController {
         if let imageData = mantra.image {
             cell.imageView?.image = UIImage(data: imageData)
         } else {
-            cell.imageView?.image = UIImage(named: "kid_80")
+            cell.imageView?.image = UIImage(named: "kid_160")
         }
         
         cell.accessoryType = .disclosureIndicator
@@ -124,14 +124,14 @@ class MantraTableViewController: UITableViewController {
     
     //MARK: - Cells Manipulation Methods
     
-    func reorderMantraPositionsForDeleteAction(deletingPosition: Int) {
+    private func reorderMantraPositionsForDeleteAction(deletingPosition: Int) {
         guard deletingPosition+1 < mantraArray.count else { return }
         for i in (deletingPosition+1)...(mantraArray.count-1) {
             mantraArray[i].position -= 1
         }
     }
     
-    func reorderMantraPositionsForMovingAction(from source: Int, to destination: Int) {
+    private func reorderMantraPositionsForMovingAction(from source: Int, to destination: Int) {
         
         let reorderIndexDifference = source - destination
         switch reorderIndexDifference {
