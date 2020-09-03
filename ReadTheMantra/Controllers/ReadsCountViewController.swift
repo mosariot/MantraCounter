@@ -59,6 +59,25 @@ class ReadsCountViewController: UIViewController {
         navigationController?.pushViewController(detailsViewController, animated: true)
     }
     
+    //MARK: - Update UI
+    
+    private func updateUI() {
+        if let imageData = mantra.image {
+            mantraImage.setImage(UIImage(data: imageData), for: .normal)
+        } else {
+            mantraImage.setImage(UIImage(named: "default_160"), for: .normal)
+        }
+        
+        titleLabel.text = mantra.title
+        formatter.groupingSeparator = " "
+        formatter.numberStyle = .decimal
+        let formattedReads = formatter.string(from: NSNumber(value: mantra.reads))
+        readsLabel.text = formattedReads
+        progressView.progress = Float(mantra.reads) / Float(100_000)
+        
+        setReadsLabelColor()
+    }
+    
     //MARK: - Action Methods
     
     @IBAction func addRoundsPressed(_ sender: UIButton) {
@@ -72,8 +91,6 @@ class ReadsCountViewController: UIViewController {
     @IBAction func manualCorrrectionPressed(_ sender: UIButton) {
         updatingAlert(updatingType: .manualCorrection)
     }
-    
-    //MARK: - Supportive Methods
     
     private func updatingAlert(updatingType: UpdatingType) {
         let alertTitle: String
@@ -163,27 +180,18 @@ class ReadsCountViewController: UIViewController {
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
     }
-
-    //MARK: - Update UI
     
-    private func updateUI() {
-        if let imageData = mantra.image {
-            let image = UIImage(data: imageData)
-            mantraImage.setImage(image, for: .normal)
-        } else {
-            let image = UIImage(named: "kid_160")
-            mantraImage.setImage(image, for: .normal)
+    //MARK: - Model Manipulation
+    
+    private func saveMantras() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context, \(error)")
         }
-        
-        titleLabel.text = mantra.title
-        formatter.groupingSeparator = " "
-        formatter.numberStyle = .decimal
-        let formattedReads = formatter.string(from: NSNumber(value: mantra.reads))
-        readsLabel.text = formattedReads
-        progressView.progress = Float(mantra.reads) / Float(100_000)
-        
-        setReadsLabelColor()
     }
+    
+    //MARK: - Supportive Methods
     
     private func setButtonsTitles() {
         let roundsImageAttachment = NSTextAttachment()
@@ -224,16 +232,6 @@ class ReadsCountViewController: UIViewController {
             break
         }
         readsLabel.textColor = color
-    }
-    
-    //MARK: - Model Manipulation
-    
-    private func saveMantras() {
-        do {
-            try context.save()
-        } catch {
-            print("Error saving context, \(error)")
-        }
     }
 }
 

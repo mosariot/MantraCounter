@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreData
 
 class DetailsViewController: UIViewController {
     
@@ -23,8 +22,8 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var mantraTextTextView: UITextView!
     @IBOutlet weak var detailsTextView: UITextView!
     
-    var mantraTextPlaceholderLabel : UILabel!
-    var detailsPlaceholderLabel : UILabel!
+    private var mantraTextPlaceholderLabel : UILabel!
+    private var detailsPlaceholderLabel : UILabel!
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -50,6 +49,43 @@ class DetailsViewController: UIViewController {
         detailsTextView.delegate = self
         setMantraTextPlaceholder()
         setDetailsPlaceholder()
+    }
+    
+    private func updateUI() {
+        if let imageData = mantraImageData {
+            let image = UIImage(data: imageData)
+            setPhotoButton.setImage(image, for: .normal)
+        } else {
+            let image = UIImage(named: "default_160")
+            setPhotoButton.setImage(image, for: .normal)
+        }
+        
+        switch mode {
+        case .edit:
+            setEditMode()
+        case .view:
+            setViewMode()
+        }
+        
+        titleTextField.text = mantra.title
+        mantraTextTextView.text = mantra.text
+        detailsTextView.text = mantra.details
+    }
+    
+    private func setEditMode() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
+        titleTextField.becomeFirstResponder()
+    }
+    
+    private func setViewMode() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
+        setPhotoButton.isUserInteractionEnabled = false
+        titleTextField.isUserInteractionEnabled = false
+        mantraTextTextView.isEditable = false
+        detailsTextView.isEditable = false
+        titleTextField.resignFirstResponder()
+        mantraTextTextView.resignFirstResponder()
+        detailsTextView.resignFirstResponder()
     }
     
     //MARK: - Action Methods
@@ -82,7 +118,7 @@ class DetailsViewController: UIViewController {
         }
         let defaultPhotoAction = UIAlertAction(title: NSLocalizedString("Default Photo", comment: "Alert Title on DetailsViewController"),
                                                style: .default) { [weak self] (action) in
-                                                self?.setPhotoButton.setImage(UIImage(named: "default"), for: .normal)
+                                                self?.setPhotoButton.setImage(UIImage(named: "default_160"), for: .normal)
                                                 self?.mantraImageData = nil
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -91,8 +127,18 @@ class DetailsViewController: UIViewController {
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
     }
+
+    //MARK: - Model Manipulation
     
-    //MARK: - Supportive Methods
+    private func saveMantras() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context, \(error)")
+        }
+    }
+    
+    //MARK: - Supportive Metods
     
     private func processMantra(title: String, text: String, details: String) {
         mantra.title = title
@@ -119,35 +165,6 @@ class DetailsViewController: UIViewController {
         present(picker, animated: true)
     }
     
-    private func updateUI() {
-        if let imageData = mantraImageData {
-            let image = UIImage(data: imageData)
-            setPhotoButton.setImage(image, for: .normal)
-        } else {
-            let image = UIImage(named: "kid_160")
-            setPhotoButton.setImage(image, for: .normal)
-        }
-        
-        switch mode {
-        case .edit:
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
-            titleTextField.becomeFirstResponder()
-        case .view:
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
-            setPhotoButton.isUserInteractionEnabled = false
-            titleTextField.isUserInteractionEnabled = false
-            mantraTextTextView.isEditable = false
-            detailsTextView.isEditable = false
-            titleTextField.resignFirstResponder()
-            mantraTextTextView.resignFirstResponder()
-            detailsTextView.resignFirstResponder()
-        }
-        
-        titleTextField.text = mantra.title
-        mantraTextTextView.text = mantra.text
-        detailsTextView.text = mantra.details
-    }
-    
     private func setMantraTextPlaceholder() {
         mantraTextPlaceholderLabel = UILabel()
         mantraTextPlaceholderLabel.text = NSLocalizedString("Enter mantra text", comment: "Mantra text placeholder")
@@ -168,16 +185,6 @@ class DetailsViewController: UIViewController {
         detailsPlaceholderLabel.frame.origin = CGPoint(x: 5, y: (detailsTextView.font?.pointSize)! / 3)
         detailsPlaceholderLabel.textColor = .systemGray2
         detailsPlaceholderLabel.isHidden = !detailsTextView.text.isEmpty
-    }
-    
-    //MARK: - Model Manipulation
-    
-    private func saveMantras() {
-        do {
-            try context.save()
-        } catch {
-            print("Error saving context, \(error)")
-        }
     }
 }
 

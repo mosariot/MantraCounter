@@ -33,6 +33,28 @@ class MantraTableViewController: UITableViewController {
         loadMantras()
     }
     
+    //MARK: - Model Manipulation
+    
+    private func loadMantras() {
+        context.reset()
+        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "position", ascending: true)]
+        do {
+            mantraArray = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+        tableView.reloadData()
+    }
+    
+    private func saveMantras() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context, \(error)")
+        }
+    }
+    
     // MARK: - TableView DataSource
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -43,14 +65,13 @@ class MantraTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MantraCell", for: indexPath)
         let mantra = mantraArray[indexPath.row]
         cell.textLabel?.text = mantra.title
-        let currentReadingsCount = NSLocalizedString("Current readings count:", comment: "Current readings count")
-        cell.detailTextLabel?.text = currentReadingsCount + " \(mantra.reads)"
+        cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
         cell.detailTextLabel?.textColor = .systemGray
 
         if let imageData = mantra.image {
             cell.imageView?.image = UIImage(data: imageData)
         } else {
-            cell.imageView?.image = UIImage(named: "kid_160")
+            cell.imageView?.image = UIImage(named: "default_160")
         }
         
         cell.accessoryType = .disclosureIndicator
@@ -100,28 +121,6 @@ class MantraTableViewController: UITableViewController {
         navigationController?.pushViewController(readsCountViewController, animated: true)
     }
     
-    //MARK: - Action Methods
-       
-    @objc func addNewMantraButtonPressed() {
-        let mantra = Mantra(context: context)
-        guard let detailsViewController = storyboard?.instantiateViewController(
-            identifier: "DetailsViewController",
-            creator: { coder in
-                DetailsViewController(mantra: mantra, mode: .edit, position: self.mantraArray.count, coder: coder)
-        }) else { return }
-        navigationController?.pushViewController(detailsViewController, animated: true)
-    }
-    
-    @objc func doneButtonPressed() {
-        self.setEditing(false, animated: true)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
-    }
-    
-    @objc func editButtonPressed() {
-        self.setEditing(true, animated: true)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
-    }
-    
     //MARK: - Cells Manipulation Methods
     
     private func reorderMantraPositionsForDeleteAction(deletingPosition: Int) {
@@ -150,25 +149,25 @@ class MantraTableViewController: UITableViewController {
         mantraArray[source].position = Int32(destination)
     }
     
-    //MARK: - Model Manipulation
-    
-    private func loadMantras() {
-        context.reset()
-        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "position", ascending: true)]
-        do {
-            mantraArray = try context.fetch(request)
-        } catch {
-            print("Error fetching data from context \(error)")
-        }
-        tableView.reloadData()
+    //MARK: - Action Methods
+       
+    @objc func addNewMantraButtonPressed() {
+        let mantra = Mantra(context: context)
+        guard let detailsViewController = storyboard?.instantiateViewController(
+            identifier: "DetailsViewController",
+            creator: { coder in
+                DetailsViewController(mantra: mantra, mode: .edit, position: self.mantraArray.count, coder: coder)
+        }) else { return }
+        navigationController?.pushViewController(detailsViewController, animated: true)
     }
     
-    private func saveMantras() {
-        do {
-            try context.save()
-        } catch {
-            print("Error saving context, \(error)")
-        }
+    @objc func doneButtonPressed() {
+        self.setEditing(false, animated: true)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
+    }
+    
+    @objc func editButtonPressed() {
+        self.setEditing(true, animated: true)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
     }
 }
