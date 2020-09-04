@@ -23,6 +23,7 @@
 		9F5FE6B424E9262B00D0475E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F5FE6B624E9262B00D0475E /* InfoPlist.strings */; };
 		9F5FE6B924E9B6E500D0475E /* CircleAndResizeUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6B824E9B6E500D0475E /* CircleAndResizeUIImage.swift */; };
 		9F5FE6BB24E9C8F300D0475E /* HideKeyboardWhenTapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTapped.swift */; };
+		9F9299AB2502A79D003D5029 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AA2502A79D003D5029 /* LaunchViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		9F5FE6B724E9263300D0475E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9F5FE6B824E9B6E500D0475E /* CircleAndResizeUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleAndResizeUIImage.swift; sourceTree = "<group>"; };
 		9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTapped.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardWhenTapped.swift; sourceTree = "<group>"; };
+		9F9299AA2502A79D003D5029 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 		9F5FE6A024E717FE00D0475E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9F9299AA2502A79D003D5029 /* LaunchViewController.swift */,
 				9F5FE69B24E717A200D0475E /* MantraTableViewController.swift */,
 				9F5FE69A24E717A200D0475E /* DetailsViewController.swift */,
 				9F5FE69C24E717A200D0475E /* ReadsCountViewController.swift */,
@@ -219,6 +222,7 @@
 				9F5FE68624E7141400D0475E /* SceneDelegate.swift in Sources */,
 				9F5FE6B924E9B6E500D0475E /* CircleAndResizeUIImage.swift in Sources */,
 				9F5FE69F24E717A200D0475E /* ReadsCountViewController.swift in Sources */,
+				9F9299AB2502A79D003D5029 /* LaunchViewController.swift in Sources */,
 				9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */,
 				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,
 			);

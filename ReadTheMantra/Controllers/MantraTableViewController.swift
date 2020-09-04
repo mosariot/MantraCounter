@@ -20,11 +20,13 @@ class MantraTableViewController: UITableViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
+        navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
         
         loadMantras()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(addNewMantraButtonPressed))
     }
@@ -155,8 +157,9 @@ class MantraTableViewController: UITableViewController {
         let mantra = Mantra(context: context)
         guard let detailsViewController = storyboard?.instantiateViewController(
             identifier: "DetailsViewController",
-            creator: { coder in
-                DetailsViewController(mantra: mantra, mode: .edit, position: self.mantraArray.count, coder: coder)
+            creator: { [weak self] coder in
+                guard let self = self else { fatalError() }
+                return DetailsViewController(mantra: mantra, mode: .edit, position: self.mantraArray.count, coder: coder)
         }) else { return }
         navigationController?.pushViewController(detailsViewController, animated: true)
     }

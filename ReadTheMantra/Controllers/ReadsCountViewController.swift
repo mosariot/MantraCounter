@@ -15,13 +15,13 @@ class ReadsCountViewController: UIViewController {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    @IBOutlet weak var mantraImage: UIButton!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var readsLabel: UILabel!
-    @IBOutlet weak var progressView: UIProgressView!
-    @IBOutlet weak var addRoundsButton: UIButton!
-    @IBOutlet weak var addReadingsButton: UIButton!
-    @IBOutlet weak var manualCorrectionButton: UIButton!
+    @IBOutlet private weak var mantraImage: UIButton!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var readsLabel: UILabel!
+    @IBOutlet private weak var progressView: UIProgressView!
+    @IBOutlet private weak var addRoundsButton: UIButton!
+    @IBOutlet private weak var addReadingsButton: UIButton!
+    @IBOutlet private weak var manualCorrectionButton: UIButton!
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -53,8 +53,9 @@ class ReadsCountViewController: UIViewController {
     @objc func infoButtonPressed() {
         guard let detailsViewController = storyboard?.instantiateViewController(
             identifier: "DetailsViewController",
-            creator: { coder in
-                DetailsViewController(mantra: self.mantra, mode: .view, position: Int(self.mantra.position), coder: coder)
+            creator: { [weak self] coder in
+                guard let self = self else { fatalError() }
+                return DetailsViewController(mantra: self.mantra, mode: .view, position: Int(self.mantra.position), coder: coder)
         }) else { return }
         navigationController?.pushViewController(detailsViewController, animated: true)
     }
@@ -108,7 +109,7 @@ class ReadsCountViewController: UIViewController {
         }
         
         let alert = UIAlertController(title: alertTitle, message: "", preferredStyle: .alert)
-        let addAction = UIAlertAction(title: actionTitle, style: .default) { [weak self] (action) in
+        let addAction = UIAlertAction(title: actionTitle, style: .cancel) { [weak self] (action) in
             self?.updateReadsCount(from: alert, with: updatingType)
         }
         alert.addTextField { (alertTextField) in
@@ -116,7 +117,7 @@ class ReadsCountViewController: UIViewController {
             alertTextField.keyboardType = .numberPad
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on ReadsCountViewController"),
-                                         style: .cancel,
+                                         style: .default,
                                          handler: nil)
         alert.addAction(addAction)
         alert.addAction(cancelAction)

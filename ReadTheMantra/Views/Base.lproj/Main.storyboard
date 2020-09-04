@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Z6M-7c-GgU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bNa-Kq-l66">
     <device id="retina4_7" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -100,12 +100,39 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2653.5999999999999" y="509.59520239880067"/>
+            <point key="canvasLocation" x="4532" y="509.59520239880067"/>
+        </scene>
+        <!--Launch View Controller-->
+        <scene sceneID="ma2-b8-5DO">
+            <objects>
+                <viewController id="SJs-LU-i7V" customClass="LaunchViewController" customModule="MantraCounter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HgG-Fg-qCJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="RdJ-cR-vgR">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="RdJ-cR-vgR" firstAttribute="top" secondItem="HgG-Fg-qCJ" secondAttribute="top" id="L2f-Ja-K5y"/>
+                            <constraint firstItem="RdJ-cR-vgR" firstAttribute="leading" secondItem="HgG-Fg-qCJ" secondAttribute="leading" id="S5G-mI-16J"/>
+                            <constraint firstAttribute="trailing" secondItem="RdJ-cR-vgR" secondAttribute="trailing" id="bcT-PH-EpR"/>
+                            <constraint firstAttribute="bottom" secondItem="RdJ-cR-vgR" secondAttribute="bottom" id="dKI-qv-fcG"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ryu-Gv-Gfb"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="adf-5C-TEN"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7dd-g0-x7o" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3060" y="134"/>
         </scene>
         <!--Mantra Counter-->
         <scene sceneID="NRc-3p-Omg">
             <objects>
-                <tableViewController id="uTg-Qt-T5r" customClass="MantraTableViewController" customModule="MantraCounter" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="MantraTableViewController" id="uTg-Qt-T5r" customClass="MantraTableViewController" customModule="MantraCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="SyQ-nI-C6C">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -141,11 +168,12 @@
                             <outlet property="delegate" destination="uTg-Qt-T5r" id="5w1-6F-KDd"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Mantra Counter" id="XMg-W9-LLq"/>
+                    <navigationItem key="navigationItem" title="Mantra Counter" largeTitleDisplayMode="always" id="XMg-W9-LLq"/>
+                    <splitViewMasterSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PxV-EI-kJr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1773.913043478261" y="135.9375"/>
+            <point key="canvasLocation" x="3791.1999999999998" y="133.5832083958021"/>
         </scene>
         <!--Details View Controller-->
         <scene sceneID="XS4-SK-kdP">
@@ -253,25 +281,28 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kje-jA-G5g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2653.5999999999999" y="-163.26836581709148"/>
+            <point key="canvasLocation" x="4532" y="-163.26836581709148"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="ezn-mn-e6T">
+        <scene sceneID="Jt4-4S-EVO">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Z6M-7c-GgU" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bNa-Kq-l66" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Jfr-FV-xYJ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Lhd-9Z-SVj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="uTg-Qt-T5r" kind="relationship" relationship="rootViewController" id="6QX-lW-cgD"/>
+                        <segue destination="SJs-LU-i7V" kind="relationship" relationship="rootViewController" id="F10-WI-hUc"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lJc-RD-3O8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I14-EX-bNM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="863.768115942029" y="135.9375"/>
+            <point key="canvasLocation" x="2314" y="134"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="launchScreen" width="531" height="648.5"/>
+    </resources>
 </document>

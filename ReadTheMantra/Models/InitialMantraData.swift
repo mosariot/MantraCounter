@@ -6,8 +6,6 @@
 //  Copyright © 2020 Александр Воробьев. All rights reserved.
 //
 
-import Foundation
-
 let initialMantraData = [
     [0: "Стослоговая мантра"]:
     ["""

@@ -17,10 +17,10 @@ class DetailsViewController: UIViewController {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    @IBOutlet weak var setPhotoButton: UIButton!
-    @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var mantraTextTextView: UITextView!
-    @IBOutlet weak var detailsTextView: UITextView!
+    @IBOutlet private weak var setPhotoButton: UIButton!
+    @IBOutlet private weak var titleTextField: UITextField!
+    @IBOutlet private weak var mantraTextTextView: UITextView!
+    @IBOutlet private weak var detailsTextView: UITextView!
     
     private var mantraTextPlaceholderLabel : UILabel!
     private var detailsPlaceholderLabel : UILabel!
@@ -168,23 +168,27 @@ class DetailsViewController: UIViewController {
     private func setMantraTextPlaceholder() {
         mantraTextPlaceholderLabel = UILabel()
         mantraTextPlaceholderLabel.text = NSLocalizedString("Enter mantra text", comment: "Mantra text placeholder")
-        mantraTextPlaceholderLabel.font = .systemFont(ofSize: (mantraTextTextView.font?.pointSize)!)
-        mantraTextPlaceholderLabel.sizeToFit()
-        mantraTextTextView.addSubview(mantraTextPlaceholderLabel)
-        mantraTextPlaceholderLabel.frame.origin = CGPoint(x: 5, y: (mantraTextTextView.font?.pointSize)! / 3)
-        mantraTextPlaceholderLabel.textColor = .systemGray2
-        mantraTextPlaceholderLabel.isHidden = !mantraTextTextView.text.isEmpty
+        if let fontPointSize = detailsTextView.font?.pointSize {
+            mantraTextPlaceholderLabel.font = .systemFont(ofSize: fontPointSize)
+            mantraTextPlaceholderLabel.sizeToFit()
+            mantraTextTextView.addSubview(mantraTextPlaceholderLabel)
+            mantraTextPlaceholderLabel.frame.origin = CGPoint(x: 5, y: fontPointSize / 3)
+            mantraTextPlaceholderLabel.textColor = .systemGray2
+            mantraTextPlaceholderLabel.isHidden = !mantraTextTextView.text.isEmpty
+        }
     }
     
     private func setDetailsPlaceholder() {
         detailsPlaceholderLabel = UILabel()
         detailsPlaceholderLabel.text = NSLocalizedString("Enter mantra description", comment: "Mantra description placeholder")
-        detailsPlaceholderLabel.font = .systemFont(ofSize: (detailsTextView.font?.pointSize)!)
-        detailsPlaceholderLabel.sizeToFit()
-        detailsTextView.addSubview(detailsPlaceholderLabel)
-        detailsPlaceholderLabel.frame.origin = CGPoint(x: 5, y: (detailsTextView.font?.pointSize)! / 3)
-        detailsPlaceholderLabel.textColor = .systemGray2
-        detailsPlaceholderLabel.isHidden = !detailsTextView.text.isEmpty
+        if let fontPointSize = detailsTextView.font?.pointSize {
+            detailsPlaceholderLabel.font = .systemFont(ofSize: fontPointSize)
+            detailsPlaceholderLabel.sizeToFit()
+            detailsTextView.addSubview(detailsPlaceholderLabel)
+            detailsPlaceholderLabel.frame.origin = CGPoint(x: 5, y: fontPointSize / 3)
+            detailsPlaceholderLabel.textColor = .systemGray2
+            detailsPlaceholderLabel.isHidden = !detailsTextView.text.isEmpty
+        }
     }
 }
 
