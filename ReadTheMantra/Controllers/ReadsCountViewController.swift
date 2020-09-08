@@ -15,7 +15,7 @@ class ReadsCountViewController: UIViewController {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    @IBOutlet private weak var mantraImage: UIButton!
+    @IBOutlet private weak var mantraImage: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var readsLabel: UILabel!
     @IBOutlet private weak var progressView: UIProgressView!
@@ -36,11 +36,12 @@ class ReadsCountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.largeTitleDisplayMode = .never
+        
         let infoButton = UIButton(type: .infoLight)
         infoButton.addTarget(self, action: #selector(infoButtonPressed), for: .touchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: infoButton)
         
-        mantraImage.isUserInteractionEnabled = false
         setButtonsTitles()
         
         updateUI()
@@ -57,16 +58,16 @@ class ReadsCountViewController: UIViewController {
                 guard let self = self else { fatalError() }
                 return DetailsViewController(mantra: self.mantra, mode: .view, position: Int(self.mantra.position), coder: coder)
         }) else { return }
-        navigationController?.pushViewController(detailsViewController, animated: true)
+        show(detailsViewController, sender: self)
     }
     
     //MARK: - Update UI
     
     private func updateUI() {
         if let imageData = mantra.image {
-            mantraImage.setImage(UIImage(data: imageData), for: .normal)
+            mantraImage.image = UIImage(data: imageData)
         } else {
-            mantraImage.setImage(UIImage(named: "default_160"), for: .normal)
+            mantraImage.image = UIImage(named: "default_320")
         }
         
         titleLabel.text = mantra.title

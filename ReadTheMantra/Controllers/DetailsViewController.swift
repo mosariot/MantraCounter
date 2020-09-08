@@ -41,6 +41,7 @@ class DetailsViewController: UIViewController {
         super.viewDidLoad()
         
         navigationItem.largeTitleDisplayMode = .never
+        
         hideKeyboardWhenTappedAround()
         
         updateUI()
@@ -56,7 +57,7 @@ class DetailsViewController: UIViewController {
             let image = UIImage(data: imageData)
             setPhotoButton.setImage(image, for: .normal)
         } else {
-            let image = UIImage(named: "default_160")
+            let image = UIImage(named: "default_320")
             setPhotoButton.setImage(image, for: .normal)
         }
         
@@ -118,7 +119,7 @@ class DetailsViewController: UIViewController {
         }
         let defaultPhotoAction = UIAlertAction(title: NSLocalizedString("Default Photo", comment: "Alert Title on DetailsViewController"),
                                                style: .default) { [weak self] (action) in
-                                                self?.setPhotoButton.setImage(UIImage(named: "default_160"), for: .normal)
+                                                self?.setPhotoButton.setImage(UIImage(named: "default_320"), for: .normal)
                                                 self?.mantraImageData = nil
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -209,7 +210,7 @@ extension DetailsViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
         let circledImage = image.circle()
-        let resizedCircledImage = circledImage?.resize(to: CGSize(width: 160, height: 160))
+        let resizedCircledImage = circledImage?.resize(to: CGSize(width: 320, height: 320))
         
         if let imageData = resizedCircledImage?.pngData() {
             mantraImageData = imageData

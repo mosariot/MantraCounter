@@ -41,25 +41,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
-    //MARK: - Preload Data Methods
+    //MARK: - Preload Data stack
     
     func preloadData() {
         removeData()
         let context = persistentContainer.viewContext
         
-        for (id, description) in initialMantraData {
+        for (position, data) in InitialMantra.data {
             let mantra = Mantra(context: context)
-            for (position, title) in id {
-                mantra.position = Int32(position)
-                mantra.title = title
+            mantra.position = Int32(position)
+            for (key, value) in data {
+                switch key {
+                case .title:
+                    mantra.title = value
+                case .text:
+                    mantra.text = value
+                case .details:
+                    mantra.details = value
+                case .image:
+                    if let image = UIImage(named: value) {
+                        mantra.image = image.pngData()
+                    }
+                }
             }
-            for (text, details) in description {
-                mantra.text = text
-                mantra.details = details
-            }
-        }
-        
         saveContext()
+        }
     }
     
     func removeData() {

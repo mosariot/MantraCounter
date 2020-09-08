@@ -23,8 +23,11 @@ class LaunchViewController: UIViewController {
         
         func goToMantraTableViewController() {
             if let mantraTableViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MantraTableViewController") as? UITableViewController {
-                self.navigationController?.pushViewController(mantraTableViewController, animated: true)
+                show(mantraTableViewController, sender: self)
             }
         }
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = false
     }
 }

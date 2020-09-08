@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "kid_160.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Buddha_Medicine_320.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
