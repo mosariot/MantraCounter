@@ -53,7 +53,7 @@ class ReadsCountViewController: UIViewController {
     
     @objc func infoButtonPressed() {
         guard let detailsViewController = storyboard?.instantiateViewController(
-            identifier: "DetailsViewController",
+            identifier: K.detailsViewControllerID,
             creator: { [weak self] coder in
                 guard let self = self else { fatalError() }
                 return DetailsViewController(mantra: self.mantra, mode: .view, position: Int(self.mantra.position), coder: coder)
@@ -67,7 +67,7 @@ class ReadsCountViewController: UIViewController {
         if let imageData = mantra.image {
             mantraImage.image = UIImage(data: imageData)
         } else {
-            mantraImage.image = UIImage(named: "default_320")
+            mantraImage.image = UIImage(named: K.defaultImage_320)
         }
         
         titleLabel.text = mantra.title
@@ -224,9 +224,9 @@ class ReadsCountViewController: UIViewController {
     private func setReadsLabelColor() {
         var color = UIColor()
         switch mantra.reads {
-        case 0...39999:
+        case 0...39_999:
             color = UIColor.label
-        case 40000...99999:
+        case 40_000...99_999:
             color = UIColor.systemOrange
         case 100_000...:
             color = UIColor.systemPurple

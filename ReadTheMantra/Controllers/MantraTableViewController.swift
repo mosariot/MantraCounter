@@ -41,7 +41,7 @@ class MantraTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MantraCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.mantraCellID, for: indexPath)
         let mantra = mantraArray[indexPath.row]
         cell.textLabel?.text = mantra.title
         cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
@@ -50,7 +50,7 @@ class MantraTableViewController: UITableViewController {
         if let imageData = mantra.image {
             cell.imageView?.image = UIImage(data: imageData)
         } else {
-            cell.imageView?.image = UIImage(named: "default_320")
+            cell.imageView?.image = UIImage(named: K.defaultImage_320)
         }
         
         cell.accessoryType = .disclosureIndicator
@@ -93,7 +93,7 @@ class MantraTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let mantra = mantraArray[indexPath.row]
         guard let readsCountViewController = storyboard?.instantiateViewController(
-            identifier: "ReadsCountViewController",
+            identifier: K.readsCountViewControllerID,
             creator: { coder in
                 ReadsCountViewController(mantra: mantra, coder: coder)
         }) else { return }
@@ -133,7 +133,7 @@ class MantraTableViewController: UITableViewController {
     @objc func addNewMantraButtonPressed() {
         let mantra = Mantra(context: context)
         guard let detailsViewController = storyboard?.instantiateViewController(
-            identifier: "DetailsViewController",
+            identifier: K.detailsViewControllerID,
             creator: { [weak self] coder in
                 guard let self = self else { fatalError() }
                 return DetailsViewController(mantra: mantra, mode: .edit, position: self.mantraArray.count, coder: coder)

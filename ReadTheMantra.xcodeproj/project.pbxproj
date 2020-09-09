@@ -24,6 +24,7 @@
 		9F5FE6B924E9B6E500D0475E /* CircleAndResizeUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6B824E9B6E500D0475E /* CircleAndResizeUIImage.swift */; };
 		9F5FE6BB24E9C8F300D0475E /* HideKeyboardWhenTapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTapped.swift */; };
 		9F9299AB2502A79D003D5029 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AA2502A79D003D5029 /* LaunchViewController.swift */; };
+		9F9299AF250818B6003D5029 /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* K.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,12 +43,12 @@
 		9F5FE6A424E7183E00D0475E /* DetailsMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsMode.swift; sourceTree = "<group>"; };
 		9F5FE6A824E71E1200D0475E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		9F5FE6AC24E78EE400D0475E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		9F5FE6AE24E78EEF00D0475E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9F5FE6B524E9262B00D0475E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9F5FE6B724E9263300D0475E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9F5FE6B824E9B6E500D0475E /* CircleAndResizeUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleAndResizeUIImage.swift; sourceTree = "<group>"; };
 		9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTapped.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardWhenTapped.swift; sourceTree = "<group>"; };
 		9F9299AA2502A79D003D5029 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		9F9299AE250818B6003D5029 /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +120,7 @@
 				9F5FE68C24E7141400D0475E /* ReadTheMantra.xcdatamodeld */,
 				9F5FE6A424E7183E00D0475E /* DetailsMode.swift */,
 				9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */,
+				9F9299AE250818B6003D5029 /* K.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -223,6 +225,7 @@
 				9F5FE6B924E9B6E500D0475E /* CircleAndResizeUIImage.swift in Sources */,
 				9F5FE69F24E717A200D0475E /* ReadsCountViewController.swift in Sources */,
 				9F9299AB2502A79D003D5029 /* LaunchViewController.swift in Sources */,
+				9F9299AF250818B6003D5029 /* K.swift in Sources */,
 				9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */,
 				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,
 			);
@@ -252,7 +255,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				9F5FE6AC24E78EE400D0475E /* ru */,
-				9F5FE6AE24E78EEF00D0475E /* en */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

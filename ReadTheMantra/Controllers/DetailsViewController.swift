@@ -57,7 +57,7 @@ class DetailsViewController: UIViewController {
             let image = UIImage(data: imageData)
             setPhotoButton.setImage(image, for: .normal)
         } else {
-            let image = UIImage(named: "default_320")
+            let image = UIImage(named: K.defaultImage_320)
             setPhotoButton.setImage(image, for: .normal)
         }
         
@@ -119,7 +119,7 @@ class DetailsViewController: UIViewController {
         }
         let defaultPhotoAction = UIAlertAction(title: NSLocalizedString("Default Photo", comment: "Alert Title on DetailsViewController"),
                                                style: .default) { [weak self] (action) in
-                                                self?.setPhotoButton.setImage(UIImage(named: "default_320"), for: .normal)
+                                                self?.setPhotoButton.setImage(UIImage(named: K.defaultImage_320), for: .normal)
                                                 self?.mantraImageData = nil
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)

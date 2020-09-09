@@ -22,7 +22,7 @@ class LaunchViewController: UIViewController {
         }
         
         func goToMantraTableViewController() {
-            if let mantraTableViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MantraTableViewController") as? UITableViewController {
+            if let mantraTableViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: K.mantraTableViewControllerID) as? UITableViewController {
                 show(mantraTableViewController, sender: self)
             }
         }
