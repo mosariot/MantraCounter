@@ -41,15 +41,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
-    //MARK: - Preload Data stack
+    //MARK: - Preload Data Stack
     
     func preloadData() {
         removeData()
         let context = persistentContainer.viewContext
         
-        for (position, data) in InitialMantra.data {
+        for (index, data) in InitialMantra.data.enumerated() {
             let mantra = Mantra(context: context)
-            mantra.position = Int32(position)
+            mantra.position = Int32(index)
             for (key, value) in data {
                 switch key {
                 case .title:
@@ -61,6 +61,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 case .image:
                     if let image = UIImage(named: value) {
                         mantra.image = image.pngData()
+                    } else {
+                        mantra.image = UIImage(named: K.defaultImage_320)?.pngData()
                     }
                 }
             }
@@ -81,7 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    // MARK: - Core Data stack
+    // MARK: - Core Data Stack
 
     lazy var persistentContainer: NSPersistentContainer = {
 
@@ -108,4 +110,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 }
+
 

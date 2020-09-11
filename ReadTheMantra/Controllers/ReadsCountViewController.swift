@@ -26,7 +26,7 @@ class ReadsCountViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-                                                
+    
     init?(mantra: Mantra, coder: NSCoder) {
         self.mantra = mantra
         
@@ -196,27 +196,28 @@ class ReadsCountViewController: UIViewController {
     //MARK: - Supportive Methods
     
     private func setButtonsTitles() {
-        let roundsImageAttachment = NSTextAttachment()
-        roundsImageAttachment.image = UIImage(systemName: "goforward")
-        let roundsButtonString = NSMutableAttributedString(string: "")
-        roundsButtonString.append(NSAttributedString(attachment: roundsImageAttachment))
-        roundsButtonString.append(NSAttributedString(string: NSLocalizedString("Add Rounds",
-                                                                               comment: "Button Title on ReadsCountViewController")))
-        addRoundsButton.setAttributedTitle(roundsButtonString, for: .normal)
         
         let readingsImageAttachment = NSTextAttachment()
         readingsImageAttachment.image = UIImage(systemName: "plus.circle")
         let readingsButtonString = NSMutableAttributedString(string: "")
         readingsButtonString.append(NSAttributedString(attachment: readingsImageAttachment))
-        readingsButtonString.append(NSAttributedString(string: NSLocalizedString("Add Readings",
+        readingsButtonString.append(NSAttributedString(string: NSLocalizedString(" Add Readings",
                                                                                  comment: "Button Title on ReadsCountViewController")))
         addReadingsButton.setAttributedTitle(readingsButtonString, for: .normal)
+        
+        let roundsImageAttachment = NSTextAttachment()
+        roundsImageAttachment.image = UIImage(systemName: "goforward")
+        let roundsButtonString = NSMutableAttributedString(string: "")
+        roundsButtonString.append(NSAttributedString(attachment: roundsImageAttachment))
+        roundsButtonString.append(NSAttributedString(string: NSLocalizedString(" Add Rounds (х108)",
+                                                                               comment: "Button Title on ReadsCountViewController")))
+        addRoundsButton.setAttributedTitle(roundsButtonString, for: .normal)
         
         let manualCorrectionImageAttachment = NSTextAttachment()
         manualCorrectionImageAttachment.image = UIImage(systemName: "hand.draw")
         let manualCorrectionButtonString = NSMutableAttributedString(string: "")
         manualCorrectionButtonString.append(NSAttributedString(attachment: manualCorrectionImageAttachment))
-        manualCorrectionButtonString.append(NSAttributedString(string: NSLocalizedString("Manual Correction",
+        manualCorrectionButtonString.append(NSAttributedString(string: NSLocalizedString(" Manual Correction",
                                                                                          comment: "Button Title on ReadsCountViewController")))
         manualCorrectionButton.setAttributedTitle(manualCorrectionButtonString, for: .normal)
     }

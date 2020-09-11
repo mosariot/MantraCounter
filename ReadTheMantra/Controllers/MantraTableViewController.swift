@@ -12,6 +12,8 @@ import CoreData
 class MantraTableViewController: UITableViewController {
     
     private var mantraArray = [Mantra]()
+    private lazy var mantraPicker = UIPickerView()
+    private lazy var mantraPickerTextField = UITextField(frame: CGRect.zero)
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -20,20 +22,26 @@ class MantraTableViewController: UITableViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
         navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
         
         loadMantras()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(addNewMantraButtonPressed))
+        setInitialBarButtonsState()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         loadMantras()
     }
-
+    
+    func setInitialBarButtonsState() {
+        navigationItem.rightBarButtonItem?.isEnabled = true
+        navigationItem.leftBarButtonItem?.isEnabled = true
+    }
+    
     // MARK: - TableView DataSource
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -46,7 +54,7 @@ class MantraTableViewController: UITableViewController {
         cell.textLabel?.text = mantra.title
         cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
         cell.detailTextLabel?.textColor = .systemGray
-
+        
         if let imageData = mantra.image {
             cell.imageView?.image = UIImage(data: imageData)
         } else {
@@ -57,8 +65,8 @@ class MantraTableViewController: UITableViewController {
         return cell
     }
     
-    //MARK: - TableView Delegate
-      
+    //MARK: - TableView Delegate Methods
+    
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -68,7 +76,7 @@ class MantraTableViewController: UITableViewController {
             reorderMantraPositionsForDeleteAction(deletingPosition: indexPath.row)
             context.delete(mantraArray[indexPath.row])
             saveMantras()
-     
+            
             mantraArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
@@ -81,7 +89,7 @@ class MantraTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         
         guard sourceIndexPath != destinationIndexPath else { return }
-
+        
         reorderMantraPositionsForMovingAction(from: sourceIndexPath.row, to: destinationIndexPath.row)
         saveMantras()
         
@@ -91,6 +99,7 @@ class MantraTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let mantra = mantraArray[indexPath.row]
         guard let readsCountViewController = storyboard?.instantiateViewController(
             identifier: K.readsCountViewControllerID,
@@ -100,10 +109,31 @@ class MantraTableViewController: UITableViewController {
         show(readsCountViewController, sender: true)
     }
     
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        if mantraPickerTextField.isFirstResponder {
+            mantraPickerTextField.resignFirstResponder()
+            mantraPicker.selectRow(0, inComponent: 0, animated: false)
+            setInitialBarButtonsState()
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if mantraPickerTextField.isFirstResponder {
+            mantraPickerTextField.resignFirstResponder()
+            mantraPicker.selectRow(0, inComponent: 0, animated: false)
+            setInitialBarButtonsState()
+        }
+    }
+
     //MARK: - Cells Manipulation Methods
     
     private func reorderMantraPositionsForDeleteAction(deletingPosition: Int) {
+        
         guard deletingPosition+1 < mantraArray.count else { return }
+        
         for i in (deletingPosition+1)...(mantraArray.count-1) {
             mantraArray[i].position -= 1
         }
@@ -124,13 +154,31 @@ class MantraTableViewController: UITableViewController {
         default:
             return
         }
-
+        
         mantraArray[source].position = Int32(destination)
     }
     
-    //MARK: - Action Methods
-       
-    @objc func addNewMantraButtonPressed() {
+    //MARK: - Add Mantra Stack
+    
+    @objc private func addButtonPressed() {
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let addNewMantraAction = UIAlertAction(title: NSLocalizedString("New Mantra", comment: "Alert Title on MantraTableViewController"),
+                                               style: .default) { [weak self] (action) in
+                                                self?.showNewMantraVC()
+        }
+        let addPreloadedMantraAction = UIAlertAction(title: NSLocalizedString("Preloaded Mantra", comment: "Alert Title on MantraTableViewController"),
+                                                     style: .default) { [weak self] (action) in
+                                                        self?.setPreloadedMantraPickerState()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(addNewMantraAction)
+        alert.addAction(addPreloadedMantraAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func showNewMantraVC() {
         let mantra = Mantra(context: context)
         guard let detailsViewController = storyboard?.instantiateViewController(
             identifier: K.detailsViewControllerID,
@@ -141,13 +189,100 @@ class MantraTableViewController: UITableViewController {
         show(detailsViewController, sender: self)
     }
     
+    private func setPreloadedMantraPickerState() {
+        makeAndShowMantraPickerView()
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        navigationItem.leftBarButtonItem?.isEnabled = false
+    }
+    
+    private func makeAndShowMantraPickerView() {
+        
+        mantraPicker.dataSource = self
+        mantraPicker.delegate = self
+        
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.sizeToFit()
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePreloadedMantraButtonPressed))
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelPreloadedMantraButtonPressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+
+        tableView.addSubview(mantraPickerTextField)
+
+        mantraPickerTextField.inputView = mantraPicker
+        mantraPickerTextField.inputAccessoryView = toolBar
+        mantraPickerTextField.becomeFirstResponder()
+    }
+    
+    @objc private func cancelPreloadedMantraButtonPressed() {
+        mantraPickerTextField.resignFirstResponder()
+        mantraPicker.selectRow(0, inComponent: 0, animated: false)
+        setInitialBarButtonsState()
+    }
+    
+    @objc private func donePreloadedMantraButtonPressed() {
+        mantraPickerTextField.resignFirstResponder()
+        setInitialBarButtonsState()
+        if isMantraDuplicating() {
+            duplicatingAlert()
+        } else {
+            addPreloadedMantra()
+            mantraPicker.selectRow(0, inComponent: 0, animated: false)
+        }
+    }
+    
+    private func isMantraDuplicating() -> Bool {
+        let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
+        var isDuplicating = false
+        mantraArray.forEach { (mantra) in
+            if mantra.title == InitialMantra.data[selectedMantraNumber][.title] {
+                isDuplicating = true
+            }
+        }
+        return isDuplicating
+    }
+    
+    private func duplicatingAlert() {
+        let alert = UIAlertController(title: "", message: NSLocalizedString("This mantra is already in your list. Add another one?", comment: "Alert Message on MantraTableViewController"), preferredStyle: .alert)
+        let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraTableViewController"), style: .default) { [weak self] (action) in
+            self?.addPreloadedMantra()
+            self?.mantraPicker.selectRow(0, inComponent: 0, animated: false)
+        }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"), style: .destructive) { [weak self] (action) in
+            self?.setPreloadedMantraPickerState()
+        }
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func addPreloadedMantra() {
+        
+        let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
+        let mantra = Mantra(context: context)
+        let preloadedMantra = InitialMantra.data[selectedMantraNumber]
+        mantra.position = Int32(mantraArray.count)
+        mantra.title = preloadedMantra[.title]
+        mantra.text = preloadedMantra[.text]
+        mantra.details = preloadedMantra[.details]
+        mantra.image = UIImage(named: preloadedMantra[.image] ?? K.defaultImage_320)?.pngData()
+        mantraArray.append(mantra)
+        saveMantras()
+        tableView.reloadData()
+    }
+    
+    //MARK: - Table Edit Buttons Actions
+    
     @objc func doneButtonPressed() {
-        self.setEditing(false, animated: true)
+        setEditing(false, animated: true)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
     }
     
     @objc func editButtonPressed() {
-        self.setEditing(true, animated: true)
+        setEditing(true, animated: true)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
     }
     
@@ -171,5 +306,22 @@ class MantraTableViewController: UITableViewController {
         } catch {
             print("Error saving context, \(error)")
         }
+    }
+}
+
+//MARK: - PickerView Delegate, PickerView DataSource
+
+extension MantraTableViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        InitialMantra.data.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        InitialMantra.data[row][.title]
     }
 }

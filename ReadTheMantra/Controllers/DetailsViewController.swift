@@ -128,7 +128,7 @@ class DetailsViewController: UIViewController {
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
     }
-
+    
     //MARK: - Model Manipulation
     
     private func saveMantras() {
