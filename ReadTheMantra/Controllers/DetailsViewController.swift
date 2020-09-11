@@ -44,12 +44,13 @@ class DetailsViewController: UIViewController {
         
         hideKeyboardWhenTappedAround()
         
+        setMantraTextPlaceholder()
+        setDetailsPlaceholder()
+        
         updateUI()
         
         mantraTextTextView.delegate = self
         detailsTextView.delegate = self
-        setMantraTextPlaceholder()
-        setDetailsPlaceholder()
     }
     
     private func updateUI() {
@@ -75,7 +76,13 @@ class DetailsViewController: UIViewController {
     
     private func setEditMode() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
+        setPhotoButton.isUserInteractionEnabled = true
+        titleTextField.isUserInteractionEnabled = true
+        mantraTextTextView.isEditable = true
+        detailsTextView.isEditable = true
         titleTextField.becomeFirstResponder()
+        mantraTextPlaceholderLabel.isHidden = !mantraTextTextView.text.isEmpty
+        detailsPlaceholderLabel.isHidden = !detailsTextView.text.isEmpty
     }
     
     private func setViewMode() {
@@ -87,15 +94,13 @@ class DetailsViewController: UIViewController {
         titleTextField.resignFirstResponder()
         mantraTextTextView.resignFirstResponder()
         detailsTextView.resignFirstResponder()
+        mantraTextPlaceholderLabel.isHidden = true
+        detailsPlaceholderLabel.isHidden = true
     }
     
-    //MARK: - Action Methods
+    //MARK: - Edit/Done Button Methods
     
     @objc func editButtonPressed() {
-        setPhotoButton.isUserInteractionEnabled = true
-        titleTextField.isUserInteractionEnabled = true
-        mantraTextTextView.isEditable = true
-        detailsTextView.isEditable = true
         mode = .edit
         updateUI()
     }
@@ -111,11 +116,30 @@ class DetailsViewController: UIViewController {
         }
     }
     
+    private func processMantra(title: String, text: String, details: String) {
+        mantra.title = title
+        mantra.text = text
+        mantra.details = details
+        mantra.position = Int32(position)
+        mantra.image = mantraImageData ?? nil
+    }
+    
+    private func incorrectTitleAlert() {
+        let alert = UIAlertController(title: NSLocalizedString("Please add a valid title", comment: "Alert Title on DetailsViewController"),
+                                      message: nil,
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    //MARK: - SetPhoto Action
+    
     @IBAction func setPhotoButtonPressed(_ sender: UIButton) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let photoLibraryAction = UIAlertAction(title: NSLocalizedString("Photo Library", comment: "Alert Title on DetailsViewController"),
                                                style: .default) { [weak self] (action) in
-                                                self?.callImagePicker()
+                                                self?.showImagePicker()
         }
         let defaultPhotoAction = UIAlertAction(title: NSLocalizedString("Default Photo", comment: "Alert Title on DetailsViewController"),
                                                style: .default) { [weak self] (action) in
@@ -129,36 +153,7 @@ class DetailsViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    //MARK: - Model Manipulation
-    
-    private func saveMantras() {
-        do {
-            try context.save()
-        } catch {
-            print("Error saving context, \(error)")
-        }
-    }
-    
-    //MARK: - Supportive Metods
-    
-    private func processMantra(title: String, text: String, details: String) {
-        mantra.title = title
-        mantra.text = text
-        mantra.details = details
-        mantra.position = Int32(position)
-        mantra.image = mantraImageData ?? nil
-    }
-    
-    private func incorrectTitleAlert() {
-        let alert = UIAlertController(title: NSLocalizedString("Please add a valid title", comment: "Alert Title on DetailsViewController"),
-                                      message: "",
-                                      preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
-    }
-    
-    private func callImagePicker() {
+    private func showImagePicker() {
         let picker = UIImagePickerController()
         picker.allowsEditing = true
         picker.sourceType = .photoLibrary
@@ -179,6 +174,8 @@ class DetailsViewController: UIViewController {
         }
     }
     
+    //MARK: - Placeholders
+    
     private func setDetailsPlaceholder() {
         detailsPlaceholderLabel = UILabel()
         detailsPlaceholderLabel.text = NSLocalizedString("Enter mantra description", comment: "Mantra description placeholder")
@@ -191,9 +188,19 @@ class DetailsViewController: UIViewController {
             detailsPlaceholderLabel.isHidden = !detailsTextView.text.isEmpty
         }
     }
+
+//MARK: - Model Manipulation
+    
+    private func saveMantras() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context, \(error)")
+        }
+    }
 }
 
-//MARK: - UITextViewDelegate
+//MARK: - TextView Delegate
 
 extension DetailsViewController: UITextViewDelegate {
     
@@ -219,3 +226,4 @@ extension DetailsViewController: UIImagePickerControllerDelegate, UINavigationCo
         dismiss(animated: true)
     }
 }
+

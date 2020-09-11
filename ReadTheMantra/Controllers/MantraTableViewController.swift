@@ -110,24 +110,15 @@ class MantraTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        
         if mantraPickerTextField.isFirstResponder {
-            mantraPickerTextField.resignFirstResponder()
-            mantraPicker.selectRow(0, inComponent: 0, animated: false)
-            setInitialBarButtonsState()
+            dismissMantraPickerView()
             return false
         } else {
             return true
         }
     }
     
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        if mantraPickerTextField.isFirstResponder {
-            mantraPickerTextField.resignFirstResponder()
-            mantraPicker.selectRow(0, inComponent: 0, animated: false)
-            setInitialBarButtonsState()
-        }
-    }
-
     //MARK: - Cells Manipulation Methods
     
     private func reorderMantraPositionsForDeleteAction(deletingPosition: Int) {
@@ -193,6 +184,7 @@ class MantraTableViewController: UITableViewController {
         makeAndShowMantraPickerView()
         navigationItem.rightBarButtonItem?.isEnabled = false
         navigationItem.leftBarButtonItem?.isEnabled = false
+        tableView.isScrollEnabled = false
     }
     
     private func makeAndShowMantraPickerView() {
@@ -201,7 +193,7 @@ class MantraTableViewController: UITableViewController {
         mantraPicker.delegate = self
         
         let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.default
+        toolBar.barStyle = .default
         toolBar.isTranslucent = true
         toolBar.sizeToFit()
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePreloadedMantraButtonPressed))
@@ -214,27 +206,27 @@ class MantraTableViewController: UITableViewController {
 
         mantraPickerTextField.inputView = mantraPicker
         mantraPickerTextField.inputAccessoryView = toolBar
+        mantraPicker.selectRow(0, inComponent: 0, animated: false)
         mantraPickerTextField.becomeFirstResponder()
     }
     
     @objc private func cancelPreloadedMantraButtonPressed() {
-        mantraPickerTextField.resignFirstResponder()
-        mantraPicker.selectRow(0, inComponent: 0, animated: false)
-        setInitialBarButtonsState()
+        dismissMantraPickerView()
     }
     
     @objc private func donePreloadedMantraButtonPressed() {
+        
         mantraPickerTextField.resignFirstResponder()
-        setInitialBarButtonsState()
         if isMantraDuplicating() {
             duplicatingAlert()
         } else {
             addPreloadedMantra()
-            mantraPicker.selectRow(0, inComponent: 0, animated: false)
+            dismissMantraPickerView()
         }
     }
     
     private func isMantraDuplicating() -> Bool {
+        
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
         var isDuplicating = false
         mantraArray.forEach { (mantra) in
@@ -246,13 +238,14 @@ class MantraTableViewController: UITableViewController {
     }
     
     private func duplicatingAlert() {
-        let alert = UIAlertController(title: "", message: NSLocalizedString("This mantra is already in your list. Add another one?", comment: "Alert Message on MantraTableViewController"), preferredStyle: .alert)
+        
+        let alert = UIAlertController(title: nil, message: NSLocalizedString("It's already in your mantra list. Add another one?", comment: "Alert Message on MantraTableViewController"), preferredStyle: .alert)
         let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraTableViewController"), style: .default) { [weak self] (action) in
             self?.addPreloadedMantra()
-            self?.mantraPicker.selectRow(0, inComponent: 0, animated: false)
+            self?.dismissMantraPickerView()
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"), style: .destructive) { [weak self] (action) in
-            self?.setPreloadedMantraPickerState()
+            self?.mantraPickerTextField.becomeFirstResponder()
         }
         alert.addAction(addAction)
         alert.addAction(cancelAction)
@@ -273,6 +266,12 @@ class MantraTableViewController: UITableViewController {
         saveMantras()
         tableView.reloadData()
     }
+
+    private func dismissMantraPickerView() {
+        mantraPickerTextField.resignFirstResponder()
+        setInitialBarButtonsState()
+        tableView.isScrollEnabled = true
+    }
     
     //MARK: - Table Edit Buttons Actions
     
@@ -289,6 +288,7 @@ class MantraTableViewController: UITableViewController {
     //MARK: - Model Manipulation
     
     private func loadMantras() {
+        
         context.reset()
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "position", ascending: true)]
@@ -325,3 +325,4 @@ extension MantraTableViewController: UIPickerViewDelegate, UIPickerViewDataSourc
         InitialMantra.data[row][.title]
     }
 }
+

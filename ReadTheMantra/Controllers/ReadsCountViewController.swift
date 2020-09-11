@@ -11,7 +11,6 @@ import UIKit
 class ReadsCountViewController: UIViewController {
     
     private let mantra: Mantra
-    private let formatter = NumberFormatter()
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -51,7 +50,7 @@ class ReadsCountViewController: UIViewController {
         updateUI()
     }
     
-    @objc func infoButtonPressed() {
+    @objc private func infoButtonPressed() {
         guard let detailsViewController = storyboard?.instantiateViewController(
             identifier: K.detailsViewControllerID,
             creator: { [weak self] coder in
@@ -71,16 +70,19 @@ class ReadsCountViewController: UIViewController {
         }
         
         titleLabel.text = mantra.title
+        
+        let formatter = NumberFormatter()
         formatter.groupingSeparator = " "
         formatter.numberStyle = .decimal
         let formattedReads = formatter.string(from: NSNumber(value: mantra.reads))
         readsLabel.text = formattedReads
+        
         progressView.progress = Float(mantra.reads) / Float(100_000)
         
         setReadsLabelColor()
     }
     
-    //MARK: - Action Methods
+    //MARK: - Updating Reads Count
     
     @IBAction func addRoundsPressed(_ sender: UIButton) {
         updatingAlert(updatingType: .rounds)
@@ -109,7 +111,7 @@ class ReadsCountViewController: UIViewController {
             actionTitle = NSLocalizedString("Done", comment: "Alert Button on ReadsCountViewController")
         }
         
-        let alert = UIAlertController(title: alertTitle, message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
         let addAction = UIAlertAction(title: actionTitle, style: .cancel) { [weak self] (action) in
             self?.updateReadsCount(from: alert, with: updatingType)
         }
@@ -159,14 +161,14 @@ class ReadsCountViewController: UIViewController {
         switch stage {
         case .fourty:
             let alert = UIAlertController(title: NSLocalizedString("Congratulations! You've reached 40 000 reads!", comment: "Alert Title on ReadsCountViewController"),
-                                          message: "",
+                                          message: nil,
                                           preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             alert.addAction(okAction)
             present(alert, animated: true, completion: nil)
         case .hundred:
             let alert = UIAlertController(title: NSLocalizedString("Congratulations! You've reached 100 000 reads!", comment: "Alert Title on ReadsCountViewController"),
-                                          message: "",
+                                          message: nil,
                                           preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             alert.addAction(okAction)
@@ -176,24 +178,14 @@ class ReadsCountViewController: UIViewController {
     
     private func incorrectData() {
         let alert = UIAlertController(title: NSLocalizedString("Please add a valid number", comment: "Alert Title on ReadsCountViewController"),
-                                      message: "",
+                                      message: nil,
                                       preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
     }
     
-    //MARK: - Model Manipulation
-    
-    private func saveMantras() {
-        do {
-            try context.save()
-        } catch {
-            print("Error saving context, \(error)")
-        }
-    }
-    
-    //MARK: - Supportive Methods
+    //MARK: - UI Appearance Methods
     
     private func setButtonsTitles() {
         
@@ -236,6 +228,16 @@ class ReadsCountViewController: UIViewController {
         }
         readsLabel.textColor = color
     }
+    
+    //MARK: - Model Manipulation
+    
+    private func saveMantras() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context, \(error)")
+        }
+    }
 }
 
 //MARK: - Updating Type
@@ -258,3 +260,4 @@ extension ReadsCountViewController {
         case hundred
     }
 }
+

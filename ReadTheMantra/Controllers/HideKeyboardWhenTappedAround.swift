@@ -1,5 +1,5 @@
 //
-//  HideKeyboardWhenTapped.swift
+//  HideKeyboardWhenTappedAround.swift
 //  ReadTheMantra
 //
 //  Created by Александр Воробьев on 16.08.2020.
