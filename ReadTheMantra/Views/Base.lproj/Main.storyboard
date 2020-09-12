@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bNa-Kq-l66">
-    <device id="retina4_7" orientation="portrait" appearance="dark"/>
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -15,8 +15,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="e9C-J1-yrM">
-                                <rect key="frame" x="30" y="30" width="315" height="577"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="e9C-J1-yrM">
+                                <rect key="frame" x="30" y="30" width="315" height="597"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BCV-ux-fzK">
                                         <rect key="frame" x="117.5" y="0.0" width="80" height="80"/>
@@ -26,25 +26,21 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="BHh-S2-BgG">
-                                        <rect key="frame" x="0.0" y="106" width="315" height="41"/>
+                                        <rect key="frame" x="0.0" y="119.5" width="315" height="41"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
                                         <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="0NB-L1-wFq">
-                                        <rect key="frame" x="0.0" y="171.5" width="315" height="83.5"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="70"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DFs-zT-Tdp">
-                                        <rect key="frame" x="0.0" y="297" width="315" height="5"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iWm-Ad-Ucn" customClass="CircularProgressBar" customModule="MantraCounter" customModuleProvider="target">
+                                        <rect key="frame" x="72.5" y="200" width="170" height="170"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="5" id="UmR-gN-ifH"/>
+                                            <constraint firstAttribute="height" constant="170" id="FRM-6I-dmP"/>
+                                            <constraint firstAttribute="width" constant="170" id="mkP-7T-aBb"/>
                                         </constraints>
-                                    </progressView>
+                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="srd-KZ-7xV">
-                                        <rect key="frame" x="96.5" y="368" width="122" height="36"/>
+                                        <rect key="frame" x="96.5" y="410" width="122" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Add Readings"/>
                                         <connections>
@@ -52,7 +48,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AvQ-mc-bMd">
-                                        <rect key="frame" x="104" y="454.5" width="107" height="36"/>
+                                        <rect key="frame" x="104" y="485.5" width="107" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Add Rounds"/>
                                         <connections>
@@ -60,7 +56,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rqc-d1-Viy">
-                                        <rect key="frame" x="77.5" y="541" width="160" height="36"/>
+                                        <rect key="frame" x="77.5" y="561" width="160" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Manual Correction"/>
                                         <connections>
@@ -69,18 +65,14 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="DFs-zT-Tdp" firstAttribute="leading" secondItem="e9C-J1-yrM" secondAttribute="leading" id="1lq-wf-VB2"/>
                                     <constraint firstAttribute="trailing" secondItem="BHh-S2-BgG" secondAttribute="trailing" id="DiU-Xl-Y5F"/>
                                     <constraint firstItem="BHh-S2-BgG" firstAttribute="leading" secondItem="e9C-J1-yrM" secondAttribute="leading" id="Jv9-u2-vHb"/>
-                                    <constraint firstAttribute="trailing" secondItem="0NB-L1-wFq" secondAttribute="trailing" id="Mef-zs-Q0v"/>
-                                    <constraint firstItem="0NB-L1-wFq" firstAttribute="leading" secondItem="e9C-J1-yrM" secondAttribute="leading" id="eBx-IN-6I0"/>
-                                    <constraint firstAttribute="trailing" secondItem="DFs-zT-Tdp" secondAttribute="trailing" id="zYT-Mr-Tmq"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="e9C-J1-yrM" secondAttribute="bottom" constant="60" id="Rm9-5i-t5C"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="e9C-J1-yrM" secondAttribute="bottom" constant="40" id="Rm9-5i-t5C"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="e9C-J1-yrM" secondAttribute="trailing" constant="30" id="ax1-M9-wU6"/>
                             <constraint firstItem="e9C-J1-yrM" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="i6m-A3-PCZ"/>
                             <constraint firstItem="e9C-J1-yrM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="uh6-An-3eh"/>
@@ -91,16 +83,15 @@
                     <connections>
                         <outlet property="addReadingsButton" destination="srd-KZ-7xV" id="A58-33-z0x"/>
                         <outlet property="addRoundsButton" destination="AvQ-mc-bMd" id="pkf-wA-EaL"/>
+                        <outlet property="circularProgressBar" destination="iWm-Ad-Ucn" id="KXr-Bj-iWq"/>
                         <outlet property="mantraImage" destination="BCV-ux-fzK" id="Gr6-x5-tWI"/>
                         <outlet property="manualCorrectionButton" destination="rqc-d1-Viy" id="yFi-Ys-kUe"/>
-                        <outlet property="progressView" destination="DFs-zT-Tdp" id="9pv-Gf-Eqx"/>
-                        <outlet property="readsLabel" destination="0NB-L1-wFq" id="SLp-hZ-HEO"/>
                         <outlet property="titleLabel" destination="BHh-S2-BgG" id="Lzf-Fh-OlV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4532" y="509.59520239880067"/>
+            <point key="canvasLocation" x="4532" y="509.11330049261085"/>
         </scene>
         <!--Launch View Controller-->
         <scene sceneID="ma2-b8-5DO">

@@ -16,11 +16,21 @@ class ReadsCountViewController: UIViewController {
     
     @IBOutlet private weak var mantraImage: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!
-    @IBOutlet private weak var readsLabel: UILabel!
-    @IBOutlet private weak var progressView: UIProgressView!
     @IBOutlet private weak var addRoundsButton: UIButton!
     @IBOutlet private weak var addReadingsButton: UIButton!
     @IBOutlet private weak var manualCorrectionButton: UIButton!
+    @IBOutlet private weak var circularProgressBar: CircularProgressBar!
+    
+    private var mantraReadsFont: UIFont {
+        get {
+            switch mantra.reads {
+            case 1_000_000...:
+                return UIFont.boldSystemFont(ofSize: 30)
+            default:
+                return UIFont.boldSystemFont(ofSize: 35)
+            }
+        }
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -43,8 +53,12 @@ class ReadsCountViewController: UIViewController {
         
         setButtonsTitles()
         
+        circularProgressBar.lineWidth = 8
+        
         updateUI()
     }
+    
+
     
     override func viewWillAppear(_ animated: Bool) {
         updateUI()
@@ -71,15 +85,8 @@ class ReadsCountViewController: UIViewController {
         
         titleLabel.text = mantra.title
         
-        let formatter = NumberFormatter()
-        formatter.groupingSeparator = " "
-        formatter.numberStyle = .decimal
-        let formattedReads = formatter.string(from: NSNumber(value: mantra.reads))
-        readsLabel.text = formattedReads
-        
-        progressView.progress = Float(mantra.reads) / Float(100_000)
-        
-        setReadsLabelColor()
+        circularProgressBar.labelFont = mantraReadsFont
+        circularProgressBar.setProgress(to: Double(mantra.reads) / Double(100_000), withReads: Int(mantra.reads))
     }
     
     //MARK: - Updating Reads Count
@@ -140,8 +147,8 @@ class ReadsCountViewController: UIViewController {
                     mantra.reads = alertNumber
                 }
                 saveMantras()
-                updateUI()
                 readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
+                updateUI()
             } else {
                 incorrectData()
             }
@@ -212,21 +219,6 @@ class ReadsCountViewController: UIViewController {
         manualCorrectionButtonString.append(NSAttributedString(string: NSLocalizedString(" Manual Correction",
                                                                                          comment: "Button Title on ReadsCountViewController")))
         manualCorrectionButton.setAttributedTitle(manualCorrectionButtonString, for: .normal)
-    }
-    
-    private func setReadsLabelColor() {
-        var color = UIColor()
-        switch mantra.reads {
-        case 0...39_999:
-            color = UIColor.label
-        case 40_000...99_999:
-            color = UIColor.systemOrange
-        case 100_000...:
-            color = UIColor.systemPurple
-        default:
-            break
-        }
-        readsLabel.textColor = color
     }
     
     //MARK: - Model Manipulation
