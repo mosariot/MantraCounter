@@ -62,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let image = UIImage(named: value) {
                         mantra.image = image.pngData()
                     } else {
-                        mantra.image = UIImage(named: K.defaultImage_320)?.pngData()
+                        mantra.image = UIImage(named: K.defaultImage)?.pngData()
                     }
                 }
             }

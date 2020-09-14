@@ -67,20 +67,20 @@ class CircularProgressBar: UIView {
     private var radius: CGFloat {
         get {
             if self.frame.width < self.frame.height {
-                return (self.frame.width - lineWidth)/2
+                return (frame.width - lineWidth)/2
             } else {
-                return (self.frame.height - lineWidth)/2 }
+                return (frame.height - lineWidth)/2 }
         }
     }
     
     private var pathCenter: CGPoint {
         get {
-            self.convert(self.center, from: self.superview)
+            convert(center, from: superview)
         }
     }
     
     private func makeBar() {
-        self.layer.sublayers = nil
+        layer.sublayers = nil
         drawBackgroundLayer()
         drawForegroundLayer()
     }
@@ -109,7 +109,7 @@ class CircularProgressBar: UIView {
         foregroundLayer.strokeColor = UIColor.systemBlue.cgColor
         foregroundLayer.strokeEnd = 0
         
-        self.layer.addSublayer(foregroundLayer)
+        layer.addSublayer(foregroundLayer)
     }
     
     private func setForegroundLayerColor(reads: Int) {
@@ -134,6 +134,6 @@ class CircularProgressBar: UIView {
     
     private func setupView() {
         makeBar()
-        self.addSubview(label)
+        addSubview(label)
     }
 }

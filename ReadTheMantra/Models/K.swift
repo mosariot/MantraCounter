@@ -13,5 +13,6 @@ struct K {
     static let readsCountViewControllerID = "ReadsCountViewController"
     static let detailsViewControllerID = "DetailsViewController"
     static let mantraCellID = "MantraCell"
-    static let defaultImage_320 = "DefaultImage"
+    static let defaultImage_tableView = "DefaultImage_160"
+    static let defaultImage = "DefaultImage_320"
 }

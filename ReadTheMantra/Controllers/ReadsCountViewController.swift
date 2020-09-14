@@ -26,8 +26,10 @@ class ReadsCountViewController: UIViewController {
             switch mantra.reads {
             case 1_000_000...:
                 return UIFont.boldSystemFont(ofSize: 30)
-            default:
+            case 100_000...:
                 return UIFont.boldSystemFont(ofSize: 35)
+            default:
+                return UIFont.boldSystemFont(ofSize: 40)
             }
         }
     }
@@ -58,20 +60,15 @@ class ReadsCountViewController: UIViewController {
         updateUI()
     }
     
-
-    
-    override func viewWillAppear(_ animated: Bool) {
-        updateUI()
-    }
-    
     @objc private func infoButtonPressed() {
         guard let detailsViewController = storyboard?.instantiateViewController(
             identifier: K.detailsViewControllerID,
             creator: { [weak self] coder in
                 guard let self = self else { fatalError() }
-                return DetailsViewController(mantra: self.mantra, mode: .view, position: Int(self.mantra.position), coder: coder)
+                return DetailsViewController(mantra: self.mantra, mode: .view, position: Int(self.mantra.position), delegate: self, coder: coder)
         }) else { return }
-        show(detailsViewController, sender: self)
+        let navigationController = UINavigationController(rootViewController: detailsViewController)
+        present(navigationController, animated: true)
     }
     
     //MARK: - Update UI
@@ -80,13 +77,14 @@ class ReadsCountViewController: UIViewController {
         if let imageData = mantra.image {
             mantraImage.image = UIImage(data: imageData)
         } else {
-            mantraImage.image = UIImage(named: K.defaultImage_320)
+            mantraImage.image = UIImage(named: K.defaultImage)
         }
         
         titleLabel.text = mantra.title
         
         circularProgressBar.labelFont = mantraReadsFont
-        circularProgressBar.setProgress(to: Double(mantra.reads) / Double(100_000), withReads: Int(mantra.reads))
+        let progress = Double(mantra.reads) / Double(100_000)
+        circularProgressBar.setProgress(to: progress, withReads: Int(mantra.reads))
     }
     
     //MARK: - Updating Reads Count
@@ -192,7 +190,7 @@ class ReadsCountViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    //MARK: - UI Appearance Methods
+    //MARK: - Button Initial Appearance
     
     private func setButtonsTitles() {
         
@@ -229,6 +227,14 @@ class ReadsCountViewController: UIViewController {
         } catch {
             print("Error saving context, \(error)")
         }
+    }
+}
+
+//MARK: - DetailsViewController Delegate (Updating View)
+
+extension ReadsCountViewController: DetailsViewControllerDelegate {
+    func updateView() {
+        updateUI()
     }
 }
 

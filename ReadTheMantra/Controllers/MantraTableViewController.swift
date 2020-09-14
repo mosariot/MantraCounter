@@ -12,6 +12,7 @@ import CoreData
 class MantraTableViewController: UITableViewController {
     
     private var mantraArray = [Mantra]()
+    private var currentMantrasQuantity = 0
     private lazy var mantraPicker = UIPickerView()
     private lazy var mantraPickerTextField = UITextField(frame: CGRect.zero)
     
@@ -27,19 +28,11 @@ class MantraTableViewController: UITableViewController {
         navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
         
         loadMantras()
+        currentMantrasQuantity = mantraArray.count
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setInitialBarButtonsState()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
         loadMantras()
-    }
-    
-    func setInitialBarButtonsState() {
-        navigationItem.rightBarButtonItem?.isEnabled = true
-        navigationItem.leftBarButtonItem?.isEnabled = true
     }
     
     // MARK: - TableView DataSource
@@ -58,7 +51,7 @@ class MantraTableViewController: UITableViewController {
         if let imageData = mantra.image {
             cell.imageView?.image = UIImage(data: imageData)
         } else {
-            cell.imageView?.image = UIImage(named: K.defaultImage_320)
+            cell.imageView?.image = UIImage(named: K.defaultImage_tableView)
         }
         
         cell.accessoryType = .disclosureIndicator
@@ -175,9 +168,10 @@ class MantraTableViewController: UITableViewController {
             identifier: K.detailsViewControllerID,
             creator: { [weak self] coder in
                 guard let self = self else { fatalError() }
-                return DetailsViewController(mantra: mantra, mode: .edit, position: self.mantraArray.count, coder: coder)
+                return DetailsViewController(mantra: mantra, mode: .add, position: self.mantraArray.count, delegate: self, coder: coder)
         }) else { return }
-        show(detailsViewController, sender: self)
+        let navigationController = UINavigationController(rootViewController: detailsViewController)
+        present(navigationController, animated: true)
     }
     
     private func setPreloadedMantraPickerState() {
@@ -261,15 +255,18 @@ class MantraTableViewController: UITableViewController {
         mantra.title = preloadedMantra[.title]
         mantra.text = preloadedMantra[.text]
         mantra.details = preloadedMantra[.details]
-        mantra.image = UIImage(named: preloadedMantra[.image] ?? K.defaultImage_320)?.pngData()
+        mantra.image = UIImage(named: preloadedMantra[.image] ?? K.defaultImage)?.pngData()
         mantraArray.append(mantra)
         saveMantras()
         tableView.reloadData()
+        let indexPath = IndexPath(row: mantraArray.count-1, section: 0)
+        tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
 
     private func dismissMantraPickerView() {
         mantraPickerTextField.resignFirstResponder()
-        setInitialBarButtonsState()
+        navigationItem.rightBarButtonItem?.isEnabled = true
+        navigationItem.leftBarButtonItem?.isEnabled = true
         tableView.isScrollEnabled = true
     }
     
@@ -289,7 +286,6 @@ class MantraTableViewController: UITableViewController {
     
     private func loadMantras() {
         
-        context.reset()
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "position", ascending: true)]
         do {
@@ -305,6 +301,19 @@ class MantraTableViewController: UITableViewController {
             try context.save()
         } catch {
             print("Error saving context, \(error)")
+        }
+    }
+}
+
+//MARK: - DetailsViewController Delegate (Load Mantras With Quantity Check)
+
+extension MantraTableViewController: DetailsViewControllerDelegate {
+    
+    func updateView() {
+        loadMantras()
+        if currentMantrasQuantity < mantraArray.count {
+            let indexPath = IndexPath(row: mantraArray.count-1, section: 0)
+            tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
     }
 }

@@ -8,12 +8,17 @@
 
 import UIKit
 
+protocol DetailsViewControllerDelegate: class {
+    func updateView()
+}
+
 class DetailsViewController: UIViewController {
     
     private var mantra: Mantra
     private var mode: DetailsMode
     private var position: Int
     private var mantraImageData: Data?
+    private weak var delegate: DetailsViewControllerDelegate?
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -29,11 +34,12 @@ class DetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init?(mantra: Mantra, mode: DetailsMode, position: Int, coder: NSCoder) {
+    init?(mantra: Mantra, mode: DetailsMode, position: Int, delegate: DetailsViewControllerDelegate, coder: NSCoder) {
         self.mantra = mantra
         self.position = position
         self.mode = mode
         mantraImageData = mantra.image ?? nil
+        self.delegate = delegate
         super.init(coder: coder)
     }
     
@@ -47,26 +53,29 @@ class DetailsViewController: UIViewController {
         setMantraTextPlaceholder()
         setDetailsPlaceholder()
         
-        updateUI()
-        
-        mantraTextTextView.delegate = self
-        detailsTextView.delegate = self
-    }
-    
-    private func updateUI() {
-        if let imageData = mantraImageData {
-            let image = UIImage(data: imageData)
-            setPhotoButton.setImage(image, for: .normal)
-        } else {
-            let image = UIImage(named: K.defaultImage_320)
-            setPhotoButton.setImage(image, for: .normal)
-        }
+        setupUI()
         
         switch mode {
+        case .add:
+            setAddMode()
         case .edit:
             setEditMode()
         case .view:
             setViewMode()
+        }
+        
+        navigationController?.presentationController?.delegate = self
+        mantraTextTextView.delegate = self
+        detailsTextView.delegate = self
+    }
+    
+    private func setupUI() {
+        if let imageData = mantraImageData {
+            let image = UIImage(data: imageData)
+            setPhotoButton.setImage(image, for: .normal)
+        } else {
+            let image = UIImage(named: K.defaultImage)
+            setPhotoButton.setImage(image, for: .normal)
         }
         
         titleTextField.text = mantra.title
@@ -74,8 +83,21 @@ class DetailsViewController: UIViewController {
         detailsTextView.text = mantra.details
     }
     
+    private func setAddMode() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .done, target: self, action: #selector(addButtonPressed))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonPressed))
+        setPhotoButton.isUserInteractionEnabled = true
+        titleTextField.isUserInteractionEnabled = true
+        mantraTextTextView.isEditable = true
+        detailsTextView.isEditable = true
+        titleTextField.becomeFirstResponder()
+        mantraTextPlaceholderLabel.isHidden = !mantraTextTextView.text.isEmpty
+        detailsPlaceholderLabel.isHidden = !detailsTextView.text.isEmpty
+    }
+    
     private func setEditMode() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPressed))
         setPhotoButton.isUserInteractionEnabled = true
         titleTextField.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
@@ -87,6 +109,7 @@ class DetailsViewController: UIViewController {
     
     private func setViewMode() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPressed))
         setPhotoButton.isUserInteractionEnabled = false
         titleTextField.isUserInteractionEnabled = false
         mantraTextTextView.isEditable = false
@@ -98,22 +121,42 @@ class DetailsViewController: UIViewController {
         detailsPlaceholderLabel.isHidden = true
     }
     
-    //MARK: - Edit/Done Button Methods
+    //MARK: - Buttons Methods
     
-    @objc func editButtonPressed() {
-        mode = .edit
-        updateUI()
-    }
-    
-    @objc func doneButtonPressed() {
+    @objc private func addButtonPressed() {
         if let title = titleTextField.text, let text = mantraTextTextView.text, let details = detailsTextView.text, title != "" {
             processMantra(title: title, text: text, details: details)
             saveMantras()
-            mode = .view
-            updateUI()
+            context.reset()
+            delegate?.updateView()
+            dismiss(animated: true, completion: nil)
         } else {
             incorrectTitleAlert()
         }
+    }
+    
+    @objc private func cancelButtonPressed() {
+        context.reset()
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func editButtonPressed() {
+        setEditMode()
+    }
+    
+    @objc private func doneButtonPressed() {
+        if let title = titleTextField.text, let text = mantraTextTextView.text, let details = detailsTextView.text, title != "" {
+            processMantra(title: title, text: text, details: details)
+            saveMantras()
+            setViewMode()
+        } else {
+            incorrectTitleAlert()
+        }
+    }
+    
+    @objc private func closeButtonPressed() {
+        delegate?.updateView()
+        dismiss(animated: true, completion: nil)
     }
     
     private func processMantra(title: String, text: String, details: String) {
@@ -143,7 +186,7 @@ class DetailsViewController: UIViewController {
         }
         let defaultPhotoAction = UIAlertAction(title: NSLocalizedString("Default Photo", comment: "Alert Title on DetailsViewController"),
                                                style: .default) { [weak self] (action) in
-                                                self?.setPhotoButton.setImage(UIImage(named: K.defaultImage_320), for: .normal)
+                                                self?.setPhotoButton.setImage(UIImage(named: K.defaultImage), for: .normal)
                                                 self?.mantraImageData = nil
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -169,7 +212,7 @@ class DetailsViewController: UIViewController {
             mantraTextPlaceholderLabel.sizeToFit()
             mantraTextTextView.addSubview(mantraTextPlaceholderLabel)
             mantraTextPlaceholderLabel.frame.origin = CGPoint(x: 5, y: fontPointSize / 3)
-            mantraTextPlaceholderLabel.textColor = .systemGray2
+            mantraTextPlaceholderLabel.textColor = .placeholderText
             mantraTextPlaceholderLabel.isHidden = !mantraTextTextView.text.isEmpty
         }
     }
@@ -184,7 +227,7 @@ class DetailsViewController: UIViewController {
             detailsPlaceholderLabel.sizeToFit()
             detailsTextView.addSubview(detailsPlaceholderLabel)
             detailsPlaceholderLabel.frame.origin = CGPoint(x: 5, y: fontPointSize / 3)
-            detailsPlaceholderLabel.textColor = .systemGray2
+            detailsPlaceholderLabel.textColor = .placeholderText
             detailsPlaceholderLabel.isHidden = !detailsTextView.text.isEmpty
         }
     }
@@ -227,3 +270,8 @@ extension DetailsViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 }
 
+extension DetailsViewController: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        delegate?.updateView()
+    }
+}
