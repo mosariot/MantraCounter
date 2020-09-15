@@ -56,6 +56,7 @@ class ReadsCountViewController: UIViewController {
         setButtonsTitles()
         
         circularProgressBar.lineWidth = 8
+        circularProgressBar.currentValue = Int(mantra.reads)
         
         updateUI()
     }
@@ -82,9 +83,8 @@ class ReadsCountViewController: UIViewController {
         
         titleLabel.text = mantra.title
         
+        circularProgressBar.setValue(to: Int(mantra.reads))
         circularProgressBar.labelFont = mantraReadsFont
-        let progress = Double(mantra.reads) / Double(100_000)
-        circularProgressBar.setProgress(to: progress, withReads: Int(mantra.reads))
     }
     
     //MARK: - Updating Reads Count
@@ -258,4 +258,3 @@ extension ReadsCountViewController {
         case hundred
     }
 }
-

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+// import PhotosUI
 
 protocol DetailsViewControllerDelegate: class {
     func updateView()
@@ -18,6 +19,7 @@ class DetailsViewController: UIViewController {
     private var mode: DetailsMode
     private var position: Int
     private var mantraImageData: Data?
+    private var mantraImageForTableViewData: Data?
     private weak var delegate: DetailsViewControllerDelegate?
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -26,6 +28,10 @@ class DetailsViewController: UIViewController {
     @IBOutlet private weak var titleTextField: UITextField!
     @IBOutlet private weak var mantraTextTextView: UITextView!
     @IBOutlet private weak var detailsTextView: UITextView!
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var mantraTextLabel: UILabel!
+    @IBOutlet weak var detailsTextLabel: UILabel!
     
     private var mantraTextPlaceholderLabel : UILabel!
     private var detailsPlaceholderLabel : UILabel!
@@ -40,6 +46,7 @@ class DetailsViewController: UIViewController {
         self.mode = mode
         mantraImageData = mantra.image ?? nil
         self.delegate = delegate
+        
         super.init(coder: coder)
     }
     
@@ -50,6 +57,10 @@ class DetailsViewController: UIViewController {
         
         hideKeyboardWhenTappedAround()
         
+        titleLabel.text = NSLocalizedString("Title", comment: "Mantra title label")
+        mantraTextLabel.text = NSLocalizedString("Mantra text", comment: "Mantra text label")
+        detailsTextLabel.text = NSLocalizedString("Description", comment: "Mantra description label")
+        titleTextField.placeholder = NSLocalizedString("Enter mantra title", comment: "Mantra title placeholder")
         setMantraTextPlaceholder()
         setDetailsPlaceholder()
         
@@ -84,7 +95,7 @@ class DetailsViewController: UIViewController {
     }
     
     private func setAddMode() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .done, target: self, action: #selector(addButtonPressed))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: "Button on MantraTableViewController"), style: .done, target: self, action: #selector(addButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonPressed))
         setPhotoButton.isUserInteractionEnabled = true
         titleTextField.isUserInteractionEnabled = true
@@ -137,6 +148,7 @@ class DetailsViewController: UIViewController {
     
     @objc private func cancelButtonPressed() {
         context.reset()
+        delegate?.updateView()
         dismiss(animated: true, completion: nil)
     }
     
@@ -148,6 +160,7 @@ class DetailsViewController: UIViewController {
         if let title = titleTextField.text, let text = mantraTextTextView.text, let details = detailsTextView.text, title != "" {
             processMantra(title: title, text: text, details: details)
             saveMantras()
+            delegate?.updateView()
             setViewMode()
         } else {
             incorrectTitleAlert()
@@ -165,6 +178,7 @@ class DetailsViewController: UIViewController {
         mantra.details = details
         mantra.position = Int32(position)
         mantra.image = mantraImageData ?? nil
+        mantra.imageForTableView = mantraImageForTableViewData ?? nil
     }
     
     private func incorrectTitleAlert() {
@@ -179,16 +193,19 @@ class DetailsViewController: UIViewController {
     //MARK: - SetPhoto Action
     
     @IBAction func setPhotoButtonPressed(_ sender: UIButton) {
+    
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let photoLibraryAction = UIAlertAction(title: NSLocalizedString("Photo Library", comment: "Alert Title on DetailsViewController"),
                                                style: .default) { [weak self] (action) in
                                                 self?.showImagePicker()
         }
+     
         let defaultPhotoAction = UIAlertAction(title: NSLocalizedString("Default Photo", comment: "Alert Title on DetailsViewController"),
                                                style: .default) { [weak self] (action) in
                                                 self?.setPhotoButton.setImage(UIImage(named: K.defaultImage), for: .normal)
                                                 self?.mantraImageData = nil
         }
+    
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(photoLibraryAction)
         alert.addAction(defaultPhotoAction)
@@ -197,12 +214,22 @@ class DetailsViewController: UIViewController {
     }
     
     private func showImagePicker() {
-        let picker = UIImagePickerController()
-        picker.allowsEditing = true
-        picker.sourceType = .photoLibrary
-        picker.delegate = self
-        present(picker, animated: true)
+//        if #available(iOS 14.0, *) {
+//              var configuration = PHPickerConfiguration()
+//              configuration.filter = .images
+//              let picker = PHPickerViewController(configuration: configuration)
+//              picker.delegate = self
+//              present(picker, animated: true, completion: nil)
+//        } else {
+            let picker = UIImagePickerController()
+            picker.allowsEditing = true
+            picker.sourceType = .photoLibrary
+            picker.delegate = self
+            present(picker, animated: true)
+//        }
     }
+    
+    //MARK: - TextViews Placeholders
     
     private func setMantraTextPlaceholder() {
         mantraTextPlaceholderLabel = UILabel()
@@ -217,8 +244,6 @@ class DetailsViewController: UIViewController {
         }
     }
     
-    //MARK: - Placeholders
-    
     private func setDetailsPlaceholder() {
         detailsPlaceholderLabel = UILabel()
         detailsPlaceholderLabel.text = NSLocalizedString("Enter mantra description", comment: "Mantra description placeholder")
@@ -232,7 +257,7 @@ class DetailsViewController: UIViewController {
         }
     }
 
-//MARK: - Model Manipulation
+    //MARK: - Model Manipulation
     
     private func saveMantras() {
         do {
@@ -241,9 +266,25 @@ class DetailsViewController: UIViewController {
             print("Error saving context, \(error)")
         }
     }
+
+    //MARK: - Process Image
+
+    private func processImage (image: UIImage) {
+        let circledImage = image.circle()
+        let resizedCircledImage = circledImage?.resize(to: CGSize(width: 320, height: 320))
+        let resizedCircledImageForTableView = circledImage?.resize(to: CGSize(width: 160, height: 160))
+        
+        if let imageData = resizedCircledImage?.pngData() {
+            mantraImageData = imageData
+            setPhotoButton.setImage(resizedCircledImage, for: .normal)
+        }
+        if let imageData = resizedCircledImageForTableView?.pngData() {
+            mantraImageForTableViewData = imageData
+        }
+    }
 }
 
-//MARK: - TextView Delegate
+//MARK: - TextView Delegate (Handling TextViews Placeholders)
 
 extension DetailsViewController: UITextViewDelegate {
     
@@ -258,20 +299,45 @@ extension DetailsViewController: UITextViewDelegate {
 extension DetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image = info[.editedImage] as? UIImage else { return }
-        let circledImage = image.circle()
-        let resizedCircledImage = circledImage?.resize(to: CGSize(width: 320, height: 320))
-        
-        if let imageData = resizedCircledImage?.pngData() {
-            mantraImageData = imageData
-            setPhotoButton.setImage(resizedCircledImage, for: .normal)
-        }
         dismiss(animated: true)
+        guard let image = info[.editedImage] as? UIImage else { return }
+        
+        processImage(image: image)
     }
 }
 
+//MARK: - PHPickerViewController Delegate
+
+//extension ViewController: PHPickerViewControllerDelegate {
+//    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+//        dismiss(animated: true, completion: nil)
+//        guard !results.isEmpty else { return }
+//        if provider.canLoadObject(ofClass: UIImage.self) {
+//            provider.loadObject(ofClass: UIImage.self) { (image, error) in
+//                DispatchQueue.main.async {
+//                    if let image = image as? UIImage {
+//                        processImage(image: image)
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+
+//MARK: - UIAdaptivePresentationController Delegate (Handling dismisson of modal view)
+
 extension DetailsViewController: UIAdaptivePresentationControllerDelegate {
+
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        delegate?.updateView()
+        switch delegate {
+        case is MantraTableViewController:
+            context.reset()
+            delegate?.updateView()
+        case is ReadsCountViewController:
+            delegate?.updateView()
+        default:
+            return
+        }
     }
 }
+

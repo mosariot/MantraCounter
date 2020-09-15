@@ -42,7 +42,6 @@
 		9F5FE69C24E717A200D0475E /* ReadsCountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadsCountViewController.swift; sourceTree = "<group>"; };
 		9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialMantraData.swift; sourceTree = "<group>"; };
 		9F5FE6A424E7183E00D0475E /* DetailsMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsMode.swift; sourceTree = "<group>"; };
-		9F5FE6A824E71E1200D0475E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		9F5FE6AC24E78EE400D0475E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9F5FE6B524E9262B00D0475E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9F5FE6B724E9263300D0475E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -101,8 +100,8 @@
 				9F5FE69B24E717A200D0475E /* MantraTableViewController.swift */,
 				9F5FE69A24E717A200D0475E /* DetailsViewController.swift */,
 				9F5FE69C24E717A200D0475E /* ReadsCountViewController.swift */,
-				9F5FE6B824E9B6E500D0475E /* CircleAndResizeUIImage.swift */,
 				9FB47BEE250BF23C001955F5 /* CircularProgressBar.swift */,
+				9F5FE6B824E9B6E500D0475E /* CircleAndResizeUIImage.swift */,
 				9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift */,
 			);
 			path = Controllers;
@@ -242,7 +241,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				9F5FE68A24E7141400D0475E /* Base */,
-				9F5FE6A824E71E1200D0475E /* ru */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

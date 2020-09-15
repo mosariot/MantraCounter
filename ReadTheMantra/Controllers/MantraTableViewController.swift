@@ -48,7 +48,7 @@ class MantraTableViewController: UITableViewController {
         cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
         cell.detailTextLabel?.textColor = .systemGray
         
-        if let imageData = mantra.image {
+        if let imageData = mantra.imageForTableView {
             cell.imageView?.image = UIImage(data: imageData)
         } else {
             cell.imageView?.image = UIImage(named: K.defaultImage_tableView)
@@ -256,6 +256,7 @@ class MantraTableViewController: UITableViewController {
         mantra.text = preloadedMantra[.text]
         mantra.details = preloadedMantra[.details]
         mantra.image = UIImage(named: preloadedMantra[.image] ?? K.defaultImage)?.pngData()
+        mantra.imageForTableView = UIImage(named: preloadedMantra[.imageForTableView] ?? K.defaultImage_tableView)?.pngData()
         mantraArray.append(mantra)
         saveMantras()
         tableView.reloadData()
@@ -334,4 +335,3 @@ extension MantraTableViewController: UIPickerViewDelegate, UIPickerViewDataSourc
         InitialMantra.data[row][.title]
     }
 }
-

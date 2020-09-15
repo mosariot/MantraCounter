@@ -195,7 +195,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter mantra title" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="YbO-xG-hna">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="YbO-xG-hna">
                                                 <rect key="frame" x="20" y="201.5" width="335" height="43"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="43" id="klb-EA-vbT"/>
@@ -265,9 +265,12 @@
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="dj2-g2-Fdu"/>
                     <connections>
+                        <outlet property="detailsTextLabel" destination="oer-C2-YaE" id="YeA-Fc-Yxy"/>
                         <outlet property="detailsTextView" destination="dBV-0g-Qvz" id="9J1-jv-14H"/>
+                        <outlet property="mantraTextLabel" destination="rxE-9v-7MR" id="AhN-Rp-mn9"/>
                         <outlet property="mantraTextTextView" destination="Xhj-0A-Osd" id="ySH-db-OsM"/>
                         <outlet property="setPhotoButton" destination="KXK-gN-mOv" id="yjL-oR-mog"/>
+                        <outlet property="titleLabel" destination="aGu-qb-SNX" id="4kf-Js-y1n"/>
                         <outlet property="titleTextField" destination="YbO-xG-hna" id="XJ4-Gp-cQO"/>
                     </connections>
                 </viewController>

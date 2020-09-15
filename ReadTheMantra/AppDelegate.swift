@@ -61,12 +61,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 case .image:
                     if let image = UIImage(named: value) {
                         mantra.image = image.pngData()
-                    } else {
-                        mantra.image = UIImage(named: K.defaultImage)?.pngData()
+                    }
+                case .imageForTableView:
+                    if let image = UIImage(named: value) {
+                        mantra.imageForTableView = image.pngData()
                     }
                 }
             }
-        saveContext()
+            saveContext()
         }
     }
     

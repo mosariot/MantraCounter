@@ -17,15 +17,15 @@ class LaunchViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-            goToMantraTableViewController()
+            self.goToMantraTableViewController()
         }
-        
-        func goToMantraTableViewController() {
-            if let mantraTableViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: K.mantraTableViewControllerID) as? UITableViewController {
-                let navigationController = UINavigationController(rootViewController: mantraTableViewController)
-                navigationController.modalPresentationStyle = .fullScreen
-                present(navigationController, animated: true)
-            }
+    }
+    
+    private func goToMantraTableViewController() {
+        if let mantraTableViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: K.mantraTableViewControllerID) as? UITableViewController {
+            let navigationController = UINavigationController(rootViewController: mantraTableViewController)
+            navigationController.modalPresentationStyle = .fullScreen
+            present(navigationController, animated: true)
         }
     }
 }

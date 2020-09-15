@@ -1,11 +1,1 @@
-/* Class = "UILabel"; text = "Title"; ObjectID = "aGu-qb-SNX"; */
-"aGu-qb-SNX.text" = "Название";
 
-/* Class = "UILabel"; text = "Mantra text"; ObjectID = "rxE-9v-7MR"; */
-"rxE-9v-7MR.text" = "Текст мантры";
-
-/* Class = "UILabel"; text = "Description"; ObjectID = "oer-C2-YaE"; */
-"oer-C2-YaE.text" = "Краткое описание";
-
-/* Class = "UITextField"; placeholder = "Enter mantra title"; ObjectID = "YbO-xG-hna"; */
-"YbO-xG-hna.placeholder" = "Введите название мантры";
