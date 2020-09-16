@@ -1,5 +1,5 @@
 //
-//  CircularProgressBar.swift
+//  CircularProgressView.swift
 //  ReadTheMantra
 //
 //  Created by Александр Воробьев on 11.09.2020.
@@ -19,7 +19,6 @@ class CircularProgressBar: UIView {
         label.text = "/(currentValue)"
         label.font = UIFont.boldSystemFont(ofSize: 30)
     }
-    
     
     //MARK: - Public
     
@@ -68,7 +67,7 @@ class CircularProgressBar: UIView {
     //MARK: - Private
     
     private let label = UILabel()
-    private let lineWidth: CGFloat = 8
+    private let lineWidth: CGFloat = 5
     private let foregroundLayer = CAShapeLayer()
     private let backgroundLayer = CAShapeLayer()
     private var pathCenter: CGPoint {
@@ -123,11 +122,11 @@ class CircularProgressBar: UIView {
         var font = UIFont.boldSystemFont(ofSize: 30)
         switch value {
         case 1_000_000...:
-            font = UIFont.boldSystemFont(ofSize: 30)
+            font = UIFont.systemFont(ofSize: 30)
         case 100_000...:
-            font = UIFont.boldSystemFont(ofSize: 35)
+            font = UIFont.systemFont(ofSize: 35)
         default:
-            font = UIFont.boldSystemFont(ofSize: 40)
+            font = UIFont.systemFont(ofSize: 40)
         }
         label.font = font
         label.sizeToFit()

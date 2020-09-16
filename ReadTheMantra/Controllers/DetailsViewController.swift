@@ -144,7 +144,7 @@ class DetailsViewController: UIViewController {
             delegate?.updateView()
             dismiss(animated: true, completion: nil)
         } else {
-            incorrectTitleAlert()
+            showIncorrectTitleAlert()
         }
     }
     
@@ -165,7 +165,7 @@ class DetailsViewController: UIViewController {
             delegate?.updateView()
             setViewMode()
         } else {
-            incorrectTitleAlert()
+            showIncorrectTitleAlert()
         }
     }
     
@@ -183,7 +183,7 @@ class DetailsViewController: UIViewController {
         mantra.imageForTableView = mantraImageForTableViewData ?? nil
     }
     
-    private func incorrectTitleAlert() {
+    private func showIncorrectTitleAlert() {
         let alert = UIAlertController(title: NSLocalizedString("Please add a valid title", comment: "Alert Title on DetailsViewController"),
                                       message: nil,
                                       preferredStyle: .alert)
@@ -204,9 +204,7 @@ class DetailsViewController: UIViewController {
      
         let defaultPhotoAction = UIAlertAction(title: NSLocalizedString("Standard Image", comment: "Alert Title on DetailsViewController"),
                                                style: .default) { [weak self] (action) in
-                                                self?.setPhotoButton.setImage(UIImage(named: K.defaultImage), for: .normal)
-                                                self?.mantraImageData = nil
-                                                self?.mantraImageForTableViewData = nil
+                                                self?.setDefaultImage()
         }
     
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -230,6 +228,12 @@ class DetailsViewController: UIViewController {
             picker.delegate = self
             present(picker, animated: true)
 //        }
+    }
+    
+    private func setDefaultImage() {
+        setPhotoButton.setImage(UIImage(named: K.defaultImage), for: .normal)
+        mantraImageData = nil
+        mantraImageForTableViewData = nil
     }
     
     //MARK: - TextViews Placeholders

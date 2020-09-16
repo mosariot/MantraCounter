@@ -25,7 +25,7 @@
 		9F5FE6BB24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift */; };
 		9F9299AB2502A79D003D5029 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AA2502A79D003D5029 /* LaunchViewController.swift */; };
 		9F9299AF250818B6003D5029 /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* K.swift */; };
-		9FB47BEF250BF23C001955F5 /* CircularProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB47BEE250BF23C001955F5 /* CircularProgressBar.swift */; };
+		9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,7 +49,7 @@
 		9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardWhenTappedAround.swift; sourceTree = "<group>"; };
 		9F9299AA2502A79D003D5029 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		9F9299AE250818B6003D5029 /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
-		9FB47BEE250BF23C001955F5 /* CircularProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressBar.swift; sourceTree = "<group>"; };
+		9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +100,7 @@
 				9F5FE69B24E717A200D0475E /* MantraTableViewController.swift */,
 				9F5FE69A24E717A200D0475E /* DetailsViewController.swift */,
 				9F5FE69C24E717A200D0475E /* ReadsCountViewController.swift */,
-				9FB47BEE250BF23C001955F5 /* CircularProgressBar.swift */,
+				9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */,
 				9F5FE6B824E9B6E500D0475E /* CircleAndResizeUIImage.swift */,
 				9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift */,
 			);
@@ -230,7 +230,7 @@
 				9F9299AF250818B6003D5029 /* K.swift in Sources */,
 				9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */,
 				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,
-				9FB47BEF250BF23C001955F5 /* CircularProgressBar.swift in Sources */,
+				9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -47,15 +47,17 @@ class MantraTableViewController: UITableViewController {
         cell.textLabel?.text = mantra.title
         cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
         cell.detailTextLabel?.textColor = .systemGray
-        
-        if let imageData = mantra.imageForTableView {
-            cell.imageView?.image = UIImage(data: imageData)
-        } else {
-            cell.imageView?.image = UIImage(named: K.defaultImage_tableView)
-        }
-        
+        cell.imageView?.image = imageForCell(for: mantra)
         cell.accessoryType = .disclosureIndicator
         return cell
+    }
+    
+    private func imageForCell(for mantra: Mantra) -> UIImage? {
+        if let imageData = mantra.imageForTableView {
+            return UIImage(data: imageData)
+        } else {
+            return UIImage(named: K.defaultImage_tableView)
+        }
     }
     
     //MARK: - TableView Delegate Methods
@@ -105,7 +107,7 @@ class MantraTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         
         if mantraPickerTextField.isFirstResponder {
-            dismissMantraPickerView()
+            dismissPreloadedMantraPickerState()
             return false
         } else {
             return true
@@ -186,6 +188,7 @@ class MantraTableViewController: UITableViewController {
         mantraPicker.dataSource = self
         mantraPicker.delegate = self
         
+        // make custom toolbar
         let toolBar = UIToolbar()
         toolBar.barStyle = .default
         toolBar.isTranslucent = true
@@ -205,22 +208,19 @@ class MantraTableViewController: UITableViewController {
     }
     
     @objc private func cancelPreloadedMantraButtonPressed() {
-        dismissMantraPickerView()
+        dismissPreloadedMantraPickerState()
     }
     
     @objc private func donePreloadedMantraButtonPressed() {
-        
         mantraPickerTextField.resignFirstResponder()
         if isMantraDuplicating() {
             duplicatingAlert()
         } else {
-            addPreloadedMantra()
-            dismissMantraPickerView()
+            handleAddPreloadedMantra()
         }
     }
     
     private func isMantraDuplicating() -> Bool {
-        
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
         var isDuplicating = false
         mantraArray.forEach { (mantra) in
@@ -235,15 +235,23 @@ class MantraTableViewController: UITableViewController {
         
         let alert = UIAlertController(title: nil, message: NSLocalizedString("It's already in your mantra list. Add another one?", comment: "Alert Message on MantraTableViewController"), preferredStyle: .alert)
         let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraTableViewController"), style: .default) { [weak self] (action) in
-            self?.addPreloadedMantra()
-            self?.dismissMantraPickerView()
+            self?.handleAddPreloadedMantra()
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"), style: .destructive) { [weak self] (action) in
-            self?.dismissMantraPickerView()
+            self?.dismissPreloadedMantraPickerState()
         }
         alert.addAction(addAction)
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
+    }
+    
+    private func handleAddPreloadedMantra() {
+        addPreloadedMantra()
+        saveMantras()
+        tableView.reloadData()
+        let indexPath = IndexPath(row: mantraArray.count-1, section: 0)
+        tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        dismissPreloadedMantraPickerState()
     }
     
     private func addPreloadedMantra() {
@@ -258,13 +266,9 @@ class MantraTableViewController: UITableViewController {
         mantra.image = UIImage(named: preloadedMantra[.image] ?? K.defaultImage)?.pngData()
         mantra.imageForTableView = UIImage(named: preloadedMantra[.imageForTableView] ?? K.defaultImage_tableView)?.pngData()
         mantraArray.append(mantra)
-        saveMantras()
-        tableView.reloadData()
-        let indexPath = IndexPath(row: mantraArray.count-1, section: 0)
-        tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
 
-    private func dismissMantraPickerView() {
+    private func dismissPreloadedMantraPickerState() {
         mantraPickerTextField.resignFirstResponder()
         navigationItem.rightBarButtonItem?.isEnabled = true
         navigationItem.leftBarButtonItem?.isEnabled = true
