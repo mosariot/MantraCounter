@@ -21,19 +21,6 @@ class ReadsCountViewController: UIViewController {
     @IBOutlet private weak var manualCorrectionButton: UIButton!
     @IBOutlet private weak var circularProgressBar: CircularProgressBar!
     
-    private var mantraReadsFont: UIFont {
-        get {
-            switch mantra.reads {
-            case 1_000_000...:
-                return UIFont.boldSystemFont(ofSize: 30)
-            case 100_000...:
-                return UIFont.boldSystemFont(ofSize: 35)
-            default:
-                return UIFont.boldSystemFont(ofSize: 40)
-            }
-        }
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -55,7 +42,6 @@ class ReadsCountViewController: UIViewController {
         
         setButtonsTitles()
         
-        circularProgressBar.lineWidth = 8
         circularProgressBar.currentValue = Int(mantra.reads)
         
         updateUI()
@@ -84,24 +70,23 @@ class ReadsCountViewController: UIViewController {
         titleLabel.text = mantra.title
         
         circularProgressBar.setValue(to: Int(mantra.reads))
-        circularProgressBar.labelFont = mantraReadsFont
     }
     
     //MARK: - Updating Reads Count
     
     @IBAction func addRoundsPressed(_ sender: UIButton) {
-        updatingAlert(updatingType: .rounds)
+        showUpdatingAlert(updatingType: .rounds)
     }
     
     @IBAction func addReadsPressed(_ sender: UIButton) {
-        updatingAlert(updatingType: .readings)
+        showUpdatingAlert(updatingType: .readings)
     }
     
     @IBAction func manualCorrrectionPressed(_ sender: UIButton) {
-        updatingAlert(updatingType: .manualCorrection)
+        showUpdatingAlert(updatingType: .manualCorrection)
     }
     
-    private func updatingAlert(updatingType: UpdatingType) {
+    private func showUpdatingAlert(updatingType: UpdatingType) {
         let alertTitle: String
         let actionTitle: String
         switch updatingType {
@@ -148,30 +133,30 @@ class ReadsCountViewController: UIViewController {
                 readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
                 updateUI()
             } else {
-                incorrectData()
+                showIncorrectDataAlert(updatingType: updatingType)
             }
         }
     }
     
     private func readsCongratulationsCheck(oldReads: Int32, newReads: Int32) {
-        if oldReads < 40_000 && (40_000...99_999) ~= newReads {
-            readsCongratulationsAlert(stage: .fourty)
+        if oldReads < K.firstLevel && K.firstLevel...K.secondLevel-1 ~= newReads {
+            readsCongratulationsAlert(stage: .first)
         }
-        if oldReads < 100_000 && newReads >= 100_000 {
-            readsCongratulationsAlert(stage: .hundred)
+        if oldReads < K.secondLevel && newReads >= K.secondLevel {
+            readsCongratulationsAlert(stage: .second)
         }
     }
     
     private func readsCongratulationsAlert(stage: Stage) {
         switch stage {
-        case .fourty:
+        case .first:
             let alert = UIAlertController(title: NSLocalizedString("Congratulations! You've reached 40 000 reads!", comment: "Alert Title on ReadsCountViewController"),
                                           message: nil,
                                           preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             alert.addAction(okAction)
             present(alert, animated: true, completion: nil)
-        case .hundred:
+        case .second:
             let alert = UIAlertController(title: NSLocalizedString("Congratulations! You've reached 100 000 reads!", comment: "Alert Title on ReadsCountViewController"),
                                           message: nil,
                                           preferredStyle: .alert)
@@ -181,11 +166,13 @@ class ReadsCountViewController: UIViewController {
         }
     }
     
-    private func incorrectData() {
+    private func showIncorrectDataAlert(updatingType: UpdatingType) {
         let alert = UIAlertController(title: NSLocalizedString("Please add a valid number", comment: "Alert Title on ReadsCountViewController"),
                                       message: nil,
                                       preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] (action) in
+            self?.showUpdatingAlert(updatingType: updatingType)
+        }
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
     }
@@ -214,7 +201,7 @@ class ReadsCountViewController: UIViewController {
         manualCorrectionImageAttachment.image = UIImage(systemName: "hand.draw")
         let manualCorrectionButtonString = NSMutableAttributedString(string: "")
         manualCorrectionButtonString.append(NSAttributedString(attachment: manualCorrectionImageAttachment))
-        manualCorrectionButtonString.append(NSAttributedString(string: NSLocalizedString(" Manual Correction",
+        manualCorrectionButtonString.append(NSAttributedString(string: NSLocalizedString(" Set value",
                                                                                          comment: "Button Title on ReadsCountViewController")))
         manualCorrectionButton.setAttributedTitle(manualCorrectionButtonString, for: .normal)
     }
@@ -254,7 +241,8 @@ extension ReadsCountViewController {
 extension ReadsCountViewController {
     
     enum Stage {
-        case fourty
-        case hundred
+        case first
+        case second
     }
 }
+

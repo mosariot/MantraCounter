@@ -239,7 +239,7 @@ class MantraTableViewController: UITableViewController {
             self?.dismissMantraPickerView()
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"), style: .destructive) { [weak self] (action) in
-            self?.mantraPickerTextField.becomeFirstResponder()
+            self?.dismissMantraPickerView()
         }
         alert.addAction(addAction)
         alert.addAction(cancelAction)

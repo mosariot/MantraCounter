@@ -16,31 +16,19 @@ class CircularProgressBar: UIView {
         super.awakeFromNib()
         
         setupView()
-        label.text = "0"
+        label.text = "/(currentValue)"
+        label.font = UIFont.boldSystemFont(ofSize: 30)
     }
     
     
     //MARK: - Public
     
     public var currentValue = 0
-    public var lineWidth: CGFloat = 8 {
-        didSet {
-            foregroundLayer.lineWidth = lineWidth
-            backgroundLayer.lineWidth = lineWidth - (0.2 * lineWidth)
-        }
-    }
-    public var labelFont: UIFont = .systemFont(ofSize: 35) {
-        didSet {
-            label.font = labelFont
-            label.sizeToFit()
-            configLabel()
-        }
-    }
     
-    public func setValue(to value: Int) {
+    public func setValue(to newValue: Int) {
         
         var progress: Double {
-            let progressConstant = Double(value) / Double(100_000)
+            let progressConstant = Double(newValue) / Double(K.secondLevel)
             if progressConstant > 1 { return 1 }
             else if progressConstant < 0 { return 0 }
             else { return progressConstant }
@@ -50,28 +38,28 @@ class CircularProgressBar: UIView {
         
         // circle animation
         let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.fromValue = Double(currentValue) / Double(100_000)
+        animation.fromValue = Double(currentValue) / Double(K.secondLevel)
         animation.toValue = progress
         animation.duration = 1
         foregroundLayer.add(animation, forKey: "foregroundAnimation")
         
-        //number animation
+        // number animation
         let formatter = NumberFormatter()
         formatter.groupingSeparator = " "
         formatter.numberStyle = .decimal
         
         var currentTime: Double = 0
-        let timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { (timer) in
-            if currentTime >= 1.05 {
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] (timer) in
+            if currentTime >= 1.01 {
                 timer.invalidate()
-                self.currentValue = value
+                self?.currentValue = newValue
             } else {
-                let momentReads = Double(self.currentValue) + Double(value - self.currentValue) * currentTime
-                currentTime += 0.05
-                let formattedReads = formatter.string(from: NSNumber(value: Int(momentReads.rounded())))
-                self.label.text = formattedReads
-                self.setForegroundLayerColor(reads: Int(momentReads))
-                self.configLabel()
+                let momentValue = Double(self?.currentValue ?? 0) + Double(newValue - (self?.currentValue ?? 0)) * currentTime
+                currentTime += 0.01
+                let formattedValue = formatter.string(from: NSNumber(value: Int(momentValue.rounded())))
+                self?.label.text = formattedValue
+                self?.setForegroundLayerColor(value: Int(momentValue))
+                self?.setlabelFont(for: Int(momentValue))
             }
         }
         timer.fire()
@@ -79,9 +67,13 @@ class CircularProgressBar: UIView {
     
     //MARK: - Private
     
-    private var label = UILabel()
+    private let label = UILabel()
+    private let lineWidth: CGFloat = 8
     private let foregroundLayer = CAShapeLayer()
     private let backgroundLayer = CAShapeLayer()
+    private var pathCenter: CGPoint {
+        convert(center, from: superview)
+    }
     private var radius: CGFloat {
         if self.frame.width < self.frame.height {
             return (frame.width - lineWidth)/2
@@ -89,10 +81,11 @@ class CircularProgressBar: UIView {
             return (frame.height - lineWidth)/2 }
     }
     
-    private var pathCenter: CGPoint {
-        convert(center, from: superview)
+    private func setupView() {
+        makeBar()
+        addSubview(label)
     }
-    
+
     private func makeBar() {
         layer.sublayers = nil
         drawBackgroundLayer()
@@ -125,30 +118,34 @@ class CircularProgressBar: UIView {
         
         layer.addSublayer(foregroundLayer)
     }
-    
-    private func setForegroundLayerColor(reads: Int) {
-        var color = UIColor()
-        switch reads {
-        case 0...39_999:
-            color = UIColor.systemBlue
-        case 40_000...99_999:
-            color = UIColor.systemOrange
+        
+    private func setlabelFont(for value: Int) {
+        var font = UIFont.boldSystemFont(ofSize: 30)
+        switch value {
+        case 1_000_000...:
+            font = UIFont.boldSystemFont(ofSize: 30)
         case 100_000...:
+            font = UIFont.boldSystemFont(ofSize: 35)
+        default:
+            font = UIFont.boldSystemFont(ofSize: 40)
+        }
+        label.font = font
+        label.sizeToFit()
+        label.center = pathCenter
+    }
+    
+    private func setForegroundLayerColor(value: Int) {
+        var color = UIColor()
+        switch value {
+        case 0...Int(K.firstLevel-1):
+            color = UIColor.systemBlue
+        case Int(K.firstLevel)...Int(K.secondLevel-1):
+            color = UIColor.systemOrange
+        case Int(K.secondLevel)...:
             color = UIColor.systemPurple
         default:
             break
         }
         foregroundLayer.strokeColor = color.cgColor
     }
-    
-    private func configLabel() {
-        label.sizeToFit()
-        label.center = pathCenter
-    }
-    
-    private func setupView() {
-        makeBar()
-        addSubview(label)
-    }
 }
-

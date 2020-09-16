@@ -44,7 +44,6 @@ class DetailsViewController: UIViewController {
         self.mantra = mantra
         self.position = position
         self.mode = mode
-        mantraImageData = mantra.image ?? nil
         self.delegate = delegate
         
         super.init(coder: coder)
@@ -63,6 +62,9 @@ class DetailsViewController: UIViewController {
         titleTextField.placeholder = NSLocalizedString("Enter mantra title", comment: "Mantra title placeholder")
         setMantraTextPlaceholder()
         setDetailsPlaceholder()
+        
+        mantraImageData = mantra.image ?? nil
+        mantraImageForTableViewData = mantra.image ?? nil
         
         setupUI()
         
@@ -200,10 +202,11 @@ class DetailsViewController: UIViewController {
                                                 self?.showImagePicker()
         }
      
-        let defaultPhotoAction = UIAlertAction(title: NSLocalizedString("Default Photo", comment: "Alert Title on DetailsViewController"),
+        let defaultPhotoAction = UIAlertAction(title: NSLocalizedString("Standard Image", comment: "Alert Title on DetailsViewController"),
                                                style: .default) { [weak self] (action) in
                                                 self?.setPhotoButton.setImage(UIImage(named: K.defaultImage), for: .normal)
                                                 self?.mantraImageData = nil
+                                                self?.mantraImageForTableViewData = nil
         }
     
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
