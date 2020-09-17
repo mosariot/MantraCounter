@@ -19,7 +19,7 @@ class ReadsCountViewController: UIViewController {
     @IBOutlet private weak var addRoundsButton: UIButton!
     @IBOutlet private weak var addReadingsButton: UIButton!
     @IBOutlet private weak var manualCorrectionButton: UIButton!
-    @IBOutlet private weak var circularProgressView: CircularProgressBar!
+    @IBOutlet private weak var circularProgressView: CircularProgressView!
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -43,6 +43,7 @@ class ReadsCountViewController: UIViewController {
         setButtonsTitles()
         
         circularProgressView.currentValue = Int(mantra.reads)
+        circularProgressView.readsGoal = Int(mantra.readsGoal)
         
         updateUI()
     }
@@ -69,7 +70,7 @@ class ReadsCountViewController: UIViewController {
         
         titleLabel.text = mantra.title
         
-        circularProgressView.setValue(to: Int(mantra.reads))
+        circularProgressView.setValue(to: Int(mantra.reads), withGoal: Int(mantra.readsGoal))
     }
     
     //MARK: - Updating Reads Count
@@ -146,10 +147,10 @@ class ReadsCountViewController: UIViewController {
     }
     
     private func readsCongratulationsCheck(oldReads: Int32, newReads: Int32) {
-        if oldReads < K.firstLevel && K.firstLevel...K.secondLevel-1 ~= newReads {
+        if oldReads < mantra.readsGoal/2 && mantra.readsGoal/2...mantra.readsGoal-1 ~= newReads {
             showReadsCongratulationsAlert(level: .halfGoal)
         }
-        if oldReads < K.secondLevel && newReads >= K.secondLevel {
+        if oldReads < mantra.readsGoal && newReads >= mantra.readsGoal {
             showReadsCongratulationsAlert(level: .fullGoal)
         }
     }

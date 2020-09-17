@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CircularProgressBar: UIView {
+class CircularProgressView: UIView {
     
     //MARK: - awakeFromNib
     
@@ -23,11 +23,12 @@ class CircularProgressBar: UIView {
     //MARK: - Public
     
     public var currentValue = 0
+    public var readsGoal = 100_000
     
-    public func setValue(to newValue: Int) {
+    public func setValue(to newValue: Int, withGoal readsGoal: Int) {
         
         var progress: Double {
-            let progressConstant = Double(newValue) / Double(K.secondLevel)
+            let progressConstant = Double(newValue) / Double(readsGoal)
             if progressConstant > 1 { return 1 }
             else if progressConstant < 0 { return 0 }
             else { return progressConstant }
@@ -37,7 +38,7 @@ class CircularProgressBar: UIView {
         
         // circle animation
         let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.fromValue = Double(currentValue) / Double(K.secondLevel)
+        animation.fromValue = Double(currentValue) / Double(readsGoal)
         animation.toValue = progress
         animation.duration = 1
         foregroundLayer.add(animation, forKey: "foregroundAnimation")
@@ -136,11 +137,11 @@ class CircularProgressBar: UIView {
     private func setForegroundLayerColor(value: Int) {
         var color = UIColor()
         switch value {
-        case 0...Int(K.firstLevel-1):
+        case 0...readsGoal/2:
             color = UIColor.systemBlue
-        case Int(K.firstLevel)...Int(K.secondLevel-1):
+        case readsGoal/2...readsGoal-1:
             color = UIColor.systemOrange
-        case Int(K.secondLevel)...:
+        case readsGoal...:
             color = UIColor.systemPurple
         default:
             break

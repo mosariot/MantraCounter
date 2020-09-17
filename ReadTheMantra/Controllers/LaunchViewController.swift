@@ -12,6 +12,7 @@ class LaunchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -23,9 +24,7 @@ class LaunchViewController: UIViewController {
     
     private func goToMantraTableViewController() {
         if let mantraTableViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: K.mantraTableViewControllerID) as? UITableViewController {
-            let navigationController = UINavigationController(rootViewController: mantraTableViewController)
-            navigationController.modalPresentationStyle = .fullScreen
-            present(navigationController, animated: true)
+            show(mantraTableViewController, sender: self)
         }
     }
 }
