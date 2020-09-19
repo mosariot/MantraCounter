@@ -18,8 +18,9 @@ class ReadsCountViewController: UIViewController {
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var addRoundsButton: UIButton!
     @IBOutlet private weak var addReadingsButton: UIButton!
-    @IBOutlet private weak var manualCorrectionButton: UIButton!
+    @IBOutlet private weak var setProperValueButton: UIButton!
     @IBOutlet private weak var circularProgressView: CircularProgressView!
+    @IBOutlet weak var readsGoalButton: UIButton!
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -50,11 +51,11 @@ class ReadsCountViewController: UIViewController {
     
     @objc private func infoButtonPressed() {
         guard let detailsViewController = storyboard?.instantiateViewController(
-            identifier: K.detailsViewControllerID,
-            creator: { [weak self] coder in
-                guard let self = self else { fatalError() }
-                return DetailsViewController(mantra: self.mantra, mode: .view, position: Int(self.mantra.position), delegate: self, coder: coder)
-        }) else { return }
+                identifier: K.detailsViewControllerID,
+                creator: { [weak self] coder in
+                    guard let self = self else { fatalError() }
+                    return DetailsViewController(mantra: self.mantra, mode: .view, position: Int(self.mantra.position), delegate: self, coder: coder)
+                }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
         present(navigationController, animated: true)
     }
@@ -69,31 +70,35 @@ class ReadsCountViewController: UIViewController {
         }
         
         titleLabel.text = mantra.title
-        
-        circularProgressView.setValue(to: Int(mantra.reads), withGoal: Int(mantra.readsGoal))
+        readsGoalButton.setTitle(NSLocalizedString("Goal: ", comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(), for: .normal)
+        circularProgressView.setValue(to: Int(mantra.reads))
     }
     
-    //MARK: - Updating Reads Count
+    //MARK: - Updating ReadsCount and ReadsGoal
     
-    @IBAction func addReadsPressed(_ sender: UIButton) {
+    @IBAction func setGoalButtonPressed(_ sender: UIButton) {
+        showUpdatingAlert(updatingType: .goal)
+    }
+    
+    @IBAction func addReadsButtonPressed(_ sender: UIButton) {
         showUpdatingAlert(updatingType: .readings)
     }
     
-    @IBAction func addRoundsPressed(_ sender: UIButton) {
+    @IBAction func addRoundsButtonPressed(_ sender: UIButton) {
         showUpdatingAlert(updatingType: .rounds)
     }
     
-    @IBAction func setProperValuePressed(_ sender: UIButton) {
-        showUpdatingAlert(updatingType: .manualCorrection)
+    @IBAction func setProperValueButtonPressed(_ sender: UIButton) {
+        showUpdatingAlert(updatingType: .setProperValue)
     }
     
     private func showUpdatingAlert(updatingType: UpdatingType) {
-
+        
         let (alertTitle, actionTitle) = alertAndActionTitles(with: updatingType)
         
         let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
-        let updateAction = UIAlertAction(title: actionTitle, style: .cancel) { [weak self] (action) in
-            self?.handleUpdatingReadsCount(from: alert, with: updatingType)
+        let positiveAction = UIAlertAction(title: actionTitle, style: .cancel) { [weak self] (action) in
+            self?.handleAlertPositiveAction(from: alert, with: updatingType)
         }
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = NSLocalizedString("Enter number", comment: "Alert Placehonder on ReadsCountViewController")
@@ -102,30 +107,33 @@ class ReadsCountViewController: UIViewController {
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on ReadsCountViewController"),
                                          style: .default,
                                          handler: nil)
-        alert.addAction(updateAction)
+        alert.addAction(positiveAction)
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
     }
     
     private func alertAndActionTitles(with updatingType: UpdatingType) -> (String, String) {
         switch updatingType {
+        case .goal:
+            return (NSLocalizedString("Set new readings goal", comment: "Alert Title on ReadsCountViewController"),
+                    NSLocalizedString("Set", comment: "Alert Button on ReadsCountViewController"))
         case .rounds:
             return (NSLocalizedString("Enter Rounds Number", comment: "Alert Title on ReadsCountViewController"),
                     NSLocalizedString("Add", comment: "Alert Button on ReadsCountViewController"))
         case .readings:
             return (NSLocalizedString("Enter Readings Number", comment: "Alert Title on ReadsCountViewController"),
                     NSLocalizedString("Add", comment: "Alert Button on ReadsCountViewController"))
-        case .manualCorrection:
+        case .setProperValue:
             return (NSLocalizedString("Enter a New Readings Count", comment: "Alert Title on ReadsCountViewController"),
-                    NSLocalizedString("Done", comment: "Alert Button on ReadsCountViewController"))
+                    NSLocalizedString("Set", comment: "Alert Button on ReadsCountViewController"))
         }
     }
     
-    private func handleUpdatingReadsCount(from alert: UIAlertController, with updatingType: UpdatingType) {
+    private func handleAlertPositiveAction(from alert: UIAlertController, with updatingType: UpdatingType) {
         let oldReads = mantra.reads
         if let alertTextField = alert.textFields?.first?.text {
             if let alertNumber = Int32(alertTextField) {
-                updateReadsCount(with: alertNumber, updatingType: updatingType)
+                updateValues(with: alertNumber, updatingType: updatingType)
                 saveMantras()
                 readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
                 updateUI()
@@ -135,19 +143,22 @@ class ReadsCountViewController: UIViewController {
         }
     }
     
-    private func updateReadsCount(with value: Int32, updatingType: UpdatingType) {
+    private func updateValues(with value: Int32, updatingType: UpdatingType) {
         switch updatingType {
         case .rounds:
             mantra.reads += value * 108
         case .readings:
             mantra.reads += value
-        case .manualCorrection:
+        case .setProperValue:
             mantra.reads = value
+        case .goal:
+            mantra.readsGoal = value
+            circularProgressView.readsGoal = Int(value)
         }
     }
     
     private func readsCongratulationsCheck(oldReads: Int32, newReads: Int32) {
-        if oldReads < mantra.readsGoal/2 && mantra.readsGoal/2...mantra.readsGoal-1 ~= newReads {
+        if (oldReads < mantra.readsGoal/2 && mantra.readsGoal/2...mantra.readsGoal-1 ~= newReads) {
             showReadsCongratulationsAlert(level: .halfGoal)
         }
         if oldReads < mantra.readsGoal && newReads >= mantra.readsGoal {
@@ -210,7 +221,7 @@ class ReadsCountViewController: UIViewController {
         manualCorrectionButtonString.append(NSAttributedString(attachment: manualCorrectionImageAttachment))
         manualCorrectionButtonString.append(NSAttributedString(string: NSLocalizedString(" Set Proper Value",
                                                                                          comment: "Button Title on ReadsCountViewController")))
-        manualCorrectionButton.setAttributedTitle(manualCorrectionButtonString, for: .normal)
+        setProperValueButton.setAttributedTitle(manualCorrectionButtonString, for: .normal)
     }
     
     //MARK: - Model Manipulation
@@ -238,13 +249,14 @@ extension ReadsCountViewController: DetailsViewControllerDelegate {
 extension ReadsCountViewController {
     
     enum UpdatingType {
+        case goal
         case rounds
         case readings
-        case manualCorrection
+        case setProperValue
     }
 }
 
-//MARK: - Stage Type
+//MARK: - Level Type
 
 extension ReadsCountViewController {
     
@@ -253,4 +265,3 @@ extension ReadsCountViewController {
         case fullGoal
     }
 }
-

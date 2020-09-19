@@ -7,7 +7,7 @@
 //
 
 import UIKit
-// import PhotosUI
+import PhotosUI
 
 protocol DetailsViewControllerDelegate: class {
     func updateView()
@@ -68,15 +68,6 @@ class DetailsViewController: UIViewController {
         
         setupUI()
         
-        switch mode {
-        case .add:
-            setAddMode()
-        case .edit:
-            setEditMode()
-        case .view:
-            setViewMode()
-        }
-        
         navigationController?.presentationController?.delegate = self
         mantraTextTextView.delegate = self
         detailsTextView.delegate = self
@@ -94,6 +85,15 @@ class DetailsViewController: UIViewController {
         titleTextField.text = mantra.title
         mantraTextTextView.text = mantra.text
         detailsTextView.text = mantra.details
+        
+        switch mode {
+        case .add:
+            setAddMode()
+        case .edit:
+            setEditMode()
+        case .view:
+            setViewMode()
+        }
     }
     
     private func setAddMode() {
@@ -215,19 +215,19 @@ class DetailsViewController: UIViewController {
     }
     
     private func showImagePicker() {
-//        if #available(iOS 14.0, *) {
-//              var configuration = PHPickerConfiguration()
-//              configuration.filter = .images
-//              let picker = PHPickerViewController(configuration: configuration)
-//              picker.delegate = self
-//              present(picker, animated: true, completion: nil)
-//        } else {
+        if #available(iOS 14.0, *) {
+              var configuration = PHPickerConfiguration()
+              configuration.filter = .images
+              let picker = PHPickerViewController(configuration: configuration)
+              picker.delegate = self
+              present(picker, animated: true, completion: nil)
+        } else {
             let picker = UIImagePickerController()
             picker.allowsEditing = true
             picker.sourceType = .photoLibrary
             picker.delegate = self
             present(picker, animated: true)
-//        }
+        }
     }
     
     private func setDefaultImage() {
@@ -315,36 +315,34 @@ extension DetailsViewController: UIImagePickerControllerDelegate, UINavigationCo
 
 //MARK: - PHPickerViewController Delegate
 
-//extension ViewController: PHPickerViewControllerDelegate {
-//    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-//        dismiss(animated: true, completion: nil)
-//        guard !results.isEmpty else { return }
-//        if provider.canLoadObject(ofClass: UIImage.self) {
-//            provider.loadObject(ofClass: UIImage.self) { (image, error) in
-//                DispatchQueue.main.async {
-//                    if let image = image as? UIImage {
-//                        processImage(image: image)
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
+extension DetailsViewController: PHPickerViewControllerDelegate {
+    
+    @available(iOS 14, *)
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        dismiss(animated: true, completion: nil)
+        
+        guard !results.isEmpty else { return }
+        for result in results {
+            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (object, error) in
+                if let image = object as? UIImage {
+                    DispatchQueue.main.async {
+                        self.processImage(image: image)
+                    }
+                }
+            })
+        }
+    }
+}
 
 //MARK: - UIAdaptivePresentationController Delegate (Handling dismisson of modal view)
 
 extension DetailsViewController: UIAdaptivePresentationControllerDelegate {
-
+    
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        switch delegate {
-        case is MantraTableViewController:
+        if delegate is MantraTableViewController {
             context.reset()
-            delegate?.updateView()
-        case is ReadsCountViewController:
-            delegate?.updateView()
-        default:
-            return
         }
+        delegate?.updateView()
     }
 }
 

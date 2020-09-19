@@ -47,7 +47,7 @@ class MantraTableViewController: UITableViewController {
         let mantra = mantraArray[indexPath.row]
         cell.textLabel?.text = mantra.title
         cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
-        cell.detailTextLabel?.textColor = .systemGray
+        cell.detailTextLabel?.textColor = .secondaryLabel
         cell.imageView?.image = imageForCell(for: mantra)
         cell.accessoryType = .disclosureIndicator
         return cell

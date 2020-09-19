@@ -25,7 +25,7 @@ class CircularProgressView: UIView {
     public var currentValue = 0
     public var readsGoal = 100_000
     
-    public func setValue(to newValue: Int, withGoal readsGoal: Int) {
+    public func setValue(to newValue: Int) {
         
         var progress: Double {
             let progressConstant = Double(newValue) / Double(readsGoal)
@@ -44,10 +44,6 @@ class CircularProgressView: UIView {
         foregroundLayer.add(animation, forKey: "foregroundAnimation")
         
         // number animation
-        let formatter = NumberFormatter()
-        formatter.groupingSeparator = " "
-        formatter.numberStyle = .decimal
-        
         var currentTime: Double = 0
         let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] (timer) in
             if currentTime >= 1.01 {
@@ -56,8 +52,7 @@ class CircularProgressView: UIView {
             } else {
                 let momentValue = Double(self?.currentValue ?? 0) + Double(newValue - (self?.currentValue ?? 0)) * currentTime
                 currentTime += 0.01
-                let formattedValue = formatter.string(from: NSNumber(value: Int(momentValue.rounded())))
-                self?.label.text = formattedValue
+                self?.label.text = Int(momentValue).stringFormattedWithSpaces()
                 self?.setForegroundLayerColor(value: Int(momentValue))
                 self?.setlabelFont(for: Int(momentValue))
             }
@@ -123,11 +118,11 @@ class CircularProgressView: UIView {
         var font = UIFont.boldSystemFont(ofSize: 30)
         switch value {
         case 1_000_000...:
-            font = UIFont.systemFont(ofSize: 30)
+            font = UIFont.systemFont(ofSize: 30, weight: .medium)
         case 100_000...:
-            font = UIFont.systemFont(ofSize: 35)
+            font = UIFont.systemFont(ofSize: 35, weight: .medium)
         default:
-            font = UIFont.systemFont(ofSize: 40)
+            font = UIFont.systemFont(ofSize: 40, weight: .medium)
         }
         label.font = font
         label.sizeToFit()

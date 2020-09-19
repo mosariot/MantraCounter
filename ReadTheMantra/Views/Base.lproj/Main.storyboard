@@ -28,33 +28,46 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="BHh-S2-BgG">
-                                        <rect key="frame" x="0.0" y="119.5" width="315" height="41"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="34"/>
+                                        <rect key="frame" x="0.0" y="112.5" width="315" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="34"/>
                                         <color key="textColor" systemColor="secondaryLabelColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iWm-Ad-Ucn" customClass="CircularProgressView" customModule="MantraCounter" customModuleProvider="target">
-                                        <rect key="frame" x="72.5" y="200" width="170" height="170"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="170" id="FRM-6I-dmP"/>
-                                            <constraint firstAttribute="width" constant="170" id="mkP-7T-aBb"/>
-                                        </constraints>
-                                    </view>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="dyR-5g-ir9">
+                                        <rect key="frame" x="72.5" y="186" width="170" height="205"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iWm-Ad-Ucn" customClass="CircularProgressView" customModule="MantraCounter" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="170" height="170"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="170" id="FRM-6I-dmP"/>
+                                                    <constraint firstAttribute="width" constant="170" id="mkP-7T-aBb"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jhs-UI-TfE">
+                                                <rect key="frame" x="69" y="175" width="32" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <state key="normal" title="Goal"/>
+                                                <connections>
+                                                    <action selector="setGoalButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="R06-ct-WEI"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="srd-KZ-7xV">
-                                        <rect key="frame" x="96.5" y="410" width="122" height="36"/>
+                                        <rect key="frame" x="96.5" y="424" width="122" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Add Readings"/>
                                         <connections>
-                                            <action selector="addReadsPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZAb-mg-IKY"/>
+                                            <action selector="addReadsButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZAb-mg-IKY"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AvQ-mc-bMd">
-                                        <rect key="frame" x="104" y="485.5" width="107" height="36"/>
+                                        <rect key="frame" x="104" y="492.5" width="107" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Add Rounds"/>
                                         <connections>
-                                            <action selector="addRoundsPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aeU-gi-suA"/>
+                                            <action selector="addRoundsButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aeU-gi-suA"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rqc-d1-Viy" userLabel="Set Proper Value Button">
@@ -62,7 +75,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Set Proper Value"/>
                                         <connections>
-                                            <action selector="setProperValuePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iff-Kn-mcC"/>
+                                            <action selector="setProperValueButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bdM-ah-qU0"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -87,7 +100,8 @@
                         <outlet property="addRoundsButton" destination="AvQ-mc-bMd" id="pkf-wA-EaL"/>
                         <outlet property="circularProgressView" destination="iWm-Ad-Ucn" id="KXr-Bj-iWq"/>
                         <outlet property="mantraImage" destination="BCV-ux-fzK" id="Gr6-x5-tWI"/>
-                        <outlet property="manualCorrectionButton" destination="rqc-d1-Viy" id="yFi-Ys-kUe"/>
+                        <outlet property="readsGoalButton" destination="jhs-UI-TfE" id="DAN-Px-GVQ"/>
+                        <outlet property="setProperValueButton" destination="rqc-d1-Viy" id="HUa-OF-6dS"/>
                         <outlet property="titleLabel" destination="BHh-S2-BgG" id="Lzf-Fh-OlV"/>
                     </connections>
                 </viewController>
@@ -203,7 +217,7 @@
                                                     <constraint firstAttribute="height" constant="43" id="klb-EA-vbT"/>
                                                 </constraints>
                                                 <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="23"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mantra text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxE-9v-7MR">

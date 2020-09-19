@@ -15,6 +15,4 @@ struct K {
     static let mantraCellID = "MantraCell"
     static let defaultImage_tableView = "DefaultImage_tableView"
     static let defaultImage = "DefaultImage"
-    static let firstLevel: Int32 = 50_000
-    static let secondLevel: Int32 = 100_000
 }
