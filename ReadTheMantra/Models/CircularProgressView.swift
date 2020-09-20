@@ -16,14 +16,53 @@ class CircularProgressView: UIView {
         super.awakeFromNib()
         
         setupView()
-        label.text = "/(currentValue)"
-        label.font = UIFont.boldSystemFont(ofSize: 30)
     }
     
     //MARK: - Public
     
     public var currentValue = 0
-    public var readsGoal = 100_000
+    public var readsGoal = K.initialReadsGoal
+    
+    public func setGoal(to newGoal: Int) {
+        
+        var currentProgress: Double {
+            let progressConstant = Double(currentValue) / Double(readsGoal)
+            if progressConstant > 1 { return 1 }
+            else if progressConstant < 0 { return 0 }
+            else { return progressConstant }
+        }
+        
+        var newProgress: Double {
+            let progressConstant = Double(currentValue) / Double(newGoal)
+            if progressConstant > 1 { return 1 }
+            else if progressConstant < 0 { return 0 }
+            else { return progressConstant }
+        }
+        
+        foregroundLayer.strokeEnd = CGFloat(newProgress)
+        
+        // circle animation
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = currentProgress
+        animation.toValue = newProgress
+        animation.duration = 1
+        foregroundLayer.add(animation, forKey: "foregroundAnimation")
+        
+        var currentTime: Double = 0
+        let currentReadsGoal = readsGoal
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] (timer) in
+            if currentTime >= 1.01 {
+                timer.invalidate()
+                self?.readsGoal = newGoal
+            } else {
+                let momentGoal = Double(currentReadsGoal) + Double(newGoal - currentReadsGoal) * currentTime
+                self?.readsGoal = Int(momentGoal)
+                currentTime += 0.01
+                self?.setForegroundLayerColor(value: Int(self?.currentValue ?? 0))
+            }
+        }
+        timer.fire()
+    }
     
     public func setValue(to newValue: Int) {
         
@@ -50,8 +89,9 @@ class CircularProgressView: UIView {
                 timer.invalidate()
                 self?.currentValue = newValue
             } else {
-                let momentValue = Double(self?.currentValue ?? 0) + Double(newValue - (self?.currentValue ?? 0)) * currentTime
+                var momentValue = Double(self?.currentValue ?? 0) + Double(newValue - (self?.currentValue ?? 0)) * currentTime
                 currentTime += 0.01
+                momentValue.round(.toNearestOrAwayFromZero)
                 self?.label.text = Int(momentValue).stringFormattedWithSpaces()
                 self?.setForegroundLayerColor(value: Int(momentValue))
                 self?.setlabelFont(for: Int(momentValue))
@@ -117,6 +157,12 @@ class CircularProgressView: UIView {
     private func setlabelFont(for value: Int) {
         var font = UIFont.boldSystemFont(ofSize: 30)
         switch value {
+        case 1_000_000_000...:
+            font = UIFont.systemFont(ofSize: 22, weight: .medium)
+        case 100_000_000...:
+            font = UIFont.systemFont(ofSize: 25, weight: .medium)
+        case 10_000_000...:
+            font = UIFont.systemFont(ofSize: 28, weight: .medium)
         case 1_000_000...:
             font = UIFont.systemFont(ofSize: 30, weight: .medium)
         case 100_000...:
@@ -132,7 +178,7 @@ class CircularProgressView: UIView {
     private func setForegroundLayerColor(value: Int) {
         var color = UIColor()
         switch value {
-        case 0...readsGoal/2:
+        case 0...readsGoal/2-1:
             color = UIColor.systemBlue
         case readsGoal/2...readsGoal-1:
             color = UIColor.systemOrange

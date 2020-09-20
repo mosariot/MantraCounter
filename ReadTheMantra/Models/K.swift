@@ -15,4 +15,5 @@ struct K {
     static let mantraCellID = "MantraCell"
     static let defaultImage_tableView = "DefaultImage_tableView"
     static let defaultImage = "DefaultImage"
+    static let initialReadsGoal = 100_000
 }

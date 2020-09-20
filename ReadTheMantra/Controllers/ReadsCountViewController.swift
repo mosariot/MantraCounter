@@ -46,7 +46,7 @@ class ReadsCountViewController: UIViewController {
         circularProgressView.currentValue = Int(mantra.reads)
         circularProgressView.readsGoal = Int(mantra.readsGoal)
         
-        updateUI()
+        setupUI()
     }
     
     @objc private func infoButtonPressed() {
@@ -60,9 +60,9 @@ class ReadsCountViewController: UIViewController {
         present(navigationController, animated: true)
     }
     
-    //MARK: - Update UI
+    //MARK: - Setup UI
     
-    private func updateUI() {
+    private func setupUI() {
         if let imageData = mantra.image {
             mantraImage.image = UIImage(data: imageData)
         } else {
@@ -81,7 +81,7 @@ class ReadsCountViewController: UIViewController {
     }
     
     @IBAction func addReadsButtonPressed(_ sender: UIButton) {
-        showUpdatingAlert(updatingType: .readings)
+        showUpdatingAlert(updatingType: .reads)
     }
     
     @IBAction func addRoundsButtonPressed(_ sender: UIButton) {
@@ -120,7 +120,7 @@ class ReadsCountViewController: UIViewController {
         case .rounds:
             return (NSLocalizedString("Enter Rounds Number", comment: "Alert Title on ReadsCountViewController"),
                     NSLocalizedString("Add", comment: "Alert Button on ReadsCountViewController"))
-        case .readings:
+        case .reads:
             return (NSLocalizedString("Enter Readings Number", comment: "Alert Title on ReadsCountViewController"),
                     NSLocalizedString("Add", comment: "Alert Button on ReadsCountViewController"))
         case .setProperValue:
@@ -134,9 +134,9 @@ class ReadsCountViewController: UIViewController {
         if let alertTextField = alert.textFields?.first?.text {
             if let alertNumber = Int32(alertTextField) {
                 updateValues(with: alertNumber, updatingType: updatingType)
+                updateProrgessView(for: updatingType)
                 saveMantras()
                 readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
-                updateUI()
             } else {
                 showIncorrectDataAlert(updatingType: updatingType)
             }
@@ -145,15 +145,28 @@ class ReadsCountViewController: UIViewController {
     
     private func updateValues(with value: Int32, updatingType: UpdatingType) {
         switch updatingType {
-        case .rounds:
-            mantra.reads += value * 108
-        case .readings:
-            mantra.reads += value
-        case .setProperValue:
-            mantra.reads = value
         case .goal:
             mantra.readsGoal = value
-            circularProgressView.readsGoal = Int(value)
+        case .reads:
+            mantra.reads += value
+        case .rounds:
+            mantra.reads += value * 108
+        case .setProperValue:
+            mantra.reads = value
+        }
+    }
+    
+    private func updateProrgessView(for updatingType: UpdatingType) {
+        switch updatingType {
+        case .goal:
+            circularProgressView.setGoal(to: Int(mantra.readsGoal))
+            readsGoalButton.setTitle(NSLocalizedString("Goal: ", comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(), for: .normal)
+        case .reads:
+            circularProgressView.setValue(to: Int(mantra.reads))
+        case .rounds:
+            circularProgressView.setValue(to: Int(mantra.reads))
+        case .setProperValue:
+            circularProgressView.setValue(to: Int(mantra.reads))
         }
     }
     
@@ -240,7 +253,7 @@ class ReadsCountViewController: UIViewController {
 extension ReadsCountViewController: DetailsViewControllerDelegate {
     
     func updateView() {
-        updateUI()
+        setupUI()
     }
 }
 
@@ -250,8 +263,8 @@ extension ReadsCountViewController {
     
     enum UpdatingType {
         case goal
+        case reads
         case rounds
-        case readings
         case setProperValue
     }
 }
