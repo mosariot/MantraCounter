@@ -44,6 +44,7 @@ class MantraTableViewController: UITableViewController {
         searchController.searchBar.placeholder = "Search"
         navigationItem.searchController = searchController
         definesPresentationContext = true
+        searchController.searchBar.delegate = self
         
         loadMantras()
         currentMantraCount = mantraArray.count
@@ -370,6 +371,18 @@ extension MantraTableViewController: UISearchResultsUpdating {
             return result
         })
         tableView.reloadData()
+    }
+}
+
+// MARK: - UISearchBar Delegate
+
+extension MantraTableViewController: UISearchBarDelegate {
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        if mantraPickerTextField.isFirstResponder {
+            dismissPreloadedMantraPickerState()
+        }
+        return true
     }
 }
 
