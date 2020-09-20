@@ -15,14 +15,14 @@ protocol DetailsViewControllerDelegate: class {
 
 class DetailsViewController: UIViewController {
     
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     private var mantra: Mantra
     private var mode: DetailsMode
     private var position: Int
     private var mantraImageData: Data?
     private var mantraImageForTableViewData: Data?
     private weak var delegate: DetailsViewControllerDelegate?
-    
-    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     @IBOutlet private weak var setPhotoButton: UIButton!
     @IBOutlet private weak var titleTextField: UITextField!

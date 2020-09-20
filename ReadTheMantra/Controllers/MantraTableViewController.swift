@@ -11,12 +11,23 @@ import CoreData
 
 class MantraTableViewController: UITableViewController {
     
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     private var mantraArray = [Mantra]()
-    private var currentMantrasQuantity = 0
+    private var currentMantraCount = 0
+    
+    private let searchController = UISearchController(searchResultsController: nil)
+    private var filteredMantraArray = [Mantra]()
+    private var searchBarIsEmpty: Bool {
+        guard let text = searchController.searchBar.text else { return false }
+        return text.isEmpty
+    }
+    private var isFiltering: Bool {
+        return searchController.isActive && !searchBarIsEmpty
+    }
+    
     private lazy var mantraPicker = UIPickerView()
     private lazy var mantraPickerTextField = UITextField(frame: CGRect.zero)
-    
-    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +39,14 @@ class MantraTableViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
         navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
         
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        
         loadMantras()
-        currentMantrasQuantity = mantraArray.count
+        currentMantraCount = mantraArray.count
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,12 +56,23 @@ class MantraTableViewController: UITableViewController {
     // MARK: - TableView DataSource
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        mantraArray.count
+        if isFiltering {
+            return filteredMantraArray.count
+        }
+        return mantraArray.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: K.mantraCellID, for: indexPath)
-        let mantra = mantraArray[indexPath.row]
+        
+        let mantra: Mantra
+        if isFiltering {
+            mantra = filteredMantraArray[indexPath.row]
+        } else {
+            mantra = mantraArray[indexPath.row]
+        }
+        
         cell.textLabel?.text = mantra.title
         cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
         cell.detailTextLabel?.textColor = .secondaryLabel
@@ -64,7 +92,7 @@ class MantraTableViewController: UITableViewController {
     //MARK: - TableView Delegate Methods
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        !isFiltering
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -95,7 +123,6 @@ class MantraTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let mantra = mantraArray[indexPath.row]
         guard let readsCountViewController = storyboard?.instantiateViewController(
             identifier: K.readsCountViewControllerID,
@@ -106,7 +133,6 @@ class MantraTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        
         if mantraPickerTextField.isFirstResponder {
             dismissPreloadedMantraPickerState()
             return false
@@ -189,7 +215,7 @@ class MantraTableViewController: UITableViewController {
         mantraPicker.dataSource = self
         mantraPicker.delegate = self
         
-        // make custom toolbar
+        // custom toolbar
         let toolBar = UIToolbar()
         toolBar.barStyle = .default
         toolBar.isTranslucent = true
@@ -311,19 +337,6 @@ class MantraTableViewController: UITableViewController {
     }
 }
 
-//MARK: - DetailsViewController Delegate (Load Mantras With Quantity Check)
-
-extension MantraTableViewController: DetailsViewControllerDelegate {
-    
-    func updateView() {
-        loadMantras()
-        if currentMantrasQuantity < mantraArray.count {
-            let indexPath = IndexPath(row: mantraArray.count-1, section: 0)
-            tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-        }
-    }
-}
-
 //MARK: - PickerView Delegate, PickerView DataSource
 
 extension MantraTableViewController: UIPickerViewDelegate, UIPickerViewDataSource {
@@ -338,5 +351,37 @@ extension MantraTableViewController: UIPickerViewDelegate, UIPickerViewDataSourc
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         InitialMantra.data[row][.title]
+    }
+}
+
+
+// MARK: - UISearchResultsUpdating Delegate
+
+extension MantraTableViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        filterContent(for: text)
+    }
+    
+    private func filterContent(for searchText: String) {
+        filteredMantraArray = mantraArray.filter({ (mantra: Mantra) -> Bool in
+            guard let result = mantra.title?.lowercased().contains(searchText.lowercased()) else { return false }
+            return result
+        })
+        tableView.reloadData()
+    }
+}
+
+//MARK: - DetailsViewController Delegate (Load Mantras With Quantity Check)
+
+extension MantraTableViewController: DetailsViewControllerDelegate {
+    
+    func updateView() {
+        loadMantras()
+        if currentMantraCount < mantraArray.count {
+            let indexPath = IndexPath(row: mantraArray.count-1, section: 0)
+            tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
     }
 }

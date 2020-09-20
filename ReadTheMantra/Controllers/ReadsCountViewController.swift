@@ -10,9 +10,9 @@ import UIKit
 
 class ReadsCountViewController: UIViewController {
     
-    private let mantra: Mantra
-    
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    private let mantra: Mantra
     
     @IBOutlet private weak var mantraImage: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!
