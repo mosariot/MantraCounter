@@ -16,6 +16,9 @@ class MantraTableViewController: UITableViewController {
     private var mantraArray = [Mantra]()
     private var currentMantraCount = 0
     
+    let segmentControl = UISegmentedControl(items: [NSLocalizedString("All", comment: "Segment Title on MantraTableViewController"),
+                                                    UIImage(systemName: "star") as Any])
+    
     private let searchController = UISearchController(searchResultsController: nil)
     private var filteredMantraArray = [Mantra]()
     private var searchBarIsEmpty: Bool {
@@ -34,17 +37,21 @@ class MantraTableViewController: UITableViewController {
         
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
         navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
+        navigationItem.searchController = searchController
+        
+        segmentControl.selectedSegmentIndex = 0
+        segmentControl.setWidth(70, forSegmentAt: 0)
+        segmentControl.setWidth(70, forSegmentAt: 1)
+        navigationItem.titleView = segmentControl
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
+        searchController.searchBar.placeholder = NSLocalizedString("Search", comment: "Search Placeholder")
         searchController.searchBar.delegate = self
+        searchController.definesPresentationContext = true
         
         loadMantras()
         currentMantraCount = mantraArray.count
@@ -52,6 +59,10 @@ class MantraTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         loadMantras()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        navigationItem.hidesSearchBarWhenScrolling = true
     }
     
     // MARK: - TableView DataSource
