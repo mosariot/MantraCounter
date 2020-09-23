@@ -50,6 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         for (index, data) in InitialMantra.data.enumerated() {
             let mantra = Mantra(context: context)
             mantra.position = Int32(index)
+            mantra.isFavorite = false
             for (key, value) in data {
                 switch key {
                 case .title:

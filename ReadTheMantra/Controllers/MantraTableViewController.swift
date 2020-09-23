@@ -12,12 +12,14 @@ import CoreData
 class MantraTableViewController: UITableViewController {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let defaults = UserDefaults.standard
+    private var inFavoriteMode = false
     
     private var mantraArray = [Mantra]()
     private var currentMantraCount = 0
     
     private let segmentedControl = UISegmentedControl(items: [NSLocalizedString("All", comment: "Segment Title on MantraTableViewController"),
-                                                    UIImage(systemName: "star") as Any])
+                                                              UIImage(systemName: "star") as Any])
     
     private let searchController = UISearchController(searchResultsController: nil)
     private var filteredMantraArray = [Mantra]()
@@ -28,7 +30,6 @@ class MantraTableViewController: UITableViewController {
     private var isFiltering: Bool {
         return searchController.isActive && !searchBarIsEmpty
     }
-    private var inFavoriteMode = false
     
     private lazy var mantraPicker = UIPickerView()
     private lazy var mantraPickerTextField = UITextField(frame: CGRect.zero)
@@ -36,11 +37,14 @@ class MantraTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNavBar()
+        currentMantraCount = getCurrentMantraCount()
+        
+        inFavoriteMode = defaults.bool(forKey: "inFavoriteMode")
+        setupNavigationBar()
         setupSegmentedControl()
         setupSearchController()
+
         loadMantras()
-        currentMantraCount = mantraArray.count
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,26 +52,30 @@ class MantraTableViewController: UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        navigationItem.hidesSearchBarWhenScrolling = true
     }
     
     //MARK: - ViewDidLoad Setup
     
-    private func setupNavBar() {
+    private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = false
+        navigationItem.hidesBackButton = true
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
         navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
         navigationItem.searchController = searchController
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
+        setEditButton()
+    }
+    
+    private func setEditButton() {
+        navigationItem.leftBarButtonItem = inFavoriteMode ? nil : UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
     }
     
     private func setupSegmentedControl() {
-        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.selectedSegmentIndex = inFavoriteMode ? 1 : 0
         segmentedControl.setWidth(view.frame.size.width/5, forSegmentAt: 0)
         segmentedControl.setWidth(view.frame.size.width/5, forSegmentAt: 1)
-        navigationItem.titleView = segmentedControl
         segmentedControl.addTarget(self, action: #selector(segmentedValueChanged), for: .valueChanged)
+        navigationItem.titleView = segmentedControl
     }
     
     private func setupSearchController() {
@@ -80,8 +88,8 @@ class MantraTableViewController: UITableViewController {
     
     @objc private func segmentedValueChanged(_ sender: UISegmentedControl) {
         inFavoriteMode = !inFavoriteMode
-        navigationItem.rightBarButtonItem?.isEnabled = !navigationItem.rightBarButtonItem!.isEnabled
-        navigationItem.leftBarButtonItem?.isEnabled = !navigationItem.leftBarButtonItem!.isEnabled
+        defaults.set(inFavoriteMode, forKey: "inFavoriteMode")
+        setEditButton()
         loadMantras()
     }
     
@@ -95,14 +103,12 @@ class MantraTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("reloaded")
         let cell = tableView.dequeueReusableCell(withIdentifier: K.mantraCellID, for: indexPath)
         
         let mantra: Mantra
         if isFiltering {
             mantra = filteredMantraArray[indexPath.row]
         } else {
-            print("mantra")
             mantra = mantraArray[indexPath.row]
         }
         
@@ -128,10 +134,24 @@ class MantraTableViewController: UITableViewController {
         !isFiltering
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == .delete) {
-            deleteConfirmationAlert(for: indexPath)
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteAction = UIContextualAction(style: .destructive,
+                                              title: NSLocalizedString("Delete", comment: "Delete Swipe Action")) { (contextualAction, view, boolValue) in
+            self.deleteConfirmationAlert(for: indexPath)
         }
+        
+        let star = mantraArray[indexPath.row].isFavorite ? "star.fill" : "star"
+        let favoriteAction = UIContextualAction(style: .normal,
+                                                title: "") { [weak self] (contextualAction, view, dismiss) in
+            self?.handleFavoriteAction(for: indexPath)
+            dismiss(true)
+        }
+        favoriteAction.backgroundColor = .systemTeal
+        favoriteAction.image = UIImage(systemName: star)
+        
+        let actions = inFavoriteMode ? [favoriteAction] : [deleteAction, favoriteAction]
+        return UISwipeActionsConfiguration(actions: actions)
     }
     
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
@@ -153,10 +173,10 @@ class MantraTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let mantra = mantraArray[indexPath.row]
         guard let readsCountViewController = storyboard?.instantiateViewController(
-            identifier: K.readsCountViewControllerID,
-            creator: { coder in
-                ReadsCountViewController(mantra: mantra, coder: coder)
-        }) else { return }
+                identifier: K.readsCountViewControllerID,
+                creator: { coder in
+                    ReadsCountViewController(mantra: mantra, coder: coder)
+                }) else { return }
         show(readsCountViewController, sender: true)
     }
     
@@ -191,14 +211,24 @@ class MantraTableViewController: UITableViewController {
         saveMantras()
         
         mantraArray.remove(at: indexPath.row)
+        currentMantraCount -= 1
         tableView.deleteRows(at: [indexPath], with: .fade)
+    }
+    
+    private func handleFavoriteAction(for indexPath: IndexPath) {
+        mantraArray[indexPath.row].isFavorite = !mantraArray[indexPath.row].isFavorite
+        saveMantras()
+        if inFavoriteMode {
+            mantraArray.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
     
     private func reorderMantraPositionsForDeleteAction(deletingPosition: Int) {
         
-        guard deletingPosition+1 < mantraArray.count else { return }
+        guard deletingPosition+1 < currentMantraCount else { return }
         
-        for i in (deletingPosition+1)...(mantraArray.count-1) {
+        for i in (deletingPosition+1)...(currentMantraCount-1) {
             mantraArray[i].position -= 1
         }
     }
@@ -229,11 +259,11 @@ class MantraTableViewController: UITableViewController {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let addNewMantraAction = UIAlertAction(title: NSLocalizedString("New Mantra", comment: "Alert Title on MantraTableViewController"),
                                                style: .default) { [weak self] (action) in
-                                                self?.showNewMantraVC()
+            self?.showNewMantraVC()
         }
         let addPreloadedMantraAction = UIAlertAction(title: NSLocalizedString("Preloaded Mantra", comment: "Alert Title on MantraTableViewController"),
                                                      style: .default) { [weak self] (action) in
-                                                        self?.setPreloadedMantraPickerState()
+            self?.setPreloadedMantraPickerState()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(addNewMantraAction)
@@ -245,11 +275,12 @@ class MantraTableViewController: UITableViewController {
     private func showNewMantraVC() {
         let mantra = Mantra(context: context)
         guard let detailsViewController = storyboard?.instantiateViewController(
-            identifier: K.detailsViewControllerID,
-            creator: { [weak self] coder in
-                guard let self = self else { fatalError() }
-                return DetailsViewController(mantra: mantra, mode: .add, position: self.mantraArray.count, delegate: self, coder: coder)
-        }) else { return }
+                identifier: K.detailsViewControllerID,
+                creator: { [weak self] coder in
+                    guard let self = self else { fatalError() }
+                    print(self.currentMantraCount)
+                    return DetailsViewController(mantra: mantra, mode: .add, position: self.currentMantraCount, delegate: self, coder: coder)
+                }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
         present(navigationController, animated: true)
     }
@@ -276,9 +307,9 @@ class MantraTableViewController: UITableViewController {
         let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
-
+        
         tableView.addSubview(mantraPickerTextField)
-
+        
         mantraPickerTextField.inputView = mantraPicker
         mantraPickerTextField.inputAccessoryView = toolBar
         mantraPicker.selectRow(0, inComponent: 0, animated: false)
@@ -325,11 +356,12 @@ class MantraTableViewController: UITableViewController {
     
     private func handleAddPreloadedMantra() {
         addPreloadedMantra()
-        currentMantraCount = mantraArray.count
         saveMantras()
-        tableView.reloadData()
-        let indexPath = IndexPath(row: mantraArray.count-1, section: 0)
-        tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        if !inFavoriteMode {
+            tableView.reloadData()
+            let indexPath = IndexPath(row: currentMantraCount-1, section: 0)
+            tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
         dismissPreloadedMantraPickerState()
     }
     
@@ -338,15 +370,18 @@ class MantraTableViewController: UITableViewController {
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
         let mantra = Mantra(context: context)
         let preloadedMantra = InitialMantra.data[selectedMantraNumber]
-        mantra.position = Int32(mantraArray.count)
+        mantra.position = Int32(currentMantraCount)
         mantra.title = preloadedMantra[.title]
         mantra.text = preloadedMantra[.text]
         mantra.details = preloadedMantra[.details]
         mantra.image = UIImage(named: preloadedMantra[.image] ?? K.defaultImage)?.pngData()
         mantra.imageForTableView = UIImage(named: preloadedMantra[.imageForTableView] ?? K.defaultImage_tableView)?.pngData()
-        mantraArray.append(mantra)
+        if !inFavoriteMode {
+            mantraArray.append(mantra)
+            currentMantraCount += 1
+        }
     }
-
+    
     private func dismissPreloadedMantraPickerState() {
         mantraPickerTextField.resignFirstResponder()
         navigationItem.rightBarButtonItem?.isEnabled = true
@@ -366,18 +401,33 @@ class MantraTableViewController: UITableViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
     }
     
-    //MARK: - Model Manipulation
+    //MARK: - Core Data Manipulation
     
     private func loadMantras() {
         
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "position", ascending: true)]
+        
+        if inFavoriteMode {
+            request.predicate = NSPredicate(format: "isFavorite = %d", true)
+        }
+        
         do {
             mantraArray = try context.fetch(request)
         } catch {
             print("Error fetching data from context \(error)")
         }
         tableView.reloadData()
+    }
+    
+    private func getCurrentMantraCount() -> Int {
+        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
+        do {
+            mantraArray = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+        return mantraArray.count
     }
     
     private func saveMantras() {
@@ -417,12 +467,10 @@ extension MantraTableViewController: UISearchResultsUpdating {
     }
     
     private func filterContent(for searchText: String) {
-        print("filtered")
         filteredMantraArray = mantraArray.filter({ (mantra: Mantra) -> Bool in
             guard let result = mantra.title?.lowercased().contains(searchText.lowercased()) else { return false }
             return result
         })
-        print(filteredMantraArray.count)
         tableView.reloadData()
     }
 }
@@ -444,11 +492,13 @@ extension MantraTableViewController: UISearchBarDelegate {
 extension MantraTableViewController: DetailsViewControllerDelegate {
     
     func updateView() {
-        loadMantras()
-        if !inFavoriteMode && (currentMantraCount < mantraArray.count) {
-            let indexPath = IndexPath(row: mantraArray.count-1, section: 0)
-            tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-            currentMantraCount = mantraArray.count
+        if currentMantraCount < getCurrentMantraCount() {
+            currentMantraCount = getCurrentMantraCount()
+            loadMantras()
+            if !inFavoriteMode {
+                let indexPath = IndexPath(row: currentMantraCount-1, section: 0)
+                tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
         }
     }
 }

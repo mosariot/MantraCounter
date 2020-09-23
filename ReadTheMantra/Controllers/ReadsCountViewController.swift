@@ -51,12 +51,10 @@ class ReadsCountViewController: UIViewController {
         infoButton.addTarget(self, action: #selector(infoButtonPressed), for: .touchUpInside)
         let infoButtonItem = UIBarButtonItem(customView: infoButton)
         
-        let favoriteButton = UIButton(type: .custom)
-        favoriteButton.setImage(UIImage(named: "star"), forState: .normal)
-        favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
-        let favoriteButtonItem = UIBarButtonItem(customView: favoriteButton)
+        let star = mantra.isFavorite ? "star.fill" : "star"
+        let favoriteButtonItem = UIBarButtonItem(image: UIImage(systemName: star), style: .plain, target: self, action: #selector(favoriteButtonPressed))
         
-        navigationItem.rightBarButtonItems = [favoriteButtonItem, infoButtonItem]
+        navigationItem.rightBarButtonItems = [infoButtonItem, favoriteButtonItem]
     }
     
     @objc private func infoButtonPressed() {
@@ -68,6 +66,11 @@ class ReadsCountViewController: UIViewController {
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
         present(navigationController, animated: true)
+    }
+    
+    @objc private func favoriteButtonPressed() {
+        mantra.isFavorite = !mantra.isFavorite
+        setupNavButtons()
     }
     
     //MARK: - Setup UI

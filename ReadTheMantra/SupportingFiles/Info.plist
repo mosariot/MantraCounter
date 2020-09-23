@@ -60,5 +60,7 @@
 	</array>
 	<key>isPreloaded</key>
 	<false/>
+	<key>inFavoriteMode</key>
+	<false/>
 </dict>
 </plist>

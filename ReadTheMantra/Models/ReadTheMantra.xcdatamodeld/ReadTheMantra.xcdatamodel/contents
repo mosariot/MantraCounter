@@ -4,6 +4,7 @@
         <attribute name="details" attributeType="String"/>
         <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="imageForTableView" optional="YES" attributeType="Binary"/>
+        <attribute name="isFavorite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="position" attributeType="Integer 32" usesScalarValueType="YES"/>
         <attribute name="reads" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="readsGoal" attributeType="Integer 32" defaultValueString="100000" usesScalarValueType="YES"/>
@@ -11,6 +12,6 @@
         <attribute name="title" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Mantra" positionX="-63" positionY="-18" width="128" height="163"/>
+        <element name="Mantra" positionX="-63" positionY="-18" width="128" height="178"/>
     </elements>
 </model>
