@@ -91,6 +91,7 @@ class MantraTableViewController: UITableViewController {
         defaults.set(inFavoriteMode, forKey: "inFavoriteMode")
         setEditButton()
         loadMantras()
+        tableView.scrollToTop(animated: true)
     }
     
     // MARK: - TableView DataSource
@@ -141,7 +142,7 @@ class MantraTableViewController: UITableViewController {
             self.deleteConfirmationAlert(for: indexPath)
         }
         
-        let star = mantraArray[indexPath.row].isFavorite ? "star.fill" : "star"
+        let star = mantraArray[indexPath.row].isFavorite ? "star.slash" : "star"
         let favoriteAction = UIContextualAction(style: .normal,
                                                 title: "") { [weak self] (contextualAction, view, dismiss) in
             self?.handleFavoriteAction(for: indexPath)
@@ -278,7 +279,6 @@ class MantraTableViewController: UITableViewController {
                 identifier: K.detailsViewControllerID,
                 creator: { [weak self] coder in
                     guard let self = self else { fatalError() }
-                    print(self.currentMantraCount)
                     return DetailsViewController(mantra: mantra, mode: .add, position: self.currentMantraCount, delegate: self, coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
@@ -341,7 +341,6 @@ class MantraTableViewController: UITableViewController {
     }
     
     private func duplicatingAlert() {
-        
         let alert = UIAlertController(title: nil, message: NSLocalizedString("It's already in your mantra list. Add another one?", comment: "Alert Message on MantraTableViewController"), preferredStyle: .alert)
         let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraTableViewController"), style: .default) { [weak self] (action) in
             self?.handleAddPreloadedMantra()
@@ -356,9 +355,10 @@ class MantraTableViewController: UITableViewController {
     
     private func handleAddPreloadedMantra() {
         addPreloadedMantra()
+        currentMantraCount += 1
         saveMantras()
+        loadMantras()
         if !inFavoriteMode {
-            tableView.reloadData()
             let indexPath = IndexPath(row: currentMantraCount-1, section: 0)
             tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
@@ -366,7 +366,6 @@ class MantraTableViewController: UITableViewController {
     }
     
     private func addPreloadedMantra() {
-        
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
         let mantra = Mantra(context: context)
         let preloadedMantra = InitialMantra.data[selectedMantraNumber]
@@ -376,10 +375,6 @@ class MantraTableViewController: UITableViewController {
         mantra.details = preloadedMantra[.details]
         mantra.image = UIImage(named: preloadedMantra[.image] ?? K.defaultImage)?.pngData()
         mantra.imageForTableView = UIImage(named: preloadedMantra[.imageForTableView] ?? K.defaultImage_tableView)?.pngData()
-        if !inFavoriteMode {
-            mantraArray.append(mantra)
-            currentMantraCount += 1
-        }
     }
     
     private func dismissPreloadedMantraPickerState() {
@@ -499,6 +494,21 @@ extension MantraTableViewController: DetailsViewControllerDelegate {
                 let indexPath = IndexPath(row: currentMantraCount-1, section: 0)
                 tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
             }
+        }
+    }
+}
+
+//MARK: - Scroll TableView To Top
+
+extension UITableView {
+    func hasRowAtIndexPath(indexPath: IndexPath) -> Bool {
+        return indexPath.section < self.numberOfSections && indexPath.row < self.numberOfRows(inSection: indexPath.section)
+    }
+    
+    func scrollToTop(animated: Bool) {
+        let indexPath = IndexPath(row: 0, section: 0)
+        if self.hasRowAtIndexPath(indexPath: indexPath) {
+            self.scrollToRow(at: indexPath, at: .top, animated: animated)
         }
     }
 }
