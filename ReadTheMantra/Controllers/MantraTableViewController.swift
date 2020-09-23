@@ -325,6 +325,7 @@ class MantraTableViewController: UITableViewController {
     
     private func handleAddPreloadedMantra() {
         addPreloadedMantra()
+        currentMantraCount = mantraArray.count
         saveMantras()
         tableView.reloadData()
         let indexPath = IndexPath(row: mantraArray.count-1, section: 0)
