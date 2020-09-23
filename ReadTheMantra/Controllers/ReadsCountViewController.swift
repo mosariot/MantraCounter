@@ -49,7 +49,14 @@ class ReadsCountViewController: UIViewController {
     private func setupNavButtons() {
         let infoButton = UIButton(type: .infoLight)
         infoButton.addTarget(self, action: #selector(infoButtonPressed), for: .touchUpInside)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: infoButton)
+        let infoButtonItem = UIBarButtonItem(customView: infoButton)
+        
+        let favoriteButton = UIButton(type: .custom)
+        favoriteButton.setImage(UIImage(named: "star"), forState: .normal)
+        favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
+        let favoriteButtonItem = UIBarButtonItem(customView: favoriteButton)
+        
+        navigationItem.rightBarButtonItems = [favoriteButtonItem, infoButtonItem]
     }
     
     @objc private func infoButtonPressed() {
