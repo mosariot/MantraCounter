@@ -148,7 +148,7 @@ class MantraTableViewController: UITableViewController {
             self?.handleFavoriteAction(for: indexPath)
             dismiss(true)
         }
-        favoriteAction.backgroundColor = .systemTeal
+        favoriteAction.backgroundColor = .systemBlue
         favoriteAction.image = UIImage(systemName: star)
         
         let actions = inFavoriteMode ? [favoriteAction] : [deleteAction, favoriteAction]

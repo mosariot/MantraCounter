@@ -135,7 +135,7 @@ class DetailsViewController: UIViewController {
         detailsPlaceholderLabel.isHidden = true
     }
     
-    //MARK: - Buttons Methods
+    //MARK: - NavBar Buttons Methods
     
     @objc private func addButtonPressed() {
         if let title = titleTextField.text, let text = mantraTextTextView.text, let details = detailsTextView.text, title != "" {
