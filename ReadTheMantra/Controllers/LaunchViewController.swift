@@ -17,7 +17,7 @@ class LaunchViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             self.goToMantraTableViewController()
         }
     }

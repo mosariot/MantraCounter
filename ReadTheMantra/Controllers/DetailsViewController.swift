@@ -29,9 +29,9 @@ class DetailsViewController: UIViewController {
     @IBOutlet private weak var mantraTextTextView: UITextView!
     @IBOutlet private weak var detailsTextView: UITextView!
     
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var mantraTextLabel: UILabel!
-    @IBOutlet weak var detailsTextLabel: UILabel!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var mantraTextLabel: UILabel!
+    @IBOutlet private weak var detailsTextLabel: UILabel!
     
     private var mantraTextPlaceholderLabel : UILabel!
     private var detailsPlaceholderLabel : UILabel!
@@ -52,16 +52,9 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.largeTitleDisplayMode = .never
-        
         hideKeyboardWhenTappedAround()
         
-        titleLabel.text = NSLocalizedString("Title", comment: "Mantra title label")
-        mantraTextLabel.text = NSLocalizedString("Mantra text", comment: "Mantra text label")
-        detailsTextLabel.text = NSLocalizedString("Description", comment: "Mantra description label")
-        titleTextField.placeholder = NSLocalizedString("Enter mantra title", comment: "Mantra title placeholder")
-        setMantraTextPlaceholder()
-        setDetailsPlaceholder()
+        navigationItem.largeTitleDisplayMode = .never
         
         mantraImageData = mantra.image ?? nil
         mantraImageForTableViewData = mantra.image ?? nil
@@ -74,6 +67,14 @@ class DetailsViewController: UIViewController {
     }
     
     private func setupUI() {
+        
+        titleLabel.text = NSLocalizedString("Title", comment: "Mantra title label")
+        mantraTextLabel.text = NSLocalizedString("Mantra text", comment: "Mantra text label")
+        detailsTextLabel.text = NSLocalizedString("Description", comment: "Mantra description label")
+        titleTextField.placeholder = NSLocalizedString("Enter mantra title", comment: "Mantra title placeholder")
+        setMantraTextPlaceholder()
+        setDetailsPlaceholder()
+        
         if let imageData = mantraImageData {
             let image = UIImage(data: imageData)
             setPhotoButton.setImage(image, for: .normal)
@@ -215,7 +216,7 @@ class DetailsViewController: UIViewController {
     }
     
     private func showImagePicker() {
-        if #available(iOS 14.0, *) {
+        if #available(iOS 14, *) {
               var configuration = PHPickerConfiguration()
               configuration.filter = .images
               let picker = PHPickerViewController(configuration: configuration)

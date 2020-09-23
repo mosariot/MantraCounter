@@ -178,9 +178,9 @@ class CircularProgressView: UIView {
     private func setForegroundLayerColor(value: Int) {
         var color = UIColor()
         switch value {
-        case 0...readsGoal/2-1:
+        case 0..<readsGoal/2:
             color = UIColor.systemBlue
-        case readsGoal/2...readsGoal-1:
+        case readsGoal/2..<readsGoal:
             color = UIColor.systemOrange
         case readsGoal...:
             color = UIColor.systemPurple

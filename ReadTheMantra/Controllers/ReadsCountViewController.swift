@@ -20,7 +20,7 @@ class ReadsCountViewController: UIViewController {
     @IBOutlet private weak var addReadingsButton: UIButton!
     @IBOutlet private weak var setProperValueButton: UIButton!
     @IBOutlet private weak var circularProgressView: CircularProgressView!
-    @IBOutlet weak var readsGoalButton: UIButton!
+    @IBOutlet private weak var readsGoalButton: UIButton!
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -37,16 +37,19 @@ class ReadsCountViewController: UIViewController {
         
         navigationItem.largeTitleDisplayMode = .never
         
-        let infoButton = UIButton(type: .infoLight)
-        infoButton.addTarget(self, action: #selector(infoButtonPressed), for: .touchUpInside)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: infoButton)
-        
-        setButtonsTitles()
+        setupNavButtons()
+        setReadsButtonsTitles()
         
         circularProgressView.currentValue = Int(mantra.reads)
         circularProgressView.readsGoal = Int(mantra.readsGoal)
         
         setupUI()
+    }
+    
+    private func setupNavButtons() {
+        let infoButton = UIButton(type: .infoLight)
+        infoButton.addTarget(self, action: #selector(infoButtonPressed), for: .touchUpInside)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: infoButton)
     }
     
     @objc private func infoButtonPressed() {
@@ -76,19 +79,19 @@ class ReadsCountViewController: UIViewController {
     
     //MARK: - Updating ReadsCount and ReadsGoal
     
-    @IBAction func setGoalButtonPressed(_ sender: UIButton) {
+    @IBAction private func setGoalButtonPressed(_ sender: UIButton) {
         showUpdatingAlert(updatingType: .goal)
     }
     
-    @IBAction func addReadsButtonPressed(_ sender: UIButton) {
+    @IBAction private func addReadsButtonPressed(_ sender: UIButton) {
         showUpdatingAlert(updatingType: .reads)
     }
     
-    @IBAction func addRoundsButtonPressed(_ sender: UIButton) {
+    @IBAction private func addRoundsButtonPressed(_ sender: UIButton) {
         showUpdatingAlert(updatingType: .rounds)
     }
     
-    @IBAction func setProperValueButtonPressed(_ sender: UIButton) {
+    @IBAction private func setProperValueButtonPressed(_ sender: UIButton) {
         showUpdatingAlert(updatingType: .setProperValue)
     }
     
@@ -132,8 +135,8 @@ class ReadsCountViewController: UIViewController {
     private func handleAlertPositiveAction(from alert: UIAlertController, with updatingType: UpdatingType) {
         let oldReads = mantra.reads
         if let alertTextField = alert.textFields?.first?.text {
-            if let alertNumber = Int32(alertTextField) {
-                updateValues(with: alertNumber, updatingType: updatingType)
+            if let alertNumber = UInt32(alertTextField) {
+                updateValues(with: Int32(alertNumber), updatingType: updatingType)
                 updateProrgessView(for: updatingType)
                 saveMantras()
                 readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
@@ -210,7 +213,7 @@ class ReadsCountViewController: UIViewController {
     
     //MARK: - Button Initial Appearance
     
-    private func setButtonsTitles() {
+    private func setReadsButtonsTitles() {
         
         let readingsImageAttachment = NSTextAttachment()
         readingsImageAttachment.image = UIImage(systemName: "plus.circle")

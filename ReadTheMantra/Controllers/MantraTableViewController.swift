@@ -16,7 +16,7 @@ class MantraTableViewController: UITableViewController {
     private var mantraArray = [Mantra]()
     private var currentMantraCount = 0
     
-    let segmentControl = UISegmentedControl(items: [NSLocalizedString("All", comment: "Segment Title on MantraTableViewController"),
+    private let segmentedControl = UISegmentedControl(items: [NSLocalizedString("All", comment: "Segment Title on MantraTableViewController"),
                                                     UIImage(systemName: "star") as Any])
     
     private let searchController = UISearchController(searchResultsController: nil)
@@ -28,6 +28,7 @@ class MantraTableViewController: UITableViewController {
     private var isFiltering: Bool {
         return searchController.isActive && !searchBarIsEmpty
     }
+    private var inFavoriteMode = false
     
     private lazy var mantraPicker = UIPickerView()
     private lazy var mantraPickerTextField = UITextField(frame: CGRect.zero)
@@ -35,24 +36,9 @@ class MantraTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
-        navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
-        navigationItem.searchController = searchController
-        
-        segmentControl.selectedSegmentIndex = 0
-        segmentControl.setWidth(70, forSegmentAt: 0)
-        segmentControl.setWidth(70, forSegmentAt: 1)
-        navigationItem.titleView = segmentControl
-        
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = NSLocalizedString("Search", comment: "Search Placeholder")
-        searchController.searchBar.delegate = self
-        searchController.definesPresentationContext = true
-        
+        setupNavBar()
+        setupSegmentedControl()
+        setupSearchController()
         loadMantras()
         currentMantraCount = mantraArray.count
     }
@@ -65,6 +51,40 @@ class MantraTableViewController: UITableViewController {
         navigationItem.hidesSearchBarWhenScrolling = true
     }
     
+    //MARK: - ViewDidLoad Setup
+    
+    private func setupNavBar() {
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
+        navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
+        navigationItem.searchController = searchController
+    }
+    
+    private func setupSegmentedControl() {
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.setWidth(view.frame.size.width/5, forSegmentAt: 0)
+        segmentedControl.setWidth(view.frame.size.width/5, forSegmentAt: 1)
+        navigationItem.titleView = segmentedControl
+        segmentedControl.addTarget(self, action: #selector(segmentedValueChanged), for: .valueChanged)
+    }
+    
+    private func setupSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = NSLocalizedString("Search", comment: "Search Placeholder")
+        searchController.searchBar.delegate = self
+        searchController.definesPresentationContext = true
+    }
+    
+    @objc private func segmentedValueChanged(_ sender: UISegmentedControl) {
+        inFavoriteMode = !inFavoriteMode
+        navigationItem.rightBarButtonItem?.isEnabled = !navigationItem.rightBarButtonItem!.isEnabled
+        navigationItem.leftBarButtonItem?.isEnabled = !navigationItem.leftBarButtonItem!.isEnabled
+        loadMantras()
+    }
+    
     // MARK: - TableView DataSource
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -75,13 +95,14 @@ class MantraTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        print("reloaded")
         let cell = tableView.dequeueReusableCell(withIdentifier: K.mantraCellID, for: indexPath)
         
         let mantra: Mantra
         if isFiltering {
             mantra = filteredMantraArray[indexPath.row]
         } else {
+            print("mantra")
             mantra = mantraArray[indexPath.row]
         }
         
@@ -109,12 +130,7 @@ class MantraTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
-            reorderMantraPositionsForDeleteAction(deletingPosition: indexPath.row)
-            context.delete(mantraArray[indexPath.row])
-            saveMantras()
-            
-            mantraArray.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            deleteConfirmationAlert(for: indexPath)
         }
     }
     
@@ -154,6 +170,29 @@ class MantraTableViewController: UITableViewController {
     }
     
     //MARK: - Cells Manipulation Methods
+    
+    private func deleteConfirmationAlert(for indexPath: IndexPath) {
+        
+        let alert = UIAlertController(title: nil, message: NSLocalizedString("Are you sure you want to delete this mantra?", comment: "Alert Message on MantraTableViewController"), preferredStyle: .alert)
+        let addAction = UIAlertAction(title: NSLocalizedString("Delete", comment: "Alert Button on MantraTableViewController"), style: .default) { [weak self] (action) in
+            self?.deleteMantra(for: indexPath)
+        }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"), style: .destructive) { [weak self] (action) in
+            self?.dismissPreloadedMantraPickerState()
+        }
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func deleteMantra(for indexPath: IndexPath) {
+        reorderMantraPositionsForDeleteAction(deletingPosition: indexPath.row)
+        context.delete(mantraArray[indexPath.row])
+        saveMantras()
+        
+        mantraArray.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+    }
     
     private func reorderMantraPositionsForDeleteAction(deletingPosition: Int) {
         
@@ -316,12 +355,12 @@ class MantraTableViewController: UITableViewController {
     
     //MARK: - Table Edit Buttons Actions
     
-    @objc func doneButtonPressed() {
+    @objc private func doneButtonPressed() {
         setEditing(false, animated: true)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
     }
     
-    @objc func editButtonPressed() {
+    @objc private func editButtonPressed() {
         setEditing(true, animated: true)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
     }
@@ -377,10 +416,12 @@ extension MantraTableViewController: UISearchResultsUpdating {
     }
     
     private func filterContent(for searchText: String) {
+        print("filtered")
         filteredMantraArray = mantraArray.filter({ (mantra: Mantra) -> Bool in
             guard let result = mantra.title?.lowercased().contains(searchText.lowercased()) else { return false }
             return result
         })
+        print(filteredMantraArray.count)
         tableView.reloadData()
     }
 }
@@ -403,9 +444,10 @@ extension MantraTableViewController: DetailsViewControllerDelegate {
     
     func updateView() {
         loadMantras()
-        if currentMantraCount < mantraArray.count {
+        if !inFavoriteMode && (currentMantraCount < mantraArray.count) {
             let indexPath = IndexPath(row: mantraArray.count-1, section: 0)
             tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            currentMantraCount = mantraArray.count
         }
     }
 }
