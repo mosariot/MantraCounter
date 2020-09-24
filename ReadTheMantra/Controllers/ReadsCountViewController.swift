@@ -184,7 +184,7 @@ class ReadsCountViewController: UIViewController {
     }
     
     private func readsCongratulationsCheck(oldReads: Int32, newReads: Int32) {
-        if (oldReads < mantra.readsGoal/2 && mantra.readsGoal/2...mantra.readsGoal-1 ~= newReads) {
+        if (oldReads < mantra.readsGoal/2 && mantra.readsGoal/2..<mantra.readsGoal ~= newReads) {
             showReadsCongratulationsAlert(level: .halfGoal)
         }
         if oldReads < mantra.readsGoal && newReads >= mantra.readsGoal {
