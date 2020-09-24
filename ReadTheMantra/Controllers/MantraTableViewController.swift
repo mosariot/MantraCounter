@@ -26,7 +26,8 @@ class MantraTableViewController: UITableViewController {
     private lazy var mantraPicker = UIPickerView()
     private lazy var mantraPickerTextField = UITextField(frame: CGRect.zero)
     
-    private lazy var overallMantraArray: [Mantra] {
+    private var overallMantraArray: [Mantra] {
+        var array = [Mantra]()
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         do {
             array = try context.fetch(request)
@@ -94,7 +95,6 @@ class MantraTableViewController: UITableViewController {
         defaults.set(inFavoriteMode, forKey: "inFavoriteMode")
         setEditButton()
         loadMantras(withAnimation: true)
-//         tableView.scrollToTop(animated: true)
     }
     
     // MARK: - TableView DataSource
@@ -131,7 +131,7 @@ class MantraTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let deleteAction = UIContextualAction(style: .destructive,
-                                              title: "")) { [weak self] (contextualAction, view, isToDismiss) in
+                                              title: "") { [weak self] (contextualAction, view, isToDismiss) in
             self?.deleteConfirmationAlert(for: indexPath)
             isToDismiss(true)                                                                                                       
         }
@@ -488,21 +488,6 @@ extension MantraTableViewController: DetailsViewControllerDelegate {
                 let indexPath = IndexPath(row: currentMantraCount-1, section: 0)
                 tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
             }
-        }
-    }
-}
-
-//MARK: - Scroll TableView To Top
-
-extension UITableView {
-    func hasRowAtIndexPath(indexPath: IndexPath) -> Bool {
-        return indexPath.section < self.numberOfSections && indexPath.row < self.numberOfRows(inSection: indexPath.section)
-    }
-    
-    func scrollToTop(animated: Bool) {
-        let indexPath = IndexPath(row: 0, section: 0)
-        if self.hasRowAtIndexPath(indexPath: indexPath) {
-            self.scrollToRow(at: indexPath, at: .top, animated: animated)
         }
     }
 }
