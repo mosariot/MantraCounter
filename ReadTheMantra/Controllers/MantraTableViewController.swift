@@ -23,13 +23,6 @@ class MantraTableViewController: UITableViewController {
     
     private let searchController = UISearchController(searchResultsController: nil)
     private var filteredMantraArray = [Mantra]()
-    private var searchBarIsEmpty: Bool {
-        guard let text = searchController.searchBar.text else { return false }
-        return text.isEmpty
-    }
-    private var isFiltering: Bool {
-        return searchController.isActive && !searchBarIsEmpty
-    }
     
     private lazy var mantraPicker = UIPickerView()
     private lazy var mantraPickerTextField = UITextField(frame: CGRect.zero)
@@ -48,10 +41,11 @@ class MantraTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        loadMantras()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
+        if searchController.isActive {
+            performSearch()
+        } else {
+            loadMantras()
+        }
     }
     
     //MARK: - ViewDidLoad Setup
@@ -97,21 +91,13 @@ class MantraTableViewController: UITableViewController {
     // MARK: - TableView DataSource
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering {
-            return filteredMantraArray.count
-        }
-        return mantraArray.count
+        mantraArray.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.mantraCellID, for: indexPath)
         
-        let mantra: Mantra
-        if isFiltering {
-            mantra = filteredMantraArray[indexPath.row]
-        } else {
-            mantra = mantraArray[indexPath.row]
-        }
+        let mantra = mantraArray[indexPath.row]
         
         cell.textLabel?.text = mantra.title
         cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
@@ -132,7 +118,7 @@ class MantraTableViewController: UITableViewController {
     //MARK: - TableView Delegate Methods
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        !isFiltering
+        !searchController.isActive
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -398,13 +384,18 @@ class MantraTableViewController: UITableViewController {
     
     //MARK: - Core Data Manipulation
     
-    private func loadMantras() {
+    private func loadMantras(with request: NSFetchRequest<Mantra> = Mantra.fetchRequest(), predicate: NSPredicate? = nil) {
         
-        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "position", ascending: true)]
-        
+        let favoritePredicate = NSPredicate(format: "isFavorite = %d", true)
+        if let additionalPredicate = predicate {
+            request.predicate = additionalPredicate
+        }
         if inFavoriteMode {
-            request.predicate = NSPredicate(format: "isFavorite = %d", true)
+            request.predicate = favoritePredicate
+        }
+        if let additionalPredicate = predicate, inFavoriteMode {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [favoritePredicate, additionalPredicate])
         }
         
         do {
@@ -412,7 +403,11 @@ class MantraTableViewController: UITableViewController {
         } catch {
             print("Error fetching data from context \(error)")
         }
-        tableView.reloadData()
+        if searchController.isActive {
+            tableView.reloadData()
+        } else {
+            tableView.reloadSections([0], with: .automatic)
+        }
     }
     
     private func getCurrentMantraCount() -> Int {
@@ -457,16 +452,21 @@ extension MantraTableViewController: UIPickerViewDelegate, UIPickerViewDataSourc
 extension MantraTableViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
-        filterContent(for: text)
+        performSearch()
     }
     
-    private func filterContent(for searchText: String) {
-        filteredMantraArray = mantraArray.filter({ (mantra: Mantra) -> Bool in
-            guard let result = mantra.title?.lowercased().contains(searchText.lowercased()) else { return false }
-            return result
-        })
-        tableView.reloadData()
+    private func performSearch() {
+        guard let text = searchController.searchBar.text else { return }
+        if text.isEmpty {
+            loadMantras()
+            return
+        }
+        
+        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
+        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", text)
+        print(text)
+        
+        loadMantras(with: request, predicate: predicate)
     }
 }
 
