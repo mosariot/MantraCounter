@@ -22,15 +22,24 @@ class MantraTableViewController: UITableViewController {
                                                               UIImage(systemName: "star") as Any])
     
     private let searchController = UISearchController(searchResultsController: nil)
-    private var filteredMantraArray = [Mantra]()
     
     private lazy var mantraPicker = UIPickerView()
     private lazy var mantraPickerTextField = UITextField(frame: CGRect.zero)
     
+    private lazy var currentMantraArray: [Mantra] {
+        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
+        do {
+            array = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+        return array
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currentMantraCount = getCurrentMantraCount()
+        currentMantraCount = currentMantraArray.count
         
         inFavoriteMode = defaults.bool(forKey: "inFavoriteMode")
         setupNavigationBar()
@@ -84,8 +93,8 @@ class MantraTableViewController: UITableViewController {
         inFavoriteMode = !inFavoriteMode
         defaults.set(inFavoriteMode, forKey: "inFavoriteMode")
         setEditButton()
-        loadMantras()
-        tableView.scrollToTop(animated: true)
+        loadMantras(withAnimation: true)
+//         tableView.scrollToTop(animated: true)
     }
     
     // MARK: - TableView DataSource
@@ -96,9 +105,7 @@ class MantraTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.mantraCellID, for: indexPath)
-        
         let mantra = mantraArray[indexPath.row]
-        
         cell.textLabel?.text = mantra.title
         cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
         cell.detailTextLabel?.textColor = .secondaryLabel
@@ -124,15 +131,17 @@ class MantraTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let deleteAction = UIContextualAction(style: .destructive,
-                                              title: NSLocalizedString("Delete", comment: "Delete Swipe Action")) { (contextualAction, view, boolValue) in
-            self.deleteConfirmationAlert(for: indexPath)
+                                              title: "")) { [weak self] (contextualAction, view, isToDismiss) in
+            self?.deleteConfirmationAlert(for: indexPath)
+            isToDismiss(true)                                                                                                       
         }
+        deleteAction.image = UIImage(systemName: "trash")
         
         let star = mantraArray[indexPath.row].isFavorite ? "star.slash" : "star"
         let favoriteAction = UIContextualAction(style: .normal,
-                                                title: "") { [weak self] (contextualAction, view, dismiss) in
+                                                title: "") { [weak self] (contextualAction, view, isToDismiss) in
             self?.handleFavoriteAction(for: indexPath)
-            dismiss(true)
+            isToDismiss(true)
         }
         favoriteAction.backgroundColor = .systemBlue
         favoriteAction.image = UIImage(systemName: star)
@@ -179,7 +188,6 @@ class MantraTableViewController: UITableViewController {
     //MARK: - Cells Manipulation Methods
     
     private func deleteConfirmationAlert(for indexPath: IndexPath) {
-        
         let alert = UIAlertController(title: nil, message: NSLocalizedString("Are you sure you want to delete this mantra?", comment: "Alert Message on MantraTableViewController"), preferredStyle: .alert)
         let addAction = UIAlertAction(title: NSLocalizedString("Delete", comment: "Alert Button on MantraTableViewController"), style: .default) { [weak self] (action) in
             self?.deleteMantra(for: indexPath)
@@ -212,16 +220,13 @@ class MantraTableViewController: UITableViewController {
     }
     
     private func reorderMantraPositionsForDeleteAction(deletingPosition: Int) {
-        
         guard deletingPosition+1 < currentMantraCount else { return }
-        
         for i in (deletingPosition+1)...(currentMantraCount-1) {
             mantraArray[i].position -= 1
         }
     }
     
     private func reorderMantraPositionsForMovingAction(from source: Int, to destination: Int) {
-        
         let reorderIndexDifference = source - destination
         switch reorderIndexDifference {
         case 1...:
@@ -235,14 +240,12 @@ class MantraTableViewController: UITableViewController {
         default:
             return
         }
-        
         mantraArray[source].position = Int32(destination)
     }
     
     //MARK: - Add Mantra Stack
     
     @objc private func addButtonPressed() {
-        
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let addNewMantraAction = UIAlertAction(title: NSLocalizedString("New Mantra", comment: "Alert Title on MantraTableViewController"),
                                                style: .default) { [weak self] (action) in
@@ -318,7 +321,7 @@ class MantraTableViewController: UITableViewController {
     private func isMantraDuplicating() -> Bool {
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
         var isDuplicating = false
-        mantraArray.forEach { (mantra) in
+        currentMantraArray.forEach { (mantra) in
             if mantra.title == InitialMantra.data[selectedMantraNumber][.title] {
                 isDuplicating = true
             }
@@ -384,7 +387,7 @@ class MantraTableViewController: UITableViewController {
     
     //MARK: - Core Data Manipulation
     
-    private func loadMantras(with request: NSFetchRequest<Mantra> = Mantra.fetchRequest(), predicate: NSPredicate? = nil) {
+    private func loadMantras(with request: NSFetchRequest<Mantra> = Mantra.fetchRequest(), predicate: NSPredicate? = nil, withAnimation: Bool = false) {
         
         request.sortDescriptors = [NSSortDescriptor(key: "position", ascending: true)]
         let favoritePredicate = NSPredicate(format: "isFavorite = %d", true)
@@ -403,21 +406,12 @@ class MantraTableViewController: UITableViewController {
         } catch {
             print("Error fetching data from context \(error)")
         }
-        if searchController.isActive {
-            tableView.reloadData()
-        } else {
+        
+        if withAnimation {
             tableView.reloadSections([0], with: .automatic)
+        } else {
+            tableView.reloadData()
         }
-    }
-    
-    private func getCurrentMantraCount() -> Int {
-        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
-        do {
-            mantraArray = try context.fetch(request)
-        } catch {
-            print("Error fetching data from context \(error)")
-        }
-        return mantraArray.count
     }
     
     private func saveMantras() {
@@ -487,8 +481,8 @@ extension MantraTableViewController: UISearchBarDelegate {
 extension MantraTableViewController: DetailsViewControllerDelegate {
     
     func updateView() {
-        if currentMantraCount < getCurrentMantraCount() {
-            currentMantraCount = getCurrentMantraCount()
+        if currentMantraCount < currentMantraArray.count {
+            currentMantraCount = currentMantraArray.count
             loadMantras()
             if !inFavoriteMode {
                 let indexPath = IndexPath(row: currentMantraCount-1, section: 0)
