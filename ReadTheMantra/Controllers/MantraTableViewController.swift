@@ -26,7 +26,7 @@ class MantraTableViewController: UITableViewController {
     private lazy var mantraPicker = UIPickerView()
     private lazy var mantraPickerTextField = UITextField(frame: CGRect.zero)
     
-    private lazy var currentMantraArray: [Mantra] {
+    private lazy var overallMantraArray: [Mantra] {
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         do {
             array = try context.fetch(request)
@@ -39,7 +39,7 @@ class MantraTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currentMantraCount = currentMantraArray.count
+        currentMantraCount = overallMantraArray.count
         
         inFavoriteMode = defaults.bool(forKey: "inFavoriteMode")
         setupNavigationBar()
@@ -321,7 +321,7 @@ class MantraTableViewController: UITableViewController {
     private func isMantraDuplicating() -> Bool {
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
         var isDuplicating = false
-        currentMantraArray.forEach { (mantra) in
+        overallMantraArray.forEach { (mantra) in
             if mantra.title == InitialMantra.data[selectedMantraNumber][.title] {
                 isDuplicating = true
             }
@@ -481,8 +481,8 @@ extension MantraTableViewController: UISearchBarDelegate {
 extension MantraTableViewController: DetailsViewControllerDelegate {
     
     func updateView() {
-        if currentMantraCount < currentMantraArray.count {
-            currentMantraCount = currentMantraArray.count
+        if currentMantraCount < overallMantraArray.count {
+            currentMantraCount = overallMantraArray.count
             loadMantras()
             if !inFavoriteMode {
                 let indexPath = IndexPath(row: currentMantraCount-1, section: 0)
