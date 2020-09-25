@@ -107,7 +107,7 @@ class MantraTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.mantraCellID, for: indexPath)
         let mantra = mantraArray[indexPath.row]
         cell.textLabel?.text = mantra.title
-        cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
+        cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)" + "\(mantra.position)"
         cell.detailTextLabel?.textColor = .secondaryLabel
         cell.imageView?.image = imageForCell(for: mantra)
         cell.accessoryType = .disclosureIndicator
@@ -207,6 +207,7 @@ class MantraTableViewController: UITableViewController {
         
         mantraArray.remove(at: indexPath.row)
         currentMantraCount -= 1
+        print(currentMantraCount)
         tableView.deleteRows(at: [indexPath], with: .fade)
     }
     
@@ -221,7 +222,7 @@ class MantraTableViewController: UITableViewController {
     
     private func reorderMantraPositionsForDeleteAction(deletingPosition: Int) {
         guard deletingPosition+1 < currentMantraCount else { return }
-        for i in (deletingPosition+1)...(currentMantraCount-1) {
+        for i in (deletingPosition+1)..<currentMantraCount {
             mantraArray[i].position -= 1
         }
     }
@@ -230,7 +231,7 @@ class MantraTableViewController: UITableViewController {
         let reorderIndexDifference = source - destination
         switch reorderIndexDifference {
         case 1...:
-            for i in (destination)...(source-1) {
+            for i in destination..<source {
                 mantraArray[i].position += 1
             }
         case ...(-1):
@@ -264,6 +265,7 @@ class MantraTableViewController: UITableViewController {
     
     private func showNewMantraVC() {
         let mantra = Mantra(context: context)
+        print(currentMantraCount)
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: K.detailsViewControllerID,
                 creator: { [weak self] coder in
@@ -346,6 +348,7 @@ class MantraTableViewController: UITableViewController {
     private func handleAddPreloadedMantra() {
         addPreloadedMantra()
         currentMantraCount += 1
+        print(currentMantraCount)
         saveMantras()
         loadMantras()
         if !inFavoriteMode {
@@ -484,6 +487,7 @@ extension MantraTableViewController: DetailsViewControllerDelegate {
     func updateView() {
         if currentMantraCount < overallMantraArray.count {
             currentMantraCount = overallMantraArray.count
+            print(currentMantraCount)
             loadMantras()
             if !inFavoriteMode {
                 let indexPath = IndexPath(row: currentMantraCount-1, section: 0)
