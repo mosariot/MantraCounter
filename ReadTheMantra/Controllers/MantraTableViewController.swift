@@ -320,11 +320,12 @@ class MantraTableViewController: UITableViewController {
     
     private func isMantraDuplicating() -> Bool {
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
+        let title = InitialMantra.data[selectedMantraNumber][.title]
         var isDuplicating = false
-        overallMantraArray.forEach { (mantra) in
-            if mantra.title == InitialMantra.data[selectedMantraNumber][.title] {
-                isDuplicating = true
-            }
+        if overallMantraArray
+                        .map { $0.title }
+                        .contains(title) {
+            isDuplicating = true
         }
         return isDuplicating
     }
