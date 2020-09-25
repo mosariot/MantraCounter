@@ -13,7 +13,7 @@
 /* Alert Title on MantraTableViewController */
 "Preloaded Mantra" = "Из предустановленных";
 
-/* Alert Message on MantraTableViewController */
+/* Alert Message for Duplication */
 "It's already in your mantra list. Add another one?" = "Уже есть в Вашем списке. Добавить еше одну?";
 
 /* Alert Button on MantraTableViewController */
