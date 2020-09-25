@@ -20,6 +20,7 @@ class DetailsViewController: UIViewController {
     private var mantra: Mantra
     private var mode: DetailsMode
     private var position: Int
+    private var mantraTitles: [String]?
     private var mantraImageData: Data?
     private var mantraImageForTableViewData: Data?
     private weak var delegate: DetailsViewControllerDelegate?
@@ -40,10 +41,11 @@ class DetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init?(mantra: Mantra, mode: DetailsMode, position: Int, delegate: DetailsViewControllerDelegate, coder: NSCoder) {
+    init?(mantra: Mantra, mode: DetailsMode, position: Int, mantraTitles: [String]?, delegate: DetailsViewControllerDelegate, coder: NSCoder) {
         self.mantra = mantra
-        self.position = position
         self.mode = mode
+        self.position = position
+        self.mantraTitles = mantraTitles
         self.delegate = delegate
         
         super.init(coder: coder)
@@ -138,12 +140,12 @@ class DetailsViewController: UIViewController {
     //MARK: - NavBar Buttons Methods
     
     @objc private func addButtonPressed() {
-        if let title = titleTextField.text, let text = mantraTextTextView.text, let details = detailsTextView.text, title != "" {
-            processMantra(title: title, text: text, details: details)
-            saveMantras()
-            context.reset()
-            delegate?.updateView()
-            dismiss(animated: true, completion: nil)
+        if let title = titleTextField.text, title != "" {
+            if isMantraDuplicating(for: title) {
+                showDuplicatingAlert(for: title)
+            } else {
+                handleAddNewMantra(for: title)
+            }
         } else {
             showIncorrectTitleAlert()
         }
@@ -160,8 +162,8 @@ class DetailsViewController: UIViewController {
     }
     
     @objc private func doneButtonPressed() {
-        if let title = titleTextField.text, let text = mantraTextTextView.text, let details = detailsTextView.text, title != "" {
-            processMantra(title: title, text: text, details: details)
+        if let title = titleTextField.text, title != "" {
+            processMantra(title: title)
             saveMantras()
             delegate?.updateView()
             setViewMode()
@@ -175,10 +177,37 @@ class DetailsViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    private func processMantra(title: String, text: String, details: String) {
+    private func isMantraDuplicating(for title: String) -> Bool {
+        var isDuplicating = false
+        if mantraTitles.contains(title) {
+            isDuplicating = true
+        }
+        return isDuplicating
+    }
+    
+    private func showDuplicatingAlert(for title: String) {
+        let alert = UIAlertController(title: nil, message: NSLocalizedString("It's already in your mantra list. Add another one?", comment: "Alert Message for Duplication"), preferredStyle: .alert)
+        let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraTableViewController"), style: .default) { [weak self] (action) in
+            self?.handleAddNewMantra(for: title)
+        }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"), style: .destructive, handler: nil)
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func handleAddNewMantra(for title: String) {
+        processMantra(title: title)
+        saveMantras()
+        context.reset()
+        delegate?.updateView()
+        dismiss(animated: true, completion: nil)
+    }
+    
+    private func processMantra(title: String) {
         mantra.title = title
-        mantra.text = text
-        mantra.details = details
+        mantra.text = mantraTextTextView.text
+        mantra.details = detailsTextView.text
         mantra.position = Int32(position)
         mantra.image = mantraImageData ?? nil
         mantra.imageForTableView = mantraImageForTableViewData ?? nil
