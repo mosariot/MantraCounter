@@ -188,7 +188,12 @@ class ReadsCountViewController: UIViewController {
             showReadsCongratulationsAlert(level: .halfGoal)
         }
         if oldReads < mantra.readsGoal && newReads >= mantra.readsGoal {
-            showReadsCongratulationsAlert(level: .fullGoal)
+            let confettiView = makeConfettiView(with: view.bounds.size.width)
+            view.addSubview(confettiView)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5) {
+                confettiView.removeFromSuperView()
+                showReadsCongratulationsAlert(level: .fullGoal)
+            }
         }
     }
     
@@ -294,16 +299,13 @@ extension ReadsCountViewController {
 
 
 extension ReadsCountViewController {
-    func part() -> UIView {
-        // Step 0: Playground Setup
+    func makeConfettiView(with width: Double) -> UIView {
+
         let view = UIView()
-        view.backgroundColor = .white
-        view.frame = CGRect(x: 0, y: 0, width: 500, height: 500)
+        view.backgroundColor = .clearColor
+        view.frame = CGRect(x: 0, y: 0, width: width, height: width)
         
         // Step 1: Creating Confetti Images
-        /**
-         Represents a single type of confetti piece.
-         */
         class ConfettiType {
             let color: UIColor
             let shape: ConfettiShape
@@ -399,13 +401,7 @@ extension ReadsCountViewController {
         }
         
         // Step 4: _Wave_ Hello to CAEmitterBehavior
-        /*
-         Returns a new CAEmitterBehavior with the given name.
-         
-         For Swift Playgrounds, it's easier to use runtime methods
-         than to add a CAEmitterBehavior header to the project.
-         Originally from https://bryce.co/caemitterbehavior/
-         */
+
         func createBehavior(type: String) -> NSObject {
             let behaviorClass = NSClassFromString("CAEmitterBehavior") as! NSObject.Type
             let behaviorWithType = behaviorClass.method(for: NSSelectorFromString("behaviorWithType:"))!
@@ -455,6 +451,7 @@ extension ReadsCountViewController {
         }
         
         // Step 6: Animations & Explosions
+        
         func addAttractorAnimation(to layer: CALayer) {
             let animation = CAKeyframeAnimation()
             animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
@@ -481,6 +478,7 @@ extension ReadsCountViewController {
         }
         
         // Step 7: Air Resistance & Gravity
+        
         func dragBehavior() -> Any {
             let behavior = createBehavior(type: "drag")
             behavior.setValue("drag", forKey: "name")
@@ -510,6 +508,7 @@ extension ReadsCountViewController {
         }
         
         // Step 8: Background & Foreground
+        
         func createConfettiLayer() -> CAEmitterLayer {
             let emitterLayer = CAEmitterLayer()
             
