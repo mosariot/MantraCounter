@@ -268,7 +268,7 @@ class MantraTableViewController: UITableViewController {
                 identifier: K.detailsViewControllerID,
                 creator: { [weak self] coder in
                     guard let self = self else { fatalError() }
-                    return DetailsViewController(mantra: mantra, mode: .add, position: self.currentMantraCount, delegate: self, coder: coder)
+                    return DetailsViewController(mantra: mantra, mode: .add, position: self.currentMantraCount, mantraTitles: self.overallMantraArray.map { $0.title }, delegate: self, coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
         present(navigationController, animated: true)
@@ -312,7 +312,7 @@ class MantraTableViewController: UITableViewController {
     @objc private func donePreloadedMantraButtonPressed() {
         mantraPickerTextField.resignFirstResponder()
         if isMantraDuplicating() {
-            duplicatingAlert()
+            showDuplicatingAlert()
         } else {
             handleAddPreloadedMantra()
         }
@@ -329,7 +329,7 @@ class MantraTableViewController: UITableViewController {
         return isDuplicating
     }
     
-    private func duplicatingAlert() {
+    private func showDuplicatingAlert() {
         let alert = UIAlertController(title: nil, message: NSLocalizedString("It's already in your mantra list. Add another one?", comment: "Alert Message on MantraTableViewController"), preferredStyle: .alert)
         let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraTableViewController"), style: .default) { [weak self] (action) in
             self?.handleAddPreloadedMantra()
@@ -488,6 +488,7 @@ extension MantraTableViewController: DetailsViewControllerDelegate {
                 let indexPath = IndexPath(row: currentMantraCount-1, section: 0)
                 tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
             }
-        }
+        } else {
+            loadMantras()
     }
 }
