@@ -1,7 +1,7 @@
-﻿/* App name */
+/* App name */
 "Mantra Counter" = "Начитай!";
 
-/*Segment Title on MantraTableViewController */
+/* Segment Title on MantraTableViewController */
 "All" = "Все";
 
 /* Search Placeholder */

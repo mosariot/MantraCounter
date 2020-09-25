@@ -107,7 +107,7 @@ class MantraTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.mantraCellID, for: indexPath)
         let mantra = mantraArray[indexPath.row]
         cell.textLabel?.text = mantra.title
-        cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)" + "\(mantra.position)"
+        cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
         cell.detailTextLabel?.textColor = .secondaryLabel
         cell.imageView?.image = imageForCell(for: mantra)
         cell.accessoryType = .disclosureIndicator
@@ -158,12 +158,12 @@ class MantraTableViewController: UITableViewController {
         
         guard sourceIndexPath != destinationIndexPath else { return }
         
-        reorderMantraPositionsForMovingAction(from: sourceIndexPath.row, to: destinationIndexPath.row)
-        saveMantras()
-        
         let movedMantra = mantraArray[sourceIndexPath.row]
         mantraArray.remove(at: sourceIndexPath.row)
         mantraArray.insert(movedMantra, at: destinationIndexPath.row)
+        
+        reorderMantraPositions()
+        saveMantras()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -201,13 +201,11 @@ class MantraTableViewController: UITableViewController {
     }
     
     private func deleteMantra(for indexPath: IndexPath) {
-        reorderMantraPositionsForDeleteAction(deletingPosition: indexPath.row)
         context.delete(mantraArray[indexPath.row])
-        saveMantras()
-        
         mantraArray.remove(at: indexPath.row)
         currentMantraCount -= 1
-        print(currentMantraCount)
+        reorderMantraPositions()
+        saveMantras()
         tableView.deleteRows(at: [indexPath], with: .fade)
     }
     
@@ -220,28 +218,10 @@ class MantraTableViewController: UITableViewController {
         }
     }
     
-    private func reorderMantraPositionsForDeleteAction(deletingPosition: Int) {
-        guard deletingPosition+1 < currentMantraCount else { return }
-        for i in (deletingPosition+1)..<currentMantraCount {
-            mantraArray[i].position -= 1
+    private func reorderMantraPositions() {
+        for i in 0..<mantraArray.count {
+            mantraArray[i].position = Int32(i)
         }
-    }
-    
-    private func reorderMantraPositionsForMovingAction(from source: Int, to destination: Int) {
-        let reorderIndexDifference = source - destination
-        switch reorderIndexDifference {
-        case 1...:
-            for i in destination..<source {
-                mantraArray[i].position += 1
-            }
-        case ...(-1):
-            for i in (source+1)...(destination) {
-                mantraArray[i].position -= 1
-            }
-        default:
-            return
-        }
-        mantraArray[source].position = Int32(destination)
     }
     
     //MARK: - Add Mantra Stack
@@ -265,12 +245,15 @@ class MantraTableViewController: UITableViewController {
     
     private func showNewMantraVC() {
         let mantra = Mantra(context: context)
-        print(currentMantraCount)
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: K.detailsViewControllerID,
                 creator: { [weak self] coder in
                     guard let self = self else { fatalError() }
-                    return DetailsViewController(mantra: mantra, mode: .add, position: self.currentMantraCount, mantraTitles: self.overallMantraArray.map { $0.title }, delegate: self, coder: coder)
+                    return DetailsViewController(mantra: mantra,
+                                                 mode: .add,
+                                                 position: self.currentMantraCount,
+                                                 mantraTitles: self.overallMantraArray.compactMap{$0.title},
+                                                 delegate: self, coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
         present(navigationController, animated: true)
@@ -324,9 +307,7 @@ class MantraTableViewController: UITableViewController {
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
         let title = InitialMantra.data[selectedMantraNumber][.title]
         var isDuplicating = false
-        if overallMantraArray
-                        .map { $0.title }
-                        .contains(title) {
+        if (overallMantraArray.map{$0.title}).contains(title) {
             isDuplicating = true
         }
         return isDuplicating
@@ -348,7 +329,6 @@ class MantraTableViewController: UITableViewController {
     private func handleAddPreloadedMantra() {
         addPreloadedMantra()
         currentMantraCount += 1
-        print(currentMantraCount)
         saveMantras()
         loadMantras()
         if !inFavoriteMode {
@@ -459,11 +439,8 @@ extension MantraTableViewController: UISearchResultsUpdating {
             loadMantras()
             return
         }
-        
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         let predicate = NSPredicate(format: "title CONTAINS[cd] %@", text)
-        print(text)
-        
         loadMantras(with: request, predicate: predicate)
     }
 }
@@ -487,7 +464,6 @@ extension MantraTableViewController: DetailsViewControllerDelegate {
     func updateView() {
         if currentMantraCount < overallMantraArray.count {
             currentMantraCount = overallMantraArray.count
-            print(currentMantraCount)
             loadMantras()
             if !inFavoriteMode {
                 let indexPath = IndexPath(row: currentMantraCount-1, section: 0)
@@ -495,5 +471,6 @@ extension MantraTableViewController: DetailsViewControllerDelegate {
             }
         } else {
             loadMantras()
+        }
     }
 }

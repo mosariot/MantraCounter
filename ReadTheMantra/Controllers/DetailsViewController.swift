@@ -41,7 +41,7 @@ class DetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init?(mantra: Mantra, mode: DetailsMode, position: Int, mantraTitles: [String]?, delegate: DetailsViewControllerDelegate, coder: NSCoder) {
+    init?(mantra: Mantra, mode: DetailsMode, position: Int, mantraTitles: [String]? = nil, delegate: DetailsViewControllerDelegate? = nil, coder: NSCoder) {
         self.mantra = mantra
         self.mode = mode
         self.position = position
@@ -179,8 +179,10 @@ class DetailsViewController: UIViewController {
     
     private func isMantraDuplicating(for title: String) -> Bool {
         var isDuplicating = false
-        if mantraTitles.contains(title) {
-            isDuplicating = true
+        if let mantraTitles = mantraTitles {
+            if mantraTitles.contains(title) {
+                isDuplicating = true
+            }
         }
         return isDuplicating
     }
