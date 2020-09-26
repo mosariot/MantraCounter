@@ -13,6 +13,7 @@ class ReadsCountViewController: UIViewController {
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     private let mantra: Mantra
+    private let favoritePosition: Int32
     
     @IBOutlet private weak var mantraImage: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!
@@ -26,8 +27,9 @@ class ReadsCountViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init?(mantra: Mantra, coder: NSCoder) {
+    init?(mantra: Mantra, favoritePosition: Int32, coder: NSCoder) {
         self.mantra = mantra
+        self.favoritePosition = favoritePosition
         
         super.init(coder: coder)
     }
@@ -70,6 +72,8 @@ class ReadsCountViewController: UIViewController {
     
     @objc private func favoriteButtonPressed() {
         mantra.isFavorite = !mantra.isFavorite
+        mantra.positionFavorite = mantra.isFavorite ? favoritePosition : 0
+        saveMantras()
         setupNavButtons()
     }
     

@@ -17,6 +17,7 @@ class MantraTableViewController: UITableViewController {
     
     private var mantraArray = [Mantra]()
     private var currentMantraCount = 0
+    private var currentFavoriteMantraCount = 0
     
     private let segmentedControl = UISegmentedControl(items: [NSLocalizedString("All", comment: "Segment Title on MantraTableViewController"),
                                                               UIImage(systemName: "star") as Any])
@@ -37,10 +38,24 @@ class MantraTableViewController: UITableViewController {
         return array
     }
     
+    private var favoriteMantraArray: [Mantra] {
+        var array = [Mantra]()
+        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "positionFavorite", ascending: true)]
+        request.predicate = NSPredicate(format: "isFavorite = %d", true)
+        do {
+            array = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+        return array
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         currentMantraCount = overallMantraArray.count
+        currentFavoriteMantraCount = favoriteMantraArray.count
         
         inFavoriteMode = defaults.bool(forKey: "inFavoriteMode")
         setupNavigationBar()
@@ -51,6 +66,13 @@ class MantraTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        if currentFavoriteMantraCount != favoriteMantraArray.count {
+            currentFavoriteMantraCount = favoriteMantraArray.count
+            reorderFavoriteMantraPositions()
+            saveMantras()
+        }
+        
         if searchController.isActive {
             performSearch()
         } else {
@@ -62,16 +84,11 @@ class MantraTableViewController: UITableViewController {
     
     private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = false
-        navigationItem.hidesBackButton = true
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
         navigationItem.searchController = searchController
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
-        setEditButton()
-    }
-    
-    private func setEditButton() {
-        navigationItem.leftBarButtonItem = inFavoriteMode ? nil : UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
     }
     
     private func setupSegmentedControl() {
@@ -93,7 +110,6 @@ class MantraTableViewController: UITableViewController {
     @objc private func segmentedValueChanged(_ sender: UISegmentedControl) {
         inFavoriteMode = !inFavoriteMode
         defaults.set(inFavoriteMode, forKey: "inFavoriteMode")
-        setEditButton()
         loadMantras(withAnimation: true)
     }
     
@@ -170,8 +186,9 @@ class MantraTableViewController: UITableViewController {
         let mantra = mantraArray[indexPath.row]
         guard let readsCountViewController = storyboard?.instantiateViewController(
                 identifier: K.readsCountViewControllerID,
-                creator: { coder in
-                    ReadsCountViewController(mantra: mantra, coder: coder)
+                creator: { [weak self] coder in
+                    guard let self = self else { fatalError() }
+                    return ReadsCountViewController(mantra: mantra, favoritePosition: Int32(self.currentFavoriteMantraCount), coder: coder)
                 }) else { return }
         show(readsCountViewController, sender: true)
     }
@@ -211,6 +228,9 @@ class MantraTableViewController: UITableViewController {
     
     private func handleFavoriteAction(for indexPath: IndexPath) {
         mantraArray[indexPath.row].isFavorite = !mantraArray[indexPath.row].isFavorite
+        mantraArray[indexPath.row].positionFavorite = mantraArray[indexPath.row].isFavorite ? Int32(currentFavoriteMantraCount) : Int32(0)
+        currentFavoriteMantraCount = mantraArray[indexPath.row].isFavorite ? (currentFavoriteMantraCount + 1) : (currentFavoriteMantraCount - 1)
+        reorderFavoriteMantraPositions()
         saveMantras()
         if inFavoriteMode {
             mantraArray.remove(at: indexPath.row)
@@ -219,8 +239,20 @@ class MantraTableViewController: UITableViewController {
     }
     
     private func reorderMantraPositions() {
-        for i in 0..<mantraArray.count {
-            mantraArray[i].position = Int32(i)
+        if inFavoriteMode {
+            for i in 0..<mantraArray.count {
+                mantraArray[i].positionFavorite = Int32(i)
+            }
+        } else {
+            for i in 0..<mantraArray.count {
+                mantraArray[i].position = Int32(i)
+            }
+        }
+    }
+    
+    private func reorderFavoriteMantraPositions() {
+        for i in 0..<favoriteMantraArray.count {
+            favoriteMantraArray[i].positionFavorite = Int32(i)
         }
     }
     
@@ -373,7 +405,7 @@ class MantraTableViewController: UITableViewController {
     
     private func loadMantras(with request: NSFetchRequest<Mantra> = Mantra.fetchRequest(), predicate: NSPredicate? = nil, withAnimation: Bool = false) {
         
-        request.sortDescriptors = [NSSortDescriptor(key: "position", ascending: true)]
+        request.sortDescriptors = inFavoriteMode ? [NSSortDescriptor(key: "positionFavorite", ascending: true)] : [NSSortDescriptor(key: "position", ascending: true)]
         let favoritePredicate = NSPredicate(format: "isFavorite = %d", true)
         if let additionalPredicate = predicate {
             request.predicate = additionalPredicate
