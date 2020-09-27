@@ -69,7 +69,7 @@ class MantraTableViewController: UITableViewController {
         
         if currentFavoriteMantraCount != favoriteMantraArray.count {
             currentFavoriteMantraCount = favoriteMantraArray.count
-            reorderFavoriteMantraPositions()
+            reorderFavoriteMantraPositionsForAddingOrDeleting()
             saveMantras()
         }
         
@@ -178,7 +178,7 @@ class MantraTableViewController: UITableViewController {
         mantraArray.remove(at: sourceIndexPath.row)
         mantraArray.insert(movedMantra, at: destinationIndexPath.row)
         
-        reorderMantraPositions()
+        reorderMantraPositionsForMoving()
         saveMantras()
     }
     
@@ -219,9 +219,11 @@ class MantraTableViewController: UITableViewController {
     
     private func deleteMantra(for indexPath: IndexPath) {
         context.delete(mantraArray[indexPath.row])
+        currentFavoriteMantraCount = mantraArray[indexPath.row].isFavorite ? currentFavoriteMantraCount-1 : currentFavoriteMantraCount
         mantraArray.remove(at: indexPath.row)
         currentMantraCount -= 1
-        reorderMantraPositions()
+        reorderMantraPositionsForMoving()
+        reorderFavoriteMantraPositionsForAddingOrDeleting()
         saveMantras()
         tableView.deleteRows(at: [indexPath], with: .fade)
     }
@@ -230,7 +232,7 @@ class MantraTableViewController: UITableViewController {
         mantraArray[indexPath.row].isFavorite = !mantraArray[indexPath.row].isFavorite
         mantraArray[indexPath.row].positionFavorite = mantraArray[indexPath.row].isFavorite ? Int32(currentFavoriteMantraCount) : Int32(0)
         currentFavoriteMantraCount = mantraArray[indexPath.row].isFavorite ? (currentFavoriteMantraCount + 1) : (currentFavoriteMantraCount - 1)
-        reorderFavoriteMantraPositions()
+        reorderFavoriteMantraPositionsForAddingOrDeleting()
         saveMantras()
         if inFavoriteMode {
             mantraArray.remove(at: indexPath.row)
@@ -238,19 +240,17 @@ class MantraTableViewController: UITableViewController {
         }
     }
     
-    private func reorderMantraPositions() {
-        if inFavoriteMode {
-            for i in 0..<mantraArray.count {
+    private func reorderMantraPositionsForMoving() {
+        for i in 0..<mantraArray.count {
+            if inFavoriteMode {
                 mantraArray[i].positionFavorite = Int32(i)
-            }
-        } else {
-            for i in 0..<mantraArray.count {
+            } else {
                 mantraArray[i].position = Int32(i)
             }
         }
     }
     
-    private func reorderFavoriteMantraPositions() {
+    private func reorderFavoriteMantraPositionsForAddingOrDeleting() {
         for i in 0..<favoriteMantraArray.count {
             favoriteMantraArray[i].positionFavorite = Int32(i)
         }
@@ -259,6 +259,10 @@ class MantraTableViewController: UITableViewController {
     //MARK: - Add Mantra Stack
     
     @objc private func addButtonPressed() {
+        showAddNewMantraAlert()
+    }
+    
+    private func showAddNewMantraAlert() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let addNewMantraAction = UIAlertAction(title: NSLocalizedString("New Mantra", comment: "Alert Title on MantraTableViewController"),
                                                style: .default) { [weak self] (action) in
