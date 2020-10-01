@@ -100,6 +100,7 @@ class DetailsViewController: UIViewController {
     }
     
     private func setAddMode() {
+        navigationItem.title = NSLocalizedString("New Mantra", comment: "Add new mantra bar title")
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: "Button on MantraTableViewController"), style: .done, target: self, action: #selector(addButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonPressed))
         setPhotoButton.isUserInteractionEnabled = true
@@ -112,6 +113,7 @@ class DetailsViewController: UIViewController {
     }
     
     private func setEditMode() {
+        navigationItem.title = NSLocalizedString("Information", comment: "Information bar title")
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPressed))
         setPhotoButton.isUserInteractionEnabled = true
@@ -124,6 +126,7 @@ class DetailsViewController: UIViewController {
     }
     
     private func setViewMode() {
+        navigationItem.title = NSLocalizedString("Information", comment: "Information bar title")
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPressed))
         setPhotoButton.isUserInteractionEnabled = false
@@ -137,7 +140,7 @@ class DetailsViewController: UIViewController {
         detailsPlaceholderLabel.isHidden = true
     }
     
-    //MARK: - NavBar Buttons Methods
+    //MARK: - Navigtion Bar Buttons Methods
     
     @objc private func addButtonPressed() {
         if let title = titleTextField.text, title != "" {
@@ -188,11 +191,15 @@ class DetailsViewController: UIViewController {
     }
     
     private func showDuplicatingAlert(for title: String) {
-        let alert = UIAlertController(title: nil, message: NSLocalizedString("It's already in your mantra list. Add another one?", comment: "Alert Message for Duplication"), preferredStyle: .alert)
-        let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraTableViewController"), style: .default) { [weak self] (action) in
+        let alert = UIAlertController(title: nil,
+                                      message: NSLocalizedString("It's already in your mantra list. Add another one?", comment: "Alert Message for Duplication"),
+                                      preferredStyle: .alert)
+        let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraTableViewController"),
+                                      style: .default) { [weak self] (action) in
             self?.handleAddNewMantra(for: title)
         }
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"), style: .destructive, handler: nil)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"),
+                                         style: .destructive, handler: nil)
         alert.addAction(addAction)
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)

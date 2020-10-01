@@ -17,13 +17,14 @@ class LaunchViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.2) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
             self.goToMantraTableViewController()
         }
     }
     
     private func goToMantraTableViewController() {
-        if let mantraTableViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: K.mantraTableViewControllerID) as? UITableViewController {
+        if let mantraTableViewController = UIStoryboard(name: "Main", bundle: nil)
+            .instantiateViewController(withIdentifier: K.mantraTableViewControllerID) as? UITableViewController {
             show(mantraTableViewController, sender: self)
         }
     }

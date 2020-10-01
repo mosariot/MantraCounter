@@ -13,7 +13,7 @@ class ReadsCountViewController: UIViewController {
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     private let mantra: Mantra
-    private let favoritePosition: Int32
+    private let positionFavorite: Int32
     
     @IBOutlet private weak var mantraImage: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!
@@ -27,9 +27,9 @@ class ReadsCountViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init?(mantra: Mantra, favoritePosition: Int32, coder: NSCoder) {
+    init?(mantra: Mantra, positionFavorite: Int32, coder: NSCoder) {
         self.mantra = mantra
-        self.favoritePosition = favoritePosition
+        self.positionFavorite = positionFavorite
         
         super.init(coder: coder)
     }
@@ -54,7 +54,10 @@ class ReadsCountViewController: UIViewController {
         let infoButtonItem = UIBarButtonItem(customView: infoButton)
         
         let star = mantra.isFavorite ? "star.fill" : "star"
-        let favoriteButtonItem = UIBarButtonItem(image: UIImage(systemName: star), style: .plain, target: self, action: #selector(favoriteButtonPressed))
+        let favoriteButtonItem = UIBarButtonItem(image: UIImage(systemName: star),
+                                                 style: .plain,
+                                                 target: self,
+                                                 action: #selector(favoriteButtonPressed))
         
         navigationItem.rightBarButtonItems = [infoButtonItem, favoriteButtonItem]
     }
@@ -72,7 +75,7 @@ class ReadsCountViewController: UIViewController {
     
     @objc private func favoriteButtonPressed() {
         mantra.isFavorite = !mantra.isFavorite
-        mantra.positionFavorite = mantra.isFavorite ? favoritePosition : 0
+        mantra.positionFavorite = mantra.isFavorite ? positionFavorite : 0
         saveMantras()
         setupNavButtons()
     }
@@ -106,7 +109,7 @@ class ReadsCountViewController: UIViewController {
     }
     
     @IBAction private func setProperValueButtonPressed(_ sender: UIButton) {
-        showUpdatingAlert(updatingType: .setProperValue)
+        showUpdatingAlert(updatingType: .properValue)
     }
     
     private func showUpdatingAlert(updatingType: UpdatingType) {
@@ -140,7 +143,7 @@ class ReadsCountViewController: UIViewController {
         case .reads:
             return (NSLocalizedString("Enter Readings Number", comment: "Alert Title on ReadsCountViewController"),
                     NSLocalizedString("Add", comment: "Alert Button on ReadsCountViewController"))
-        case .setProperValue:
+        case .properValue:
             return (NSLocalizedString("Enter a New Readings Count", comment: "Alert Title on ReadsCountViewController"),
                     NSLocalizedString("Set", comment: "Alert Button on ReadsCountViewController"))
         }
@@ -168,7 +171,7 @@ class ReadsCountViewController: UIViewController {
             mantra.reads += value
         case .rounds:
             mantra.reads += value * 108
-        case .setProperValue:
+        case .properValue:
             mantra.reads = value
         }
     }
@@ -182,7 +185,7 @@ class ReadsCountViewController: UIViewController {
             circularProgressView.setValue(to: Int(mantra.reads))
         case .rounds:
             circularProgressView.setValue(to: Int(mantra.reads))
-        case .setProperValue:
+        case .properValue:
             circularProgressView.setValue(to: Int(mantra.reads))
         }
     }
@@ -290,7 +293,7 @@ extension ReadsCountViewController {
         case goal
         case reads
         case rounds
-        case setProperValue
+        case properValue
     }
 }
 

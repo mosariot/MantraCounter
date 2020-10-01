@@ -73,6 +73,12 @@
 /* Mantra description placeholder */
 "Enter mantra description" = "Введите описание мантры";
 
+/* Add new mantra bat title */
+"New Matra" = "Новая мантра";
+
+/* Information bar title */
+"Information" = "Информация";
+
 /* Alert Title on DetailsViewController */
 "Photo Library" = "Фототека";
 

@@ -188,7 +188,7 @@ class MantraTableViewController: UITableViewController {
                 identifier: K.readsCountViewControllerID,
                 creator: { [weak self] coder in
                     guard let self = self else { fatalError() }
-                    return ReadsCountViewController(mantra: mantra, favoritePosition: Int32(self.currentFavoriteMantraCount), coder: coder)
+                    return ReadsCountViewController(mantra: mantra, positionFavorite: Int32(self.currentFavoriteMantraCount), coder: coder)
                 }) else { return }
         show(readsCountViewController, sender: true)
     }
@@ -205,11 +205,15 @@ class MantraTableViewController: UITableViewController {
     //MARK: - Cells Manipulation Methods
     
     private func deleteConfirmationAlert(for indexPath: IndexPath) {
-        let alert = UIAlertController(title: nil, message: NSLocalizedString("Are you sure you want to delete this mantra?", comment: "Alert Message on MantraTableViewController"), preferredStyle: .alert)
-        let addAction = UIAlertAction(title: NSLocalizedString("Delete", comment: "Alert Button on MantraTableViewController"), style: .default) { [weak self] (action) in
+        let alert = UIAlertController(title: nil,
+                                      message: NSLocalizedString("Are you sure you want to delete this mantra?", comment: "Alert Message on MantraTableViewController"),
+                                      preferredStyle: .alert)
+        let addAction = UIAlertAction(title: NSLocalizedString("Delete", comment: "Alert Button on MantraTableViewController"),
+                                      style: .default) { [weak self] (action) in
             self?.deleteMantra(for: indexPath)
         }
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"), style: .destructive) { [weak self] (action) in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"),
+                                         style: .destructive) { [weak self] (action) in
             self?.dismissPreloadedMantraPickerState()
         }
         alert.addAction(addAction)
@@ -350,11 +354,15 @@ class MantraTableViewController: UITableViewController {
     }
     
     private func showDuplicatingAlert() {
-        let alert = UIAlertController(title: nil, message: NSLocalizedString("It's already in your mantra list. Add another one?", comment: "Alert Message for Duplication"), preferredStyle: .alert)
-        let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraTableViewController"), style: .default) { [weak self] (action) in
+        let alert = UIAlertController(title: nil,
+                                      message: NSLocalizedString("It's already in your mantra list. Add another one?", comment: "Alert Message for Duplication"),
+                                      preferredStyle: .alert)
+        let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraTableViewController"),
+                                      style: .default) { [weak self] (action) in
             self?.handleAddPreloadedMantra()
         }
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"), style: .destructive) { [weak self] (action) in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"),
+                                         style: .destructive) { [weak self] (action) in
             self?.dismissPreloadedMantraPickerState()
         }
         alert.addAction(addAction)

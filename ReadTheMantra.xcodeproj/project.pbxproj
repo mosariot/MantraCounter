@@ -48,7 +48,6 @@
 		9F5FE6A424E7183E00D0475E /* DetailsMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsMode.swift; sourceTree = "<group>"; };
 		9F5FE6AC24E78EE400D0475E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9F5FE6B524E9262B00D0475E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		9F5FE6B724E9263300D0475E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9F5FE6B824E9B6E500D0475E /* CircleAndResizeUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleAndResizeUIImage.swift; sourceTree = "<group>"; };
 		9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardWhenTappedAround.swift; sourceTree = "<group>"; };
 		9F9299AA2502A79D003D5029 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
@@ -273,7 +272,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				9F5FE6B524E9262B00D0475E /* ru */,
-				9F5FE6B724E9263300D0475E /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
