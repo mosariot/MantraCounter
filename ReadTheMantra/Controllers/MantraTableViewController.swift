@@ -28,7 +28,8 @@ class MantraTableViewController: UITableViewController {
     private lazy var mantraPickerTextField = UITextField(frame: CGRect.zero)
     private lazy var sortedInitialMantraData = InitialMantra.data.sorted {
         guard let mantraTitle0 = $0[.title], let mantraTitle1 = $1[.title] else { return false }
-        return mantraTitle0 < mantraTitle1 }
+        return mantraTitle0 < mantraTitle1
+    }
     
     private var overallMantraArray: [Mantra] {
         var array = [Mantra]()

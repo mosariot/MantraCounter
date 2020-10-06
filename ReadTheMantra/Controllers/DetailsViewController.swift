@@ -315,7 +315,7 @@ class DetailsViewController: UIViewController {
 
     //MARK: - Process Image
 
-    private func processImage (image: UIImage) {
+    private func processImage(image: UIImage) {
         let circledImage = image.circle()
         let resizedCircledImage = circledImage?.resize(to: CGSize(width: 320, height: 320))
         let resizedCircledImageForTableView = circledImage?.resize(to: CGSize(width: 160, height: 160))
