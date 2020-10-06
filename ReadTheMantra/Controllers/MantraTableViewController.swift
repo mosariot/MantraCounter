@@ -26,6 +26,9 @@ class MantraTableViewController: UITableViewController {
     
     private lazy var mantraPicker = UIPickerView()
     private lazy var mantraPickerTextField = UITextField(frame: CGRect.zero)
+    private lazy var sortedInitialMantraData = InitialMantra.data.sorted {
+        guard let mantraTitle0 = $0[.title], let mantraTitle1 = $1[.title] else { return false }
+        return mantraTitle0 < mantraTitle1 }
     
     private var overallMantraArray: [Mantra] {
         var array = [Mantra]()
@@ -345,7 +348,7 @@ class MantraTableViewController: UITableViewController {
     
     private func isMantraDuplicating() -> Bool {
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
-        let title = InitialMantra.data[selectedMantraNumber][.title]
+        let title = sortedInitialMantraData[selectedMantraNumber][.title]
         var isDuplicating = false
         if (overallMantraArray.map{$0.title}).contains(title) {
             isDuplicating = true
@@ -385,7 +388,7 @@ class MantraTableViewController: UITableViewController {
     private func addPreloadedMantra() {
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
         let mantra = Mantra(context: context)
-        let preloadedMantra = InitialMantra.data[selectedMantraNumber]
+        let preloadedMantra = sortedInitialMantraData[selectedMantraNumber]
         mantra.position = Int32(currentMantraCount)
         mantra.title = preloadedMantra[.title]
         mantra.text = preloadedMantra[.text]
@@ -460,11 +463,11 @@ extension MantraTableViewController: UIPickerViewDelegate, UIPickerViewDataSourc
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        InitialMantra.data.count
+        sortedInitialMantraData.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        InitialMantra.data[row][.title]
+        sortedInitialMantraData[row][.title]
     }
 }
 

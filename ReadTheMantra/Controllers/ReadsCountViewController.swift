@@ -181,11 +181,7 @@ class ReadsCountViewController: UIViewController {
         case .goal:
             circularProgressView.setGoal(to: Int(mantra.readsGoal))
             readsGoalButton.setTitle(NSLocalizedString("Goal: ", comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(), for: .normal)
-        case .reads:
-            circularProgressView.setValue(to: Int(mantra.reads))
-        case .rounds:
-            circularProgressView.setValue(to: Int(mantra.reads))
-        case .properValue:
+        case .reads, .rounds, .properValue:
             circularProgressView.setValue(to: Int(mantra.reads))
         }
     }
