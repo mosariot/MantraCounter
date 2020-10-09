@@ -237,7 +237,7 @@ class ReadsCountViewController: UIViewController {
     private func setReadsButtonsTitles() {
         
         let readingsImageAttachment = NSTextAttachment()
-        readingsImageAttachment.image = UIImage(systemName: "plus.circle")
+        readingsImageAttachment.image = UIImage(systemName: "plus.circle")?.withTintColor(.systemBackground, renderingMode: .alwaysOriginal)
         let readingsButtonString = NSMutableAttributedString(string: "")
         readingsButtonString.append(NSAttributedString(attachment: readingsImageAttachment))
         readingsButtonString.append(NSAttributedString(string: NSLocalizedString(" Add Readings",
@@ -246,7 +246,7 @@ class ReadsCountViewController: UIViewController {
         addReadingsButton.layer.cornerRadius = 20
         
         let roundsImageAttachment = NSTextAttachment()
-        roundsImageAttachment.image = UIImage(systemName: "goforward")
+        roundsImageAttachment.image = UIImage(systemName: "goforward.plus")?.withTintColor(.systemBackground, renderingMode: .alwaysOriginal)
         let roundsButtonString = NSMutableAttributedString(string: "")
         roundsButtonString.append(NSAttributedString(attachment: roundsImageAttachment))
         roundsButtonString.append(NSAttributedString(string: NSLocalizedString(" Add Rounds",
@@ -255,7 +255,7 @@ class ReadsCountViewController: UIViewController {
         addRoundsButton.layer.cornerRadius = 20
         
         let manualCorrectionImageAttachment = NSTextAttachment()
-        manualCorrectionImageAttachment.image = UIImage(systemName: "hand.draw")
+        manualCorrectionImageAttachment.image = UIImage(systemName: "hand.draw")?.withTintColor(.systemBackground, renderingMode: .alwaysOriginal)
         let manualCorrectionButtonString = NSMutableAttributedString(string: "")
         manualCorrectionButtonString.append(NSAttributedString(attachment: manualCorrectionImageAttachment))
         manualCorrectionButtonString.append(NSAttributedString(string: NSLocalizedString(" Set Proper Value",
