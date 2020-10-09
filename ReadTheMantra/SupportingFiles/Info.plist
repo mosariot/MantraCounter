@@ -68,7 +68,7 @@
 			<key>UIApplicationShortcutItemIconType</key>
 			<string>UIApplicationShortcutIconTypeSearch</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Search</string>
+			<string>Search_Shortcut_Title</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>com.mosariot.MantraCounter.search</string>
 		</dict>
@@ -76,7 +76,7 @@
 			<key>UIApplicationShortcutItemIconType</key>
 			<string>UIApplicationShortcutIconTypeCompose</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Add New Mantra</string>
+			<string>Add_New_Mantra_Shortcut_Title</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>com.mosariot.MantraCounter.addNewMantra</string>
 		</dict>
@@ -84,7 +84,7 @@
 			<key>UIApplicationShortcutItemIconType</key>
 			<string>UIApplicationShortcutIconTypeFavorite</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Favorites</string>
+			<string>Favorites_Shortcut_Title</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>com.mosariot.MantraCounter.favorites</string>
 		</dict>
