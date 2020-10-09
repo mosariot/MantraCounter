@@ -24,6 +24,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.set(true, forKey: "isPreloaded")
         }
         
+        if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
+            switch shortcutItem.type {
+            case com.mosariot.MantraCounter.search:
+                print("Search triggered")
+            case com.mosariot.MantraCounter.addNewMantra:
+                print("Add new mantra triggered")
+             case com.mosariot.MantraCounter.favorites:
+                print("Favorites triggered")
+            }
+        }
+        
         return true
     }
 
@@ -36,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
     }
     
-    //MARK: - Preload Data Stack
+    //MARK: - Preload Data For First Launch
     
     func preloadData() {
         let context = persistentContainer.viewContext
@@ -77,8 +88,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
         return container
     }()
-
-    // MARK: - Core Data Saving support
 
     func saveContext () {
         let context = persistentContainer.viewContext
