@@ -114,11 +114,11 @@ class ReadsCountViewController: UIViewController {
     
     private func showUpdatingAlert(updatingType: UpdatingType) {
         
-        let (alertTitle, actionTitle) = alertAndActionTitles(with: updatingType)
+        let (alertTitle, actionTitle) = alertAndActionTitles(for: updatingType)
         
         let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
         let positiveAction = UIAlertAction(title: actionTitle, style: .cancel) { [weak self] (action) in
-            self?.handleAlertPositiveAction(from: alert, with: updatingType)
+            self?.handleAlertPositiveAction(from: alert, for: updatingType)
         }
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = NSLocalizedString("Enter number", comment: "Alert Placehonder on ReadsCountViewController")
@@ -132,7 +132,7 @@ class ReadsCountViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    private func alertAndActionTitles(with updatingType: UpdatingType) -> (String, String) {
+    private func alertAndActionTitles(for updatingType: UpdatingType) -> (String, String) {
         switch updatingType {
         case .goal:
             return (NSLocalizedString("Set new readings goal", comment: "Alert Title on ReadsCountViewController"),
@@ -149,7 +149,7 @@ class ReadsCountViewController: UIViewController {
         }
     }
     
-    private func handleAlertPositiveAction(from alert: UIAlertController, with updatingType: UpdatingType) {
+    private func handleAlertPositiveAction(from alert: UIAlertController, for updatingType: UpdatingType) {
         let oldReads = mantra.reads
         if let alertTextField = alert.textFields?.first?.text {
             if let alertNumber = UInt32(alertTextField) {
@@ -232,7 +232,7 @@ class ReadsCountViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    //MARK: - Button Initial Appearance
+    //MARK: - Buttons Initial Appearance
     
     private func setReadsButtonsTitles() {
         
@@ -243,14 +243,16 @@ class ReadsCountViewController: UIViewController {
         readingsButtonString.append(NSAttributedString(string: NSLocalizedString(" Add Readings",
                                                                                  comment: "Button Title on ReadsCountViewController")))
         addReadingsButton.setAttributedTitle(readingsButtonString, for: .normal)
+        addReadingsButton.layer.cornerRadius = 20
         
         let roundsImageAttachment = NSTextAttachment()
         roundsImageAttachment.image = UIImage(systemName: "goforward")
         let roundsButtonString = NSMutableAttributedString(string: "")
         roundsButtonString.append(NSAttributedString(attachment: roundsImageAttachment))
-        roundsButtonString.append(NSAttributedString(string: NSLocalizedString(" Add Rounds (х108)",
+        roundsButtonString.append(NSAttributedString(string: NSLocalizedString(" Add Rounds",
                                                                                comment: "Button Title on ReadsCountViewController")))
         addRoundsButton.setAttributedTitle(roundsButtonString, for: .normal)
+        addRoundsButton.layer.cornerRadius = 20
         
         let manualCorrectionImageAttachment = NSTextAttachment()
         manualCorrectionImageAttachment.image = UIImage(systemName: "hand.draw")
@@ -259,6 +261,7 @@ class ReadsCountViewController: UIViewController {
         manualCorrectionButtonString.append(NSAttributedString(string: NSLocalizedString(" Set Proper Value",
                                                                                          comment: "Button Title on ReadsCountViewController")))
         setProperValueButton.setAttributedTitle(manualCorrectionButtonString, for: .normal)
+        setProperValueButton.layer.cornerRadius = 20
     }
     
     //MARK: - Model Manipulation
