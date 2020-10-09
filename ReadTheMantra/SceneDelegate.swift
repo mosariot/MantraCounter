@@ -16,6 +16,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let _ = (scene as? UIWindowScene) else { return }
     }
     
+    func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        switch shortcutItem.type {
+        case com.mosariot.MantraCounter.search:
+            print("Search triggered")
+        case com.mosariot.MantraCounter.addNewMantra:
+            print("Add new mantra triggered")
+        case com.mosariot.MantraCounter.favorites:
+            print("Favorites triggered")
+        }
+        completionHandler(true)
+    }
+    
     func sceneDidDisconnect(_ scene: UIScene) {
     }
     
