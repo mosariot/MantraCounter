@@ -104,7 +104,8 @@ class DetailsViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: "Button on MantraTableViewController"), style: .done, target: self, action: #selector(addButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonPressed))
         setPhotoButton.isUserInteractionEnabled = true
-        setPhotoButton.addPencilMark(color: .systemBackground, size: 50)
+        setPhotoButton.addPencilMark(color: .label)
+        setPhotoButton.layer.opacity = 0.7
         titleTextField.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
         detailsTextView.isEditable = true
@@ -118,7 +119,8 @@ class DetailsViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPressed))
         setPhotoButton.isUserInteractionEnabled = true
-        setPhotoButton.addPencilMark(color: .systemBackground, size: 50)
+        setPhotoButton.addPencilMark(color: .label)
+        setPhotoButton.layer.opacity = 0.7
         titleTextField.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
         detailsTextView.isEditable = true
@@ -132,7 +134,10 @@ class DetailsViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPressed))
         setPhotoButton.isUserInteractionEnabled = false
-        setPhotoButton.subviews.forEach({ $0.removeFromSuperview() })
+        setPhotoButton.layer.opacity = 1
+        if let pencilView = setPhotoButton.viewWithTag(1) {
+            pencilView.removeFromSuperview()
+        }
         titleTextField.isUserInteractionEnabled = false
         mantraTextTextView.isEditable = false
         detailsTextView.isEditable = false
@@ -249,7 +254,9 @@ class DetailsViewController: UIViewController {
                                                 self?.setDefaultImage()
         }
     
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"),
+                                         style: .cancel,
+                                         handler: nil)
         alert.addAction(photoLibraryAction)
         alert.addAction(defaultPhotoAction)
         alert.addAction(cancelAction)
@@ -385,41 +392,5 @@ extension DetailsViewController: UIAdaptivePresentationControllerDelegate {
             context.reset()
         }
         delegate?.updateView()
-    }
-}
-
-extension UIView {
-
-    func addDashedCircleBorder(color: UIColor, lineWidth: Double) {
-
-        let shapeLayer = CAShapeLayer()
-        let frameSize = self.frame.size
-        let shapeRect = CGRect(x: 0, y: 0, width: frameSize.width, height: frameSize.height)
-
-        shapeLayer.bounds = shapeRect
-        shapeLayer.position = CGPoint(x: frameSize.width/2, y: frameSize.height/2)
-        shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.strokeColor = color.cgColor
-        shapeLayer.lineWidth = lineWidth
-        shapeLayer.lineJoin = CAShapeLayerLineJoin.round
-        shapeLayer.lineDashPattern = [6,3]
-        shapeLayer.path = UIBezierPath(roundedRect: shapeRect, cornerRadius: frameSize.width/2).cgPath
-
-        self.layer.addSublayer(shapeLayer)
-    }
-}
-
-extension UIView {
-
-    func addPencilMark(color: UIColor, size: Int) {
-        if let pencilImage = (systemName: "pencil.circle")?.withTintColor(.systemBackground, renderingMode: .alwaysOriginal) {
-            let pencilImageView = UIImageView(image: pencilImage)
-            pencilImageView.frame = CGRect(x: 0, y: 0, width: size, height: size)
-//             pencilImageView.layer.position = CGpoint(x: self.frame.width-CGFloat(size/2), y: size/2)
-            self.view.addSubview(pencilImageView)
-//             self.view.bringSubview(toFront: pencilImageView)
-            child.translatesAutoresizingMaskIntoConstraints = false
-            pencilImageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        }
     }
 }

@@ -18,12 +18,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
         switch shortcutItem.type {
-        case com.mosariot.MantraCounter.search:
-            print("Search triggered")
-        case com.mosariot.MantraCounter.addNewMantra:
-            print("Add new mantra triggered")
-        case com.mosariot.MantraCounter.favorites:
-            print("Favorites triggered")
+        case "com.mosariot.MantraCounter.search":
+            print("SceneDelegate Search triggered")
+        case "com.mosariot.MantraCounter.addNewMantra":
+            print("SceneDelegate Add new mantra triggered")
+        case "com.mosariot.MantraCounter.favorites":
+            print("SceneDelegate Favorites triggered")
+        default:
+            break
         }
         completionHandler(true)
     }

@@ -26,12 +26,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
             switch shortcutItem.type {
-            case com.mosariot.MantraCounter.search:
-                print("Search triggered")
-            case com.mosariot.MantraCounter.addNewMantra:
-                print("Add new mantra triggered")
-             case com.mosariot.MantraCounter.favorites:
-                print("Favorites triggered")
+            case "com.mosariot.MantraCounter.search":
+                print("AppDelegate Search triggered")
+            case "com.mosariot.MantraCounter.addNewMantra":
+                print("AppDelegate Add new mantra triggered")
+            case "com.mosariot.MantraCounter.favorites":
+                print("AppDelegate Favorites triggered")
+            default:
+                break
             }
         }
         

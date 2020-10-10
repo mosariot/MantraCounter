@@ -66,11 +66,11 @@
 	<array>
 		<dict>
 			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeSearch</string>
+			<string>UIApplicationShortcutIconTypeFavorite</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Search_Shortcut_Title</string>
+			<string>Favorites_Shortcut_Title</string>
 			<key>UIApplicationShortcutItemType</key>
-			<string>com.mosariot.MantraCounter.search</string>
+			<string>com.mosariot.MantraCounter.favorites</string>
 		</dict>
 		<dict>
 			<key>UIApplicationShortcutItemIconType</key>
@@ -82,11 +82,11 @@
 		</dict>
 		<dict>
 			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeFavorite</string>
+			<string>UIApplicationShortcutIconTypeSearch</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Favorites_Shortcut_Title</string>
+			<string>Search_Shortcut_Title</string>
 			<key>UIApplicationShortcutItemType</key>
-			<string>com.mosariot.MantraCounter.favorites</string>
+			<string>com.mosariot.MantraCounter.search</string>
 		</dict>
 	</array>
 </dict>

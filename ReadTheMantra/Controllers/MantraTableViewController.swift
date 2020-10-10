@@ -55,6 +55,8 @@ class MantraTableViewController: UITableViewController {
         return array
     }
     
+    var coverView: UIView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,6 +72,7 @@ class MantraTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         
         if currentFavoriteMantraCount != favoriteMantraArray.count {
             currentFavoriteMantraCount = favoriteMantraArray.count
@@ -107,7 +110,6 @@ class MantraTableViewController: UITableViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = NSLocalizedString("Search", comment: "Search Placeholder")
-        searchController.searchBar.delegate = self
         searchController.definesPresentationContext = true
     }
     
@@ -189,21 +191,12 @@ class MantraTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let mantra = mantraArray[indexPath.row]
         guard let readsCountViewController = storyboard?.instantiateViewController(
-                identifier: K.readsCountViewControllerID,
+                identifier: "ReadsCountViewController2",
                 creator: { [weak self] coder in
                     guard let self = self else { fatalError() }
-                    return ReadsCountViewController(mantra: mantra, positionFavorite: Int32(self.currentFavoriteMantraCount), coder: coder)
+                    return ReadsCountViewController2(mantra: mantra, positionFavorite: Int32(self.currentFavoriteMantraCount), coder: coder)
                 }) else { return }
         show(readsCountViewController, sender: true)
-    }
-    
-    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        if mantraPickerTextField.isFirstResponder {
-            dismissPreloadedMantraPickerState()
-            return false
-        } else {
-            return true
-        }
     }
     
     //MARK: - Cells Manipulation Methods
@@ -280,7 +273,9 @@ class MantraTableViewController: UITableViewController {
                                                      style: .default) { [weak self] (action) in
             self?.setPreloadedMantraPickerState()
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Title on MantraTableViewController"),
+                                         style: .cancel,
+                                         handler: nil)
         alert.addAction(addNewMantraAction)
         alert.addAction(addPreloadedMantraAction)
         alert.addAction(cancelAction)
@@ -304,10 +299,18 @@ class MantraTableViewController: UITableViewController {
     }
     
     private func setPreloadedMantraPickerState() {
+        setDimmedBackground()
         makeAndShowMantraPickerView()
         navigationItem.rightBarButtonItem?.isEnabled = false
         navigationItem.leftBarButtonItem?.isEnabled = false
-        tableView.isScrollEnabled = false
+    }
+    
+    private func setDimmedBackground() {
+        let dimmedBackgroundView = UIView(frame: UIScreen.main.bounds)
+        coverView = dimmedBackgroundView
+        dimmedBackgroundView.backgroundColor = .black
+        dimmedBackgroundView.alpha = 0.1
+        UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.addSubview(dimmedBackgroundView)
     }
     
     private func makeAndShowMantraPickerView() {
@@ -399,10 +402,11 @@ class MantraTableViewController: UITableViewController {
     }
     
     private func dismissPreloadedMantraPickerState() {
+        coverView?.removeFromSuperview()
+        coverView = nil
         mantraPickerTextField.resignFirstResponder()
         navigationItem.rightBarButtonItem?.isEnabled = true
         navigationItem.leftBarButtonItem?.isEnabled = true
-        tableView.isScrollEnabled = true
     }
     
     //MARK: - Table Edit Buttons Actions
@@ -490,18 +494,6 @@ extension MantraTableViewController: UISearchResultsUpdating {
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         let predicate = NSPredicate(format: "title CONTAINS[cd] %@", text)
         loadMantras(with: request, predicate: predicate)
-    }
-}
-
-// MARK: - UISearchBar Delegate
-
-extension MantraTableViewController: UISearchBarDelegate {
-    
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        if mantraPickerTextField.isFirstResponder {
-            dismissPreloadedMantraPickerState()
-        }
-        return true
     }
 }
 

@@ -54,7 +54,7 @@
                                             </button>
                                         </subviews>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="srd-KZ-7xV">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="srd-KZ-7xV">
                                         <rect key="frame" x="52" y="507" width="250" height="40"/>
                                         <color key="backgroundColor" systemColor="linkColor"/>
                                         <constraints>
@@ -62,12 +62,14 @@
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="6yo-eM-U4I"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <state key="normal" title="Readings"/>
+                                        <state key="normal" title="Reads">
+                                            <color key="titleColor" systemColor="systemBackgroundColor"/>
+                                        </state>
                                         <connections>
                                             <action selector="addReadsButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZAb-mg-IKY"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AvQ-mc-bMd">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AvQ-mc-bMd">
                                         <rect key="frame" x="52" y="607.5" width="250" height="40"/>
                                         <color key="backgroundColor" systemColor="linkColor"/>
                                         <constraints>
@@ -75,12 +77,14 @@
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="a1v-86-aTm"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <state key="normal" title="Rounds"/>
+                                        <state key="normal" title="Rounds">
+                                            <color key="titleColor" systemColor="systemBackgroundColor"/>
+                                        </state>
                                         <connections>
                                             <action selector="addRoundsButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aeU-gi-suA"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rqc-d1-Viy" userLabel="Set Proper Value Button">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rqc-d1-Viy" userLabel="Set Proper Value Button">
                                         <rect key="frame" x="52" y="708" width="250" height="40"/>
                                         <color key="backgroundColor" systemColor="linkColor"/>
                                         <constraints>
@@ -88,7 +92,9 @@
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="SeL-k1-2Z2"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <state key="normal" title="Value"/>
+                                        <state key="normal" title="Value">
+                                            <color key="titleColor" systemColor="systemBackgroundColor"/>
+                                        </state>
                                         <connections>
                                             <action selector="setProperValueButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bdM-ah-qU0"/>
                                         </connections>
@@ -326,6 +332,134 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9dC-2T-M6Y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3882" y="134"/>
+        </scene>
+        <!--Reads Count View Controller2-->
+        <scene sceneID="1qo-pL-BDf">
+            <objects>
+                <viewController storyboardIdentifier="ReadsCountViewController2" id="9Ew-Yb-oIM" customClass="ReadsCountViewController2" customModule="MantraCounter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LJz-A8-q5d">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="wUI-LR-HUU">
+                                <rect key="frame" x="30" y="74" width="354" height="728"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aYM-Zj-T08">
+                                        <rect key="frame" x="127" y="0.0" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="BjR-aA-Rgm"/>
+                                            <constraint firstAttribute="width" constant="100" id="WlP-LA-oHL"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Z7q-lJ-Yge">
+                                        <rect key="frame" x="0.0" y="190.5" width="354" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="34"/>
+                                        <color key="textColor" systemColor="secondaryLabelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="iRH-g6-fRu">
+                                        <rect key="frame" x="77" y="322.5" width="200" height="235"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="56j-8c-bvo" customClass="CircularProgressView" customModule="MantraCounter" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="200" id="9bI-Rk-PI2"/>
+                                                    <constraint firstAttribute="height" constant="200" id="iSR-PS-jal"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MmZ-ji-SKX">
+                                                <rect key="frame" x="84" y="205" width="32" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <state key="normal" title="Goal"/>
+                                                <connections>
+                                                    <action selector="setGoalButtonPressed:" destination="9Ew-Yb-oIM" eventType="touchUpInside" id="pr5-6h-NgR"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="f0G-CI-caq">
+                                        <rect key="frame" x="0.0" y="648" width="354" height="80"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dUS-5m-kus">
+                                                <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                                <color key="backgroundColor" systemColor="linkColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="cbo-kR-HZB"/>
+                                                    <constraint firstAttribute="height" constant="80" id="wzd-Tu-n02"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <state key="normal">
+                                                    <color key="titleColor" systemColor="linkColor"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="addReadsButtonPressed:" destination="9Ew-Yb-oIM" eventType="touchUpInside" id="IPn-4D-4mm"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZdM-Gq-d1v">
+                                                <rect key="frame" x="137" y="0.0" width="80" height="80"/>
+                                                <color key="backgroundColor" systemColor="linkColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="1eA-gg-d4z"/>
+                                                    <constraint firstAttribute="height" constant="80" id="toD-rb-1W7"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <state key="normal">
+                                                    <color key="titleColor" systemColor="linkColor"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="addRoundsButtonPressed:" destination="9Ew-Yb-oIM" eventType="touchUpInside" id="H3h-48-GVI"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5fa-hA-HQ2" userLabel="Set Proper Value Button">
+                                                <rect key="frame" x="274" y="0.0" width="80" height="80"/>
+                                                <color key="backgroundColor" systemColor="linkColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="80" id="Ylk-1l-Pwm"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="clL-dz-X9U"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <state key="normal">
+                                                    <color key="titleColor" systemColor="linkColor"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="setProperValueButtonPressed:" destination="9Ew-Yb-oIM" eventType="touchUpInside" id="B1H-C1-3b7"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="f0G-CI-caq" firstAttribute="leading" secondItem="wUI-LR-HUU" secondAttribute="leading" id="8XO-Um-U77"/>
+                                    <constraint firstAttribute="trailing" secondItem="Z7q-lJ-Yge" secondAttribute="trailing" id="9CU-cC-foX"/>
+                                    <constraint firstItem="Z7q-lJ-Yge" firstAttribute="leading" secondItem="wUI-LR-HUU" secondAttribute="leading" id="jre-3H-3NL"/>
+                                    <constraint firstAttribute="trailing" secondItem="f0G-CI-caq" secondAttribute="trailing" id="qus-2p-GWK"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="c4c-wV-DI0"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wUI-LR-HUU" firstAttribute="top" secondItem="c4c-wV-DI0" secondAttribute="top" constant="30" id="CxH-vY-AAo"/>
+                            <constraint firstItem="wUI-LR-HUU" firstAttribute="leading" secondItem="c4c-wV-DI0" secondAttribute="leading" constant="30" id="FIe-tn-R19"/>
+                            <constraint firstItem="c4c-wV-DI0" firstAttribute="bottom" secondItem="wUI-LR-HUU" secondAttribute="bottom" constant="60" id="Zwv-AT-NvK"/>
+                            <constraint firstItem="c4c-wV-DI0" firstAttribute="trailing" secondItem="wUI-LR-HUU" secondAttribute="trailing" constant="30" id="ePn-A2-Slk"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="4DG-jk-Tfm"/>
+                    <connections>
+                        <outlet property="addReadingsButton" destination="dUS-5m-kus" id="Nai-Y9-UVx"/>
+                        <outlet property="addRoundsButton" destination="ZdM-Gq-d1v" id="TkL-b3-uN6"/>
+                        <outlet property="circularProgressView" destination="56j-8c-bvo" id="BIf-Kl-quS"/>
+                        <outlet property="mantraImage" destination="aYM-Zj-T08" id="B9A-Oa-tMT"/>
+                        <outlet property="readsGoalButton" destination="MmZ-ji-SKX" id="NOK-we-YsL"/>
+                        <outlet property="setProperValueButton" destination="5fa-hA-HQ2" id="SkR-pM-nqQ"/>
+                        <outlet property="titleLabel" destination="Z7q-lJ-Yge" id="iPP-ZR-8AK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pyN-Dz-03y" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7378" y="508"/>
         </scene>
     </scenes>
     <resources>
