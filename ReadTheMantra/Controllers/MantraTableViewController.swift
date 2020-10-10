@@ -55,7 +55,8 @@ class MantraTableViewController: UITableViewController {
         return array
     }
     
-    var coverView: UIView?
+    private var coverView: UIView?
+    private var coverTap: UITapGestureRecognizer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,11 +81,17 @@ class MantraTableViewController: UITableViewController {
             saveMantras()
         }
         
+        coverTap = UITapGestureRecognizer(target: self, action: #selector(handleCoverTap(_:)))
+        
         if searchController.isActive {
             performSearch()
         } else {
             loadMantras()
         }
+    }
+    
+    @objc func handleCoverTap(_ sender: UITapGestureRecognizer? = nil) {
+        dismissPreloadedMantraPickerState()
     }
     
     //MARK: - ViewDidLoad Setup
@@ -191,10 +198,10 @@ class MantraTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let mantra = mantraArray[indexPath.row]
         guard let readsCountViewController = storyboard?.instantiateViewController(
-                identifier: "ReadsCountViewController2",
+                identifier: K.readsCountViewControllerID,
                 creator: { [weak self] coder in
                     guard let self = self else { fatalError() }
-                    return ReadsCountViewController2(mantra: mantra, positionFavorite: Int32(self.currentFavoriteMantraCount), coder: coder)
+                    return ReadsCountViewController(mantra: mantra, positionFavorite: Int32(self.currentFavoriteMantraCount), coder: coder)
                 }) else { return }
         show(readsCountViewController, sender: true)
     }
@@ -301,16 +308,19 @@ class MantraTableViewController: UITableViewController {
     private func setPreloadedMantraPickerState() {
         setDimmedBackground()
         makeAndShowMantraPickerView()
-        navigationItem.rightBarButtonItem?.isEnabled = false
-        navigationItem.leftBarButtonItem?.isEnabled = false
+        navigationItem.rightBarButtonItem?.tintColor = .systemGray
+        navigationItem.leftBarButtonItem?.tintColor = .systemGray
     }
     
     private func setDimmedBackground() {
         let dimmedBackgroundView = UIView(frame: UIScreen.main.bounds)
-        coverView = dimmedBackgroundView
         dimmedBackgroundView.backgroundColor = .black
-        dimmedBackgroundView.alpha = 0.1
-        UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.addSubview(dimmedBackgroundView)
+        dimmedBackgroundView.alpha = 0.2
+        coverView = dimmedBackgroundView
+        if let coverView = coverView, let coverTap = coverTap {
+            coverView.addGestureRecognizer(coverTap)
+            UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.addSubview(coverView)
+        }
     }
     
     private func makeAndShowMantraPickerView() {
@@ -405,8 +415,8 @@ class MantraTableViewController: UITableViewController {
         coverView?.removeFromSuperview()
         coverView = nil
         mantraPickerTextField.resignFirstResponder()
-        navigationItem.rightBarButtonItem?.isEnabled = true
-        navigationItem.leftBarButtonItem?.isEnabled = true
+        navigationItem.rightBarButtonItem?.tintColor = .link
+        navigationItem.leftBarButtonItem?.tintColor = .link
     }
     
     //MARK: - Table Edit Buttons Actions

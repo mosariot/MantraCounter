@@ -158,17 +158,17 @@ class CircularProgressView: UIView {
         var font = UIFont.boldSystemFont(ofSize: 30)
         switch value {
         case 1_000_000_000...:
-            font = UIFont.systemFont(ofSize: 22, weight: .medium)
+            font = UIFont.systemFont(ofSize: 27, weight: .medium)
         case 100_000_000...:
-            font = UIFont.systemFont(ofSize: 25, weight: .medium)
-        case 10_000_000...:
-            font = UIFont.systemFont(ofSize: 28, weight: .medium)
-        case 1_000_000...:
             font = UIFont.systemFont(ofSize: 30, weight: .medium)
-        case 100_000...:
+        case 10_000_000...:
+            font = UIFont.systemFont(ofSize: 33, weight: .medium)
+        case 1_000_000...:
             font = UIFont.systemFont(ofSize: 35, weight: .medium)
-        default:
+        case 100_000...:
             font = UIFont.systemFont(ofSize: 40, weight: .medium)
+        default:
+            font = UIFont.systemFont(ofSize: 45, weight: .medium)
         }
         label.font = font
         label.sizeToFit()

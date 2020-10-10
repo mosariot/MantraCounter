@@ -52,7 +52,7 @@ class ReadsCountViewController: UIViewController {
         let infoButton = UIButton(type: .infoLight)
         infoButton.addTarget(self, action: #selector(infoButtonPressed), for: .touchUpInside)
         let infoButtonItem = UIBarButtonItem(customView: infoButton)
-        
+                
         let star = mantra.isFavorite ? "star.fill" : "star"
         let favoriteButtonItem = UIBarButtonItem(image: UIImage(systemName: star),
                                                  style: .plain,
@@ -236,32 +236,19 @@ class ReadsCountViewController: UIViewController {
     
     private func setReadsButtonsTitles() {
         
-        let readingsImageAttachment = NSTextAttachment()
-        readingsImageAttachment.image = UIImage(systemName: "plus.circle")?.withTintColor(.systemBackground, renderingMode: .alwaysOriginal)
-        let readingsButtonString = NSMutableAttributedString(string: "")
-        readingsButtonString.append(NSAttributedString(attachment: readingsImageAttachment))
-        readingsButtonString.append(NSAttributedString(string: NSLocalizedString(" Add Readings",
-                                                                                 comment: "Button Title on ReadsCountViewController")))
-        addReadingsButton.setAttributedTitle(readingsButtonString, for: .normal)
-        addReadingsButton.layer.cornerRadius = 20
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 25, weight: .light, scale: .large)
         
-        let roundsImageAttachment = NSTextAttachment()
-        roundsImageAttachment.image = UIImage(systemName: "goforward.plus")?.withTintColor(.systemBackground, renderingMode: .alwaysOriginal)
-        let roundsButtonString = NSMutableAttributedString(string: "")
-        roundsButtonString.append(NSAttributedString(attachment: roundsImageAttachment))
-        roundsButtonString.append(NSAttributedString(string: NSLocalizedString(" Add Rounds",
-                                                                               comment: "Button Title on ReadsCountViewController")))
-        addRoundsButton.setAttributedTitle(roundsButtonString, for: .normal)
-        addRoundsButton.layer.cornerRadius = 20
+        let largeReadings = UIImage(systemName: "plus.circle", withConfiguration: largeConfig)?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let largeRounds = UIImage(systemName: "goforward.plus", withConfiguration: largeConfig)?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let largeHand = UIImage(systemName: "hand.draw", withConfiguration: largeConfig)?.withTintColor(.white, renderingMode: .alwaysOriginal)
         
-        let manualCorrectionImageAttachment = NSTextAttachment()
-        manualCorrectionImageAttachment.image = UIImage(systemName: "hand.draw")?.withTintColor(.systemBackground, renderingMode: .alwaysOriginal)
-        let manualCorrectionButtonString = NSMutableAttributedString(string: "")
-        manualCorrectionButtonString.append(NSAttributedString(attachment: manualCorrectionImageAttachment))
-        manualCorrectionButtonString.append(NSAttributedString(string: NSLocalizedString(" Set Proper Value",
-                                                                                         comment: "Button Title on ReadsCountViewController")))
-        setProperValueButton.setAttributedTitle(manualCorrectionButtonString, for: .normal)
-        setProperValueButton.layer.cornerRadius = 20
+        addReadingsButton.setImage(largeReadings, for: .normal)
+        addRoundsButton.setImage(largeRounds, for: .normal)
+        setProperValueButton.setImage(largeHand, for: .normal)
+
+        addRoundsButton.layer.cornerRadius = 35
+        addReadingsButton.layer.cornerRadius = 35
+        setProperValueButton.layer.cornerRadius = 35
     }
     
     //MARK: - Model Manipulation
