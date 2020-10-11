@@ -103,8 +103,10 @@ class MantraTableViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
         navigationItem.searchController = searchController
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
+        let search = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonPressed))
+        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
+        navigationItem.rightBarButtonItems = [add, search]
     }
     
     private func setupSegmentedControl() {
@@ -126,6 +128,26 @@ class MantraTableViewController: UITableViewController {
         inFavoriteMode = !inFavoriteMode
         defaults.set(inFavoriteMode, forKey: "inFavoriteMode")
         loadMantras(withAnimation: true)
+    }
+    
+    //MARK: - NavigationBar Buttons Actions
+    
+    @objc private func editButtonPressed() {
+        setEditing(true, animated: true)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
+    }
+    
+    @objc private func doneButtonPressed() {
+        setEditing(false, animated: true)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
+    }
+    
+    @objc private func addButtonPressed() {
+        showAddNewMantraAlert()
+    }
+    
+    @objc private func searchButtonPressed() {
+        searchController.searchBar.becomeFirstResponder()
     }
     
     //MARK: - Shortcut Handling
@@ -320,10 +342,6 @@ class MantraTableViewController: UITableViewController {
     
     //MARK: - Add Mantra Stack
     
-    @objc private func addButtonPressed() {
-        showAddNewMantraAlert()
-    }
-    
     private func showAddNewMantraAlert() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let addNewMantraAction = UIAlertAction(title: NSLocalizedString("New Mantra", comment: "Alert Title on MantraTableViewController"),
@@ -363,7 +381,8 @@ class MantraTableViewController: UITableViewController {
     private func setPreloadedMantraPickerState() {
         setDimmedBackground()
         makeAndShowMantraPickerView()
-        navigationItem.rightBarButtonItem?.tintColor = .systemGray
+        navigationItem.rightBarButtonItems?.first?.tintColor = .systemGray
+        navigationItem.rightBarButtonItems?.last?.tintColor = .systemGray
         navigationItem.leftBarButtonItem?.tintColor = .systemGray
     }
     
@@ -470,20 +489,9 @@ class MantraTableViewController: UITableViewController {
         coverView?.removeFromSuperview()
         coverView = nil
         mantraPickerTextField.resignFirstResponder()
-        navigationItem.rightBarButtonItem?.tintColor = .link
+        navigationItem.rightBarButtonItems?.first?.tintColor = .link
+        navigationItem.rightBarButtonItems?.last?.tintColor = .link
         navigationItem.leftBarButtonItem?.tintColor = .link
-    }
-    
-    //MARK: - Table Edit Buttons Actions
-    
-    @objc private func doneButtonPressed() {
-        setEditing(false, animated: true)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
-    }
-    
-    @objc private func editButtonPressed() {
-        setEditing(true, animated: true)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
     }
     
     //MARK: - Core Data Manipulation
