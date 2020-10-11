@@ -14,20 +14,35 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+        if let shortcutItem = connectionOptions.shortcutItem {
+            handleShortcutAction(shortcutItemType: shortcutItem.type)
+        }
     }
     
     func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-        switch shortcutItem.type {
-        case "com.mosariot.MantraCounter.search":
-            print("SceneDelegate Search triggered")
-        case "com.mosariot.MantraCounter.addNewMantra":
-            print("SceneDelegate Add new mantra triggered")
-        case "com.mosariot.MantraCounter.favorites":
-            print("SceneDelegate Favorites triggered")
-        default:
-            break
-        }
+        handleShortcutAction(shortcutItemType: shortcutItem.type)
         completionHandler(true)
+    }
+    
+    func handleShortcutAction(shortcutItemType: String) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        if let mantraTableViewController = storyBoard.instantiateViewController(withIdentifier: K.mantraTableViewControllerID) as? MantraTableViewController {
+            let navigationController = UINavigationController(rootViewController: mantraTableViewController)
+            self.window?.rootViewController = navigationController
+            self.window?.makeKeyAndVisible()
+            
+            switch shortcutItemType {
+            case "com.mosariot.MantraCounter.favorites":
+                mantraTableViewController.setFavoriteMode()
+            case "com.mosariot.MantraCounter.addNewMantra":
+                mantraTableViewController.setAddNewMantraMode()
+            case "com.mosariot.MantraCounter.search":
+                mantraTableViewController.setSearchMode()
+            default:
+                break
+            }
+        }
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

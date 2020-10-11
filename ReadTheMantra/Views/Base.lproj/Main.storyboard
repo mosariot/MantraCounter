@@ -34,7 +34,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7dd-g0-x7o" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4788" y="134"/>
+            <point key="canvasLocation" x="5855" y="134"/>
         </scene>
         <!--Mantra Table View Controller-->
         <scene sceneID="NRc-3p-Omg">
@@ -59,8 +59,8 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jm1-1r-ipA">
-                                            <rect key="frame" x="20" y="31.5" width="33" height="14.5"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jm1-1r-ipA">
+                                            <rect key="frame" x="20" y="31.5" width="44" height="14.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
@@ -80,7 +80,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PxV-EI-kJr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5669.6000000000004" y="133.5832083958021"/>
+            <point key="canvasLocation" x="6579.7101449275369" y="133.25892857142856"/>
         </scene>
         <!--Details View Controller-->
         <scene sceneID="XS4-SK-kdP">
@@ -192,7 +192,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kje-jA-G5g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6410.3999999999996" y="-171.36431784107947"/>
+            <point key="canvasLocation" x="7320.289855072464" y="-171.42857142857142"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dWw-ra-c4T">
@@ -210,12 +210,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9dC-2T-M6Y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3882" y="134"/>
+            <point key="canvasLocation" x="5112" y="134"/>
         </scene>
         <!--Reads Count View Controller-->
         <scene sceneID="1qo-pL-BDf">
             <objects>
-                <viewController storyboardIdentifier="ReadsCountViewController" id="9Ew-Yb-oIM" customClass="ReadsCountViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ReadsCountViewController" id="9Ew-Yb-oIM" customClass="ReadsCountViewController" customModule="MantraCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LJz-A8-q5d">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -341,7 +341,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pyN-Dz-03y" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6410" y="499"/>
+            <point key="canvasLocation" x="7318.8405797101459" y="498.88392857142856"/>
         </scene>
     </scenes>
     <resources>

@@ -12,7 +12,7 @@ import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         IQKeyboardManager.shared.enable = true
@@ -24,19 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.set(true, forKey: "isPreloaded")
         }
         
-        if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
-            switch shortcutItem.type {
-            case "com.mosariot.MantraCounter.search":
-                print("AppDelegate Search triggered")
-            case "com.mosariot.MantraCounter.addNewMantra":
-                print("AppDelegate Add new mantra triggered")
-            case "com.mosariot.MantraCounter.favorites":
-                print("AppDelegate Favorites triggered")
-            default:
-                break
-            }
-        }
-        
         return true
     }
 
@@ -44,9 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    }
-
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
     }
     
     //MARK: - Preload Data For First Launch

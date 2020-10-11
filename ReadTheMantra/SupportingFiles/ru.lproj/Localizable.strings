@@ -22,6 +22,18 @@
 /* Alert Button on MantraTableViewController */
 "Cancel" = "Отмена";
 
+/* Alert Message on MantraTableViewController */
+"Are you sure you want to delete this mantra?" =  "Вы уверены, что хотите удалить эту мантру?";
+
+/* Menu Action on MantraTableViewController */
+"Favorite" = "В избранное";
+
+/* Menu Action on MantraTableViewController */
+"Unfavorite" = "Удалить из избранного";
+
+/* Menu Action on MantraTableViewController */
+"Delete" = "Удалить";
+
 /* Button on ReadsCountViewController */
 "Goal: " = "Цель: ";
 
@@ -30,15 +42,6 @@
 
 /* Alert Button on ReadsCountViewController */
 "Set" = "Установить";
-
-/* Button Title on ReadsCountViewController */
-" Add Readings" = " Добавить начиток";
-
-/* Button Title on ReadsCountViewController */
-" Add Rounds" = " Добавить кругов";
-
-/* Button Title on ReadsCountViewController */
-" Set Proper Value" = " Установить значение";
 
 /* Alert Button on ReadsCountViewController */
 "Cancel" = "Отменить";
