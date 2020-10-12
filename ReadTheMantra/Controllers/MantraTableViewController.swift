@@ -104,9 +104,7 @@ class MantraTableViewController: UITableViewController {
         navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
         navigationItem.searchController = searchController
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
-        let search = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonPressed))
-        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
-        navigationItem.rightBarButtonItems = [add, search]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
     }
     
     private func setupSegmentedControl() {
@@ -144,10 +142,6 @@ class MantraTableViewController: UITableViewController {
     
     @objc private func addButtonPressed() {
         showAddNewMantraAlert()
-    }
-    
-    @objc private func searchButtonPressed() {
-        searchController.searchBar.becomeFirstResponder()
     }
     
     //MARK: - Shortcut Handling
@@ -188,7 +182,7 @@ class MantraTableViewController: UITableViewController {
         let mantra = mantraArray[indexPath.row]
         cell.textLabel?.text = mantra.title
         if ((cell.textLabel?.text) != nil) {
-            cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + "\(mantra.reads)" + "p" + "\(mantra.position)" + "f" + "\(mantra.positionFavorite)"
+            cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
             cell.detailTextLabel?.textColor = .secondaryLabel
             cell.imageView?.image = imageForCell(for: mantra)
             cell.accessoryType = .disclosureIndicator
@@ -381,15 +375,23 @@ class MantraTableViewController: UITableViewController {
     private func setPreloadedMantraPickerState() {
         setDimmedBackground()
         makeAndShowMantraPickerView()
-        navigationItem.rightBarButtonItems?.first?.tintColor = .systemGray
-        navigationItem.rightBarButtonItems?.last?.tintColor = .systemGray
-        navigationItem.leftBarButtonItem?.tintColor = .systemGray
+        if traitCollection.userInterfaceStyle == .light {
+            navigationController?.navigationBar.tintColor = UIColor.systemGray
+        } else {
+            navigationController?.navigationBar.tintColor = UIColor.systemGray2
+        }
     }
     
     private func setDimmedBackground() {
         let dimmedBackgroundView = UIView(frame: UIScreen.main.bounds)
         dimmedBackgroundView.backgroundColor = .black
-        dimmedBackgroundView.alpha = 0.2
+        
+        if traitCollection.userInterfaceStyle == .light {
+                dimmedBackgroundView.alpha = 0.2
+            } else {
+                dimmedBackgroundView.alpha = 0.5
+            }
+        
         coverView = dimmedBackgroundView
         if let coverView = coverView, let coverTap = coverTap {
             coverView.addGestureRecognizer(coverTap)
@@ -489,9 +491,7 @@ class MantraTableViewController: UITableViewController {
         coverView?.removeFromSuperview()
         coverView = nil
         mantraPickerTextField.resignFirstResponder()
-        navigationItem.rightBarButtonItems?.first?.tintColor = .link
-        navigationItem.rightBarButtonItems?.last?.tintColor = .link
-        navigationItem.leftBarButtonItem?.tintColor = .link
+        navigationController?.navigationBar.tintColor = nil
     }
     
     //MARK: - Core Data Manipulation
