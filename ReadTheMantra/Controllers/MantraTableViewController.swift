@@ -385,17 +385,22 @@ class MantraTableViewController: UITableViewController {
     private func setDimmedBackground() {
         let dimmedBackgroundView = UIView(frame: UIScreen.main.bounds)
         dimmedBackgroundView.backgroundColor = .black
+        dimmedBackgroundView.alpha = 0
         
+        var alpha: Double
         if traitCollection.userInterfaceStyle == .light {
-                dimmedBackgroundView.alpha = 0.2
+                alpha = 0.2
             } else {
-                dimmedBackgroundView.alpha = 0.5
+                alpha = 0.5
             }
         
         coverView = dimmedBackgroundView
         if let coverView = coverView, let coverTap = coverTap {
             coverView.addGestureRecognizer(coverTap)
             UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.addSubview(coverView)
+            UIView.animate(withDuration: 0.15) {
+                coverView.alpha = CGFloat(alpha)
+            }
         }
     }
     
