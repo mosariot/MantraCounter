@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "Avalokitesvara_tableView.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Avalokitesvara_tableView.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
