@@ -94,7 +94,9 @@ class CircularProgressView: UIView {
                 momentValue.round(.toNearestOrAwayFromZero)
                 self?.label.text = Int(momentValue).stringFormattedWithSpaces()
                 self?.setForegroundLayerColor(value: Int(momentValue))
-                self?.setlabelFont(for: Int(momentValue))
+                if let fontSize = self?.labelFontSize(for: Int(momentValue)) {
+                    self?.setLabel(withSize: fontSize)
+                }
             }
         }
         timer.fire()
@@ -154,23 +156,25 @@ class CircularProgressView: UIView {
         layer.addSublayer(foregroundLayer)
     }
         
-    private func setlabelFont(for value: Int) {
-        var font = UIFont.boldSystemFont(ofSize: 30)
+    private func labelFontSize(for value: Int) -> CGFloat {
         switch value {
         case 1_000_000_000...:
-            font = UIFont.systemFont(ofSize: 27, weight: .medium)
+            return 27
         case 100_000_000...:
-            font = UIFont.systemFont(ofSize: 30, weight: .medium)
+            return 30
         case 10_000_000...:
-            font = UIFont.systemFont(ofSize: 33, weight: .medium)
+            return 33
         case 1_000_000...:
-            font = UIFont.systemFont(ofSize: 35, weight: .medium)
+            return 35
         case 100_000...:
-            font = UIFont.systemFont(ofSize: 40, weight: .medium)
+            return 40
         default:
-            font = UIFont.systemFont(ofSize: 45, weight: .medium)
+            return 45
         }
-        label.font = font
+    }
+    
+    private func setLabel(withSize fontSize: CGFloat) {
+        label.font = .rounded(ofSize: fontSize, weight: .medium)
         label.sizeToFit()
         label.center = pathCenter
     }

@@ -217,10 +217,10 @@ class MantraTableViewController: UITableViewController {
         let star = mantraArray[indexPath.row].isFavorite ? "star.slash" : "star"
         let favoriteAction = UIContextualAction(style: .normal,
                                                 title: "") { [weak self] (contextualAction, view, isToDismiss) in
-            self?.handleFavoriteAction(for: indexPath)
             isToDismiss(true)
+            self?.handleFavoriteAction(for: indexPath)
         }
-        favoriteAction.backgroundColor = .systemBlue
+        favoriteAction.backgroundColor = .systemTeal
         favoriteAction.image = UIImage(systemName: star)
         
         let actions = inFavoriteMode ? [favoriteAction] : [deleteAction, favoriteAction]
@@ -273,9 +273,9 @@ class MantraTableViewController: UITableViewController {
             self?.deleteConfirmationAlert(for: indexPath)
         }
         
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] _ in
-            guard let self = self else { return UIMenu(children: []) }
-            return self.inFavoriteMode ? UIMenu(children: [favorite]) : UIMenu(children: [favorite, delete])
+        let children = inFavoriteMode ? [favorite] : [favorite, delete]
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) {_ in
+            UIMenu(children: children)
         }
     }
     
@@ -290,9 +290,7 @@ class MantraTableViewController: UITableViewController {
             self?.deleteMantra(for: indexPath)
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"),
-                                         style: .destructive) { [weak self] (action) in
-            self?.dismissPreloadedMantraPickerState()
-        }
+                                         style: .destructive, handler: nil)
         alert.addAction(addAction)
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
