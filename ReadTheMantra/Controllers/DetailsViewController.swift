@@ -155,14 +155,14 @@ class DetailsViewController: UIViewController {
     //MARK: - Navigtion Bar Buttons Methods
     
     @objc private func addButtonPressed() {
-        if let title = titleTextField.text, title != "" {
+        if let title = titleTextField.text {
             if isMantraDuplicating(for: title) {
                 showDuplicatingAlert(for: title)
             } else {
                 handleAddNewMantra(for: title)
             }
         } else {
-            showIncorrectTitleAlert()
+            return
         }
     }
     
@@ -177,13 +177,13 @@ class DetailsViewController: UIViewController {
     }
     
     @objc private func doneButtonPressed() {
-        if let title = titleTextField.text, title != "" {
+        if let title = titleTextField.text {
             processMantra(title: title)
             saveMantras()
             delegate?.updateView()
             setViewMode()
         } else {
-            showIncorrectTitleAlert()
+            return
         }
     }
     
@@ -211,9 +211,9 @@ class DetailsViewController: UIViewController {
             self?.handleAddNewMantra(for: title)
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"),
-                                         style: .destructive, handler: nil)
-        alert.addAction(addAction)
+                                         style: .default, handler: nil)
         alert.addAction(cancelAction)
+        alert.addAction(addAction)
         present(alert, animated: true, completion: nil)
     }
     
@@ -232,15 +232,6 @@ class DetailsViewController: UIViewController {
         mantra.position = Int32(position)
         mantra.image = mantraImageData ?? nil
         mantra.imageForTableView = mantraImageForTableViewData ?? nil
-    }
-    
-    private func showIncorrectTitleAlert() {
-        let alert = UIAlertController(title: NSLocalizedString("Please add a valid title", comment: "Alert Title on DetailsViewController"),
-                                      message: nil,
-                                      preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
     }
     
     //MARK: - SetPhoto Action

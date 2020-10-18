@@ -64,12 +64,6 @@
 /* Alert Title on ReadsCountViewController */
 "Enter Rounds Number" = "Введите число кругов";
 
-/* Alert Title on ReadsCountViewController */
-"Please add a valid number" = "Введите корректное число";
-
-/* Alert Title on DetailsViewController */
-"Please add a valid title" = "Введите корректное название";
-
 /* Mantra text placeholder */
 "Enter mantra text" = "Введите текст мантры";
 

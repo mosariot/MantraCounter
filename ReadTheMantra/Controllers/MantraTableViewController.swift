@@ -285,14 +285,14 @@ class MantraTableViewController: UITableViewController {
         let alert = UIAlertController(title: nil,
                                       message: NSLocalizedString("Are you sure you want to delete this mantra?", comment: "Alert Message on MantraTableViewController"),
                                       preferredStyle: .alert)
-        let addAction = UIAlertAction(title: NSLocalizedString("Delete", comment: "Alert Button on MantraTableViewController"),
-                                      style: .default) { [weak self] (action) in
+        let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: "Alert Button on MantraTableViewController"),
+                                      style: .destructive) { [weak self] (action) in
             self?.deleteMantra(for: indexPath)
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"),
-                                         style: .destructive, handler: nil)
-        alert.addAction(addAction)
+                                         style: .default, handler: nil)
         alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
         present(alert, animated: true, completion: nil)
     }
     
@@ -459,11 +459,11 @@ class MantraTableViewController: UITableViewController {
             self?.handleAddPreloadedMantra()
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"),
-                                         style: .destructive) { [weak self] (action) in
+                                         style: .default) { [weak self] (action) in
             self?.dismissPreloadedMantraPickerState()
         }
-        alert.addAction(addAction)
         alert.addAction(cancelAction)
+        alert.addAction(addAction)
         present(alert, animated: true, completion: nil)
     }
     

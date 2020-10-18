@@ -158,12 +158,6 @@ class CircularProgressView: UIView {
         
     private func labelFontSize(for value: Int) -> CGFloat {
         switch value {
-        case 1_000_000_000...:
-            return 27
-        case 100_000_000...:
-            return 30
-        case 10_000_000...:
-            return 33
         case 1_000_000...:
             return 35
         case 100_000...:

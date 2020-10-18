@@ -116,22 +116,46 @@ class ReadsCountViewController: UIViewController {
     
     private func showUpdatingAlert(updatingType: UpdatingType) {
         
+        var value: Int32 = 0
         let (alertTitle, actionTitle) = alertAndActionTitles(for: updatingType)
         
         let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
-        let positiveAction = UIAlertAction(title: actionTitle, style: .cancel) { [weak self] (action) in
-            self?.handleAlertPositiveAction(from: alert, for: updatingType)
+        let positiveAction = UIAlertAction(title: actionTitle, style: .default) { [weak self] (action) in
+            self?.handleAlertPositiveAction(forValue: value, for: updatingType)
         }
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = NSLocalizedString("Enter number", comment: "Alert Placehonder on ReadsCountViewController")
             alertTextField.keyboardType = .numberPad
+            positiveAction.isEnabled = false
+            NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: alertTextField, queue: .main) { [weak self] (notification) in
+                if let isValidUpdatingNumber = self?.isValidUpdatingNumber(text: alertTextField.text, updatingType: updatingType), isValidUpdatingNumber {
+                    positiveAction.isEnabled = true
+                    if let textValue = alertTextField.text, let numberValue = Int32(textValue) {
+                        value = numberValue
+                    }
+                } else {
+                    positiveAction.isEnabled = false
+                }
+            }
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on ReadsCountViewController"),
                                          style: .default,
                                          handler: nil)
-        alert.addAction(positiveAction)
         alert.addAction(cancelAction)
+        alert.addAction(positiveAction)
         present(alert, animated: true, completion: nil)
+    }
+    
+    private func isValidUpdatingNumber(text: String?, updatingType: UpdatingType) -> Bool {
+        guard let alertText = text, let alertNumber = UInt32(alertText) else { return false }
+        switch updatingType {
+        case .goal, .properValue:
+            return 0...1_000_000 ~= alertNumber
+        case .reads:
+            return 0...1_000_000 ~= UInt32(mantra.reads) + alertNumber
+        case .rounds:
+            return 0...1_000_000 ~= UInt32(mantra.reads) + alertNumber * 108
+        }
     }
     
     private func alertAndActionTitles(for updatingType: UpdatingType) -> (String, String) {
@@ -151,18 +175,12 @@ class ReadsCountViewController: UIViewController {
         }
     }
     
-    private func handleAlertPositiveAction(from alert: UIAlertController, for updatingType: UpdatingType) {
+    private func handleAlertPositiveAction(forValue value: Int32, for updatingType: UpdatingType) {
         let oldReads = mantra.reads
-        if let alertTextField = alert.textFields?.first?.text {
-            if let alertNumber = UInt32(alertTextField) {
-                updateValues(with: Int32(alertNumber), updatingType: updatingType)
-                updateProrgessView(for: updatingType)
-                saveMantras()
-                readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
-            } else {
-                showIncorrectDataAlert(updatingType: updatingType)
-            }
-        }
+        updateValues(with: value, updatingType: updatingType)
+        updateProrgessView(for: updatingType)
+        saveMantras()
+        readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
     }
     
     private func updateValues(with value: Int32, updatingType: UpdatingType) {
@@ -221,17 +239,6 @@ class ReadsCountViewController: UIViewController {
         case .fullGoal:
             return NSLocalizedString("Congratulations! You've reached your goal!", comment: "Alert Title on ReadsCountViewController")
         }
-    }
-    
-    private func showIncorrectDataAlert(updatingType: UpdatingType) {
-        let alert = UIAlertController(title: NSLocalizedString("Please add a valid number", comment: "Alert Title on ReadsCountViewController"),
-                                      message: nil,
-                                      preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] (action) in
-            self?.showUpdatingAlert(updatingType: updatingType)
-        }
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
     }
     
     //MARK: - Buttons Initial Appearance
