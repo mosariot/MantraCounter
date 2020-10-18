@@ -90,6 +90,8 @@ class ReadsCountViewController: UIViewController {
         }
         
         titleLabel.text = mantra.title
+        titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
+        titleLabel.adjustsFontForContentSizeCategory = true
         readsGoalButton.setTitle(NSLocalizedString("Goal: ", comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(), for: .normal)
         circularProgressView.setValue(to: Int(mantra.reads))
     }

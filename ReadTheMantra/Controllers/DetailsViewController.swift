@@ -64,6 +64,7 @@ class DetailsViewController: UIViewController {
         setupUI()
         
         navigationController?.presentationController?.delegate = self
+        titleTextField.delegate = self
         mantraTextTextView.delegate = self
         detailsTextView.delegate = self
     }
@@ -74,6 +75,8 @@ class DetailsViewController: UIViewController {
         mantraTextLabel.text = NSLocalizedString("Mantra text", comment: "Mantra text label")
         detailsTextLabel.text = NSLocalizedString("Description", comment: "Mantra description label")
         titleTextField.placeholder = NSLocalizedString("Enter mantra title", comment: "Mantra title placeholder")
+        titleTextField.font = UIFont.preferredFont(for: .title2, weight: .medium)
+        titleTextField.adjustsFontForContentSizeCategory = true
         setMantraTextPlaceholder()
         setDetailsPlaceholder()
         
@@ -103,6 +106,7 @@ class DetailsViewController: UIViewController {
         navigationItem.title = NSLocalizedString("New Mantra", comment: "Add new mantra bar title")
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: "Button on MantraTableViewController"), style: .done, target: self, action: #selector(addButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonPressed))
+        navigationItem.rightBarButtonItem?.isEnabled = false
         setPhotoButton.isUserInteractionEnabled = true
         setPhotoButton.addPencilMark(color: .label)
         setPhotoButton.layer.opacity = 0.7
@@ -337,6 +341,15 @@ class DetailsViewController: UIViewController {
         if let imageData = resizedCircledImageForTableView?.pngData() {
             mantraImageForTableViewData = imageData
         }
+    }
+}
+
+//MARK: - TextField Delegate (Validating Mantra Title)
+
+extension DetailsViewController: UITextFieldDelegate {
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        navigationItem.rightBarButtonItem?.isEnabled = (textField.text != "")
     }
 }
 
