@@ -15,8 +15,8 @@ class ReadsCountViewController: UIViewController {
     private let mantra: Mantra
     private let positionFavorite: Int32
     
-    @IBOutlet private weak var mantraImage: UIImageView!
-    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var mantraImageView: UIImageView!
+    @IBOutlet private weak var titleLabel: CopyableLabel!
     @IBOutlet private weak var addRoundsButton: UIButton!
     @IBOutlet private weak var addReadingsButton: UIButton!
     @IBOutlet private weak var setProperValueButton: UIButton!
@@ -83,12 +83,8 @@ class ReadsCountViewController: UIViewController {
     //MARK: - Setup UI
     
     private func setupUI() {
-        if let imageData = mantra.image {
-            mantraImage.image = UIImage(data: imageData)
-        } else {
-            mantraImage.image = UIImage(named: K.defaultImage)
-        }
         
+        mantraImageView.image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: K.defaultImage)
         titleLabel.text = mantra.title
         titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
         titleLabel.adjustsFontForContentSizeCategory = true
@@ -121,7 +117,7 @@ class ReadsCountViewController: UIViewController {
         
         let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
         let positiveAction = UIAlertAction(title: actionTitle, style: .default) { [weak self] (action) in
-            self?.handleAlertPositiveAction(forValue: value, for: updatingType)
+            self?.handleAlertPositiveAction(forValue: value, updatingType: updatingType)
         }
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = NSLocalizedString("Enter number", comment: "Alert Placehonder on ReadsCountViewController")
@@ -175,7 +171,7 @@ class ReadsCountViewController: UIViewController {
         }
     }
     
-    private func handleAlertPositiveAction(forValue value: Int32, for updatingType: UpdatingType) {
+    private func handleAlertPositiveAction(forValue value: Int32, updatingType: UpdatingType) {
         let oldReads = mantra.reads
         updateValues(with: value, updatingType: updatingType)
         updateProrgessView(for: updatingType)

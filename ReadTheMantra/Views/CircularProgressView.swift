@@ -162,8 +162,10 @@ class CircularProgressView: UIView {
             return 35
         case 100_000...:
             return 40
-        default:
+        case 0...:
             return 45
+        default:
+            return 30
         }
     }
     

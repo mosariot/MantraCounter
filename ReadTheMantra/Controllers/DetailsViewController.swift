@@ -80,13 +80,10 @@ class DetailsViewController: UIViewController {
         setMantraTextPlaceholder()
         setDetailsPlaceholder()
         
-        if let imageData = mantraImageData {
-            let image = UIImage(data: imageData)
-            setPhotoButton.setImage(image, for: .normal)
-        } else {
-            let image = UIImage(named: K.defaultImage)
-            setPhotoButton.setImage(image, for: .normal)
-        }
+        let mantraImage = (mantraImageData != nil) ? UIImage(data: mantraImageData!) : UIImage(named: K.defaultImage)
+        setPhotoButton.setImage(mantraImage, for: .normal)
+        setPhotoButton.addPencilMark(color: .label)
+        setPhotoButton.viewWithTag(1)?.alpha = 0
         
         titleTextField.text = mantra.title
         mantraTextTextView.text = mantra.text
@@ -104,12 +101,17 @@ class DetailsViewController: UIViewController {
     
     private func setAddMode() {
         navigationItem.title = NSLocalizedString("New Mantra", comment: "Add new mantra bar title")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: "Button on MantraTableViewController"), style: .done, target: self, action: #selector(addButtonPressed))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: "Button on MantraTableViewController"),
+                                                            style: .done,
+                                                            target: self,
+                                                            action: #selector(addButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonPressed))
         navigationItem.rightBarButtonItem?.isEnabled = false
         setPhotoButton.isUserInteractionEnabled = true
-        setPhotoButton.addPencilMark(color: .label)
-        setPhotoButton.layer.opacity = 0.7
+        UIView.animate(withDuration: 0.2) {
+            self.setPhotoButton.alpha = 0.7
+            self.setPhotoButton.viewWithTag(1)?.alpha = 0.7
+        }
         titleTextField.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
         detailsTextView.isEditable = true
@@ -123,8 +125,10 @@ class DetailsViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPressed))
         setPhotoButton.isUserInteractionEnabled = true
-        setPhotoButton.addPencilMark(color: .label)
-        setPhotoButton.layer.opacity = 0.7
+        UIView.animate(withDuration: 0.2) {
+            self.setPhotoButton.alpha = 0.7
+            self.setPhotoButton.viewWithTag(1)?.alpha = 0.7
+        }
         titleTextField.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
         detailsTextView.isEditable = true
@@ -138,9 +142,9 @@ class DetailsViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPressed))
         setPhotoButton.isUserInteractionEnabled = false
-        setPhotoButton.layer.opacity = 1
-        if let pencilView = setPhotoButton.viewWithTag(1) {
-            pencilView.removeFromSuperview()
+        UIView.animate(withDuration: 0.2) {
+            self.setPhotoButton.alpha = 1
+            self.setPhotoButton.viewWithTag(1)?.alpha = 0
         }
         titleTextField.isUserInteractionEnabled = false
         mantraTextTextView.isEditable = false
@@ -152,17 +156,14 @@ class DetailsViewController: UIViewController {
         detailsPlaceholderLabel.isHidden = true
     }
     
-    //MARK: - Navigtion Bar Buttons Methods
+    //MARK: - Navigation Bar Buttons Methods
     
     @objc private func addButtonPressed() {
-        if let title = titleTextField.text {
-            if isMantraDuplicating(for: title) {
-                showDuplicatingAlert(for: title)
-            } else {
-                handleAddNewMantra(for: title)
-            }
+        guard let title = titleTextField.text else { return }
+        if isMantraDuplicating(for: title) {
+            showDuplicatingAlert(for: title)
         } else {
-            return
+            handleAddNewMantra(for: title)
         }
     }
     
@@ -177,14 +178,11 @@ class DetailsViewController: UIViewController {
     }
     
     @objc private func doneButtonPressed() {
-        if let title = titleTextField.text {
-            processMantra(title: title)
-            saveMantras()
-            delegate?.updateView()
-            setViewMode()
-        } else {
-            return
-        }
+        guard let title = titleTextField.text else { return }
+        processMantra(title: title)
+        saveMantras()
+        delegate?.updateView()
+        setViewMode()
     }
     
     @objc private func closeButtonPressed() {
@@ -193,13 +191,8 @@ class DetailsViewController: UIViewController {
     }
     
     private func isMantraDuplicating(for title: String) -> Bool {
-        var isDuplicating = false
-        if let mantraTitles = mantraTitles {
-            if mantraTitles.contains(title) {
-                isDuplicating = true
-            }
-        }
-        return isDuplicating
+        guard let mantraTitles = mantraTitles else { return false }
+        return mantraTitles.contains(title)
     }
     
     private func showDuplicatingAlert(for title: String) {

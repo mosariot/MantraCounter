@@ -22,14 +22,14 @@ extension UIImage {
                                                          size: breadthSize)) else { return nil }
         let format = imageRendererFormat
         format.opaque = false
-        return UIGraphicsImageRenderer(size: breadthSize, format: format).image { _ in
+        return UIGraphicsImageRenderer(size: breadthSize, format: format).image {_ in
             UIBezierPath(ovalIn: breadthRect).addClip()
             UIImage(cgImage: cgImage, scale: 1, orientation: imageOrientation).draw(in: CGRect(origin: .zero, size: breadthSize))
         }
     }
     
     func resize(to size: CGSize) -> UIImage {
-        return UIGraphicsImageRenderer(size: size).image { _ in
+        return UIGraphicsImageRenderer(size: size).image {_ in
             draw(in: CGRect(origin: .zero, size: size))
         }
     }

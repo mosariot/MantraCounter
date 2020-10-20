@@ -26,6 +26,7 @@ class MantraTableViewController: UITableViewController {
     
     private lazy var mantraPicker = UIPickerView()
     private lazy var mantraPickerTextField = UITextField(frame: CGRect.zero)
+    private var coverView: UIView?
     private lazy var sortedInitialMantraData = InitialMantra.data.sorted {
         guard let mantraTitle0 = $0[.title], let mantraTitle1 = $1[.title] else { return false }
         return mantraTitle0 < mantraTitle1
@@ -55,24 +56,19 @@ class MantraTableViewController: UITableViewController {
         return array
     }
     
-    private var coverView: UIView?
-    private var coverTap: UITapGestureRecognizer?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if let lastFavoritePosition = favoriteMantraArray.last?.positionFavorite, lastFavoritePosition >= favoriteMantraArray.count {
             currentFavoriteMantraCount = favoriteMantraArray.count
-            reorderFavoriteMantraPositionsForAddingOrDeleting()
+            reorderFavoriteMantraPositionsForFavoritingUnfavoritingDeleting()
         }
         
         inFavoriteMode = defaults.bool(forKey: "inFavoriteMode")
         setupNavigationBar()
         setupSegmentedControl()
         setupSearchController()
-        
-        coverTap = UITapGestureRecognizer(target: self, action: #selector(handleCoverTap(_:)))
-        
+                
         loadMantras()
     }
     
@@ -81,7 +77,7 @@ class MantraTableViewController: UITableViewController {
         
         if currentFavoriteMantraCount != favoriteMantraArray.count {
             currentFavoriteMantraCount = favoriteMantraArray.count
-            reorderFavoriteMantraPositionsForAddingOrDeleting()
+            reorderFavoriteMantraPositionsForFavoritingUnfavoritingDeleting()
             saveMantras()
         }
         
@@ -144,7 +140,7 @@ class MantraTableViewController: UITableViewController {
         showAddNewMantraAlert()
     }
     
-    //MARK: - Shortcut Handling
+    //MARK: - Home Screen Quick Actions Handling
     
     func setFavoriteMode() {
         inFavoriteMode = true
@@ -184,18 +180,10 @@ class MantraTableViewController: UITableViewController {
         if ((cell.textLabel?.text) != nil) {
             cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
             cell.detailTextLabel?.textColor = .secondaryLabel
-            cell.imageView?.image = imageForCell(for: mantra)
+            cell.imageView?.image = (mantra.imageForTableView != nil) ? UIImage(data: mantra.imageForTableView!) : UIImage(named: K.defaultImage_tableView)
             cell.accessoryType = .disclosureIndicator
         }
         return cell
-    }
-    
-    private func imageForCell(for mantra: Mantra) -> UIImage? {
-        if let imageData = mantra.imageForTableView {
-            return UIImage(data: imageData)
-        } else {
-            return UIImage(named: K.defaultImage_tableView)
-        }
     }
 
     //MARK: - TableView Delegate Methods
@@ -220,7 +208,7 @@ class MantraTableViewController: UITableViewController {
             isToDismiss(true)
             self?.handleFavoriteAction(for: indexPath)
         }
-        favoriteAction.backgroundColor = .systemTeal
+        favoriteAction.backgroundColor = .systemBlue
         favoriteAction.image = UIImage(systemName: star)
         
         let actions = inFavoriteMode ? [favoriteAction] : [deleteAction, favoriteAction]
@@ -240,7 +228,7 @@ class MantraTableViewController: UITableViewController {
         mantraArray.remove(at: sourceIndexPath.row)
         mantraArray.insert(movedMantra, at: destinationIndexPath.row)
         
-        reorderMantraPositionsForMoving()
+        reorderMantraPositionsForMovingDeleting()
         saveMantras()
     }
     
@@ -299,8 +287,8 @@ class MantraTableViewController: UITableViewController {
     private func deleteMantra(for indexPath: IndexPath) {
         context.delete(mantraArray[indexPath.row])
         mantraArray.remove(at: indexPath.row)
-        reorderMantraPositionsForMoving()
-        reorderFavoriteMantraPositionsForAddingOrDeleting()
+        reorderMantraPositionsForMovingDeleting()
+        reorderFavoriteMantraPositionsForFavoritingUnfavoritingDeleting()
         saveMantras()
         tableView.deleteRows(at: [indexPath], with: .fade)
     }
@@ -308,7 +296,7 @@ class MantraTableViewController: UITableViewController {
     private func handleFavoriteAction(for indexPath: IndexPath) {
         mantraArray[indexPath.row].isFavorite = !mantraArray[indexPath.row].isFavorite
         mantraArray[indexPath.row].positionFavorite = mantraArray[indexPath.row].isFavorite ? Int32(favoriteMantraArray.count) : Int32(0)
-        reorderFavoriteMantraPositionsForAddingOrDeleting()
+        reorderFavoriteMantraPositionsForFavoritingUnfavoritingDeleting()
         saveMantras()
         if inFavoriteMode {
             mantraArray.remove(at: indexPath.row)
@@ -316,7 +304,7 @@ class MantraTableViewController: UITableViewController {
         }
     }
     
-    private func reorderMantraPositionsForMoving() {
+    private func reorderMantraPositionsForMovingDeleting() {
         for i in 0..<mantraArray.count {
             if inFavoriteMode {
                 mantraArray[i].positionFavorite = Int32(i)
@@ -326,7 +314,7 @@ class MantraTableViewController: UITableViewController {
         }
     }
     
-    private func reorderFavoriteMantraPositionsForAddingOrDeleting() {
+    private func reorderFavoriteMantraPositionsForFavoritingUnfavoritingDeleting() {
         for i in 0..<favoriteMantraArray.count {
             favoriteMantraArray[i].positionFavorite = Int32(i)
         }
@@ -373,32 +361,19 @@ class MantraTableViewController: UITableViewController {
     private func setPreloadedMantraPickerState() {
         setDimmedBackground()
         makeAndShowMantraPickerView()
-        if traitCollection.userInterfaceStyle == .light {
-            navigationController?.navigationBar.tintColor = UIColor.systemGray
-        } else {
-            navigationController?.navigationBar.tintColor = UIColor.systemGray2
-        }
+        navigationController?.navigationBar.tintColor = traitCollection.userInterfaceStyle == .light ? .systemGray : .systemGray2
     }
     
     private func setDimmedBackground() {
         let dimmedBackgroundView = UIView(frame: UIScreen.main.bounds)
         dimmedBackgroundView.backgroundColor = .black
         dimmedBackgroundView.alpha = 0
-        
-        var alpha: Double
-        if traitCollection.userInterfaceStyle == .light {
-                alpha = 0.2
-            } else {
-                alpha = 0.5
-            }
-        
+        let dimmedAlpha = traitCollection.userInterfaceStyle == .light ? 0.2 : 0.5
         coverView = dimmedBackgroundView
-        if let coverView = coverView, let coverTap = coverTap {
-            coverView.addGestureRecognizer(coverTap)
+        if let coverView = coverView {
+            coverView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCoverTap(_:))))
             UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.addSubview(coverView)
-            UIView.animate(withDuration: 0.15) {
-                coverView.alpha = CGFloat(alpha)
-            }
+            UIView.animate(withDuration: 0.15) { coverView.alpha = CGFloat(dimmedAlpha) }
         }
     }
     

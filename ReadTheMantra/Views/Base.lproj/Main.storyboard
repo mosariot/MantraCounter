@@ -185,7 +185,7 @@
                                             <constraint firstAttribute="width" constant="100" id="WlP-LA-oHL"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z7q-lJ-Yge">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z7q-lJ-Yge" customClass="CopyableLabel" customModule="MantraCounter" customModuleProvider="target">
                                         <rect key="frame" x="146" y="194" width="62.5" height="41"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                         <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -283,7 +283,7 @@
                         <outlet property="addReadingsButton" destination="dUS-5m-kus" id="Nai-Y9-UVx"/>
                         <outlet property="addRoundsButton" destination="ZdM-Gq-d1v" id="TkL-b3-uN6"/>
                         <outlet property="circularProgressView" destination="56j-8c-bvo" id="BIf-Kl-quS"/>
-                        <outlet property="mantraImage" destination="aYM-Zj-T08" id="B9A-Oa-tMT"/>
+                        <outlet property="mantraImageView" destination="aYM-Zj-T08" id="B9A-Oa-tMT"/>
                         <outlet property="readsGoalButton" destination="MmZ-ji-SKX" id="NOK-we-YsL"/>
                         <outlet property="setProperValueButton" destination="5fa-hA-HQ2" id="SkR-pM-nqQ"/>
                         <outlet property="titleLabel" destination="Z7q-lJ-Yge" id="iPP-ZR-8AK"/>
