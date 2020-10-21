@@ -100,7 +100,15 @@ class MantraTableViewController: UITableViewController {
         navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
         navigationItem.searchController = searchController
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
+        
+        let newMantraAction = UIAction(title: NSLocalizedString("New Mantra", comment: "Menu Item on MantraTableViewController"), image: UIImage(systemName: "plus")) { [weak self] (action) in
+            self?.showNewMantraVC()
+        }
+        let preloadedMantraAction = UIAction(title: NSLocalizedString("Preloaded Mantra", comment: "Menu Item on MantraTableViewController"), image: UIImage(systemName: "books.vertical")) { [weak self] (action) in
+            self?.setPreloadedMantraPickerState()
+        }
+        let addingMenu = UIMenu(children: [newMantraAction, preloadedMantraAction])
+        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: nil, menu: addingMenu)
     }
     
     private func setupSegmentedControl() {
@@ -134,10 +142,6 @@ class MantraTableViewController: UITableViewController {
     @objc private func doneButtonPressed() {
         setEditing(false, animated: true)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
-    }
-    
-    @objc private func addButtonPressed() {
-        showAddNewMantraAlert()
     }
     
     //MARK: - Home Screen Quick Actions Handling
@@ -321,25 +325,6 @@ class MantraTableViewController: UITableViewController {
     }
     
     //MARK: - Add Mantra Stack
-    
-    private func showAddNewMantraAlert() {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let addNewMantraAction = UIAlertAction(title: NSLocalizedString("New Mantra", comment: "Alert Title on MantraTableViewController"),
-                                               style: .default) { [weak self] (action) in
-            self?.showNewMantraVC()
-        }
-        let addPreloadedMantraAction = UIAlertAction(title: NSLocalizedString("Preloaded Mantra", comment: "Alert Title on MantraTableViewController"),
-                                                     style: .default) { [weak self] (action) in
-            self?.setPreloadedMantraPickerState()
-        }
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Title on MantraTableViewController"),
-                                         style: .cancel,
-                                         handler: nil)
-        alert.addAction(addNewMantraAction)
-        alert.addAction(addPreloadedMantraAction)
-        alert.addAction(cancelAction)
-        present(alert, animated: true, completion: nil)
-    }
     
     private func showNewMantraVC() {
         currentMantraCount = overallMantraArray.count

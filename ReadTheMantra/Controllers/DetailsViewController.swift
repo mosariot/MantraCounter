@@ -82,8 +82,17 @@ class DetailsViewController: UIViewController {
         
         let mantraImage = (mantraImageData != nil) ? UIImage(data: mantraImageData!) : UIImage(named: K.defaultImage)
         setPhotoButton.setImage(mantraImage, for: .normal)
-        setPhotoButton.addPencilMark(color: .label)
+        setPhotoButton.addEditMark(color: .label)
         setPhotoButton.viewWithTag(1)?.alpha = 0
+        setPhotoButton.showsMenuAsPrimaryAction = true
+        let photoLibrary = UIAction(title: NSLocalizedString("Photo Library", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo.on.rectangle.angled")) { [weak self] (action) in
+            self?.showImagePicker()
+        }
+        let standardImage = UIAction(title: NSLocalizedString("Standard Image", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo")) { [weak self] (action) in
+            self?.setDefaultImage()
+        }
+        let photoMenu = UIMenu(children: [photoLibrary, standardImage])
+        setPhotoButton.menu = photoMenu
         
         titleTextField.text = mantra.title
         mantraTextTextView.text = mantra.text
@@ -229,42 +238,12 @@ class DetailsViewController: UIViewController {
     
     //MARK: - SetPhoto Action
     
-    @IBAction func setPhotoButtonPressed(_ sender: UIButton) {
-    
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let photoLibraryAction = UIAlertAction(title: NSLocalizedString("Photo Library", comment: "Alert Title on DetailsViewController"),
-                                               style: .default) { [weak self] (action) in
-                                                self?.showImagePicker()
-        }
-     
-        let defaultPhotoAction = UIAlertAction(title: NSLocalizedString("Standard Image", comment: "Alert Title on DetailsViewController"),
-                                               style: .default) { [weak self] (action) in
-                                                self?.setDefaultImage()
-        }
-    
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"),
-                                         style: .cancel,
-                                         handler: nil)
-        alert.addAction(photoLibraryAction)
-        alert.addAction(defaultPhotoAction)
-        alert.addAction(cancelAction)
-        present(alert, animated: true, completion: nil)
-    }
-    
     private func showImagePicker() {
-        if #available(iOS 14, *) {
-              var configuration = PHPickerConfiguration()
-              configuration.filter = .images
-              let picker = PHPickerViewController(configuration: configuration)
-              picker.delegate = self
-              present(picker, animated: true, completion: nil)
-        } else {
-            let picker = UIImagePickerController()
-            picker.allowsEditing = true
-            picker.sourceType = .photoLibrary
-            picker.delegate = self
-            present(picker, animated: true)
-        }
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .images
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true, completion: nil)
     }
     
     private func setDefaultImage() {
@@ -347,23 +326,10 @@ extension DetailsViewController: UITextViewDelegate {
     }
 }
 
-//MARK: - ImagePickerController Delegate
-
-extension DetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        dismiss(animated: true)
-        guard let image = info[.editedImage] as? UIImage else { return }
-        
-        processImage(image: image)
-    }
-}
-
 //MARK: - PHPickerViewController Delegate
 
 extension DetailsViewController: PHPickerViewControllerDelegate {
     
-    @available(iOS 14, *)
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         dismiss(animated: true, completion: nil)
         

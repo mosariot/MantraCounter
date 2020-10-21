@@ -7,10 +7,10 @@
 /* Search Placeholder */
 "Search" = "Поиск";
 
-/* Alert Title on MantraTableViewController */
+/* Menu Item on MantraTableViewController */
 "New Mantra" = "Новая мантра";
 
-/* Alert Title on MantraTableViewController */
+/* Menu Item on MantraTableViewController */
 "Preloaded Mantra" = "Из предустановленных";
 
 /* Alert Message for Duplication */
@@ -64,6 +64,9 @@
 /* Alert Title on ReadsCountViewController */
 "Enter Rounds Number" = "Введите число кругов";
 
+/* Edit mark label */
+"EDIT" = "ПРАВИТЬ";
+
 /* Mantra text placeholder */
 "Enter mantra text" = "Введите текст мантры";
 
@@ -76,10 +79,10 @@
 /* Information bar title */
 "Information" = "Информация";
 
-/* Alert Title on DetailsViewController */
+/* Menu Item on DetailsViewController */
 "Photo Library" = "Фототека";
 
-/* Alert Title on DetailsViewController */
+/* Menu Item on DetailsViewController */
 "Standard Image" = "Стандартное";
 
 /* Alert Title on DetailsViewController */
