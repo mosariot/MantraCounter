@@ -109,6 +109,7 @@ class DetailsViewController: UIViewController {
     }
     
     private func setAddMode() {
+        mode = .add
         navigationItem.title = NSLocalizedString("New Mantra", comment: "Add new mantra bar title")
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: "Button on MantraTableViewController"),
                                                             style: .done,
@@ -119,7 +120,7 @@ class DetailsViewController: UIViewController {
         setPhotoButton.isUserInteractionEnabled = true
         UIView.animate(withDuration: 0.2) {
             self.setPhotoButton.alpha = 0.7
-            self.setPhotoButton.viewWithTag(1)?.alpha = 0.7
+            self.setPhotoButton.viewWithTag(1)?.alpha = 0.9
         }
         titleTextField.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
@@ -130,13 +131,14 @@ class DetailsViewController: UIViewController {
     }
     
     private func setEditMode() {
+        mode = .edit
         navigationItem.title = NSLocalizedString("Information", comment: "Information bar title")
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPressed))
         setPhotoButton.isUserInteractionEnabled = true
         UIView.animate(withDuration: 0.2) {
             self.setPhotoButton.alpha = 0.7
-            self.setPhotoButton.viewWithTag(1)?.alpha = 0.7
+            self.setPhotoButton.viewWithTag(1)?.alpha = 0.9
         }
         titleTextField.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
@@ -147,6 +149,7 @@ class DetailsViewController: UIViewController {
     }
     
     private func setViewMode() {
+        mode = .view
         navigationItem.title = NSLocalizedString("Information", comment: "Information bar title")
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPressed))

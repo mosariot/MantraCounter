@@ -13,7 +13,10 @@ class MantraTableViewController: UITableViewController {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private let defaults = UserDefaults.standard
-    private var inFavoriteMode = false
+    private var inFavoriteMode: Bool {
+        get { defaults.bool(forKey: "inFavoriteMode") }
+        set { defaults.set(newValue, forKey: "inFavoriteMode") }
+    }
     
     private var mantraArray = [Mantra]()
     private var currentMantraCount = 0
@@ -64,7 +67,6 @@ class MantraTableViewController: UITableViewController {
             reorderFavoriteMantraPositionsForFavoritingUnfavoritingDeleting()
         }
         
-        inFavoriteMode = defaults.bool(forKey: "inFavoriteMode")
         setupNavigationBar()
         setupSegmentedControl()
         setupSearchController()
@@ -101,7 +103,7 @@ class MantraTableViewController: UITableViewController {
         navigationItem.searchController = searchController
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
         
-        let newMantraAction = UIAction(title: NSLocalizedString("New Mantra", comment: "Menu Item on MantraTableViewController"), image: UIImage(systemName: "plus")) { [weak self] (action) in
+        let newMantraAction = UIAction(title: NSLocalizedString("New Mantra", comment: "Menu Item on MantraTableViewController"), image: UIImage(systemName: "square.and.pencil")) { [weak self] (action) in
             self?.showNewMantraVC()
         }
         let preloadedMantraAction = UIAction(title: NSLocalizedString("Preloaded Mantra", comment: "Menu Item on MantraTableViewController"), image: UIImage(systemName: "books.vertical")) { [weak self] (action) in
@@ -128,7 +130,6 @@ class MantraTableViewController: UITableViewController {
     
     @objc private func segmentedValueChanged(_ sender: UISegmentedControl) {
         inFavoriteMode = !inFavoriteMode
-        defaults.set(inFavoriteMode, forKey: "inFavoriteMode")
         loadMantras(withAnimation: true)
     }
     
@@ -148,7 +149,6 @@ class MantraTableViewController: UITableViewController {
     
     func setFavoriteMode() {
         inFavoriteMode = true
-        defaults.set(inFavoriteMode, forKey: "inFavoriteMode")
     }
     
     func setAddNewMantraMode() {
