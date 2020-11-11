@@ -254,6 +254,21 @@ class ReadsCountViewController: UIViewController {
         addRoundsButton.layer.cornerRadius = 35
         addReadingsButton.layer.cornerRadius = 35
         setProperValueButton.layer.cornerRadius = 35
+        
+        addRoundsButton.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        addRoundsButton.layer.shadowOffset = CGSize(width: 3, height: 3)
+        addRoundsButton.layer.shadowOpacity = 1.0
+        addRoundsButton.layer.shadowRadius = 3.0
+        
+        addReadingsButton.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        addReadingsButton.layer.shadowOffset = CGSize(width: 3, height: 3)
+        addReadingsButton.layer.shadowOpacity = 1.0
+        addReadingsButton.layer.shadowRadius = 3.0
+        
+        setProperValueButton.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        setProperValueButton.layer.shadowOffset = CGSize(width: 3, height: 3)
+        setProperValueButton.layer.shadowOpacity = 1.0
+        setProperValueButton.layer.shadowRadius = 3.0
     }
     
     //MARK: - Model Manipulation
