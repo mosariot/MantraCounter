@@ -20,6 +20,13 @@ class CircularProgressView: UIView {
     
     //MARK: - Public
     
+    public override var bounds: CGRect {
+        didSet {
+            setupView()
+            setValue(to: currentValue)
+        }
+    }
+    
     public var currentValue = 0
     public var readsGoal = K.initialReadsGoal
     

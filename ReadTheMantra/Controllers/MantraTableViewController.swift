@@ -11,6 +11,8 @@ import CoreData
 
 class MantraTableViewController: UITableViewController {
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private let defaults = UserDefaults.standard
     private var inFavoriteMode: Bool {
@@ -21,10 +23,7 @@ class MantraTableViewController: UITableViewController {
     private var mantraArray = [Mantra]()
     private var currentMantraCount = 0
     private var currentFavoriteMantraCount = 0
-    
-    private let segmentedControl = UISegmentedControl(items: [NSLocalizedString("All", comment: "Segment Title on MantraTableViewController"),
-                                                              UIImage(systemName: "star") as Any])
-    
+        
     private let searchController = UISearchController(searchResultsController: nil)
     
     private lazy var mantraPicker = UIPickerView()
@@ -115,10 +114,8 @@ class MantraTableViewController: UITableViewController {
     
     private func setupSegmentedControl() {
         segmentedControl.selectedSegmentIndex = inFavoriteMode ? 1 : 0
-        segmentedControl.setWidth(view.frame.size.width/5, forSegmentAt: 0)
-        segmentedControl.setWidth(view.frame.size.width/5, forSegmentAt: 1)
+        segmentedControl.setTitle(NSLocalizedString("All", comment: "Segment Title on MantraTableViewController"), forSegmentAt: 0)
         segmentedControl.addTarget(self, action: #selector(segmentedValueChanged), for: .valueChanged)
-        navigationItem.titleView = segmentedControl
     }
     
     private func setupSearchController() {
