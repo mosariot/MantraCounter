@@ -243,6 +243,7 @@ class MantraTableViewController: UITableViewController {
                     guard let self = self else { fatalError() }
                     return ReadsCountViewController(mantra: mantra, positionFavorite: Int32(self.currentFavoriteMantraCount), coder: coder)
                 }) else { return }
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Mantra List", comment: "Back button of MantraTableViewController"), style: .plain, target: nil, action: nil)
         show(readsCountViewController, sender: true)
     }
     

@@ -1,6 +1,9 @@
 /* App name */
 "Mantra Counter" = "Начитай!";
 
+/* Back Button of MantraTableViewController */
+"Mantra List" = "Список мантр";
+
 /* Segment Title on MantraTableViewController */
 "All" = "Все";
 
