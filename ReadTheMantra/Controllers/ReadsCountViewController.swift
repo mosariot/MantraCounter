@@ -90,6 +90,14 @@ class ReadsCountViewController: UIViewController {
         titleLabel.adjustsFontForContentSizeCategory = true
         readsGoalButton.setTitle(NSLocalizedString("Goal: ", comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(), for: .normal)
         circularProgressView.setValue(to: Int(mantra.reads))
+        
+        let standartAppearance = UINavigationBarAppearance()
+        let compactAppearance = UINavigationBarAppearance()
+        standartAppearance.titleTextAttributes = [.foregroundColor: UIColor.clear]
+        compactAppearance.titleTextAttributes = [.foregroundColor: UIColor.label]
+        navigationItem.standardAppearance = standartAppearance
+        navigationItem.compactAppearance = compactAppearance
+        navigationItem.title = mantra.title
     }
     
     //MARK: - Updating ReadsCount and ReadsGoal
