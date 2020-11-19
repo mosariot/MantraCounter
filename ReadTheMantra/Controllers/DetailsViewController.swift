@@ -80,7 +80,7 @@ class DetailsViewController: UIViewController {
         setMantraTextPlaceholder()
         setDetailsPlaceholder()
         
-        let mantraImage = (mantraImageData != nil) ? UIImage(data: mantraImageData!) : UIImage(named: K.defaultImage)
+        let mantraImage = (mantraImageData != nil) ? UIImage(data: mantraImageData!) : UIImage(named: Constants.defaultImage)
         setPhotoButton.setImage(mantraImage, for: .normal)
         setPhotoButton.addEditMark(color: .label)
         setPhotoButton.viewWithTag(1)?.alpha = 0
@@ -250,7 +250,7 @@ class DetailsViewController: UIViewController {
     }
     
     private func setDefaultImage() {
-        setPhotoButton.setImage(UIImage(named: K.defaultImage), for: .normal)
+        setPhotoButton.setImage(UIImage(named: Constants.defaultImage), for: .normal)
         mantraImageData = nil
         mantraImageForTableViewData = nil
     }

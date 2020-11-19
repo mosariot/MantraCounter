@@ -175,13 +175,13 @@ class MantraTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: K.mantraCellID, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.mantraCellID, for: indexPath)
         let mantra = mantraArray[indexPath.row]
         cell.textLabel?.text = mantra.title
         if ((cell.textLabel?.text) != nil) {
             cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
             cell.detailTextLabel?.textColor = .secondaryLabel
-            cell.imageView?.image = (mantra.imageForTableView != nil) ? UIImage(data: mantra.imageForTableView!) : UIImage(named: K.defaultImage_tableView)
+            cell.imageView?.image = (mantra.imageForTableView != nil) ? UIImage(data: mantra.imageForTableView!) : UIImage(named: Constants.defaultImage_tableView)
             cell.accessoryType = .disclosureIndicator
         }
         return cell
@@ -238,7 +238,7 @@ class MantraTableViewController: UITableViewController {
         currentFavoriteMantraCount = favoriteMantraArray.count
         let mantra = mantraArray[indexPath.row]
         guard let readsCountViewController = storyboard?.instantiateViewController(
-                identifier: K.readsCountViewControllerID,
+                identifier: Constants.readsCountViewControllerID,
                 creator: { [weak self] coder in
                     guard let self = self else { fatalError() }
                     return ReadsCountViewController(mantra: mantra, positionFavorite: Int32(self.currentFavoriteMantraCount), coder: coder)
@@ -328,7 +328,7 @@ class MantraTableViewController: UITableViewController {
         currentMantraCount = overallMantraArray.count
         let mantra = Mantra(context: context)
         guard let detailsViewController = storyboard?.instantiateViewController(
-                identifier: K.detailsViewControllerID,
+                identifier: Constants.detailsViewControllerID,
                 creator: { [weak self] coder in
                     guard let self = self else { fatalError() }
                     return DetailsViewController(mantra: mantra,
@@ -444,8 +444,8 @@ class MantraTableViewController: UITableViewController {
         mantra.title = preloadedMantra[.title]
         mantra.text = preloadedMantra[.text]
         mantra.details = preloadedMantra[.details]
-        mantra.image = UIImage(named: preloadedMantra[.image] ?? K.defaultImage)?.pngData()
-        mantra.imageForTableView = UIImage(named: preloadedMantra[.imageForTableView] ?? K.defaultImage_tableView)?.pngData()
+        mantra.image = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?.pngData()
+        mantra.imageForTableView = UIImage(named: preloadedMantra[.imageForTableView] ?? Constants.defaultImage_tableView)?.pngData()
     }
     
     private func dismissPreloadedMantraPickerState() {

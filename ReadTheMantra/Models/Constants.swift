@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct K {
+enum Constants {
     static let mantraTableViewControllerID = "MantraTableViewController"
     static let readsCountViewControllerID = "ReadsCountViewController"
     static let detailsViewControllerID = "DetailsViewController"

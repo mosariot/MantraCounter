@@ -28,7 +28,7 @@ class CircularProgressView: UIView {
     }
     
     public var currentValue = 0
-    public var readsGoal = K.initialReadsGoal
+    public var readsGoal = Constants.initialReadsGoal
     
     public func setGoal(to newGoal: Int) {
         

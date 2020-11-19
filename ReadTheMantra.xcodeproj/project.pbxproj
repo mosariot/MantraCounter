@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9F2E107C251E7139009448C4 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2E107B251E7139009448C4 /* ConfettiView.swift */; };
+		9F2E107C251E7139009448C4 /* BryceConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2E107B251E7139009448C4 /* BryceConfettiView.swift */; };
 		9F3766112513C5B9007E6BED /* StringFormattedWithSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3766102513C5B9007E6BED /* StringFormattedWithSpaces.swift */; };
 		9F3B1C032538F50200BEE838 /* RoundedSystemFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B1C022538F50200BEE838 /* RoundedSystemFont.swift */; };
 		9F4B47F42530C34F00E7FF4B /* EditMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4B47F32530C34F00E7FF4B /* EditMarkView.swift */; };
@@ -27,14 +27,15 @@
 		9F5FE6B424E9262B00D0475E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F5FE6B624E9262B00D0475E /* InfoPlist.strings */; };
 		9F5FE6B924E9B6E500D0475E /* CircleAndResizeUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6B824E9B6E500D0475E /* CircleAndResizeUIImage.swift */; };
 		9F5FE6BB24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift */; };
+		9F6503D8256651680055ED8F /* SimpleConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6503D7256651670055ED8F /* SimpleConfettiView.swift */; };
 		9F7A5091253CB924008BFD6F /* CustomDynamicFontWeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */; };
 		9F7A5096253DD439008BFD6F /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A5095253DD438008BFD6F /* CopyableLabel.swift */; };
-		9F9299AF250818B6003D5029 /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* K.swift */; };
+		9F9299AF250818B6003D5029 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* Constants.swift */; };
 		9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9F2E107B251E7139009448C4 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
+		9F2E107B251E7139009448C4 /* BryceConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BryceConfettiView.swift; sourceTree = "<group>"; };
 		9F3766102513C5B9007E6BED /* StringFormattedWithSpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringFormattedWithSpaces.swift; sourceTree = "<group>"; };
 		9F3B1C022538F50200BEE838 /* RoundedSystemFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedSystemFont.swift; sourceTree = "<group>"; };
 		9F4B47F32530C34F00E7FF4B /* EditMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMarkView.swift; sourceTree = "<group>"; };
@@ -56,9 +57,10 @@
 		9F5FE6B524E9262B00D0475E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9F5FE6B824E9B6E500D0475E /* CircleAndResizeUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleAndResizeUIImage.swift; sourceTree = "<group>"; };
 		9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardWhenTappedAround.swift; sourceTree = "<group>"; };
+		9F6503D7256651670055ED8F /* SimpleConfettiView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleConfettiView.swift; sourceTree = "<group>"; };
 		9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDynamicFontWeight.swift; sourceTree = "<group>"; };
 		9F7A5095253DD438008BFD6F /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
-		9F9299AE250818B6003D5029 /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
+		9F9299AE250818B6003D5029 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,7 +134,8 @@
 			children = (
 				9F5FE68924E7141400D0475E /* Main.storyboard */,
 				9F5FE69124E7141700D0475E /* LaunchScreen.storyboard */,
-				9F2E107B251E7139009448C4 /* ConfettiView.swift */,
+				9F2E107B251E7139009448C4 /* BryceConfettiView.swift */,
+				9F6503D7256651670055ED8F /* SimpleConfettiView.swift */,
 				9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */,
 				9F7A5095253DD438008BFD6F /* CopyableLabel.swift */,
 			);
@@ -144,7 +147,7 @@
 			children = (
 				9F5FE68C24E7141400D0475E /* ReadTheMantra.xcdatamodeld */,
 				9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */,
-				9F9299AE250818B6003D5029 /* K.swift */,
+				9F9299AE250818B6003D5029 /* Constants.swift */,
 				9F5FE6A424E7183E00D0475E /* DetailsMode.swift */,
 			);
 			path = Models;
@@ -246,17 +249,18 @@
 				9F7A5091253CB924008BFD6F /* CustomDynamicFontWeight.swift in Sources */,
 				9F5FE6A524E7183E00D0475E /* InitialMantraData.swift in Sources */,
 				9F5FE6BB24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift in Sources */,
-				9F2E107C251E7139009448C4 /* ConfettiView.swift in Sources */,
+				9F2E107C251E7139009448C4 /* BryceConfettiView.swift in Sources */,
 				9F5FE68424E7141400D0475E /* AppDelegate.swift in Sources */,
 				9F5FE68E24E7141400D0475E /* ReadTheMantra.xcdatamodeld in Sources */,
 				9F5FE68624E7141400D0475E /* SceneDelegate.swift in Sources */,
 				9F3766112513C5B9007E6BED /* StringFormattedWithSpaces.swift in Sources */,
 				9F5FE6B924E9B6E500D0475E /* CircleAndResizeUIImage.swift in Sources */,
 				9F7A5096253DD439008BFD6F /* CopyableLabel.swift in Sources */,
-				9F9299AF250818B6003D5029 /* K.swift in Sources */,
+				9F9299AF250818B6003D5029 /* Constants.swift in Sources */,
 				9F4B47F92530CE2E00E7FF4B /* ReadsCountViewController.swift in Sources */,
 				9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */,
 				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,
+				9F6503D8256651680055ED8F /* SimpleConfettiView.swift in Sources */,
 				9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */,
 				9F3B1C032538F50200BEE838 /* RoundedSystemFont.swift in Sources */,
 			);

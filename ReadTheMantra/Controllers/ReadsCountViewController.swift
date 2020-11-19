@@ -16,6 +16,7 @@ class ReadsCountViewController: UIViewController {
     private let positionFavorite: Int32
     
     @IBOutlet private weak var mantraImageView: UIImageView!
+    @IBOutlet private weak var landscapeMantraImageView: UIImageView!
     @IBOutlet private weak var titleLabel: CopyableLabel!
     @IBOutlet private weak var addRoundsButton: UIButton!
     @IBOutlet private weak var addReadingsButton: UIButton!
@@ -64,7 +65,7 @@ class ReadsCountViewController: UIViewController {
     
     @objc private func infoButtonPressed() {
         guard let detailsViewController = storyboard?.instantiateViewController(
-                identifier: K.detailsViewControllerID,
+                identifier: Constants.detailsViewControllerID,
                 creator: { [weak self] coder in
                     guard let self = self else { fatalError() }
                     return DetailsViewController(mantra: self.mantra, mode: .view, position: Int(self.mantra.position), delegate: self, coder: coder)
@@ -84,7 +85,8 @@ class ReadsCountViewController: UIViewController {
     
     private func setupUI() {
         
-        mantraImageView.image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: K.defaultImage)
+        mantraImageView.image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
+        landscapeMantraImageView.image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
         titleLabel.text = mantra.title
         titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
         titleLabel.adjustsFontForContentSizeCategory = true
@@ -217,14 +219,33 @@ class ReadsCountViewController: UIViewController {
             }
         }
         if oldReads < mantra.readsGoal && newReads >= mantra.readsGoal {
-            let confetti = ConfettiView()
-            let confettiView = confetti.makeConfettiView(with: view.bounds.size.width)
+//            Bryce Pauken iMessage ConfettiView:
+//            let confetti = ConfettiView()
+//            let confettiView = confetti.makeConfettiView(with: view.bounds.size.width)
+//            view.addSubview(confettiView)
+//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.7) {
+//                confettiView.removeFromSuperview()
+//                self.showReadsCongratulationsAlert(level: .fullGoal)
+//            }
+//            Simple ConfettiView:
+            let confettiView = SimpleConfettiView(frame: view.bounds)
             view.addSubview(confettiView)
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.7) {
+            confettiView.alpha = 0
+            confettiView.startConfetti()
+            UIView.animate(withDuration: 0.6) {
+                confettiView.alpha = 1
+            }
+            confettiView.stopConfetti()
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3.2) {
                 confettiView.removeFromSuperview()
                 self.showReadsCongratulationsAlert(level: .fullGoal)
             }
         }
+    }
+    
+    private func makeConfetti() {
+        
     }
     
     private func showReadsCongratulationsAlert(level: Level) {

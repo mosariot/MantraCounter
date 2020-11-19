@@ -16,7 +16,7 @@ enum MantraAttributes {
     case imageForTableView
 }
 
-struct InitialMantra {
+enum InitialMantra {
     static let data: [[MantraAttributes: String]] = [
         [
             .title: NSLocalizedString("Buddha Shakyamuni", comment: "Buddha Shakyamuni"),
