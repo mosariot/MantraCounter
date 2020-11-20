@@ -536,9 +536,6 @@ extension MantraTableViewController: UISearchResultsUpdating {
 extension MantraTableViewController: DetailsViewControllerDelegate {
     
     func updateView() {
-        print("update")
-        print(currentMantraCount)
-        print(overallMantraArray.count)
         if currentMantraCount < overallMantraArray.count {
             currentMantraCount = overallMantraArray.count
             loadMantras()

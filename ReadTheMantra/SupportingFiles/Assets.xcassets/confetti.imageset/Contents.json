@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "confetti.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "confetti.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

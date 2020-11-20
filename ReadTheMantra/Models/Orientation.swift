@@ -12,7 +12,6 @@ struct Orientation {
     static func lock(_ orientation: UIInterfaceOrientationMask) {
         if let delegate = UIApplication.shared.delegate as? AppDelegate {
             delegate.orientationLock = orientation
-            print("locked")
         }
     }
 }
