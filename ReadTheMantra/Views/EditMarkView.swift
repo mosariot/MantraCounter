@@ -1,5 +1,5 @@
 //
-//  PencilView.swift
+//  EditMarkView.swift
 //  ReadTheMantra
 //
 //  Created by Александр Воробьев on 09.10.2020.

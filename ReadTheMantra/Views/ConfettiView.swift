@@ -1,5 +1,5 @@
 //
-//  SAConfettiView.swift
+//  ConfettiView.swift
 //  ReadTheMantra
 //
 //  Created by Александр Воробьев on 19.11.2020.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SimpleConfettiView: UIView {
+class ConfettiView: UIView {
     
     private var confettiEmitter = CAEmitterLayer()
     

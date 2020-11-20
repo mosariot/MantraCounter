@@ -184,7 +184,9 @@ class ReadsCountViewController: UIViewController {
     private func handleAlertPositiveAction(forValue value: Int32, updatingType: UpdatingType) {
         let oldReads = mantra.reads
         updateValues(with: value, updatingType: updatingType)
+        lockOrientation()
         updateProrgessView(for: updatingType)
+        unlockOrientation()
         saveMantras()
         readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
     }
@@ -199,6 +201,29 @@ class ReadsCountViewController: UIViewController {
             mantra.reads += value * 108
         case .properValue:
             mantra.reads = value
+        }
+    }
+    
+    private func lockOrientation() {
+        if let currentOrientation = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation {
+            switch currentOrientation {
+            case .landscapeLeft:
+                Orientation.lock(.landscapeLeft)
+            case .landscapeRight:
+                Orientation.lock(.landscapeRight)
+            case .portrait:
+                Orientation.lock(.portrait)
+            case .portraitUpsideDown:
+                Orientation.lock(.portraitUpsideDown)
+            default:
+                return
+            }
+        }
+    }
+    
+    private func unlockOrientation() {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            Orientation.lock(.all)
         }
     }
     
@@ -219,16 +244,7 @@ class ReadsCountViewController: UIViewController {
             }
         }
         if oldReads < mantra.readsGoal && newReads >= mantra.readsGoal {
-//            Bryce Pauken iMessage ConfettiView:
-//            let confetti = ConfettiView()
-//            let confettiView = confetti.makeConfettiView(with: view.bounds.size.width)
-//            view.addSubview(confettiView)
-//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.7) {
-//                confettiView.removeFromSuperview()
-//                self.showReadsCongratulationsAlert(level: .fullGoal)
-//            }
-//            Simple ConfettiView:
-            let confettiView = SimpleConfettiView(frame: view.bounds)
+            let confettiView = ConfettiView(frame: view.bounds)
             view.addSubview(confettiView)
             confettiView.alpha = 0
             confettiView.startConfetti()
@@ -237,15 +253,14 @@ class ReadsCountViewController: UIViewController {
             }
             confettiView.stopConfetti()
             
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3.2) {
-                confettiView.removeFromSuperview()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.7) {
                 self.showReadsCongratulationsAlert(level: .fullGoal)
             }
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3.7) {
+                confettiView.removeFromSuperview()
+            }
         }
-    }
-    
-    private func makeConfetti() {
-        
     }
     
     private func showReadsCongratulationsAlert(level: Level) {

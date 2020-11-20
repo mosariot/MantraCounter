@@ -3,6 +3,7 @@
 //  ReadTheMantra
 //
 //  Created by Александр Воробьев on 11.09.2020.
+//  Copyright © 2018 Yogesh Manghnani. All rights reserved.
 //  Copyright © 2020 Александр Воробьев. All rights reserved.
 //
 
@@ -20,7 +21,7 @@ class CircularProgressView: UIView {
     
     //MARK: - Public
     
-    public override var bounds: CGRect {
+    override var bounds: CGRect {
         didSet {
             setupView()
             setValue(to: currentValue)
