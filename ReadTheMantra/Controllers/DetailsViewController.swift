@@ -2,8 +2,8 @@
 //  DetailsViewController.swift
 //  ReadTheMantra
 //
-//  Created by Александр Воробьев on 02.08.2020.
-//  Copyright © 2020 Александр Воробьев. All rights reserved.
+//  Created by Alex Vorobiev on 02.08.2020.
+//  Copyright © 2020 Alex Vorobiev. All rights reserved.
 //
 
 import UIKit
@@ -37,6 +37,8 @@ class DetailsViewController: UIViewController {
     private var mantraTextPlaceholderLabel : UILabel!
     private var detailsPlaceholderLabel : UILabel!
     
+    private let activityView = UIActivityIndicatorView(style: .large)
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -67,6 +69,31 @@ class DetailsViewController: UIViewController {
         titleTextField.delegate = self
         mantraTextTextView.delegate = self
         detailsTextView.delegate = self
+    }
+    
+    override func viewDidLayoutSubviews() {
+        activityView.center = view.center
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        let interfaceOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+        
+        coordinator.animate(alongsideTransition: { [weak self] (context) in
+            guard let self = self else { return }
+            guard let interfaceOrientation = interfaceOrientation else { return }
+            
+            if interfaceOrientation.isLandscape {
+                DispatchQueue.main.async {
+                    self.activityView.center = self.view.center
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.activityView.center = self.view.center
+                }
+            }
+        })
     }
     
     private func setupUI() {
@@ -244,6 +271,7 @@ class DetailsViewController: UIViewController {
     private func showImagePicker() {
         var configuration = PHPickerConfiguration()
         configuration.filter = .images
+        configuration.preferredAssetRepresentationMode = .current
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         present(picker, animated: true, completion: nil)
@@ -282,7 +310,7 @@ class DetailsViewController: UIViewController {
             detailsPlaceholderLabel.isHidden = !detailsTextView.text.isEmpty
         }
     }
-
+    
     //MARK: - Model Manipulation
     
     private func saveMantras() {
@@ -292,21 +320,32 @@ class DetailsViewController: UIViewController {
             print("Error saving context, \(error)")
         }
     }
-
+    
     //MARK: - Process Image
-
+    
     private func processImage(image: UIImage) {
-        let circledImage = image.circle()
+        
+        let circledImage = image.cropToCircle()
         let resizedCircledImage = circledImage?.resize(to: CGSize(width: 320, height: 320))
         let resizedCircledImageForTableView = circledImage?.resize(to: CGSize(width: 160, height: 160))
+        setPhotoButton.setImage(circledImage, for: .normal)
         
         if let imageData = resizedCircledImage?.pngData() {
             mantraImageData = imageData
-            setPhotoButton.setImage(resizedCircledImage, for: .normal)
         }
         if let imageData = resizedCircledImageForTableView?.pngData() {
             mantraImageForTableViewData = imageData
         }
+    }
+    
+    private func startActivityIndicator() {
+        view.addSubview(activityView)
+        activityView.startAnimating()
+    }
+    
+    private func stopActivityIndicator() {
+        activityView.stopAnimating()
+        activityView.removeFromSuperview()
     }
 }
 
@@ -336,15 +375,21 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         dismiss(animated: true, completion: nil)
         
+        startActivityIndicator()
+        
         guard !results.isEmpty else { return }
         for result in results {
-            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (object, error) in
-                if let image = object as? UIImage {
-                    DispatchQueue.main.async {
-                        self.processImage(image: image)
+            let provider = result.itemProvider
+            if provider.canLoadObject(ofClass: UIImage.self) {
+                provider.loadObject(ofClass: UIImage.self, completionHandler: { [weak self] (object, error) in
+                    if let image = object as? UIImage {
+                        DispatchQueue.main.async {
+                            self?.processImage(image: image)
+                            self?.stopActivityIndicator()
+                        }
                     }
-                }
-            })
+                })
+            }
         }
     }
 }

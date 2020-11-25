@@ -2,24 +2,24 @@
 //  CopyableLabel.swift
 //  ReadTheMantra
 //
-//  Created by Александр Воробьев on 19.10.2020.
-//  Copyright © 2020 Александр Воробьев. All rights reserved.
+//  Created by Alex Vorobiev on 19.10.2020.
+//  Copyright © 2020 Alex Vorobiev. All rights reserved.
 //
 
 import UIKit
 
 class CopyableLabel: UILabel {
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         sharedInit()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         sharedInit()
     }
-
+    
     func sharedInit() {
         isUserInteractionEnabled = true
         addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(showMenu(sender:))))
@@ -28,7 +28,7 @@ class CopyableLabel: UILabel {
     override public var canBecomeFirstResponder: Bool {
         true
     }
-
+    
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         return action == #selector(UIResponderStandardEditActions.copy)
     }
@@ -37,7 +37,7 @@ class CopyableLabel: UILabel {
         UIPasteboard.general.string = text
         UIMenuController.shared.hideMenu(from: self)
     }
-
+    
     @objc func showMenu(sender: Any?) {
         becomeFirstResponder()
         let menu = UIMenuController.shared

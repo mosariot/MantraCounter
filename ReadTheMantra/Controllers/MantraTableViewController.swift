@@ -2,8 +2,8 @@
 //  MantraTableViewController.swift
 //  ReadTheMantra
 //
-//  Created by Александр Воробьев on 30.07.2020.
-//  Copyright © 2020 Александр Воробьев. All rights reserved.
+//  Created by Alex Vorobiev on 30.07.2020.
+//  Copyright © 2020 Alex Vorobiev. All rights reserved.
 //
 
 import UIKit
@@ -23,7 +23,7 @@ class MantraTableViewController: UITableViewController {
     private var mantraArray = [Mantra]()
     private var currentMantraCount = 0
     private var currentFavoriteMantraCount = 0
-        
+    
     private let searchController = UISearchController(searchResultsController: nil)
     
     private lazy var mantraPicker = UIPickerView()
@@ -66,10 +66,12 @@ class MantraTableViewController: UITableViewController {
             reorderFavoriteMantraPositionsForFavoritingUnfavoritingDeleting()
         }
         
+        tableView.tableFooterView = UIView() 
+        
         setupNavigationBar()
         setupSegmentedControl()
         setupSearchController()
-                
+        
         loadMantras()
     }
     
@@ -186,7 +188,7 @@ class MantraTableViewController: UITableViewController {
         }
         return cell
     }
-
+    
     //MARK: - TableView Delegate Methods
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -276,7 +278,7 @@ class MantraTableViewController: UITableViewController {
                                       message: NSLocalizedString("Are you sure you want to delete this mantra?", comment: "Alert Message on MantraTableViewController"),
                                       preferredStyle: .alert)
         let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: "Alert Button on MantraTableViewController"),
-                                      style: .destructive) { [weak self] (action) in
+                                         style: .destructive) { [weak self] (action) in
             self?.deleteMantra(for: indexPath)
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"),

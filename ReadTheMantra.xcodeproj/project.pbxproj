@@ -30,7 +30,6 @@
 		9F7A5091253CB924008BFD6F /* CustomDynamicFontWeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */; };
 		9F7A5096253DD439008BFD6F /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A5095253DD438008BFD6F /* CopyableLabel.swift */; };
 		9F9299AF250818B6003D5029 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* Constants.swift */; };
-		9FB441682567A8F4009DDC48 /* Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB441672567A8F4009DDC48 /* Orientation.swift */; };
 		9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */; };
 /* End PBXBuildFile section */
 
@@ -60,7 +59,6 @@
 		9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDynamicFontWeight.swift; sourceTree = "<group>"; };
 		9F7A5095253DD438008BFD6F /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
 		9F9299AE250818B6003D5029 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		9FB441672567A8F4009DDC48 /* Orientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orientation.swift; sourceTree = "<group>"; };
 		9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -148,7 +146,6 @@
 				9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */,
 				9F9299AE250818B6003D5029 /* Constants.swift */,
 				9F5FE6A424E7183E00D0475E /* DetailsMode.swift */,
-				9FB441672567A8F4009DDC48 /* Orientation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -256,7 +253,6 @@
 				9F5FE6B924E9B6E500D0475E /* CircleAndResizeUIImage.swift in Sources */,
 				9F7A5096253DD439008BFD6F /* CopyableLabel.swift in Sources */,
 				9F9299AF250818B6003D5029 /* Constants.swift in Sources */,
-				9FB441682567A8F4009DDC48 /* Orientation.swift in Sources */,
 				9F4B47F92530CE2E00E7FF4B /* ReadsCountViewController.swift in Sources */,
 				9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */,
 				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,

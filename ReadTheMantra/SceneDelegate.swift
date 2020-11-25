@@ -52,37 +52,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneWillResignActive(_ scene: UIScene) {
-        lockOrientation()
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
-        unlockOrientation()
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-    }
-    
-    private func lockOrientation() {
-        if let currentOrientation = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation {
-            switch currentOrientation {
-            case .landscapeLeft:
-                Orientation.lock(.landscapeLeft)
-            case .landscapeRight:
-                Orientation.lock(.landscapeRight)
-            case .portrait:
-                Orientation.lock(.portrait)
-            case .portraitUpsideDown:
-                Orientation.lock(.portraitUpsideDown)
-            default:
-                return
-            }
-        }
-    }
-    
-    private func unlockOrientation() {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
-            Orientation.lock(.all)
-        }
     }
 }
 

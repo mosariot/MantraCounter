@@ -2,8 +2,8 @@
 //  ConfettiView.swift
 //  ReadTheMantra
 //
-//  Created by Александр Воробьев on 19.11.2020.
-//  Copyright © 2020 Александр Воробьев. All rights reserved.
+//  Created by Alex Vorobiev on 19.11.2020.
+//  Copyright © 2020 Alex Vorobiev. All rights reserved.
 
 import UIKit
 

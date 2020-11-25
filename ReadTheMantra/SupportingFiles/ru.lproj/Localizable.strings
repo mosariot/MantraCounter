@@ -41,7 +41,7 @@
 "Goal: " = "Цель: ";
 
 /* Alert Title on ReadsCountViewController */
-"Set new readings goal" = "Введите новую цель";
+"Set a New Readings Goal" = "Установите новую цель";
 
 /* Alert Button on ReadsCountViewController */
 "Set" = "Установить";
@@ -56,7 +56,7 @@
 "Done" = "Готово";
 
 /* Alert Title on ReadsCountViewController */
-"Enter a New Readings Count" = "Введите новое число начиток";
+"Set a New Readings Count" = "Установите новое число начиток";
 
 /* Alert Placehonder on ReadsCountViewController */
 "Enter number" = "Введите число";

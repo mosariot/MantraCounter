@@ -2,9 +2,9 @@
 //  CircularProgressView.swift
 //  ReadTheMantra
 //
-//  Created by Александр Воробьев on 11.09.2020.
+//  Created by Alex Vorobiev on 11.09.2020.
 //  Copyright © 2018 Yogesh Manghnani. All rights reserved.
-//  Copyright © 2020 Александр Воробьев. All rights reserved.
+//  Copyright © 2020 Alex Vorobiev. All rights reserved.
 //
 
 import UIKit
@@ -23,15 +23,19 @@ class CircularProgressView: UIView {
     
     override var bounds: CGRect {
         didSet {
+            makeFreshLabelForResizedView()
             setupView()
-            setValue(to: currentValue)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+                self.setGoalCircleAnimation(to: self.readsGoal)
+                self.setValueCircleAnimation(to: self.currentValue)
+            }
         }
     }
     
     public var currentValue = 0
     public var readsGoal = Constants.initialReadsGoal
     
-    public func setGoal(to newGoal: Int) {
+    public func setGoalCircleAnimation(to newGoal: Int) {
         
         var currentProgress: Double {
             let progressConstant = Double(currentValue) / Double(readsGoal)
@@ -49,30 +53,28 @@ class CircularProgressView: UIView {
         
         foregroundLayer.strokeEnd = CGFloat(newProgress)
         
-        // circle animation
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = currentProgress
         animation.toValue = newProgress
-        animation.duration = 1
+        animation.duration = Constants.progressAnimationDuration
         foregroundLayer.add(animation, forKey: "foregroundAnimation")
         
         var currentTime: Double = 0
         let currentReadsGoal = readsGoal
         let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] (timer) in
-            if currentTime >= 1.01 {
+            if currentTime >= Constants.progressAnimationDuration + 0.01 {
                 timer.invalidate()
                 self?.readsGoal = newGoal
             } else {
                 let momentGoal = Double(currentReadsGoal) + Double(newGoal - currentReadsGoal) * currentTime
-                self?.readsGoal = Int(momentGoal)
                 currentTime += 0.01
-                self?.setForegroundLayerColor(value: Int(self?.currentValue ?? 0))
+                self?.setForegroundLayerColor(value: Int(self?.currentValue ?? 0), readsGoal: Int(momentGoal))
             }
         }
         timer.fire()
     }
     
-    public func setValue(to newValue: Int) {
+    public func setValueCircleAnimation(to newValue: Int) {
         
         var progress: Double {
             let progressConstant = Double(newValue) / Double(readsGoal)
@@ -83,17 +85,17 @@ class CircularProgressView: UIView {
         
         foregroundLayer.strokeEnd = CGFloat(progress)
         
-        // circle animation
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = Double(currentValue) / Double(readsGoal)
         animation.toValue = progress
-        animation.duration = 1
+        animation.duration = Constants.progressAnimationDuration
         foregroundLayer.add(animation, forKey: "foregroundAnimation")
-        
-        // number animation
+    }
+    
+    public func setValueLabelAnimation(to newValue: Int) {
         var currentTime: Double = 0
         let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] (timer) in
-            if currentTime >= 1.01 {
+            if currentTime >= Constants.progressAnimationDuration + 0.01 {
                 timer.invalidate()
                 self?.currentValue = newValue
             } else {
@@ -101,7 +103,7 @@ class CircularProgressView: UIView {
                 currentTime += 0.01
                 momentValue.round(.toNearestOrAwayFromZero)
                 self?.label.text = Int(momentValue).stringFormattedWithSpaces()
-                self?.setForegroundLayerColor(value: Int(momentValue))
+                self?.setForegroundLayerColor(value: Int(momentValue), readsGoal: self?.readsGoal ?? Constants.initialReadsGoal)
                 if let fontSize = self?.labelFontSize(for: Int(momentValue)) {
                     self?.setLabel(withSize: fontSize)
                 }
@@ -130,7 +132,7 @@ class CircularProgressView: UIView {
         makeBar()
         addSubview(label)
     }
-
+    
     private func makeBar() {
         layer.sublayers = nil
         drawBackgroundLayer()
@@ -158,12 +160,19 @@ class CircularProgressView: UIView {
         foregroundLayer.path = path.cgPath
         foregroundLayer.lineWidth = lineWidth
         foregroundLayer.fillColor = UIColor.clear.cgColor
-        foregroundLayer.strokeColor = UIColor.systemBlue.cgColor
+        foregroundLayer.strokeColor = UIColor.systemGreen.cgColor
         foregroundLayer.strokeEnd = 0
         
         layer.addSublayer(foregroundLayer)
     }
-        
+    
+    private func makeFreshLabelForResizedView() {
+        let label = UILabel()
+        label.text = currentValue.stringFormattedWithSpaces()
+        let fontSize = labelFontSize(for: Int(currentValue))
+        setLabel(withSize: fontSize)
+    }
+    
     private func labelFontSize(for value: Int) -> CGFloat {
         if value >= 1_000_000 {
             return 34
@@ -180,7 +189,7 @@ class CircularProgressView: UIView {
         label.center = pathCenter
     }
     
-    private func setForegroundLayerColor(value: Int) {
+    private func setForegroundLayerColor(value: Int, readsGoal: Int) {
         var color = UIColor()
         switch value {
         case 0..<readsGoal/2:

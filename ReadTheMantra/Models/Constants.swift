@@ -2,8 +2,8 @@
 //  K.swift
 //  ReadTheMantra
 //
-//  Created by Александр Воробьев on 08.09.2020.
-//  Copyright © 2020 Александр Воробьев. All rights reserved.
+//  Created by Alex Vorobiev on 08.09.2020.
+//  Copyright © 2020 Alex Vorobiev. All rights reserved.
 //
 
 import Foundation
@@ -16,4 +16,6 @@ enum Constants {
     static let defaultImage_tableView = "DefaultImage_tableView"
     static let defaultImage = "DefaultImage"
     static let initialReadsGoal = 100_000
+    static let progressAnimationDuration = 1.0
+    
 }

@@ -2,8 +2,8 @@
 //  ReadsCountViewController.swift
 //  ReadTheMantra
 //
-//  Created by Александр Воробьев on 30.07.2020.
-//  Copyright © 2020 Александр Воробьев. All rights reserved.
+//  Created by Alex Vorobiev on 30.07.2020.
+//  Copyright © 2020 Alex Vorobiev. All rights reserved.
 //
 
 import UIKit
@@ -49,11 +49,34 @@ class ReadsCountViewController: UIViewController {
         setupUI()
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        let interfaceOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+        
+        coordinator.animate(alongsideTransition: { [weak self] (context) in
+            guard let self = self else { return }
+            guard let interfaceOrientation = interfaceOrientation else { return }
+            
+            if interfaceOrientation.isLandscape {
+                DispatchQueue.main.async {
+                    self.circularProgressView.currentValue = Int(self.mantra.reads)
+                    self.circularProgressView.readsGoal = Int(self.mantra.readsGoal)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.circularProgressView.currentValue = Int(self.mantra.reads)
+                    self.circularProgressView.readsGoal = Int(self.mantra.readsGoal)
+                }
+            }
+        })
+    }
+    
     private func setupNavButtons() {
         let infoButton = UIButton(type: .infoLight)
         infoButton.addTarget(self, action: #selector(infoButtonPressed), for: .touchUpInside)
         let infoButtonItem = UIBarButtonItem(customView: infoButton)
-                
+        
         let star = mantra.isFavorite ? "star.fill" : "star"
         let favoriteButtonItem = UIBarButtonItem(image: UIImage(systemName: star),
                                                  style: .plain,
@@ -91,13 +114,14 @@ class ReadsCountViewController: UIViewController {
         titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
         titleLabel.adjustsFontForContentSizeCategory = true
         readsGoalButton.setTitle(NSLocalizedString("Goal: ", comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(), for: .normal)
-        circularProgressView.setValue(to: Int(mantra.reads))
+        circularProgressView.setValueCircleAnimation(to: Int(mantra.reads))
+        circularProgressView.setValueLabelAnimation(to: Int(mantra.reads))
         
-        let standartAppearance = UINavigationBarAppearance()
+        let standardAppearance = UINavigationBarAppearance()
         let compactAppearance = UINavigationBarAppearance()
-        standartAppearance.titleTextAttributes = [.foregroundColor: UIColor.clear]
+        standardAppearance.titleTextAttributes = [.foregroundColor: UIColor.clear]
         compactAppearance.titleTextAttributes = [.foregroundColor: UIColor.label]
-        navigationItem.standardAppearance = standartAppearance
+        navigationItem.standardAppearance = standardAppearance
         navigationItem.compactAppearance = compactAppearance
         navigationItem.title = mantra.title
     }
@@ -167,7 +191,7 @@ class ReadsCountViewController: UIViewController {
     private func alertAndActionTitles(for updatingType: UpdatingType) -> (String, String) {
         switch updatingType {
         case .goal:
-            return (NSLocalizedString("Set new readings goal", comment: "Alert Title on ReadsCountViewController"),
+            return (NSLocalizedString("Set a New Readings Goal", comment: "Alert Title on ReadsCountViewController"),
                     NSLocalizedString("Set", comment: "Alert Button on ReadsCountViewController"))
         case .rounds:
             return (NSLocalizedString("Enter Rounds Number", comment: "Alert Title on ReadsCountViewController"),
@@ -176,7 +200,7 @@ class ReadsCountViewController: UIViewController {
             return (NSLocalizedString("Enter Readings Number", comment: "Alert Title on ReadsCountViewController"),
                     NSLocalizedString("Add", comment: "Alert Button on ReadsCountViewController"))
         case .properValue:
-            return (NSLocalizedString("Enter a New Readings Count", comment: "Alert Title on ReadsCountViewController"),
+            return (NSLocalizedString("Set a New Readings Count", comment: "Alert Title on ReadsCountViewController"),
                     NSLocalizedString("Set", comment: "Alert Button on ReadsCountViewController"))
         }
     }
@@ -184,9 +208,7 @@ class ReadsCountViewController: UIViewController {
     private func handleAlertPositiveAction(forValue value: Int32, updatingType: UpdatingType) {
         let oldReads = mantra.reads
         updateValues(with: value, updatingType: updatingType)
-        lockOrientation()
         updateProrgessView(for: updatingType)
-        unlockOrientation()
         saveMantras()
         readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
     }
@@ -204,42 +226,20 @@ class ReadsCountViewController: UIViewController {
         }
     }
     
-    private func lockOrientation() {
-        if let currentOrientation = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation {
-            switch currentOrientation {
-            case .landscapeLeft:
-                Orientation.lock(.landscapeLeft)
-            case .landscapeRight:
-                Orientation.lock(.landscapeRight)
-            case .portrait:
-                Orientation.lock(.portrait)
-            case .portraitUpsideDown:
-                Orientation.lock(.portraitUpsideDown)
-            default:
-                return
-            }
-        }
-    }
-    
-    private func unlockOrientation() {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-            Orientation.lock(.all)
-        }
-    }
-    
     private func updateProrgessView(for updatingType: UpdatingType) {
         switch updatingType {
         case .goal:
-            circularProgressView.setGoal(to: Int(mantra.readsGoal))
+            circularProgressView.setGoalCircleAnimation(to: Int(mantra.readsGoal))
             readsGoalButton.setTitle(NSLocalizedString("Goal: ", comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(), for: .normal)
         case .reads, .rounds, .properValue:
-            circularProgressView.setValue(to: Int(mantra.reads))
+            circularProgressView.setValueCircleAnimation(to: Int(mantra.reads))
+            circularProgressView.setValueLabelAnimation(to: Int(mantra.reads))
         }
     }
     
     private func readsCongratulationsCheck(oldReads: Int32, newReads: Int32) {
         if (oldReads < mantra.readsGoal/2 && mantra.readsGoal/2..<mantra.readsGoal ~= newReads) {
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.3) {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Constants.progressAnimationDuration + 0.3) {
                 self.showReadsCongratulationsAlert(level: .halfGoal)
             }
         }
@@ -253,11 +253,11 @@ class ReadsCountViewController: UIViewController {
             }
             confettiView.stopConfetti()
             
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.7) {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Constants.progressAnimationDuration + 1.7) {
                 self.showReadsCongratulationsAlert(level: .fullGoal)
             }
             
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3.7) {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Constants.progressAnimationDuration + 2.7) {
                 confettiView.removeFromSuperview()
             }
         }
@@ -294,7 +294,7 @@ class ReadsCountViewController: UIViewController {
         addReadingsButton.setImage(largeReadings, for: .normal)
         addRoundsButton.setImage(largeRounds, for: .normal)
         setProperValueButton.setImage(largeHand, for: .normal)
-
+        
         addRoundsButton.layer.cornerRadius = 35
         addReadingsButton.layer.cornerRadius = 35
         setProperValueButton.layer.cornerRadius = 35

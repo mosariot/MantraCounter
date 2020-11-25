@@ -2,8 +2,8 @@
 //  InitialMantraData.swift
 //  ReadTheMantra
 //
-//  Created by Александр Воробьев on 10.08.2020.
-//  Copyright © 2020 Александр Воробьев. All rights reserved.
+//  Created by Alex Vorobiev on 10.08.2020.
+//  Copyright © 2020 Alex Vorobiev. All rights reserved.
 //
 
 import Foundation
