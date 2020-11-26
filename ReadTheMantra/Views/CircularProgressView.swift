@@ -25,10 +25,6 @@ class CircularProgressView: UIView {
         didSet {
             makeFreshLabelForResizedView()
             setupView()
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
-                self.setGoalCircleAnimation(to: self.readsGoal)
-                self.setValueCircleAnimation(to: self.currentValue)
-            }
         }
     }
     

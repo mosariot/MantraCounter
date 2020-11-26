@@ -43,31 +43,30 @@ class ReadsCountViewController: UIViewController {
         setupNavButtons()
         setReadsButtonsTitles()
         
-        circularProgressView.currentValue = Int(mantra.reads)
         circularProgressView.readsGoal = Int(mantra.readsGoal)
+        circularProgressView.currentValue = Int(mantra.reads)
         
         setupUI()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        animateCircularProgressViewForUpdatedValues()
+    }
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        
         coordinator.animate(alongsideTransition: { [weak self] (context) in
             guard let self = self else { return }
-            guard let interfaceOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation else { return }
-            
-            if interfaceOrientation.isLandscape {
-                DispatchQueue.main.async {
-                    self.circularProgressView.currentValue = Int(self.mantra.reads)
-                    self.circularProgressView.readsGoal = Int(self.mantra.readsGoal)
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.circularProgressView.currentValue = Int(self.mantra.reads)
-                    self.circularProgressView.readsGoal = Int(self.mantra.readsGoal)
-                }
-            }
+            self.circularProgressView.readsGoal = Int(self.mantra.readsGoal)
+            self.circularProgressView.currentValue = Int(self.mantra.reads)
+            self.animateCircularProgressViewForUpdatedValues()
         })
+    }
+    
+    private func animateCircularProgressViewForUpdatedValues() {
+        circularProgressView.setGoalCircleAnimation(to: Int(mantra.readsGoal))
+        circularProgressView.setValueCircleAnimation(to: Int(mantra.reads))
+        circularProgressView.setValueLabelAnimation(to: Int(mantra.reads))
     }
     
     private func setupNavButtons() {

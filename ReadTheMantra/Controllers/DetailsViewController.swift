@@ -38,6 +38,9 @@ class DetailsViewController: UIViewController {
     private var detailsPlaceholderLabel : UILabel!
     
     private let activityIndicatorView = UIActivityIndicatorView(style: .large)
+    private var activityIndicatorViewCenter: CGPoint {
+        CGPoint(x: (setPhotoButton.imageView?.frame.width ?? 0 ) / 2, y: (setPhotoButton.imageView?.frame.height ?? 0 ) / 2)
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -72,7 +75,11 @@ class DetailsViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        activityIndicatorView.center = view.center
+        setPhotoButton.addSubview(activityIndicatorView)
+        activityIndicatorView.center = activityIndicatorViewCenter
+        activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorView.tag = 2
+        activityIndicatorView.color = .black
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -80,16 +87,8 @@ class DetailsViewController: UIViewController {
         
         coordinator.animate(alongsideTransition: { [weak self] (context) in
             guard let self = self else { return }
-            guard let interfaceOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation else { return }
-            
-            if interfaceOrientation.isLandscape {
-                DispatchQueue.main.async {
-                    self.activityIndicatorView.center = self.view.center
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.activityIndicatorView.center = self.view.center
-                }
+            DispatchQueue.main.async {
+                self.activityIndicatorView.center = self.activityIndicatorViewCenter
             }
         })
     }
@@ -164,6 +163,7 @@ class DetailsViewController: UIViewController {
         UIView.animate(withDuration: 0.2) {
             self.setPhotoButton.alpha = 0.7
             self.setPhotoButton.viewWithTag(1)?.alpha = 0.9
+            self.setPhotoButton.viewWithTag(2)?.alpha = 1.0
         }
         titleTextField.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
@@ -269,7 +269,6 @@ class DetailsViewController: UIViewController {
     private func showImagePicker() {
         var configuration = PHPickerConfiguration()
         configuration.filter = .images
-        configuration.preferredAssetRepresentationMode = .current
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         present(picker, animated: true, completion: nil)
@@ -336,16 +335,6 @@ class DetailsViewController: UIViewController {
         
         return resizedCircledImage
     }
-    
-    private func startActivityIndicator() {
-        view.addSubview(activityIndicatorView)
-        activityIndicatorView.startAnimating()
-    }
-    
-    private func stopActivityIndicator() {
-        activityIndicatorView.stopAnimating()
-        activityIndicatorView.removeFromSuperview()
-    }
 }
 
 //MARK: - TextField Delegate (Validating Mantra Title)
@@ -376,7 +365,7 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
         
         guard !results.isEmpty else { return }
         
-        startActivityIndicator()
+        activityIndicatorView.startAnimating()
         
         for result in results {
             let provider = result.itemProvider
@@ -386,11 +375,11 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
                         let resultImage = self?.processImage(image: image)
                         DispatchQueue.main.async {
                             self?.setPhotoButton.setImage(resultImage, for: .normal)
-                            self?.stopActivityIndicator()
+                            self?.activityIndicatorView.stopAnimating()
                         }
                     } else {
                         DispatchQueue.main.async {
-                            self?.stopActivityIndicator()
+                            self?.activityIndicatorView.stopAnimating()
                             self?.showNoImageAlert()
                         }
                     }
