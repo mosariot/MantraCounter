@@ -196,7 +196,7 @@
                                         <variation key="heightClass=compact-widthClass=regular" hidden="YES"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z7q-lJ-Yge" customClass="CopyableLabel" customModule="MantraCounter" customModuleProvider="target">
-                                        <rect key="frame" x="125.99999999999999" y="197.66666666666669" width="63.333333333333329" height="40.666666666666657"/>
+                                        <rect key="frame" x="126" y="197.66666666666669" width="63.333333333333329" height="40.666666666666657"/>
                                         <constraints>
                                             <constraint firstAttribute="height" id="yan-Rd-y0K"/>
                                         </constraints>

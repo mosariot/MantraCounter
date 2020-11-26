@@ -37,7 +37,7 @@ class DetailsViewController: UIViewController {
     private var mantraTextPlaceholderLabel : UILabel!
     private var detailsPlaceholderLabel : UILabel!
     
-    private let activityView = UIActivityIndicatorView(style: .large)
+    private let activityIndicatorView = UIActivityIndicatorView(style: .large)
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -72,25 +72,23 @@ class DetailsViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        activityView.center = view.center
+        activityIndicatorView.center = view.center
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        let interfaceOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-        
         coordinator.animate(alongsideTransition: { [weak self] (context) in
             guard let self = self else { return }
-            guard let interfaceOrientation = interfaceOrientation else { return }
+            guard let interfaceOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation else { return }
             
             if interfaceOrientation.isLandscape {
                 DispatchQueue.main.async {
-                    self.activityView.center = self.view.center
+                    self.activityIndicatorView.center = self.view.center
                 }
             } else {
                 DispatchQueue.main.async {
-                    self.activityView.center = self.view.center
+                    self.activityIndicatorView.center = self.view.center
                 }
             }
         })
@@ -323,12 +321,11 @@ class DetailsViewController: UIViewController {
     
     //MARK: - Process Image
     
-    private func processImage(image: UIImage) {
+    private func processImage(image: UIImage) -> UIImage? {
         
         let circledImage = image.cropToCircle()
         let resizedCircledImage = circledImage?.resize(to: CGSize(width: 320, height: 320))
         let resizedCircledImageForTableView = circledImage?.resize(to: CGSize(width: 160, height: 160))
-        setPhotoButton.setImage(circledImage, for: .normal)
         
         if let imageData = resizedCircledImage?.pngData() {
             mantraImageData = imageData
@@ -336,16 +333,18 @@ class DetailsViewController: UIViewController {
         if let imageData = resizedCircledImageForTableView?.pngData() {
             mantraImageForTableViewData = imageData
         }
+        
+        return resizedCircledImage
     }
     
     private func startActivityIndicator() {
-        view.addSubview(activityView)
-        activityView.startAnimating()
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.startAnimating()
     }
     
     private func stopActivityIndicator() {
-        activityView.stopAnimating()
-        activityView.removeFromSuperview()
+        activityIndicatorView.stopAnimating()
+        activityIndicatorView.removeFromSuperview()
     }
 }
 
@@ -375,22 +374,40 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         dismiss(animated: true, completion: nil)
         
+        guard !results.isEmpty else { return }
+        
         startActivityIndicator()
         
-        guard !results.isEmpty else { return }
         for result in results {
             let provider = result.itemProvider
             if provider.canLoadObject(ofClass: UIImage.self) {
                 provider.loadObject(ofClass: UIImage.self, completionHandler: { [weak self] (object, error) in
                     if let image = object as? UIImage {
+                        let resultImage = self?.processImage(image: image)
                         DispatchQueue.main.async {
-                            self?.processImage(image: image)
+                            self?.setPhotoButton.setImage(resultImage, for: .normal)
                             self?.stopActivityIndicator()
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self?.stopActivityIndicator()
+                            self?.showNoImageAlert()
                         }
                     }
                 })
             }
         }
+    }
+    
+    func showNoImageAlert() {
+        let alert = UIAlertController(title: nil,
+                                      message: NSLocalizedString("It seems like this photo is unavailable. Try to pick another one", comment: "Alert Message for unavailable photo"),
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] (action) in
+            self?.showImagePicker()
+        }
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
 }
 

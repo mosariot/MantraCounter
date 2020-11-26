@@ -17,5 +17,4 @@ enum Constants {
     static let defaultImage = "DefaultImage"
     static let initialReadsGoal = 100_000
     static let progressAnimationDuration = 1.0
-    
 }

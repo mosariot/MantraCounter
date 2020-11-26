@@ -52,11 +52,9 @@ class ReadsCountViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        let interfaceOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-        
         coordinator.animate(alongsideTransition: { [weak self] (context) in
             guard let self = self else { return }
-            guard let interfaceOrientation = interfaceOrientation else { return }
+            guard let interfaceOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation else { return }
             
             if interfaceOrientation.isLandscape {
                 DispatchQueue.main.async {

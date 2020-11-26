@@ -67,6 +67,12 @@
 /* Alert Title on ReadsCountViewController */
 "Enter Rounds Number" = "Введите число кругов";
 
+/* Alert Title on ReadsCountViewController */
+"Congratulations! You're half way to your goal!" = "Поздравляем! Вы на половине пути к цели!";
+
+/* Alert Title on ReadsCountViewController */
+"Congratulations! You've reached your goal!" = "Поздравляем! Вы достигли поставленной цели!";
+
 /* Edit mark label */
 "EDIT" = "ПРАВИТЬ";
 
@@ -76,7 +82,7 @@
 /* Mantra description placeholder */
 "Enter mantra description" = "Введите описание мантры";
 
-/* Add new mantra bat title */
+/* Add new mantra bar title */
 "New Matra" = "Новая мантра";
 
 /* Information bar title */
@@ -88,11 +94,8 @@
 /* Menu Item on DetailsViewController */
 "Standard Image" = "Стандартное";
 
-/* Alert Title on DetailsViewController */
-"Congratulations! You're half way to your goal!" = "Поздравляем! Вы на половине пути к цели!";
-
-/* Alert Title on DetailsViewController */
-"Congratulations! You've reached your goal!" = "Поздравляем! Вы достигли поставленной цели!";
+/* Alert Message for unavailable photo */
+"It seems like this photo is unavailable. Try to pick another one" = "Похоже это фото недоступно. Попробуйте выбрать другое";
 
 /* Mantra title label */
 "Title" = "Название";

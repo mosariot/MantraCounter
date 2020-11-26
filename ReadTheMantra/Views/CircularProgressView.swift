@@ -115,7 +115,7 @@ class CircularProgressView: UIView {
     //MARK: - Private
     
     private let label = UILabel()
-    private let lineWidth: CGFloat = 5
+    private let lineWidth: CGFloat = 7
     private let foregroundLayer = CAShapeLayer()
     private let backgroundLayer = CAShapeLayer()
     private var pathCenter: CGPoint {
@@ -144,7 +144,7 @@ class CircularProgressView: UIView {
         let path = UIBezierPath(arcCenter: pathCenter, radius: self.radius, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
         self.backgroundLayer.path = path.cgPath
         self.backgroundLayer.strokeColor = UIColor.systemGray.cgColor
-        self.backgroundLayer.lineWidth = lineWidth - (0.2 * lineWidth)
+        self.backgroundLayer.lineWidth = lineWidth - (0.3 * lineWidth)
         self.backgroundLayer.fillColor = UIColor.clear.cgColor
         self.layer.addSublayer(backgroundLayer)
     }
