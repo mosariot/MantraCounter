@@ -49,19 +49,8 @@
                     </tableView>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="XMg-W9-LLq">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="9vQ-Xz-ctp">
-                            <rect key="frame" x="122" y="6" width="131" height="32"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="All"/>
-                                <segment title="" image="star" catalog="system"/>
-                            </segments>
-                        </segmentedControl>
                     </navigationItem>
                     <splitViewMasterSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <connections>
-                        <outlet property="segmentedControl" destination="9vQ-Xz-ctp" id="6nD-Qs-vyZ"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PxV-EI-kJr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -196,7 +185,7 @@
                                         <variation key="heightClass=compact-widthClass=regular" hidden="YES"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z7q-lJ-Yge" customClass="CopyableLabel" customModule="MantraCounter" customModuleProvider="target">
-                                        <rect key="frame" x="126" y="197.66666666666669" width="63.333333333333329" height="40.666666666666657"/>
+                                        <rect key="frame" x="125.99999999999999" y="197.66666666666669" width="63.333333333333329" height="40.666666666666657"/>
                                         <constraints>
                                             <constraint firstAttribute="height" id="yan-Rd-y0K"/>
                                         </constraints>
@@ -441,7 +430,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="star" catalog="system" width="128" height="116"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

@@ -86,9 +86,9 @@ class DetailsViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
         
         coordinator.animate(alongsideTransition: { [weak self] (context) in
-            guard let self = self else { return }
+            guard let weakSelf = self else { return }
             DispatchQueue.main.async {
-                self.activityIndicatorView.center = self.activityIndicatorViewCenter
+                weakSelf.activityIndicatorView.center = weakSelf.activityIndicatorViewCenter
             }
         })
     }

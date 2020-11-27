@@ -11,14 +11,15 @@ import CoreData
 
 class MantraTableViewController: UITableViewController {
     
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
-    
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private let defaults = UserDefaults.standard
     private var inFavoriteMode: Bool {
         get { defaults.bool(forKey: "inFavoriteMode") }
         set { defaults.set(newValue, forKey: "inFavoriteMode") }
     }
+    
+    private let segmentedControl = UISegmentedControl(items: [NSLocalizedString("All", comment: "Segment Title on MantraTableViewController"),
+                                                              UIImage(systemName: "star") ?? ""])
     
     private var mantraArray = [Mantra]()
     private var currentMantraCount = 0
@@ -69,7 +70,6 @@ class MantraTableViewController: UITableViewController {
         tableView.tableFooterView = UIView() 
         
         setupNavigationBar()
-        setupSegmentedControl()
         setupSearchController()
         
         loadMantras()
@@ -77,6 +77,8 @@ class MantraTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
+        setupSegmentedControl()
         
         if currentFavoriteMantraCount != favoriteMantraArray.count {
             currentFavoriteMantraCount = favoriteMantraArray.count
@@ -91,6 +93,16 @@ class MantraTableViewController: UITableViewController {
         }
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: { [weak self] (context) in
+            guard let weakSelf = self else { return }
+            DispatchQueue.main.async {
+                weakSelf.setupSegmentedControl()
+            }
+        })
+    }
+    
     @objc private func handleCoverTap(_ sender: UITapGestureRecognizer? = nil) {
         dismissPreloadedMantraPickerState()
     }
@@ -100,6 +112,9 @@ class MantraTableViewController: UITableViewController {
     private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        navigationItem.titleView = segmentedControl
+        
         navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
         navigationItem.searchController = searchController
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
@@ -116,8 +131,10 @@ class MantraTableViewController: UITableViewController {
     
     private func setupSegmentedControl() {
         segmentedControl.selectedSegmentIndex = inFavoriteMode ? 1 : 0
-        segmentedControl.setTitle(NSLocalizedString("All", comment: "Segment Title on MantraTableViewController"), forSegmentAt: 0)
         segmentedControl.addTarget(self, action: #selector(segmentedValueChanged), for: .valueChanged)
+        segmentedControl.setWidth(view.frame.size.width/6, forSegmentAt: 0)
+        segmentedControl.setWidth(view.frame.size.width/6, forSegmentAt: 1)
+        segmentedControl.sizeToFit()
     }
     
     private func setupSearchController() {
@@ -242,8 +259,8 @@ class MantraTableViewController: UITableViewController {
         guard let readsCountViewController = storyboard?.instantiateViewController(
                 identifier: Constants.readsCountViewControllerID,
                 creator: { [weak self] coder in
-                    guard let self = self else { fatalError() }
-                    return ReadsCountViewController(mantra: mantra, positionFavorite: Int32(self.currentFavoriteMantraCount), coder: coder)
+                    guard let weakSelf = self else { fatalError() }
+                    return ReadsCountViewController(mantra: mantra, positionFavorite: Int32(weakSelf.currentFavoriteMantraCount), coder: coder)
                 }) else { return }
         navigationItem.backBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Mantra List", comment: "Back button of MantraTableViewController"), style: .plain, target: nil, action: nil)
         show(readsCountViewController, sender: true)
@@ -332,12 +349,12 @@ class MantraTableViewController: UITableViewController {
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
                 creator: { [weak self] coder in
-                    guard let self = self else { fatalError() }
+                    guard let weakSelf = self else { fatalError() }
                     return DetailsViewController(mantra: mantra,
                                                  mode: .add,
-                                                 position: self.currentMantraCount,
-                                                 mantraTitles: self.overallMantraArray.compactMap{$0.title},
-                                                 delegate: self, coder: coder)
+                                                 position: weakSelf.currentMantraCount,
+                                                 mantraTitles: weakSelf.overallMantraArray.compactMap{$0.title},
+                                                 delegate: weakSelf, coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
         present(navigationController, animated: true)

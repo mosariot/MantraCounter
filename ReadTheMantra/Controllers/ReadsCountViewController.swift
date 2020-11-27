@@ -56,10 +56,10 @@ class ReadsCountViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(alongsideTransition: { [weak self] (context) in
-            guard let self = self else { return }
-            self.circularProgressView.readsGoal = Int(self.mantra.readsGoal)
-            self.circularProgressView.currentValue = Int(self.mantra.reads)
-            self.animateCircularProgressViewForUpdatedValues()
+            guard let weakSelf = self else { return }
+            weakSelf.circularProgressView.readsGoal = Int(weakSelf.mantra.readsGoal)
+            weakSelf.circularProgressView.currentValue = Int(weakSelf.mantra.reads)
+            weakSelf.animateCircularProgressViewForUpdatedValues()
         })
     }
     
@@ -87,8 +87,8 @@ class ReadsCountViewController: UIViewController {
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
                 creator: { [weak self] coder in
-                    guard let self = self else { fatalError() }
-                    return DetailsViewController(mantra: self.mantra, mode: .view, position: Int(self.mantra.position), delegate: self, coder: coder)
+                    guard let weakSelf = self else { fatalError() }
+                    return DetailsViewController(mantra: weakSelf.mantra, mode: .view, position: Int(weakSelf.mantra.position), delegate: weakSelf, coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
         present(navigationController, animated: true)
