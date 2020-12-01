@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ConfettiView: UIView {
+final class ConfettiView: UIView {
     
     private var confettiEmitter = CAEmitterLayer()
     

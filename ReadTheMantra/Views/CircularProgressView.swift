@@ -9,7 +9,7 @@
 
 import UIKit
 
-class CircularProgressView: UIView {
+final class CircularProgressView: UIView {
     
     //MARK: - awakeFromNib
     
@@ -23,25 +23,32 @@ class CircularProgressView: UIView {
     
     override var bounds: CGRect {
         didSet {
-            makeFreshLabelForResizedView()
             setupView()
+            if currentReadsGoal != readsGoal {
+                setGoalCircleAnimation(to: currentReadsGoal)
+            } else {
+                setValueCircleAnimation(to: currentValue)
+            }
+            setValueLabelAnimation(to: currentValue)
         }
     }
     
+    public var value = 0
     public var currentValue = 0
     public var readsGoal = Constants.initialReadsGoal
+    public var currentReadsGoal = Constants.initialReadsGoal
     
     public func setGoalCircleAnimation(to newGoal: Int) {
         
         var currentProgress: Double {
-            let progressConstant = Double(currentValue) / Double(readsGoal)
+            let progressConstant = Double(value) / Double(readsGoal)
             if progressConstant > 1 { return 1 }
             else if progressConstant < 0 { return 0 }
             else { return progressConstant }
         }
         
         var newProgress: Double {
-            let progressConstant = Double(currentValue) / Double(newGoal)
+            let progressConstant = Double(value) / Double(newGoal)
             if progressConstant > 1 { return 1 }
             else if progressConstant < 0 { return 0 }
             else { return progressConstant }
@@ -64,7 +71,7 @@ class CircularProgressView: UIView {
             } else {
                 let momentGoal = Double(currentReadsGoal) + Double(newGoal - currentReadsGoal) * currentTime
                 currentTime += 0.01
-                self?.setForegroundLayerColor(value: Int(self?.currentValue ?? 0), readsGoal: Int(momentGoal))
+                self?.setForegroundLayerColor(value: Int(self?.value ?? 0), readsGoal: Int(momentGoal))
             }
         }
         timer.fire()
@@ -82,7 +89,7 @@ class CircularProgressView: UIView {
         foregroundLayer.strokeEnd = CGFloat(progress)
         
         let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.fromValue = Double(currentValue) / Double(readsGoal)
+        animation.fromValue = Double(value) / Double(readsGoal)
         animation.toValue = progress
         animation.duration = Constants.progressAnimationDuration
         foregroundLayer.add(animation, forKey: "foregroundAnimation")
@@ -93,9 +100,9 @@ class CircularProgressView: UIView {
         let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] (timer) in
             if currentTime >= Constants.progressAnimationDuration + 0.01 {
                 timer.invalidate()
-                self?.currentValue = newValue
+                self?.value = newValue
             } else {
-                var momentValue = Double(self?.currentValue ?? 0) + Double(newValue - (self?.currentValue ?? 0)) * currentTime
+                var momentValue = Double(self?.value ?? 0) + Double(newValue - (self?.value ?? 0)) * currentTime
                 currentTime += 0.01
                 momentValue.round(.toNearestOrAwayFromZero)
                 self?.label.text = Int(momentValue).stringFormattedWithSpaces()
@@ -118,7 +125,7 @@ class CircularProgressView: UIView {
         convert(center, from: superview)
     }
     private var radius: CGFloat {
-        if self.frame.width < self.frame.height {
+        if frame.width < frame.height {
             return (frame.width - lineWidth)/2
         } else {
             return (frame.height - lineWidth)/2 }
@@ -130,19 +137,18 @@ class CircularProgressView: UIView {
     }
     
     private func makeBar() {
-        layer.sublayers = nil
         drawBackgroundLayer()
         drawForegroundLayer()
     }
     
     private func drawBackgroundLayer() {
         
-        let path = UIBezierPath(arcCenter: pathCenter, radius: self.radius, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
-        self.backgroundLayer.path = path.cgPath
-        self.backgroundLayer.strokeColor = UIColor.systemGray.cgColor
-        self.backgroundLayer.lineWidth = lineWidth - (0.3 * lineWidth)
-        self.backgroundLayer.fillColor = UIColor.clear.cgColor
-        self.layer.addSublayer(backgroundLayer)
+        let path = UIBezierPath(arcCenter: pathCenter, radius: radius, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
+        backgroundLayer.path = path.cgPath
+        backgroundLayer.strokeColor = UIColor.systemGray.cgColor
+        backgroundLayer.lineWidth = lineWidth - (0.3 * lineWidth)
+        backgroundLayer.fillColor = UIColor.clear.cgColor
+        layer.addSublayer(backgroundLayer)
     }
     
     private func drawForegroundLayer() {
@@ -150,7 +156,7 @@ class CircularProgressView: UIView {
         let startAngle = (-CGFloat.pi/2)
         let endAngle = 2 * CGFloat.pi + startAngle
         
-        let path = UIBezierPath(arcCenter: pathCenter, radius: self.radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+        let path = UIBezierPath(arcCenter: pathCenter, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
         
         foregroundLayer.lineCap = CAShapeLayerLineCap.round
         foregroundLayer.path = path.cgPath
@@ -160,13 +166,6 @@ class CircularProgressView: UIView {
         foregroundLayer.strokeEnd = 0
         
         layer.addSublayer(foregroundLayer)
-    }
-    
-    private func makeFreshLabelForResizedView() {
-        let label = UILabel()
-        label.text = currentValue.stringFormattedWithSpaces()
-        let fontSize = labelFontSize(for: Int(currentValue))
-        setLabel(withSize: fontSize)
     }
     
     private func labelFontSize(for value: Int) -> CGFloat {

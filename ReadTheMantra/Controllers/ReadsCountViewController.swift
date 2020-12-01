@@ -44,23 +44,11 @@ class ReadsCountViewController: UIViewController {
         setReadsButtonsTitles()
         
         circularProgressView.readsGoal = Int(mantra.readsGoal)
+        circularProgressView.currentReadsGoal = Int(mantra.readsGoal)
+        circularProgressView.value = Int(mantra.reads)
         circularProgressView.currentValue = Int(mantra.reads)
         
         setupUI()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        animateCircularProgressViewForUpdatedValues()
-    }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        coordinator.animate(alongsideTransition: { [weak self] (context) in
-            guard let weakSelf = self else { return }
-            weakSelf.circularProgressView.readsGoal = Int(weakSelf.mantra.readsGoal)
-            weakSelf.circularProgressView.currentValue = Int(weakSelf.mantra.reads)
-            weakSelf.animateCircularProgressViewForUpdatedValues()
-        })
     }
     
     private func animateCircularProgressViewForUpdatedValues() {
@@ -111,8 +99,7 @@ class ReadsCountViewController: UIViewController {
         titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
         titleLabel.adjustsFontForContentSizeCategory = true
         readsGoalButton.setTitle(NSLocalizedString("Goal: ", comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(), for: .normal)
-        circularProgressView.setValueCircleAnimation(to: Int(mantra.reads))
-        circularProgressView.setValueLabelAnimation(to: Int(mantra.reads))
+        animateCircularProgressViewForUpdatedValues()
         
         let standardAppearance = UINavigationBarAppearance()
         let compactAppearance = UINavigationBarAppearance()
@@ -226,9 +213,11 @@ class ReadsCountViewController: UIViewController {
     private func updateProrgessView(for updatingType: UpdatingType) {
         switch updatingType {
         case .goal:
+            circularProgressView.currentReadsGoal = Int(mantra.readsGoal)
             circularProgressView.setGoalCircleAnimation(to: Int(mantra.readsGoal))
             readsGoalButton.setTitle(NSLocalizedString("Goal: ", comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(), for: .normal)
         case .reads, .rounds, .properValue:
+            circularProgressView.currentValue = Int(mantra.reads)
             circularProgressView.setValueCircleAnimation(to: Int(mantra.reads))
             circularProgressView.setValueLabelAnimation(to: Int(mantra.reads))
         }

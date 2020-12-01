@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CopyableLabel: UILabel {
+final class CopyableLabel: UILabel {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -25,7 +25,7 @@ class DetailsViewController: UIViewController {
     private var mantraImageForTableViewData: Data?
     private weak var delegate: DetailsViewControllerDelegate?
     
-    @IBOutlet private weak var setPhotoButton: UIButton!
+    @IBOutlet private weak var setPhotoButton: SetPhotoButton!
     @IBOutlet private weak var titleTextField: UITextField!
     @IBOutlet private weak var mantraTextTextView: UITextView!
     @IBOutlet private weak var detailsTextView: UITextView!
@@ -36,11 +36,6 @@ class DetailsViewController: UIViewController {
     
     private var mantraTextPlaceholderLabel : UILabel!
     private var detailsPlaceholderLabel : UILabel!
-    
-    private let activityIndicatorView = UIActivityIndicatorView(style: .large)
-    private var activityIndicatorViewCenter: CGPoint {
-        CGPoint(x: (setPhotoButton.imageView?.frame.width ?? 0 ) / 2, y: (setPhotoButton.imageView?.frame.height ?? 0 ) / 2)
-    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -74,25 +69,7 @@ class DetailsViewController: UIViewController {
         detailsTextView.delegate = self
     }
     
-    override func viewDidLayoutSubviews() {
-        setPhotoButton.addSubview(activityIndicatorView)
-        activityIndicatorView.center = activityIndicatorViewCenter
-        activityIndicatorView.hidesWhenStopped = true
-        activityIndicatorView.tag = 2
-        activityIndicatorView.color = .black
-    }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        
-        coordinator.animate(alongsideTransition: { [weak self] (context) in
-            guard let weakSelf = self else { return }
-            DispatchQueue.main.async {
-                weakSelf.activityIndicatorView.center = weakSelf.activityIndicatorViewCenter
-            }
-        })
-    }
-    
+       
     private func setupUI() {
         
         titleLabel.text = NSLocalizedString("Title", comment: "Mantra title label")
@@ -106,8 +83,6 @@ class DetailsViewController: UIViewController {
         
         let mantraImage = (mantraImageData != nil) ? UIImage(data: mantraImageData!) : UIImage(named: Constants.defaultImage)
         setPhotoButton.setImage(mantraImage, for: .normal)
-        setPhotoButton.addEditMark(color: .label)
-        setPhotoButton.viewWithTag(1)?.alpha = 0
         setPhotoButton.showsMenuAsPrimaryAction = true
         let photoLibrary = UIAction(title: NSLocalizedString("Photo Library", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo.on.rectangle.angled")) { [weak self] (action) in
             self?.showImagePicker()
@@ -141,11 +116,7 @@ class DetailsViewController: UIViewController {
                                                             action: #selector(addButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonPressed))
         navigationItem.rightBarButtonItem?.isEnabled = false
-        setPhotoButton.isUserInteractionEnabled = true
-        UIView.animate(withDuration: 0.2) {
-            self.setPhotoButton.alpha = 0.7
-            self.setPhotoButton.viewWithTag(1)?.alpha = 0.9
-        }
+        setPhotoButton.setEditMode()
         titleTextField.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
         detailsTextView.isEditable = true
@@ -159,12 +130,7 @@ class DetailsViewController: UIViewController {
         navigationItem.title = NSLocalizedString("Information", comment: "Information bar title")
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPressed))
-        setPhotoButton.isUserInteractionEnabled = true
-        UIView.animate(withDuration: 0.2) {
-            self.setPhotoButton.alpha = 0.7
-            self.setPhotoButton.viewWithTag(1)?.alpha = 0.9
-            self.setPhotoButton.viewWithTag(2)?.alpha = 1.0
-        }
+        setPhotoButton.setEditMode()
         titleTextField.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
         detailsTextView.isEditable = true
@@ -178,11 +144,7 @@ class DetailsViewController: UIViewController {
         navigationItem.title = NSLocalizedString("Information", comment: "Information bar title")
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPressed))
-        setPhotoButton.isUserInteractionEnabled = false
-        UIView.animate(withDuration: 0.2) {
-            self.setPhotoButton.alpha = 1
-            self.setPhotoButton.viewWithTag(1)?.alpha = 0
-        }
+        setPhotoButton.setViewMode()
         titleTextField.isUserInteractionEnabled = false
         mantraTextTextView.isEditable = false
         detailsTextView.isEditable = false
@@ -365,7 +327,7 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
         
         guard !results.isEmpty else { return }
         
-        activityIndicatorView.startAnimating()
+        setPhotoButton.setProcessMode()
         
         for result in results {
             let provider = result.itemProvider
@@ -375,11 +337,11 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
                         let resultImage = self?.processImage(image: image)
                         DispatchQueue.main.async {
                             self?.setPhotoButton.setImage(resultImage, for: .normal)
-                            self?.activityIndicatorView.stopAnimating()
+                            self?.setPhotoButton.setEditMode()
                         }
                     } else {
                         DispatchQueue.main.async {
-                            self?.activityIndicatorView.stopAnimating()
+                            self?.setPhotoButton.setEditMode()
                             self?.showNoImageAlert()
                         }
                     }
