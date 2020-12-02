@@ -13,7 +13,7 @@ class MantraTableViewController: UITableViewController {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private let defaults = UserDefaults.standard
-    private var inFavoriteMode: Bool {
+    private var isInFavoriteMode: Bool {
         get { defaults.bool(forKey: "inFavoriteMode") }
         set { defaults.set(newValue, forKey: "inFavoriteMode") }
     }
@@ -61,6 +61,12 @@ class MantraTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let isShowdInitialAlert = defaults.bool(forKey: "isShowdInitialAlert")
+        if !isShowdInitialAlert {
+            showInitialAlert()
+            defaults.set(true, forKey: "isShowdInitialAlert")
+        }
         
         if let lastFavoritePosition = favoriteMantraArray.last?.positionFavorite, lastFavoritePosition >= favoriteMantraArray.count {
             currentFavoriteMantraCount = favoriteMantraArray.count
@@ -130,7 +136,7 @@ class MantraTableViewController: UITableViewController {
     }
     
     private func setupSegmentedControl() {
-        segmentedControl.selectedSegmentIndex = inFavoriteMode ? 1 : 0
+        segmentedControl.selectedSegmentIndex = isInFavoriteMode ? 1 : 0
         segmentedControl.addTarget(self, action: #selector(segmentedValueChanged), for: .valueChanged)
         segmentedControl.setWidth(view.frame.size.width/6, forSegmentAt: 0)
         segmentedControl.setWidth(view.frame.size.width/6, forSegmentAt: 1)
@@ -145,8 +151,22 @@ class MantraTableViewController: UITableViewController {
     }
     
     @objc private func segmentedValueChanged(_ sender: UISegmentedControl) {
-        inFavoriteMode = !inFavoriteMode
+        isInFavoriteMode = !isInFavoriteMode
         loadMantras(withAnimation: true)
+    }
+    
+    private func showInitialAlert() {
+        let alert = UIAlertController(title: "Добро пожаловать на путь просветления!",
+                                      message: """
+                                                Чтение мантр - это таинство.
+                                                Подойдите к этому вопросу со всей своей осознанностью.
+                                                В приложении не представлены сами тексты мантр - они должны быть даны Вам Вашим духовным наставником.
+                                                Желаем глубоких осознований и духовного роста!
+                                                """,
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
     
     //MARK: - NavigationBar Buttons Actions
@@ -164,7 +184,7 @@ class MantraTableViewController: UITableViewController {
     //MARK: - Home Screen Quick Actions Handling
     
     func setFavoriteMode() {
-        inFavoriteMode = true
+        isInFavoriteMode = true
     }
     
     func setAddNewMantraMode() {
@@ -172,8 +192,8 @@ class MantraTableViewController: UITableViewController {
     }
     
     func setSearchMode() {
-        inFavoriteMode = false
-        defaults.set(inFavoriteMode, forKey: "inFavoriteMode")
+        isInFavoriteMode = false
+        defaults.set(isInFavoriteMode, forKey: "inFavoriteMode")
         searchController.isActive = true
         Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak searchController] timer in
             guard let searchController = searchController else {
@@ -231,7 +251,7 @@ class MantraTableViewController: UITableViewController {
         favoriteAction.backgroundColor = .systemBlue
         favoriteAction.image = UIImage(systemName: star)
         
-        let actions = inFavoriteMode ? [favoriteAction] : [deleteAction, favoriteAction]
+        let actions = isInFavoriteMode ? [favoriteAction] : [deleteAction, favoriteAction]
         return UISwipeActionsConfiguration(actions: actions)
     }
     
@@ -282,7 +302,7 @@ class MantraTableViewController: UITableViewController {
             self?.deleteConfirmationAlert(for: indexPath)
         }
         
-        let children = inFavoriteMode ? [favorite] : [favorite, delete]
+        let children = isInFavoriteMode ? [favorite] : [favorite, delete]
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) {_ in
             UIMenu(children: children)
         }
@@ -319,7 +339,7 @@ class MantraTableViewController: UITableViewController {
         mantraArray[indexPath.row].positionFavorite = mantraArray[indexPath.row].isFavorite ? Int32(favoriteMantraArray.count) : Int32(0)
         reorderFavoriteMantraPositionsForFavoritingUnfavoritingDeleting()
         saveMantras()
-        if inFavoriteMode {
+        if isInFavoriteMode {
             mantraArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
@@ -327,7 +347,7 @@ class MantraTableViewController: UITableViewController {
     
     private func reorderMantraPositionsForMovingDeleting() {
         for i in 0..<mantraArray.count {
-            if inFavoriteMode {
+            if isInFavoriteMode {
                 mantraArray[i].positionFavorite = Int32(i)
             } else {
                 mantraArray[i].position = Int32(i)
@@ -448,7 +468,7 @@ class MantraTableViewController: UITableViewController {
         addPreloadedMantra()
         saveMantras()
         loadMantras()
-        if !inFavoriteMode {
+        if !isInFavoriteMode {
             let indexPath = IndexPath(row: overallMantraArray.count-1, section: 0)
             tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
@@ -478,15 +498,15 @@ class MantraTableViewController: UITableViewController {
     
     private func loadMantras(with request: NSFetchRequest<Mantra> = Mantra.fetchRequest(), predicate: NSPredicate? = nil, withAnimation: Bool = false) {
         
-        request.sortDescriptors = inFavoriteMode ? [NSSortDescriptor(key: "positionFavorite", ascending: true)] : [NSSortDescriptor(key: "position", ascending: true)]
+        request.sortDescriptors = isInFavoriteMode ? [NSSortDescriptor(key: "positionFavorite", ascending: true)] : [NSSortDescriptor(key: "position", ascending: true)]
         let favoritePredicate = NSPredicate(format: "isFavorite = %d", true)
         if let additionalPredicate = predicate {
             request.predicate = additionalPredicate
         }
-        if inFavoriteMode {
+        if isInFavoriteMode {
             request.predicate = favoritePredicate
         }
-        if let additionalPredicate = predicate, inFavoriteMode {
+        if let additionalPredicate = predicate, isInFavoriteMode {
             request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [favoritePredicate, additionalPredicate])
         }
         
@@ -558,7 +578,7 @@ extension MantraTableViewController: DetailsViewControllerDelegate {
         if currentMantraCount < overallMantraArray.count {
             currentMantraCount = overallMantraArray.count
             loadMantras()
-            if !inFavoriteMode {
+            if !isInFavoriteMode {
                 let indexPath = IndexPath(row: currentMantraCount-1, section: 0)
                 tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
             }

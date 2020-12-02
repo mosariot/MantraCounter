@@ -89,9 +89,5 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
-	<key>inFavoriteMode</key>
-	<false/>
-	<key>isPreloaded</key>
-	<false/>
 </dict>
 </plist>
