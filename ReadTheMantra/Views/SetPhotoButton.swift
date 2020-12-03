@@ -15,8 +15,8 @@ final class SetPhotoButton: UIButton {
     private let activityIndicatorView = UIActivityIndicatorView(style: .large)
     private var editLabel = UILabel()
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
         
         setupActivityIndicatorView()
         setupEditLabel()
@@ -31,7 +31,7 @@ final class SetPhotoButton: UIButton {
     }
     
     private func setupEditLabel() {
-        let height: CGFloat = frame.height/6
+        let height = frame.height/6
         editLabel = UILabel(frame: CGRect(x: 0, y: frame.height-height, width: frame.width, height: height))
         editLabel.font = .preferredFont(for: .body, weight: .semibold)
         editLabel.text = NSLocalizedString("EDIT", comment: "Edit mark label")
@@ -45,7 +45,7 @@ final class SetPhotoButton: UIButton {
     
     //MARK: - Public
     
-    func setEditMode() {
+    public func setEditMode() {
         isUserInteractionEnabled = true
         activityIndicatorView.stopAnimating()
         UIView.animate(withDuration: 0.2) {
@@ -54,11 +54,11 @@ final class SetPhotoButton: UIButton {
         }
     }
     
-    func setProcessMode() {
+    public func setProcessMode() {
         activityIndicatorView.startAnimating()
     }
     
-    func setViewMode() {
+    public func setViewMode() {
         isUserInteractionEnabled = false
         UIView.animate(withDuration: 0.2) {
             self.alpha = 1

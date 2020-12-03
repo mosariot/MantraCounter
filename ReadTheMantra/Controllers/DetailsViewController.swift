@@ -27,8 +27,8 @@ class DetailsViewController: UIViewController {
     
     @IBOutlet private weak var setPhotoButton: SetPhotoButton!
     @IBOutlet private weak var titleTextField: UITextField!
-    @IBOutlet private weak var mantraTextTextView: UITextView!
-    @IBOutlet private weak var detailsTextView: UITextView!
+    @IBOutlet private weak var mantraTextTextView: TextViewWithPlaceholder!
+    @IBOutlet private weak var detailsTextView: TextViewWithPlaceholder!
     
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var mantraTextLabel: UILabel!
@@ -68,27 +68,29 @@ class DetailsViewController: UIViewController {
         mantraTextTextView.delegate = self
         detailsTextView.delegate = self
     }
-    
        
     private func setupUI() {
         
-        titleLabel.text = NSLocalizedString("Title", comment: "Mantra title label")
-        mantraTextLabel.text = NSLocalizedString("Mantra text", comment: "Mantra text label")
-        detailsTextLabel.text = NSLocalizedString("Description", comment: "Mantra description label")
+        titleLabel.text = NSLocalizedString("TITLE", comment: "Mantra title label")
+        mantraTextLabel.text = NSLocalizedString("MANTRA TEXT", comment: "Mantra text label")
+        detailsTextLabel.text = NSLocalizedString("DESCRIPTION", comment: "Mantra description label")
         titleTextField.placeholder = NSLocalizedString("Enter mantra title", comment: "Mantra title placeholder")
         titleTextField.font = UIFont.preferredFont(for: .title2, weight: .medium)
         titleTextField.adjustsFontForContentSizeCategory = true
-        setMantraTextPlaceholder()
-        setDetailsPlaceholder()
+        
+        mantraTextTextView.placeHolderText = NSLocalizedString("Enter mantra text", comment: "Mantra text placeholder")
+        detailsTextView.placeHolderText = NSLocalizedString("Enter mantra description", comment: "Mantra description placeholder")
         
         let mantraImage = (mantraImageData != nil) ? UIImage(data: mantraImageData!) : UIImage(named: Constants.defaultImage)
         setPhotoButton.setImage(mantraImage, for: .normal)
         setPhotoButton.showsMenuAsPrimaryAction = true
         let photoLibrary = UIAction(title: NSLocalizedString("Photo Library", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo.on.rectangle.angled")) { [weak self] (action) in
-            self?.showImagePicker()
+            guard let self = self else { return }
+            self.showImagePicker()
         }
         let standardImage = UIAction(title: NSLocalizedString("Standard Image", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo")) { [weak self] (action) in
-            self?.setDefaultImage()
+            guard let self = self else { return }
+            self.setDefaultImage()
         }
         let photoMenu = UIMenu(children: [photoLibrary, standardImage])
         setPhotoButton.menu = photoMenu
@@ -121,8 +123,8 @@ class DetailsViewController: UIViewController {
         mantraTextTextView.isEditable = true
         detailsTextView.isEditable = true
         titleTextField.becomeFirstResponder()
-        mantraTextPlaceholderLabel.isHidden = !mantraTextTextView.text.isEmpty
-        detailsPlaceholderLabel.isHidden = !detailsTextView.text.isEmpty
+        mantraTextTextView.placeHolder.isHidden = !mantraTextTextView.text.isEmpty
+        detailsTextView.placeHolder.isHidden = !detailsTextView.text.isEmpty
     }
     
     private func setEditMode() {
@@ -135,8 +137,8 @@ class DetailsViewController: UIViewController {
         mantraTextTextView.isEditable = true
         detailsTextView.isEditable = true
         titleTextField.becomeFirstResponder()
-        mantraTextPlaceholderLabel.isHidden = !mantraTextTextView.text.isEmpty
-        detailsPlaceholderLabel.isHidden = !detailsTextView.text.isEmpty
+        mantraTextTextView.placeHolder.isHidden = !mantraTextTextView.text.isEmpty
+        detailsTextView.placeHolder.isHidden = !detailsTextView.text.isEmpty
     }
     
     private func setViewMode() {
@@ -151,8 +153,8 @@ class DetailsViewController: UIViewController {
         titleTextField.resignFirstResponder()
         mantraTextTextView.resignFirstResponder()
         detailsTextView.resignFirstResponder()
-        mantraTextPlaceholderLabel.isHidden = true
-        detailsPlaceholderLabel.isHidden = true
+        mantraTextTextView.placeHolder.isHidden = true
+        detailsTextView.placeHolder.isHidden = true
     }
     
     //MARK: - Navigation Bar Buttons Methods
@@ -200,7 +202,8 @@ class DetailsViewController: UIViewController {
                                       preferredStyle: .alert)
         let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraTableViewController"),
                                       style: .default) { [weak self] (action) in
-            self?.handleAddNewMantra(for: title)
+            guard let self = self else { return }
+            self.handleAddNewMantra(for: title)
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"),
                                          style: .default, handler: nil)
@@ -240,34 +243,6 @@ class DetailsViewController: UIViewController {
         setPhotoButton.setImage(UIImage(named: Constants.defaultImage), for: .normal)
         mantraImageData = nil
         mantraImageForTableViewData = nil
-    }
-    
-    //MARK: - TextViews Placeholders
-    
-    private func setMantraTextPlaceholder() {
-        mantraTextPlaceholderLabel = UILabel()
-        mantraTextPlaceholderLabel.text = NSLocalizedString("Enter mantra text", comment: "Mantra text placeholder")
-        if let fontPointSize = detailsTextView.font?.pointSize {
-            mantraTextPlaceholderLabel.font = .systemFont(ofSize: fontPointSize)
-            mantraTextPlaceholderLabel.sizeToFit()
-            mantraTextTextView.addSubview(mantraTextPlaceholderLabel)
-            mantraTextPlaceholderLabel.frame.origin = CGPoint(x: 5, y: fontPointSize / 3)
-            mantraTextPlaceholderLabel.textColor = .placeholderText
-            mantraTextPlaceholderLabel.isHidden = !mantraTextTextView.text.isEmpty
-        }
-    }
-    
-    private func setDetailsPlaceholder() {
-        detailsPlaceholderLabel = UILabel()
-        detailsPlaceholderLabel.text = NSLocalizedString("Enter mantra description", comment: "Mantra description placeholder")
-        if let fontPointSize = detailsTextView.font?.pointSize {
-            detailsPlaceholderLabel.font = .systemFont(ofSize: fontPointSize)
-            detailsPlaceholderLabel.sizeToFit()
-            detailsTextView.addSubview(detailsPlaceholderLabel)
-            detailsPlaceholderLabel.frame.origin = CGPoint(x: 5, y: fontPointSize / 3)
-            detailsPlaceholderLabel.textColor = .placeholderText
-            detailsPlaceholderLabel.isHidden = !detailsTextView.text.isEmpty
-        }
     }
     
     //MARK: - Model Manipulation
@@ -313,8 +288,8 @@ extension DetailsViewController: UITextFieldDelegate {
 extension DetailsViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
-        mantraTextPlaceholderLabel.isHidden = !mantraTextTextView.text.isEmpty
-        detailsPlaceholderLabel.isHidden = !detailsTextView.text.isEmpty
+        mantraTextTextView.placeHolder.isHidden = !mantraTextTextView.text.isEmpty
+        detailsTextView.placeHolder.isHidden = !detailsTextView.text.isEmpty
     }
 }
 
@@ -333,16 +308,17 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
             let provider = result.itemProvider
             if provider.canLoadObject(ofClass: UIImage.self) {
                 provider.loadObject(ofClass: UIImage.self, completionHandler: { [weak self] (object, error) in
+                    guard let self = self else { return }
                     if let image = object as? UIImage {
-                        let resultImage = self?.processImage(image: image)
+                        let resultImage = self.processImage(image: image)
                         DispatchQueue.main.async {
-                            self?.setPhotoButton.setImage(resultImage, for: .normal)
-                            self?.setPhotoButton.setEditMode()
+                            self.setPhotoButton.setImage(resultImage, for: .normal)
+                            self.setPhotoButton.setEditMode()
                         }
                     } else {
                         DispatchQueue.main.async {
-                            self?.setPhotoButton.setEditMode()
-                            self?.showNoImageAlert()
+                            self.setPhotoButton.setEditMode()
+                            self.showNoImageAlert()
                         }
                     }
                 })
@@ -352,10 +328,12 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
     
     func showNoImageAlert() {
         let alert = UIAlertController(title: nil,
-                                      message: NSLocalizedString("It seems like this photo is unavailable. Try to pick another one", comment: "Alert Message for unavailable photo"),
+                                      message: NSLocalizedString("It seems like this photo is unavailable. Try to pick another one",
+                                                                 comment: "Alert Message for unavailable photo"),
                                       preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] (action) in
-            self?.showImagePicker()
+            guard let self = self else { return }
+            self.showImagePicker()
         }
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)

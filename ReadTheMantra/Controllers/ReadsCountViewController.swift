@@ -15,12 +15,12 @@ class ReadsCountViewController: UIViewController {
     private let mantra: Mantra
     private let positionFavorite: Int32
     
-    @IBOutlet private weak var mantraImageView: UIImageView!
+    @IBOutlet private weak var portraitMantraImageView: UIImageView!
     @IBOutlet private weak var landscapeMantraImageView: UIImageView!
     @IBOutlet private weak var titleLabel: CopyableLabel!
-    @IBOutlet private weak var addRoundsButton: UIButton!
-    @IBOutlet private weak var addReadingsButton: UIButton!
-    @IBOutlet private weak var setProperValueButton: UIButton!
+    @IBOutlet private weak var addRoundsButton: AdjustReadsButton!
+    @IBOutlet private weak var addReadsButton: AdjustReadsButton!
+    @IBOutlet private weak var setProperValueButton: AdjustReadsButton!
     @IBOutlet private weak var circularProgressView: CircularProgressView!
     @IBOutlet private weak var readsGoalButton: UIButton!
     
@@ -41,7 +41,6 @@ class ReadsCountViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         
         setupNavButtons()
-        setReadsButtonsTitles()
         
         circularProgressView.goal = Int(mantra.readsGoal)
         circularProgressView.value = Int(mantra.reads)
@@ -67,8 +66,11 @@ class ReadsCountViewController: UIViewController {
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
                 creator: { [weak self] coder in
-                    guard let weakSelf = self else { fatalError() }
-                    return DetailsViewController(mantra: weakSelf.mantra, mode: .view, position: Int(weakSelf.mantra.position), delegate: weakSelf, coder: coder)
+                    guard let self = self else { fatalError() }
+                    return DetailsViewController(mantra: self.mantra,
+                                                 mode: .view,
+                                                 position: Int(self.mantra.position),
+                                                 delegate: self, coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
         present(navigationController, animated: true)
@@ -85,7 +87,7 @@ class ReadsCountViewController: UIViewController {
     
     private func setupUI() {
         
-        mantraImageView.image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
+        portraitMantraImageView.image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
         landscapeMantraImageView.image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
         titleLabel.text = mantra.title
         titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
@@ -100,6 +102,10 @@ class ReadsCountViewController: UIViewController {
         navigationItem.standardAppearance = standardAppearance
         navigationItem.compactAppearance = compactAppearance
         navigationItem.title = mantra.title
+        
+        addReadsButton.imageSystemName = "plus.circle"
+        addRoundsButton.imageSystemName = "goforward.plus"
+        setProperValueButton.imageSystemName = "hand.draw"
     }
     
     private func animateCircularProgressViewForUpdatedValues() {
@@ -132,18 +138,22 @@ class ReadsCountViewController: UIViewController {
         
         let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
         let positiveAction = UIAlertAction(title: actionTitle, style: .default) { [weak self] (action) in
-            self?.handleAlertPositiveAction(forValue: value, updatingType: updatingType)
+            guard let self = self else { return }
+            self.handleAlertPositiveAction(forValue: value, updatingType: updatingType)
         }
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = NSLocalizedString("Enter number", comment: "Alert Placehonder on ReadsCountViewController")
             alertTextField.keyboardType = .numberPad
             positiveAction.isEnabled = false
             NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: alertTextField, queue: .main) { [weak self] (notification) in
-                if let isValidUpdatingNumber = self?.isValidUpdatingNumber(text: alertTextField.text, updatingType: updatingType), isValidUpdatingNumber {
+                guard let self = self else { return }
+                if self.isValidUpdatingNumber(text: alertTextField.text, updatingType: updatingType) {
                     positiveAction.isEnabled = true
-                    if let textValue = alertTextField.text, let numberValue = Int32(textValue) {
-                        value = numberValue
-                    }
+                    guard
+                        let textValue = alertTextField.text,
+                        let numberValue = Int32(textValue)
+                    else { return }
+                    value = numberValue
                 } else {
                     positiveAction.isEnabled = false
                 }
@@ -158,7 +168,11 @@ class ReadsCountViewController: UIViewController {
     }
     
     private func isValidUpdatingNumber(text: String?, updatingType: UpdatingType) -> Bool {
-        guard let alertText = text, let alertNumber = UInt32(alertText) else { return false }
+        guard
+            let alertText = text,
+            let alertNumber = UInt32(alertText)
+        else { return false }
+        
         switch updatingType {
         case .goal, .properValue:
             return 0...1_000_000 ~= alertNumber
@@ -223,22 +237,14 @@ class ReadsCountViewController: UIViewController {
                 self.showReadsCongratulationsAlert(level: .halfGoal)
             }
         }
+        
         if oldReads < mantra.readsGoal && newReads >= mantra.readsGoal {
             let confettiView = ConfettiView(frame: view.bounds)
             view.addSubview(confettiView)
-            confettiView.alpha = 0
             confettiView.startConfetti()
-            UIView.animate(withDuration: 0.6) {
-                confettiView.alpha = 1
-            }
-            confettiView.stopConfetti()
             
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Constants.progressAnimationDuration + 1.7) {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Constants.progressAnimationDuration + 1.8) {
                 self.showReadsCongratulationsAlert(level: .fullGoal)
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Constants.progressAnimationDuration + 2.7) {
-                confettiView.removeFromSuperview()
             }
         }
     }
@@ -259,40 +265,6 @@ class ReadsCountViewController: UIViewController {
         case .fullGoal:
             return NSLocalizedString("Congratulations! You've reached your goal!", comment: "Alert Title on ReadsCountViewController")
         }
-    }
-    
-    //MARK: - Buttons Initial Appearance
-    
-    private func setReadsButtonsTitles() {
-        
-        let largeConfig = UIImage.SymbolConfiguration(pointSize: 25, weight: .light, scale: .large)
-        
-        let largeReadings = UIImage(systemName: "plus.circle", withConfiguration: largeConfig)?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        let largeRounds = UIImage(systemName: "goforward.plus", withConfiguration: largeConfig)?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        let largeHand = UIImage(systemName: "hand.draw", withConfiguration: largeConfig)?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        
-        addReadingsButton.setImage(largeReadings, for: .normal)
-        addRoundsButton.setImage(largeRounds, for: .normal)
-        setProperValueButton.setImage(largeHand, for: .normal)
-        
-        addRoundsButton.layer.cornerRadius = 35
-        addReadingsButton.layer.cornerRadius = 35
-        setProperValueButton.layer.cornerRadius = 35
-        
-        addRoundsButton.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        addRoundsButton.layer.shadowOffset = CGSize(width: 3, height: 3)
-        addRoundsButton.layer.shadowOpacity = 1.0
-        addRoundsButton.layer.shadowRadius = 3.0
-        
-        addReadingsButton.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        addReadingsButton.layer.shadowOffset = CGSize(width: 3, height: 3)
-        addReadingsButton.layer.shadowOpacity = 1.0
-        addReadingsButton.layer.shadowRadius = 3.0
-        
-        setProperValueButton.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        setProperValueButton.layer.shadowOffset = CGSize(width: 3, height: 3)
-        setProperValueButton.layer.shadowOpacity = 1.0
-        setProperValueButton.layer.shadowRadius = 3.0
     }
     
     //MARK: - Model Manipulation

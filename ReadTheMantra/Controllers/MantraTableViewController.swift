@@ -14,8 +14,8 @@ class MantraTableViewController: UITableViewController {
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private let defaults = UserDefaults.standard
     private var isInFavoriteMode: Bool {
-        get { defaults.bool(forKey: "inFavoriteMode") }
-        set { defaults.set(newValue, forKey: "inFavoriteMode") }
+        get { defaults.bool(forKey: "isInFavoriteMode") }
+        set { defaults.set(newValue, forKey: "isInFavoriteMode") }
     }
     
     private let segmentedControl = UISegmentedControl(items: [NSLocalizedString("All", comment: "Segment Title on MantraTableViewController"),
@@ -28,10 +28,13 @@ class MantraTableViewController: UITableViewController {
     private let searchController = UISearchController(searchResultsController: nil)
     
     private lazy var mantraPicker = UIPickerView()
-    private lazy var mantraPickerTextField = UITextField(frame: CGRect.zero)
+    private lazy var mantraPickerTextField = UITextField(frame: .zero)
     private var coverView: UIView?
     private lazy var sortedInitialMantraData = InitialMantra.data.sorted {
-        guard let mantraTitle0 = $0[.title], let mantraTitle1 = $1[.title] else { return false }
+        guard
+            let mantraTitle0 = $0[.title],
+            let mantraTitle1 = $1[.title]
+        else { return false }
         return mantraTitle0 < mantraTitle1
     }
     
@@ -62,10 +65,10 @@ class MantraTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let isShowdInitialAlert = defaults.bool(forKey: "isShowdInitialAlert")
-        if !isShowdInitialAlert {
+        let wasShownInitialAlert = defaults.bool(forKey: "wasShownInitialAlert")
+        if !wasShownInitialAlert {
             showInitialAlert()
-            defaults.set(true, forKey: "isShowdInitialAlert")
+            defaults.set(true, forKey: "wasShownInitialAlert")
         }
         
         if let lastFavoritePosition = favoriteMantraArray.last?.positionFavorite, lastFavoritePosition >= favoriteMantraArray.count {
@@ -102,9 +105,9 @@ class MantraTableViewController: UITableViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(alongsideTransition: { [weak self] (context) in
-            guard let weakSelf = self else { return }
+            guard let self = self else { return }
             DispatchQueue.main.async {
-                weakSelf.setupSegmentedControl()
+                self.setupSegmentedControl()
             }
         })
     }
@@ -125,11 +128,15 @@ class MantraTableViewController: UITableViewController {
         navigationItem.searchController = searchController
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
         
-        let newMantraAction = UIAction(title: NSLocalizedString("New Mantra", comment: "Menu Item on MantraTableViewController"), image: UIImage(systemName: "square.and.pencil")) { [weak self] (action) in
-            self?.showNewMantraVC()
+        let newMantraAction = UIAction(title: NSLocalizedString("New Mantra", comment: "Menu Item on MantraTableViewController"),
+                                       image: UIImage(systemName: "square.and.pencil")) { [weak self] (action) in
+            guard let self = self else { return }
+            self.showNewMantraVC()
         }
-        let preloadedMantraAction = UIAction(title: NSLocalizedString("Preloaded Mantra", comment: "Menu Item on MantraTableViewController"), image: UIImage(systemName: "books.vertical")) { [weak self] (action) in
-            self?.setPreloadedMantraPickerState()
+        let preloadedMantraAction = UIAction(title: NSLocalizedString("Preloaded Mantra", comment: "Menu Item on MantraTableViewController"),
+                                             image: UIImage(systemName: "books.vertical")) { [weak self] (action) in
+            guard let self = self else { return }
+            self.setPreloadedMantraPickerState()
         }
         let addingMenu = UIMenu(children: [newMantraAction, preloadedMantraAction])
         navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: nil, menu: addingMenu)
@@ -156,13 +163,13 @@ class MantraTableViewController: UITableViewController {
     }
     
     private func showInitialAlert() {
-        let alert = UIAlertController(title: "Добро пожаловать на путь просветления!",
-                                      message: """
-                                                Чтение мантр - это таинство.
-                                                Подойдите к этому вопросу со всей своей осознанностью.
-                                                В приложении не представлены сами тексты мантр - они должны быть даны Вам Вашим духовным наставником.
-                                                Желаем глубоких осознований и духовного роста!
-                                                """,
+        let alert = UIAlertController(title: NSLocalizedString("Welcome to the path of enlightenment!", comment: "Initial Alert Title"),
+                                      message: NSLocalizedString("""
+                                                Reading mantras - is a sacrament.
+                                                Approach this issue with all your awareness.
+                                                For this reason, application does not include the mantra texts themselves - they must be given to you by your spiritual mentor.
+                                                We wish you deep awarenesses and spiritual growth!
+                                                """, comment: "Initial Alert Message"),
                                       preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alert.addAction(okAction)
@@ -217,7 +224,7 @@ class MantraTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.mantraCellID, for: indexPath)
         let mantra = mantraArray[indexPath.row]
         cell.textLabel?.text = mantra.title
-        if ((cell.textLabel?.text) != nil) {
+        if (cell.textLabel?.text != nil) {
             cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
             cell.detailTextLabel?.textColor = .secondaryLabel
             cell.imageView?.image = (mantra.imageForTableView != nil) ? UIImage(data: mantra.imageForTableView!) : UIImage(named: Constants.defaultImage_tableView)
@@ -237,7 +244,8 @@ class MantraTableViewController: UITableViewController {
         
         let deleteAction = UIContextualAction(style: .destructive,
                                               title: "") { [weak self] (contextualAction, view, isToDismiss) in
-            self?.deleteConfirmationAlert(for: indexPath)
+            guard let self = self else { return }
+            self.deleteConfirmationAlert(for: indexPath)
             isToDismiss(true)                                                                                                       
         }
         deleteAction.image = UIImage(systemName: "trash")
@@ -245,8 +253,9 @@ class MantraTableViewController: UITableViewController {
         let star = mantraArray[indexPath.row].isFavorite ? "star.slash" : "star"
         let favoriteAction = UIContextualAction(style: .normal,
                                                 title: "") { [weak self] (contextualAction, view, isToDismiss) in
+            guard let self = self else { return }
             isToDismiss(true)
-            self?.handleFavoriteAction(for: indexPath)
+            self.handleFavoriteAction(for: indexPath)
         }
         favoriteAction.backgroundColor = .systemBlue
         favoriteAction.image = UIImage(systemName: star)
@@ -279,8 +288,10 @@ class MantraTableViewController: UITableViewController {
         guard let readsCountViewController = storyboard?.instantiateViewController(
                 identifier: Constants.readsCountViewControllerID,
                 creator: { [weak self] coder in
-                    guard let weakSelf = self else { fatalError() }
-                    return ReadsCountViewController(mantra: mantra, positionFavorite: Int32(weakSelf.currentFavoriteMantraCount), coder: coder)
+                    guard let self = self else { fatalError() }
+                    return ReadsCountViewController(mantra: mantra,
+                                                    positionFavorite: Int32(self.currentFavoriteMantraCount),
+                                                    coder: coder)
                 }) else { return }
         navigationItem.backBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Mantra List", comment: "Back button of MantraTableViewController"), style: .plain, target: nil, action: nil)
         show(readsCountViewController, sender: true)
@@ -293,13 +304,15 @@ class MantraTableViewController: UITableViewController {
         let image = mantraArray[indexPath.row].isFavorite ? UIImage(systemName: "star.slash") : UIImage(systemName: "star")
         
         let favorite = UIAction(title: title, image: image) { [weak self] _ in
-            self?.handleFavoriteAction(for: indexPath)
+            guard let self = self else { return }
+            self.handleFavoriteAction(for: indexPath)
         }
         
         let delete = UIAction(title: NSLocalizedString("Delete", comment: "Menu Action on MantraTableViewController"),
                               image: UIImage(systemName: "trash"),
                               attributes: [.destructive]) { [weak self] action in
-            self?.deleteConfirmationAlert(for: indexPath)
+            guard let self = self else { return }
+            self.deleteConfirmationAlert(for: indexPath)
         }
         
         let children = isInFavoriteMode ? [favorite] : [favorite, delete]
@@ -316,7 +329,8 @@ class MantraTableViewController: UITableViewController {
                                       preferredStyle: .alert)
         let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: "Alert Button on MantraTableViewController"),
                                          style: .destructive) { [weak self] (action) in
-            self?.deleteMantra(for: indexPath)
+            guard let self = self else { return }
+            self.deleteMantra(for: indexPath)
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"),
                                          style: .default, handler: nil)
@@ -369,12 +383,12 @@ class MantraTableViewController: UITableViewController {
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
                 creator: { [weak self] coder in
-                    guard let weakSelf = self else { fatalError() }
+                    guard let self = self else { fatalError() }
                     return DetailsViewController(mantra: mantra,
                                                  mode: .add,
-                                                 position: weakSelf.currentMantraCount,
-                                                 mantraTitles: weakSelf.overallMantraArray.compactMap{$0.title},
-                                                 delegate: weakSelf, coder: coder)
+                                                 position: self.currentMantraCount,
+                                                 mantraTitles: self.overallMantraArray.compactMap{$0.title},
+                                                 delegate: self, coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
         present(navigationController, animated: true)
@@ -395,7 +409,9 @@ class MantraTableViewController: UITableViewController {
         if let coverView = coverView {
             coverView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCoverTap(_:))))
             UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.addSubview(coverView)
-            UIView.animate(withDuration: 0.15) { coverView.alpha = CGFloat(dimmedAlpha) }
+            UIView.animate(withDuration: 0.15) {
+                coverView.alpha = CGFloat(dimmedAlpha)
+            }
         }
     }
     
@@ -453,11 +469,13 @@ class MantraTableViewController: UITableViewController {
                                       preferredStyle: .alert)
         let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraTableViewController"),
                                       style: .default) { [weak self] (action) in
-            self?.handleAddPreloadedMantra()
+            guard let self = self else { return }
+            self.handleAddPreloadedMantra()
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"),
                                          style: .default) { [weak self] (action) in
-            self?.dismissPreloadedMantraPickerState()
+            guard let self = self else { return }
+            self.dismissPreloadedMantraPickerState()
         }
         alert.addAction(cancelAction)
         alert.addAction(addAction)

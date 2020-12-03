@@ -12,7 +12,18 @@ final class ConfettiView: UIView {
     private var confettiEmitter = CAEmitterLayer()
     
     public func startConfetti() {
+        makeConfettiEmitter()
+        layer.addSublayer(confettiEmitter)
         
+        alpha = 0
+        UIView.animate(withDuration: 0.6) {
+            self.alpha = 1
+        } completion: { (finished) in
+            self.stopConfetti()
+        }
+    }
+    
+    private func makeConfettiEmitter() {
         confettiEmitter.emitterPosition = CGPoint(x: frame.size.width / 2.0, y: 0)
         confettiEmitter.emitterShape = .line
         confettiEmitter.emitterSize = CGSize(width: frame.size.width, height: 1)
@@ -34,22 +45,6 @@ final class ConfettiView: UIView {
         }
         
         confettiEmitter.emitterCells = cells
-        layer.addSublayer(confettiEmitter)
-    }
-    
-    public func stopConfetti() {
-        var currentTime: Float = 0
-        let currentBirthRate = confettiEmitter.birthRate
-        let stopTime: Float = 1.2
-        let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] (timer) in
-            if currentTime >= stopTime + 0.1 {
-                timer.invalidate()
-            } else {
-                self?.confettiEmitter.birthRate = currentBirthRate * (stopTime - currentTime)
-                currentTime += 0.1
-            }
-        }
-        timer.fire()
     }
     
     private func confettiWithColor(color: UIColor) -> CAEmitterCell {
@@ -68,5 +63,24 @@ final class ConfettiView: UIView {
         cell.scaleSpeed = -0.05
         cell.contents = UIImage(named: "confetti")?.cgImage
         return cell
+    }
+    
+    private func stopConfetti() {
+        var currentTime: Float = 0
+        let currentBirthRate = confettiEmitter.birthRate
+        let stopTime: Float = 1.2
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] (timer) in
+            guard let self = self else { return }
+            if currentTime >= stopTime + 0.1 {
+                timer.invalidate()
+            } else {
+                self.confettiEmitter.birthRate = currentBirthRate * (stopTime - currentTime)
+                currentTime += 0.1
+            }
+        }
+        timer.fire()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Constants.progressAnimationDuration + 2.7) {
+            self.removeFromSuperview()
+        }
     }
 }

@@ -1,6 +1,18 @@
 /* App name */
 "Mantra Counter" = "Начитай!";
 
+/* Initial Alert Title */
+"Welcome to the path of Enlightenment!" = "Добро пожаловать на путь Просветления!";
+
+/* Initial Alert Message */
+"Recitation of mantras - is a sacrament.
+Approach this issue with all your awareness.
+For this reason, application doesn't include the mantra texts themselves - they must be given to you by your spiritual mentor.
+We wish you deep awarenesses and spiritual growth!" = "Чтение мантр - это таинство.
+Подойдите к данному вопросу со всей своей осознанностью.
+По этой причине в приложении не представлены сами тексты мантр - они должны быть даны Вам Вашим духовным наставником.
+Желаем глубоких осознований и духовного роста!";
+
 /* Back Button of MantraTableViewController */
 "Mantra List" = "Список мантр";
 
@@ -98,13 +110,13 @@
 "It seems like this photo is unavailable. Try to pick another one" = "Похоже это фото недоступно. Попробуйте выбрать другое";
 
 /* Mantra title label */
-"Title" = "Название";
+"TITLE" = "НАЗВАНИЕ";
 
 /* Mantra text label */
-"Mantra text" = "Текст мантры";
+"MANTRA TEXT" = "ТЕКСТ МАНТРЫ";
 
 /* Mantra description label */
-"Description" = "Краткое описание";
+"DESCRIPTION" = "КРАТКОЕ ОПИСАНИЕ";
 
 /* Mantra title placeholder */
 "Enter mantra title" = "Введите название мантры";

@@ -13,7 +13,6 @@ final class CircularProgressView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         setupView()
     }
     
@@ -68,13 +67,14 @@ final class CircularProgressView: UIView {
         var currentTime: Double = 0
         let currentReadsGoal = goal
         let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] (timer) in
+            guard let self = self else { return }
             if currentTime >= Constants.progressAnimationDuration + 0.01 {
                 timer.invalidate()
-                self?.goal = newGoal
+                self.goal = newGoal
             } else {
                 let momentGoal = Double(currentReadsGoal) + Double(newGoal - currentReadsGoal) * currentTime
                 currentTime += 0.01
-                self?.setForegroundLayerColor(value: Int(self?.value ?? 0), readsGoal: Int(momentGoal))
+                self.setForegroundLayerColor(value: Int(self.value), readsGoal: Int(momentGoal))
             }
         }
         timer.fire()
@@ -89,7 +89,7 @@ final class CircularProgressView: UIView {
     
     private var currentValue = 0
     private var currentGoal = Constants.initialReadsGoal
-    private let label = UILabel()
+    private let label = CopyableLabel()
     private let lineWidth: CGFloat = 7
     private let foregroundLayer = CAShapeLayer()
     private let backgroundLayer = CAShapeLayer()
@@ -129,18 +129,18 @@ final class CircularProgressView: UIView {
         
         var currentTime: Double = 0
         let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] (timer) in
+            guard let self = self else { return }
             if currentTime >= Constants.progressAnimationDuration + 0.01 {
                 timer.invalidate()
-                self?.value = newValue
+                self.value = newValue
             } else {
-                var momentValue = Double(self?.value ?? 0) + Double(newValue - (self?.value ?? 0)) * currentTime
+                var momentValue = Double(self.value) + Double(newValue - self.value) * currentTime
                 currentTime += 0.01
                 momentValue.round(.toNearestOrAwayFromZero)
-                self?.label.text = Int(momentValue).stringFormattedWithSpaces()
-                self?.setForegroundLayerColor(value: Int(momentValue), readsGoal: self?.goal ?? Constants.initialReadsGoal)
-                if let fontSize = self?.labelFontSize(for: Int(momentValue)) {
-                    self?.setLabel(withSize: fontSize)
-                }
+                self.label.text = Int(momentValue).stringFormattedWithSpaces()
+                self.setForegroundLayerColor(value: Int(momentValue), readsGoal: self.goal)
+                let fontSize = self.labelFontSize(for: Int(momentValue))
+                self.setLabel(withSize: fontSize)
             }
         }
         timer.fire()
@@ -173,7 +173,7 @@ final class CircularProgressView: UIView {
         
         let path = UIBezierPath(arcCenter: pathCenter, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
         
-        foregroundLayer.lineCap = CAShapeLayerLineCap.round
+        foregroundLayer.lineCap = .round
         foregroundLayer.path = path.cgPath
         foregroundLayer.lineWidth = lineWidth
         foregroundLayer.fillColor = UIColor.clear.cgColor
@@ -203,11 +203,11 @@ final class CircularProgressView: UIView {
         var color = UIColor()
         switch value {
         case 0..<readsGoal/2:
-            color = UIColor.systemGreen
+            color = .systemGreen
         case readsGoal/2..<readsGoal:
-            color = UIColor.systemOrange
+            color = .systemOrange
         case readsGoal...:
-            color = UIColor.systemPurple
+            color = .systemPurple
         default:
             break
         }
