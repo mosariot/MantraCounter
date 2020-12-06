@@ -12,6 +12,8 @@
 		9F3B1C032538F50200BEE838 /* RoundedSystemFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B1C022538F50200BEE838 /* RoundedSystemFont.swift */; };
 		9F3B62A32578E00D00B4F5E4 /* TextViewWithPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B62952578DAD200B4F5E4 /* TextViewWithPlaceholder.swift */; };
 		9F3B62A72578E51E00B4F5E4 /* AdjustReadsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B627425781A6F00B4F5E4 /* AdjustReadsButton.swift */; };
+		9F3B62D2257CFFF800B4F5E4 /* OnboardingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B62D1257CFFF800B4F5E4 /* OnboardingController.swift */; };
+		9F3B62D6257D157E00B4F5E4 /* OnboardingAlertButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B62BB257BCD4500B4F5E4 /* OnboardingAlertButton.swift */; };
 		9F5FE68424E7141400D0475E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE68324E7141400D0475E /* AppDelegate.swift */; };
 		9F5FE68624E7141400D0475E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE68524E7141400D0475E /* SceneDelegate.swift */; };
 		9F5FE68B24E7141400D0475E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F5FE68924E7141400D0475E /* Main.storyboard */; };
@@ -41,6 +43,8 @@
 		9F3B1C022538F50200BEE838 /* RoundedSystemFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedSystemFont.swift; sourceTree = "<group>"; };
 		9F3B627425781A6F00B4F5E4 /* AdjustReadsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustReadsButton.swift; sourceTree = "<group>"; };
 		9F3B62952578DAD200B4F5E4 /* TextViewWithPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewWithPlaceholder.swift; sourceTree = "<group>"; };
+		9F3B62BB257BCD4500B4F5E4 /* OnboardingAlertButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingAlertButton.swift; sourceTree = "<group>"; };
+		9F3B62D1257CFFF800B4F5E4 /* OnboardingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingController.swift; sourceTree = "<group>"; };
 		9F4B47F62530C4B300E7FF4B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9F5FE68024E7141400D0475E /* MantraCounter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MantraCounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F5FE68324E7141400D0475E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -126,6 +130,7 @@
 				9F5FE69B24E717A200D0475E /* MantraTableViewController.swift */,
 				9F5FE69A24E717A200D0475E /* DetailsViewController.swift */,
 				9FA97A382570177B005C9078 /* ReadsCountViewController.swift */,
+				9F3B62D1257CFFF800B4F5E4 /* OnboardingController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -141,6 +146,7 @@
 				9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */,
 				9F3B627425781A6F00B4F5E4 /* AdjustReadsButton.swift */,
 				9F3B62952578DAD200B4F5E4 /* TextViewWithPlaceholder.swift */,
+				9F3B62BB257BCD4500B4F5E4 /* OnboardingAlertButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -248,7 +254,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F5FE69E24E717A200D0475E /* MantraTableViewController.swift in Sources */,
+				9F3B62D6257D157E00B4F5E4 /* OnboardingAlertButton.swift in Sources */,
 				9F7A5091253CB924008BFD6F /* CustomDynamicFontWeight.swift in Sources */,
+				9F3B62D2257CFFF800B4F5E4 /* OnboardingController.swift in Sources */,
 				9F293E3B2575503000B7B1C7 /* SetPhotoButton.swift in Sources */,
 				9F5FE6A524E7183E00D0475E /* InitialMantraData.swift in Sources */,
 				9F5FE6BB24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift in Sources */,

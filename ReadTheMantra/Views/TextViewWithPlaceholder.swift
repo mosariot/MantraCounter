@@ -13,16 +13,16 @@ final class TextViewWithPlaceholder: UITextView {
     public var placeHolder = UILabel()
     public var placeHolderText = "" {
         didSet {
-            setupTextView()
+            setupPlaceholder()
         }
     }
     
-    private func setupTextView() {
+    private func setupPlaceholder() {
         placeHolder.text = placeHolderText
-        guard let fontPointSize = font?.pointSize else { return }
-        placeHolder.font = .systemFont(ofSize: fontPointSize)
+        guard let fontSize = font?.pointSize else { return }
+        placeHolder.font = .systemFont(ofSize: fontSize)
         placeHolder.sizeToFit()
-        placeHolder.frame.origin = CGPoint(x: 5, y: fontPointSize / 3)
+        placeHolder.frame.origin = CGPoint(x: 5, y: fontSize / 3)
         placeHolder.textColor = .placeholderText
         addSubview(placeHolder)
     }

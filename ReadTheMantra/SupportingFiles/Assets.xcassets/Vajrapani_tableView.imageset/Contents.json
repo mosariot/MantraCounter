@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "Vajrapani_tableView.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Vajrapani_tableView.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "Vajrasattva_tableView.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Vajrasattva_tableView.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

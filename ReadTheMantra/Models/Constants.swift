@@ -12,6 +12,7 @@ enum Constants {
     static let mantraTableViewControllerID = "MantraTableViewController"
     static let readsCountViewControllerID = "ReadsCountViewController"
     static let detailsViewControllerID = "DetailsViewController"
+    static let onboardingController = "OnboardingController"
     static let mantraCellID = "MantraCell"
     static let defaultImage_tableView = "DefaultImage_tableView"
     static let defaultImage = "DefaultImage"

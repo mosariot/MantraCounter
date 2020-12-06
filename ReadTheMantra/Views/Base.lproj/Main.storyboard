@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DCB-CC-LD7">
-    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -13,26 +13,26 @@
             <objects>
                 <tableViewController storyboardIdentifier="MantraTableViewController" id="uTg-Qt-T5r" customClass="MantraTableViewController" customModule="MantraCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="SyQ-nI-C6C">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MantraCell" textLabel="GRx-fg-84d" detailTextLabel="jm1-1r-ipA" style="IBUITableViewCellStyleSubtitle" id="Rvd-UH-Iy2">
-                                <rect key="frame" x="0.0" y="28" width="375" height="55.666667938232422"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="55.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Rvd-UH-Iy2" id="wLJ-tb-rty">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="55.666667938232422"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="55.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GRx-fg-84d">
-                                            <rect key="frame" x="16" y="8.9999999999999982" width="33" height="20.333333333333332"/>
+                                            <rect key="frame" x="16" y="10" width="33" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jm1-1r-ipA">
-                                            <rect key="frame" x="15.999999999999996" y="31.333333333333332" width="43.666666666666664" height="14.333333333333334"/>
+                                            <rect key="frame" x="16" y="31.5" width="44" height="14.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
@@ -54,24 +54,143 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PxV-EI-kJr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7489.8550724637689" y="133.25892857142856"/>
+            <point key="canvasLocation" x="7474" y="500"/>
+        </scene>
+        <!--Onboarding Controller-->
+        <scene sceneID="rhA-NT-a6d">
+            <objects>
+                <viewController storyboardIdentifier="OnboardingController" id="1Jb-bv-xnI" customClass="OnboardingController" customModule="MantraCounter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HyO-GG-cdw">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="jdD-CX-unP" userLabel="Main Stack View">
+                                <rect key="frame" x="20" y="20" width="280" height="528"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to the path of Enlightenment!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7KD-zQ-R2b" userLabel="Title Label">
+                                        <rect key="frame" x="7.5" y="0.0" width="265.5" height="63.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="DefaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="Z84-h7-wXb" userLabel="Image">
+                                        <rect key="frame" x="75" y="73" width="130" height="130"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" id="6Wm-AZ-fcI"/>
+                                            <constraint firstAttribute="width" secondItem="Z84-h7-wXb" secondAttribute="height" id="R2s-BO-Qg2"/>
+                                            <constraint firstAttribute="height" constant="200" id="hcF-Bc-pEA"/>
+                                            <constraint firstAttribute="height" constant="130" id="l0w-It-gsD"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="6Wm-AZ-fcI"/>
+                                                <exclude reference="hcF-Bc-pEA"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=compact-widthClass=compact">
+                                            <mask key="constraints">
+                                                <include reference="6Wm-AZ-fcI"/>
+                                                <exclude reference="l0w-It-gsD"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=compact-widthClass=regular">
+                                            <mask key="constraints">
+                                                <include reference="6Wm-AZ-fcI"/>
+                                                <exclude reference="l0w-It-gsD"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <mask key="constraints">
+                                                <include reference="hcF-Bc-pEA"/>
+                                                <exclude reference="l0w-It-gsD"/>
+                                            </mask>
+                                        </variation>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7r2-FB-UtH" userLabel="Text Label">
+                                        <rect key="frame" x="0.0" y="212.5" width="280" height="274"/>
+                                        <string key="text">Recitation of mantras - is a sacrament.
+Approach this issue with all your awareness.
+For this reason, application does not include the mantra texts themselves - they must be given to you by your spiritual mentor.
+We wish you deep awarenesses and spiritual growth!</string>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PUZ-IY-Geb" userLabel="Dismiss Button" customClass="OnboardingAlertButton" customModule="MantraCounter" customModuleProvider="target">
+                                        <rect key="frame" x="65" y="496" width="150" height="32"/>
+                                        <color key="backgroundColor" systemColor="linkColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="gLM-pB-IM4"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="UNDERSTAND!"/>
+                                        <connections>
+                                            <action selector="dismissButtonPressed:" destination="1Jb-bv-xnI" eventType="touchUpInside" id="9Ar-YE-l2q"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="sXi-Ol-23C"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="jdD-CX-unP" firstAttribute="trailing" secondItem="sXi-Ol-23C" secondAttribute="trailing" constant="-20" id="60u-Qd-mDP"/>
+                            <constraint firstItem="jdD-CX-unP" firstAttribute="bottom" secondItem="sXi-Ol-23C" secondAttribute="bottom" constant="-50" id="Fbx-5q-Q9c"/>
+                            <constraint firstItem="jdD-CX-unP" firstAttribute="top" secondItem="sXi-Ol-23C" secondAttribute="top" constant="20" id="Ge0-dn-ROL"/>
+                            <constraint firstItem="jdD-CX-unP" firstAttribute="top" secondItem="sXi-Ol-23C" secondAttribute="top" constant="50" id="I5n-lL-9Ma"/>
+                            <constraint firstItem="jdD-CX-unP" firstAttribute="trailing" secondItem="sXi-Ol-23C" secondAttribute="trailing" constant="-50" id="P1T-e2-bG5"/>
+                            <constraint firstItem="jdD-CX-unP" firstAttribute="leading" secondItem="sXi-Ol-23C" secondAttribute="leading" constant="50" id="U1I-Sm-5FF"/>
+                            <constraint firstItem="jdD-CX-unP" firstAttribute="bottom" secondItem="sXi-Ol-23C" secondAttribute="bottom" constant="-20" id="Xza-8O-slc"/>
+                            <constraint firstItem="jdD-CX-unP" firstAttribute="leading" secondItem="sXi-Ol-23C" secondAttribute="leading" constant="20" id="aIt-M9-b11"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Fbx-5q-Q9c"/>
+                                <exclude reference="P1T-e2-bG5"/>
+                                <exclude reference="I5n-lL-9Ma"/>
+                                <exclude reference="U1I-Sm-5FF"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=regular">
+                            <mask key="constraints">
+                                <exclude reference="60u-Qd-mDP"/>
+                                <include reference="Fbx-5q-Q9c"/>
+                                <include reference="P1T-e2-bG5"/>
+                                <exclude reference="Xza-8O-slc"/>
+                                <exclude reference="Ge0-dn-ROL"/>
+                                <include reference="I5n-lL-9Ma"/>
+                                <include reference="U1I-Sm-5FF"/>
+                                <exclude reference="aIt-M9-b11"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="dismissButton" destination="PUZ-IY-Geb" id="Pe2-J3-f0N"/>
+                        <outlet property="textLabel" destination="7r2-FB-UtH" id="nyR-eR-P0B"/>
+                        <outlet property="titleLabel" destination="7KD-zQ-R2b" id="gNv-IR-xBH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jif-Tq-COJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7473" y="-171"/>
         </scene>
         <!--Details View Controller-->
         <scene sceneID="XS4-SK-kdP">
             <objects>
                 <viewController storyboardIdentifier="DetailsViewController" id="oME-Mn-XWI" customClass="DetailsViewController" customModule="MantraCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eEh-mS-Rdf">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ufR-lF-3WM">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="k9h-cR-IWt" userLabel="Main Stack View">
-                                        <rect key="frame" x="0.0" y="20" width="375" height="429"/>
+                                        <rect key="frame" x="0.0" y="20" width="320" height="423.5"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KXK-gN-mOv" customClass="SetPhotoButton" customModule="MantraCounter" customModuleProvider="target">
-                                                <rect key="frame" x="107.66666666666669" y="0.0" width="160" height="160"/>
+                                                <rect key="frame" x="80" y="0.0" width="160" height="160"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="KXK-gN-mOv" secondAttribute="height" id="BA3-i3-E3E"/>
                                                     <constraint firstAttribute="height" constant="160" id="kZH-dg-36F"/>
@@ -79,16 +198,16 @@
                                                 <state key="normal" image="DefaultImage"/>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="a1H-9L-kHe" userLabel="Title Stack View">
-                                                <rect key="frame" x="20" y="175" width="335" height="63.333333333333343"/>
+                                                <rect key="frame" x="20" y="175" width="280" height="63.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGu-qb-SNX" userLabel="Title Label">
-                                                        <rect key="frame" x="0.0" y="0.0" width="335" height="20.333333333333332"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="280" height="20.5"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" systemColor="secondaryLabelColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Title" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YbO-xG-hna">
-                                                        <rect key="frame" x="0.0" y="20.333333333333343" width="335" height="43"/>
+                                                        <rect key="frame" x="0.0" y="20.5" width="280" height="43"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="43" id="klb-EA-vbT"/>
                                                         </constraints>
@@ -104,23 +223,23 @@
                                                 </constraints>
                                             </stackView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xsl-gx-01t" userLabel="Separator View">
-                                                <rect key="frame" x="20" y="253.33333333333331" width="335" height="1"/>
+                                                <rect key="frame" x="20" y="253.5" width="280" height="1"/>
                                                 <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="64M-ym-CWV"/>
                                                 </constraints>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xuB-nR-Oiy" userLabel="Mantra Text Stack View">
-                                                <rect key="frame" x="15" y="269.33333333333331" width="345" height="64.333333333333314"/>
+                                                <rect key="frame" x="15" y="269.5" width="290" height="61.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mantra text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxE-9v-7MR">
-                                                        <rect key="frame" x="5" y="0.0" width="335" height="20.333333333333332"/>
+                                                        <rect key="frame" x="5" y="0.0" width="280" height="20.5"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" systemColor="secondaryLabelColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Text" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xhj-0A-Osd" customClass="TextViewWithPlaceholder" customModule="MantraCounter" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="20.333333333333371" width="345" height="44"/>
+                                                        <rect key="frame" x="0.0" y="20.5" width="290" height="41"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <color key="textColor" systemColor="labelColor"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
@@ -135,23 +254,23 @@
                                                 </constraints>
                                             </stackView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Z8J-Iv-Hel" userLabel="Separator View">
-                                                <rect key="frame" x="20" y="348.66666666666669" width="335" height="1"/>
+                                                <rect key="frame" x="20" y="346" width="280" height="1"/>
                                                 <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="yOS-N6-ER6"/>
                                                 </constraints>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="MIL-18-J7h" userLabel="Description Stack View">
-                                                <rect key="frame" x="15" y="364.66666666666669" width="345" height="64.333333333333314"/>
+                                                <rect key="frame" x="15" y="362" width="290" height="61.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oer-C2-YaE" userLabel="Description Label">
-                                                        <rect key="frame" x="5" y="0.0" width="335" height="20.333333333333332"/>
+                                                        <rect key="frame" x="5" y="0.0" width="280" height="20.5"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" systemColor="secondaryLabelColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Description" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dBV-0g-Qvz" customClass="TextViewWithPlaceholder" customModule="MantraCounter" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="20.333333333333314" width="345" height="44"/>
+                                                        <rect key="frame" x="0.0" y="20.5" width="290" height="41"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <color key="textColor" systemColor="labelColor"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
@@ -218,14 +337,14 @@
             <objects>
                 <viewController storyboardIdentifier="ReadsCountViewController" id="9Ew-Yb-oIM" customClass="ReadsCountViewController" customModule="MantraCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LJz-A8-q5d">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="wUI-LR-HUU" userLabel="Main Stack View">
-                                <rect key="frame" x="30" y="64" width="315" height="694"/>
+                                <rect key="frame" x="30" y="20" width="260" height="528"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aYM-Zj-T08">
-                                        <rect key="frame" x="92" y="0.0" width="131" height="131.33333333333334"/>
+                                        <rect key="frame" x="74" y="0.0" width="112" height="112"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="aYM-Zj-T08" secondAttribute="height" id="WVO-By-qtL"/>
                                         </constraints>
@@ -233,7 +352,7 @@
                                         <variation key="heightClass=compact-widthClass=regular" hidden="YES"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z7q-lJ-Yge" customClass="CopyableLabel" customModule="MantraCounter" customModuleProvider="target">
-                                        <rect key="frame" x="125.99999999999999" y="197.66666666666669" width="63.333333333333329" height="40.666666666666657"/>
+                                        <rect key="frame" x="102" y="142" width="56" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" id="yan-Rd-y0K"/>
                                         </constraints>
@@ -251,10 +370,10 @@
                                         </variation>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="o6T-hj-L0V" userLabel="Landscape Stack View">
-                                        <rect key="frame" x="48.666666666666671" y="305" width="217.66666666666663" height="252.33333333333337"/>
+                                        <rect key="frame" x="37" y="207.5" width="186" height="220.5"/>
                                         <subviews>
                                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Rbr-tp-RAr" userLabel="Landscape Mantra Image View">
-                                                <rect key="frame" x="0.0" y="126.33333333333331" width="0.0" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="110.5" width="0.0" height="0.0"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="Rbr-tp-RAr" secondAttribute="height" id="jMU-G9-1pX"/>
                                                 </constraints>
@@ -262,10 +381,10 @@
                                                 <variation key="heightClass=compact-widthClass=regular" hidden="NO"/>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="iRH-g6-fRu" userLabel="Circular Progress Stack View">
-                                                <rect key="frame" x="0.0" y="0.0" width="217.66666666666666" height="252.33333333333334"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="186" height="220.5"/>
                                                 <subviews>
                                                     <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="56j-8c-bvo" customClass="CircularProgressView" customModule="MantraCounter" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="217.66666666666666" height="217.33333333333334"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="186" height="185.5"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <accessibility key="accessibilityConfiguration" label="123">
                                                             <bool key="isElement" value="NO"/>
@@ -275,7 +394,7 @@
                                                         </constraints>
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MmZ-ji-SKX">
-                                                        <rect key="frame" x="92.999999999999986" y="222.33333333333337" width="32" height="30"/>
+                                                        <rect key="frame" x="77" y="190.5" width="32" height="30"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                         <state key="normal" title="Goal"/>
                                                         <connections>
@@ -305,7 +424,7 @@
                                         </variation>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="f0G-CI-caq" userLabel="Buttons Stack View">
-                                        <rect key="frame" x="0.0" y="624" width="315" height="70"/>
+                                        <rect key="frame" x="0.0" y="458" width="260" height="70"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dUS-5m-kus" customClass="AdjustReadsButton" customModule="MantraCounter" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
@@ -323,7 +442,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZdM-Gq-d1v" customClass="AdjustReadsButton" customModule="MantraCounter" customModuleProvider="target">
-                                                <rect key="frame" x="122.66666666666666" y="0.0" width="70" height="70"/>
+                                                <rect key="frame" x="95" y="0.0" width="70" height="70"/>
                                                 <color key="backgroundColor" systemColor="linkColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="1eA-gg-d4z"/>
@@ -338,7 +457,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5fa-hA-HQ2" userLabel="Set Proper Value Button" customClass="AdjustReadsButton" customModule="MantraCounter" customModuleProvider="target">
-                                                <rect key="frame" x="245" y="0.0" width="70" height="70"/>
+                                                <rect key="frame" x="190" y="0.0" width="70" height="70"/>
                                                 <color key="backgroundColor" systemColor="linkColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="70" id="Ylk-1l-Pwm"/>
@@ -463,7 +582,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="DCB-CC-LD7" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="YNA-cz-nDP">
-                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -473,11 +592,25 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KL5-aD-hrL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6713" y="133"/>
+            <point key="canvasLocation" x="6698" y="499"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="5fa-hA-HQ2">
+            <size key="intrinsicContentSize" width="30" height="33"/>
+        </designable>
+        <designable name="PUZ-IY-Geb">
+            <size key="intrinsicContentSize" width="111" height="32"/>
+        </designable>
+        <designable name="ZdM-Gq-d1v">
+            <size key="intrinsicContentSize" width="30" height="33"/>
+        </designable>
+        <designable name="dUS-5m-kus">
+            <size key="intrinsicContentSize" width="30" height="33"/>
+        </designable>
+    </designables>
     <resources>
-        <image name="DefaultImage" width="160" height="160"/>
+        <image name="DefaultImage" width="320" height="320"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

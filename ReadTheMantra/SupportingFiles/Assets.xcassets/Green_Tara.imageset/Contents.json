@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "Green_Tara_320.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Green_Tara_320.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

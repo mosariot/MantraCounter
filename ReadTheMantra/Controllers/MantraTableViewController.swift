@@ -21,7 +21,7 @@ class MantraTableViewController: UITableViewController {
     private let segmentedControl = UISegmentedControl(items: [NSLocalizedString("All", comment: "Segment Title on MantraTableViewController"),
                                                               UIImage(systemName: "star") ?? ""])
     
-    private var mantraArray = [Mantra]()
+    private var mantraArray: [Mantra] = []
     private var currentMantraCount = 0
     private var currentFavoriteMantraCount = 0
     
@@ -39,7 +39,7 @@ class MantraTableViewController: UITableViewController {
     }
     
     private var overallMantraArray: [Mantra] {
-        var array = [Mantra]()
+        var array: [Mantra] = []
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         do {
             array = try context.fetch(request)
@@ -50,7 +50,7 @@ class MantraTableViewController: UITableViewController {
     }
     
     private var favoriteMantraArray: [Mantra] {
-        var array = [Mantra]()
+        var array: [Mantra] = []
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "positionFavorite", ascending: true)]
         request.predicate = NSPredicate(format: "isFavorite = %d", true)
@@ -62,21 +62,24 @@ class MantraTableViewController: UITableViewController {
         return array
     }
     
+    private lazy var blurEffectView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurredView = UIVisualEffectView(effect: blurEffect)
+        return blurredView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let wasShownInitialAlert = defaults.bool(forKey: "wasShownInitialAlert")
-        if !wasShownInitialAlert {
-            showInitialAlert()
-            defaults.set(true, forKey: "wasShownInitialAlert")
-        }
+        checkForOnboardingAlert()
         
         if let lastFavoritePosition = favoriteMantraArray.last?.positionFavorite, lastFavoritePosition >= favoriteMantraArray.count {
             currentFavoriteMantraCount = favoriteMantraArray.count
             reorderFavoriteMantraPositionsForFavoritingUnfavoritingDeleting()
         }
         
-        tableView.tableFooterView = UIView() 
+        tableView.tableFooterView = UIView()
+        tableView.rowHeight = 60
         
         setupNavigationBar()
         setupSearchController()
@@ -108,6 +111,10 @@ class MantraTableViewController: UITableViewController {
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.setupSegmentedControl()
+                self.coverView?.frame = UIScreen.main.bounds
+                if !self.defaults.bool(forKey: "wasShownOnboardingAlert") {
+                    self.blurEffectView.frame = UIScreen.main.bounds
+                }
             }
         })
     }
@@ -115,6 +122,20 @@ class MantraTableViewController: UITableViewController {
     @objc private func handleCoverTap(_ sender: UITapGestureRecognizer? = nil) {
         dismissPreloadedMantraPickerState()
     }
+    
+    private func checkForOnboardingAlert() {
+        let wasShownOnboardingAlert = defaults.bool(forKey: "wasShownOnboardingAlert")
+        if !wasShownOnboardingAlert {
+            setupBlurEffectView()
+            animateBlurEffectViewIn()
+            if let onboardingController = storyboard?.instantiateViewController(identifier: Constants.onboardingController) as? OnboardingController {
+                onboardingController.delegate = self
+                onboardingController.modalTransitionStyle = .crossDissolve
+                present(onboardingController, animated: true)
+            }
+        }
+    }
+    
     
     //MARK: - ViewDidLoad Setup
     
@@ -160,20 +181,6 @@ class MantraTableViewController: UITableViewController {
     @objc private func segmentedValueChanged(_ sender: UISegmentedControl) {
         isInFavoriteMode = !isInFavoriteMode
         loadMantras(withAnimation: true)
-    }
-    
-    private func showInitialAlert() {
-        let alert = UIAlertController(title: NSLocalizedString("Welcome to the path of enlightenment!", comment: "Initial Alert Title"),
-                                      message: NSLocalizedString("""
-                                                Reading mantras - is a sacrament.
-                                                Approach this issue with all your awareness.
-                                                For this reason, application does not include the mantra texts themselves - they must be given to you by your spiritual mentor.
-                                                We wish you deep awarenesses and spiritual growth!
-                                                """, comment: "Initial Alert Message"),
-                                      preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
     }
     
     //MARK: - NavigationBar Buttons Actions
@@ -223,13 +230,19 @@ class MantraTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.mantraCellID, for: indexPath)
         let mantra = mantraArray[indexPath.row]
-        cell.textLabel?.text = mantra.title
-        if (cell.textLabel?.text != nil) {
-            cell.detailTextLabel?.text = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
-            cell.detailTextLabel?.textColor = .secondaryLabel
-            cell.imageView?.image = (mantra.imageForTableView != nil) ? UIImage(data: mantra.imageForTableView!) : UIImage(named: Constants.defaultImage_tableView)
-            cell.accessoryType = .disclosureIndicator
+        
+        var content = cell.defaultContentConfiguration()
+        content.text = mantra.title
+        
+        if (content.text != nil) {
+            content.secondaryText = NSLocalizedString("Current readings count:", comment: "Current readings count") + " \(mantra.reads)"
+            content.secondaryTextProperties.color = .secondaryLabel
+            content.textToSecondaryTextVerticalPadding = 4
+            content.image = (mantra.imageForTableView != nil) ? UIImage(data: mantra.imageForTableView!) : UIImage(named: Constants.defaultImage_tableView)
         }
+        cell.accessoryType = .disclosureIndicator
+        cell.contentConfiguration = content
+        
         return cell
     }
     
@@ -408,7 +421,7 @@ class MantraTableViewController: UITableViewController {
         coverView = dimmedBackgroundView
         if let coverView = coverView {
             coverView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCoverTap(_:))))
-            UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.addSubview(coverView)
+            navigationController?.view.addSubview(coverView)
             UIView.animate(withDuration: 0.15) {
                 coverView.alpha = CGFloat(dimmedAlpha)
             }
@@ -603,5 +616,40 @@ extension MantraTableViewController: DetailsViewControllerDelegate {
         } else {
             loadMantras()
         }
+    }
+}
+
+//MARK: - OnboardingController
+
+extension MantraTableViewController {
+    
+    private func setupBlurEffectView() {
+        navigationController?.view.addSubview(blurEffectView)
+        blurEffectView.frame = UIScreen.main.bounds
+        blurEffectView.alpha = 0
+    }
+    
+    private func animateBlurEffectViewIn() {
+        UIView.animate(withDuration: 0.5) {
+            self.blurEffectView.alpha =  1
+        }
+    }
+    
+    private func animateBlurEffectViewOut() {
+        UIView.animate(withDuration: 0.8) {
+            self.blurEffectView.alpha = 0
+        } completion: { (_) in
+            self.blurEffectView.removeFromSuperview()
+        }
+    }
+}
+
+//MARK: - OnboardingController Delegate
+
+extension MantraTableViewController: OnboardingControllerDelegate {
+    
+    func dismissButtonPressed() {
+        animateBlurEffectViewOut()
+        defaults.set(true, forKey: "wasShownOnboardingAlert")
     }
 }

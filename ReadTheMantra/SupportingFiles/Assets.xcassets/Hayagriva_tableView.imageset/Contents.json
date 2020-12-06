@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "Hayagriva_tableView.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Hayagriva_tableView.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

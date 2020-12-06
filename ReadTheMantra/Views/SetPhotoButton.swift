@@ -15,8 +15,8 @@ final class SetPhotoButton: UIButton {
     private let activityIndicatorView = UIActivityIndicatorView(style: .large)
     private var editLabel = UILabel()
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
         
         setupActivityIndicatorView()
         setupEditLabel()
@@ -55,7 +55,12 @@ final class SetPhotoButton: UIButton {
     }
     
     public func setProcessMode() {
+        isUserInteractionEnabled = true
         activityIndicatorView.startAnimating()
+        UIView.animate(withDuration: 0.2) {
+            self.alpha = 0.7
+            self.editLabel.alpha = 1
+        }
     }
     
     public func setViewMode() {

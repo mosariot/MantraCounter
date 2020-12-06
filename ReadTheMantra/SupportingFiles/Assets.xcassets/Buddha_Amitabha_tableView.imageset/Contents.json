@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "Buddha_Amitabha_tableView.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Buddha_Amitabha_tableView.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

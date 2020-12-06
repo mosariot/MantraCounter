@@ -34,14 +34,16 @@ class DetailsViewController: UIViewController {
     @IBOutlet private weak var mantraTextLabel: UILabel!
     @IBOutlet private weak var detailsTextLabel: UILabel!
     
-    private var mantraTextPlaceholderLabel : UILabel!
-    private var detailsPlaceholderLabel : UILabel!
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init?(mantra: Mantra, mode: DetailsMode, position: Int, mantraTitles: [String]? = nil, delegate: DetailsViewControllerDelegate? = nil, coder: NSCoder) {
+    init?(mantra: Mantra,
+          mode: DetailsMode,
+          position: Int,
+          mantraTitles: [String]? = nil,
+          delegate: DetailsViewControllerDelegate? = nil,
+          coder: NSCoder) {
         self.mantra = mantra
         self.mode = mode
         self.position = position
@@ -68,7 +70,7 @@ class DetailsViewController: UIViewController {
         mantraTextTextView.delegate = self
         detailsTextView.delegate = self
     }
-       
+    
     private func setupUI() {
         
         titleLabel.text = NSLocalizedString("TITLE", comment: "Mantra title label")
@@ -77,7 +79,6 @@ class DetailsViewController: UIViewController {
         titleTextField.placeholder = NSLocalizedString("Enter mantra title", comment: "Mantra title placeholder")
         titleTextField.font = UIFont.preferredFont(for: .title2, weight: .medium)
         titleTextField.adjustsFontForContentSizeCategory = true
-        
         mantraTextTextView.placeHolderText = NSLocalizedString("Enter mantra text", comment: "Mantra text placeholder")
         detailsTextView.placeHolderText = NSLocalizedString("Enter mantra description", comment: "Mantra description placeholder")
         
