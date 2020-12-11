@@ -18,40 +18,40 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 /* Onboarding Alert Button */
 "UNDERSTAND!" = "ПОНЯТНО!";
 
-/* Back Button of MantraTableViewController */
+/* Back Button of MantraViewController */
 "Mantra List" = "Список мантр";
 
-/* Segment Title on MantraTableViewController */
+/* Segment Title on MantraViewController */
 "All" = "Все";
 
 /* Search Placeholder */
 "Search" = "Поиск";
 
-/* Menu Item on MantraTableViewController */
+/* Menu Item on MantraViewController */
 "New Mantra" = "Новая мантра";
 
-/* Menu Item on MantraTableViewController */
+/* Menu Item on MantraViewController */
 "Preloaded Mantra" = "Из предустановленных";
 
 /* Alert Message for Duplication */
-"It's already in your mantra list. Add another one?" = "Уже есть в Вашем списке. Добавить еше одну?";
+"It's already in your mantra list. Add another one?" = "Уже есть в Вашем списке. Добавить еще одну?";
 
-/* Alert Button on MantraTableViewController */
+/* Alert Button on MantraViewController */
 "Add" = "Добавить";
 
-/* Alert Button on MantraTableViewController */
+/* Alert Button on MantraViewController */
 "Cancel" = "Отмена";
 
-/* Alert Message on MantraTableViewController */
+/* Alert Message on MantraViewController */
 "Are you sure you want to delete this mantra?" =  "Вы уверены, что хотите удалить эту мантру?";
 
-/* Menu Action on MantraTableViewController */
+/* Menu Action on MantraViewController */
 "Favorite" = "В избранное";
 
-/* Menu Action on MantraTableViewController */
+/* Menu Action on MantraViewController */
 "Unfavorite" = "Удалить из избранного";
 
-/* Menu Action on MantraTableViewController */
+/* Menu Action on MantraViewController */
 "Delete" = "Удалить";
 
 /* Button on ReadsCountViewController */
@@ -67,7 +67,7 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 "Cancel" = "Отменить";
 
 /* Current readings count */
-"Current readings count:" = "Текущая начитка:";
+"Current readings:" = "Текущая начитка:";
 
 /* Alert Button on ReadsCountViewController */
 "Done" = "Готово";
@@ -126,7 +126,7 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 /* Mantra title placeholder */
 "Enter mantra title" = "Введите название мантры";
 
-/* Button on MantraTableViewController */
+/* Button on MantraViewController */
 "Add" = "Добавить";
 
 /* Buddha Shakyamuni */

@@ -13,7 +13,7 @@ protocol DetailsViewControllerDelegate: class {
     func updateView()
 }
 
-class DetailsViewController: UIViewController {
+final class DetailsViewController: UIViewController {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -25,6 +25,9 @@ class DetailsViewController: UIViewController {
     private var mantraImageForTableViewData: Data?
     private weak var delegate: DetailsViewControllerDelegate?
     
+    @IBOutlet weak var titleStackView: UIStackView!
+    @IBOutlet weak var mantraTextStackView: UIStackView!
+    @IBOutlet weak var descriptionStackView: UIStackView!
     @IBOutlet private weak var setPhotoButton: SetPhotoButton!
     @IBOutlet private weak var titleTextField: UITextField!
     @IBOutlet private weak var mantraTextTextView: TextViewWithPlaceholder!
@@ -42,7 +45,7 @@ class DetailsViewController: UIViewController {
           mode: DetailsMode,
           position: Int,
           mantraTitles: [String]? = nil,
-          delegate: DetailsViewControllerDelegate? = nil,
+          delegate: DetailsViewControllerDelegate?,
           coder: NSCoder) {
         self.mantra = mantra
         self.mode = mode
@@ -72,6 +75,10 @@ class DetailsViewController: UIViewController {
     }
     
     private func setupUI() {
+        
+        titleStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
+        mantraTextStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
+        descriptionStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
         
         titleLabel.text = NSLocalizedString("TITLE", comment: "Mantra title label")
         mantraTextLabel.text = NSLocalizedString("MANTRA TEXT", comment: "Mantra text label")
@@ -170,7 +177,7 @@ class DetailsViewController: UIViewController {
     }
     
     @objc private func cancelButtonPressed() {
-        context.reset()
+        context.delete(mantra)
         delegate?.updateView()
         dismiss(animated: true, completion: nil)
     }
@@ -346,8 +353,8 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
 extension DetailsViewController: UIAdaptivePresentationControllerDelegate {
     
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        if delegate is MantraTableViewController {
-            context.reset()
+        if delegate is MantraViewController {
+            context.delete(mantra)
         }
         delegate?.updateView()
     }

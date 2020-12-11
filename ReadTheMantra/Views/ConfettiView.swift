@@ -18,7 +18,7 @@ final class ConfettiView: UIView {
         alpha = 0
         UIView.animate(withDuration: 0.6) {
             self.alpha = 1
-        } completion: { (finished) in
+        } completion: { (_) in
             self.stopConfetti()
         }
     }

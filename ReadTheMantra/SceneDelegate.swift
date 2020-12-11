@@ -27,7 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func handleShortcutAction(shortcutItemType: String) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        if let mantraTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.mantraTableViewControllerID) as? MantraTableViewController {
+        if let mantraTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.mantraViewControllerID) as? MantraViewController {
             let navigationController = UINavigationController(rootViewController: mantraTableViewController)
             self.window?.rootViewController = navigationController
             self.window?.makeKeyAndVisible()

@@ -24,7 +24,7 @@ final class AdjustReadsButton: UIButton {
     
     private func setupButtonImage(forSystemName systemName: String) {
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 25, weight: .light, scale: .large)
-        let largeReadings = UIImage(systemName: systemName, withConfiguration: largeConfig)?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        setImage(largeReadings, for: .normal)
+        let buttonImage = UIImage(systemName: systemName, withConfiguration: largeConfig)?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        setImage(buttonImage, for: .normal)
     }
 }

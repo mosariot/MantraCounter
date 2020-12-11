@@ -17,6 +17,7 @@ enum MantraAttributes {
 }
 
 enum InitialMantra {
+    
     static let data: [[MantraAttributes: String]] = [
         [
             .title: NSLocalizedString("Buddha Shakyamuni", comment: "Buddha Shakyamuni"),
@@ -81,4 +82,14 @@ enum InitialMantra {
             .imageForTableView: "Vajrasattva_tableView"
         ]
     ]
+    
+    static func sortedData() -> [[MantraAttributes: String]] {
+        self.data.sorted {
+            guard
+                let mantraTitle0 = $0[.title],
+                let mantraTitle1 = $1[.title]
+            else { return false }
+            return mantraTitle0 < mantraTitle1
+        }
+    }
 }

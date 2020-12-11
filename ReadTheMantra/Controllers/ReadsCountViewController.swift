@@ -8,12 +8,17 @@
 
 import UIKit
 
-class ReadsCountViewController: UIViewController {
+protocol ReadsCountViewControllerDelegate: class {
+    func favoriteActionPerformed()
+}
+
+final class ReadsCountViewController: UIViewController {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     private let mantra: Mantra
     private let positionFavorite: Int32
+    private weak var delegate: ReadsCountViewControllerDelegate?
     
     @IBOutlet private weak var portraitMantraImageView: UIImageView!
     @IBOutlet private weak var landscapeMantraImageView: UIImageView!
@@ -28,9 +33,13 @@ class ReadsCountViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init?(mantra: Mantra, positionFavorite: Int32, coder: NSCoder) {
+    init?(mantra: Mantra,
+          positionFavorite: Int32,
+          delegate: ReadsCountViewControllerDelegate,
+          coder: NSCoder) {
         self.mantra = mantra
         self.positionFavorite = positionFavorite
+        self.delegate = delegate
         
         super.init(coder: coder)
     }
@@ -79,6 +88,7 @@ class ReadsCountViewController: UIViewController {
     @objc private func favoriteButtonPressed() {
         mantra.isFavorite = !mantra.isFavorite
         mantra.positionFavorite = mantra.isFavorite ? positionFavorite : 0
+        delegate?.favoriteActionPerformed()
         saveMantras()
         setupNavButtons()
     }
