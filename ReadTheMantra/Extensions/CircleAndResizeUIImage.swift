@@ -31,7 +31,7 @@ extension UIImage {
         let format = imageRendererFormat
         format.opaque = false
         
-        return UIGraphicsImageRenderer(size: breadthSize, format: format).image {_ in
+        return UIGraphicsImageRenderer(size: breadthSize, format: format).image { _ in
             UIBezierPath(ovalIn: breadthRect).addClip()
             UIImage(cgImage: cgImage, scale: format.scale, orientation: imageOrientation).draw(in: CGRect(origin: .zero, size: breadthSize))
         }

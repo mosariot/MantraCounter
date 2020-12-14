@@ -1,5 +1,5 @@
 //
-//  MantraVewController.swift
+//  MantraViewController.swift
 //  ReadTheMantra
 //
 //  Created by Alex Vorobiev on 09.12.2020.
@@ -35,8 +35,7 @@ class MantraViewController: UICollectionViewController {
     private var currentMantraCount = 0
     private var currentMantraTitles: [String] = []
     private var currentFavoriteMantraCount: Int {
-        let snapshot = dataSource.snapshot()
-        return snapshot.itemIdentifiers.filter({ $0.isFavorite }).count
+        return dataSource.snapshot().itemIdentifiers.filter({ $0.isFavorite }).count
     }
     
     private let segmentedControl = UISegmentedControl(items: [NSLocalizedString("All", comment: "Segment Title on MantraViewController"),
@@ -71,7 +70,7 @@ class MantraViewController: UICollectionViewController {
         super.viewWillAppear(true)
         
         setupSegmentedControl()
-        reloadMantrasAttributes()
+        reloadDataSource()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -82,7 +81,7 @@ class MantraViewController: UICollectionViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        coordinator.animate(alongsideTransition: { [weak self] (context) in
+        coordinator.animate(alongsideTransition: { [weak self] context in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.setupSegmentedControl()
@@ -123,12 +122,12 @@ class MantraViewController: UICollectionViewController {
         navigationItem.leftBarButtonItem = editButtonItem
 
         let newMantraAction = UIAction(title: NSLocalizedString("New Mantra", comment: "Menu Item on MantraViewController"),
-                                       image: UIImage(systemName: "square.and.pencil")) { [weak self] (action) in
+                                       image: UIImage(systemName: "square.and.pencil")) { [weak self] action in
             guard let self = self else { return }
             self.showNewMantraVC()
         }
         let preloadedMantraAction = UIAction(title: NSLocalizedString("Preloaded Mantra", comment: "Menu Item on MantraViewController"),
-                                             image: UIImage(systemName: "books.vertical")) { [weak self] (action) in
+                                             image: UIImage(systemName: "books.vertical")) { [weak self] action in
             guard let self = self else { return }
             self.setPreloadedMantraPickerState()
         }
@@ -151,9 +150,12 @@ class MantraViewController: UICollectionViewController {
         searchController.definesPresentationContext = true
     }
 
-    @objc private func segmentedValueChanged(_ sender: UISegmentedControl) {
+    @objc private func segmentedValueChanged() {
         isInFavoriteMode = !isInFavoriteMode
         loadMantras()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {
+            self.reloadDataSource()
+        }
     }
     
     private func getCurrentMantrasInfo() -> (Int, [String]) {
@@ -217,22 +219,43 @@ class MantraViewController: UICollectionViewController {
             }
             cell.contentConfiguration = content
             
-            let background = UIBackgroundConfiguration.listGroupedCell()
+            var background = UIBackgroundConfiguration.listGroupedCell()
+            background.cornerRadius = 15
             cell.backgroundConfiguration = background
             
-            cell.layer.cornerRadius = 15
-            cell.layer.masksToBounds = true
+            // accessories configuration
+            let favoriteAction = UIAction(image: UIImage(systemName: mantra.isFavorite ? "star.slash" : "star"),
+                                          handler: { [weak self] _ in
+                                            guard let self = self else { return }
+                                            self.handleFavoriteAction(for: mantra)
+                                            if !self.isInFavoriteMode {
+                                                self.reloadDataSource()
+                                            }
+                                          })
+            let favoriteButton = UIButton(primaryAction: favoriteAction)
+            let favoriteAccessoryConfiguration = UICellAccessory.CustomViewConfiguration(customView: favoriteButton,
+                                                                                         placement: .leading(displayed: .whenEditing))
+            let favoriteAccessory = UICellAccessory.customView(configuration: favoriteAccessoryConfiguration)
+            let deleteAccessory = UICellAccessory.delete(displayed: .whenEditing,
+                                                         actionHandler: { [weak self] in
+                                                            guard let self = self else { return }
+                                                            self.showDeleteConfirmationAlert(for: mantra)
+                                                         })
+            let disclosureIndicatorAccessory = UICellAccessory.disclosureIndicator()
+            let reorderAccessory = UICellAccessory.reorder(displayed: .whenEditing)
+            let badge = UIImage(systemName: "checkmark.circle.fill",
+                                withConfiguration: UIImage.SymbolConfiguration(weight: .medium))?
+                .withTintColor(.systemGreen, renderingMode: .alwaysOriginal)
+            let badgeConfiguration = UICellAccessory.CustomViewConfiguration(customView: UIImageView(image: badge),
+                                                                             placement: .trailing(displayed: .always),
+                                                                             isHidden: mantra.readsGoal > mantra.reads)
+            let badgeAccessory = UICellAccessory.customView(configuration: badgeConfiguration)
             
-            cell.accessories = [.disclosureIndicator(),
-                                .delete(displayed: .whenEditing, actionHandler: { [weak self] in
-                                    guard let self = self else { return }
-                                    if self.isInFavoriteMode {
-                                        self.handleFavoriteAction(for: mantra)
-                                    } else {
-                                        self.showDeleteConfirmationAlert(for: mantra)
-                                    }
-                                }),
-                                .reorder(displayed: .whenEditing)]
+            let accessories = self.isInFavoriteMode ?
+                [favoriteAccessory, disclosureIndicatorAccessory, badgeAccessory, reorderAccessory] :
+                [deleteAccessory, favoriteAccessory, disclosureIndicatorAccessory, badgeAccessory, reorderAccessory]
+            
+            cell.accessories = accessories
         }
         
         let dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, mantra) -> UICollectionViewCell? in
@@ -262,17 +285,17 @@ class MantraViewController: UICollectionViewController {
         return dataSource
     }
     
-    private func applyNewSnapshot(animatingDifferences: Bool = true) {
+    private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
-        snapshot.appendItems(fetchedResultsController?.fetchedObjects ?? [])
+        snapshot.appendItems(fetchedResultsController?.fetchedObjects ?? [], toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
-    private func reloadMantrasAttributes() {
+    private func reloadDataSource(animatingDifferences: Bool = true) {
         var snapshot = dataSource.snapshot()
         snapshot.reloadItems(snapshot.itemIdentifiers)
-        dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
     //MARK: - UICollectionView Layout
@@ -281,12 +304,11 @@ class MantraViewController: UICollectionViewController {
         
         let layout = UICollectionViewCompositionalLayout { (_, layoutEnvironment) -> NSCollectionLayoutSection? in
             
-            let spacing: CGFloat = 10
-            
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
+            let spacing: CGFloat = 10
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                    heightDimension: .absolute(65))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
@@ -294,9 +316,14 @@ class MantraViewController: UICollectionViewController {
                                                            count: layoutEnvironment.container.effectiveContentSize.width >= 1024 ? 2 : 1)
             group.interItemSpacing = .fixed(spacing)
             
+            let sideSpacing: CGFloat = layoutEnvironment.container.effectiveContentSize.width > 375 ? 10 : 5
             let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = .init(top: spacing, leading: spacing, bottom: spacing, trailing: spacing)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0,
+                                                            leading: sideSpacing,
+                                                            bottom: 0,
+                                                            trailing: sideSpacing)
             section.interGroupSpacing = spacing
+            
             return section
         }
         collectionView.collectionViewLayout = layout
@@ -350,7 +377,7 @@ class MantraViewController: UICollectionViewController {
                                       message: NSLocalizedString("Are you sure you want to delete this mantra?", comment: "Alert Message on MantraViewController"),
                                       preferredStyle: .alert)
         let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: "Alert Button on MantraViewController"),
-                                         style: .destructive) { [weak self] (action) in
+                                         style: .destructive) { [weak self] action in
             guard let self = self else { return }
             self.handleDeleteMantra(mantra)
         }
@@ -366,7 +393,7 @@ class MantraViewController: UICollectionViewController {
         
         var snapshot = dataSource.snapshot()
         snapshot.deleteItems([mantra])
-        applyNewSnapshot()
+        applySnapshot()
         
         reorderMantraPositions(withSnapshot: snapshot)
         reorderFavoriteMantraPositions(withSnapshot: snapshot)
@@ -389,7 +416,7 @@ class MantraViewController: UICollectionViewController {
         
         saveMantras()
         if isInFavoriteMode {
-            applyNewSnapshot()
+            applySnapshot()
         }
     }
     
@@ -455,8 +482,14 @@ class MantraViewController: UICollectionViewController {
         toolBar.barStyle = .default
         toolBar.isTranslucent = true
         toolBar.sizeToFit()
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePreloadedMantraButtonPressed))
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelPreloadedMantraButtonPressed))
+        let doneButton = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.donePreloadedMantraButtonPressed()
+        }))
+        let cancelButton = UIBarButtonItem(systemItem: .cancel, primaryAction: UIAction(handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.cancelPreloadedMantraButtonPressed()
+        }))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
@@ -469,11 +502,11 @@ class MantraViewController: UICollectionViewController {
         mantraPickerTextField.becomeFirstResponder()
     }
     
-    @objc private func cancelPreloadedMantraButtonPressed() {
+    private func cancelPreloadedMantraButtonPressed() {
         dismissPreloadedMantraPickerState()
     }
     
-    @objc private func donePreloadedMantraButtonPressed() {
+    private func donePreloadedMantraButtonPressed() {
         (currentMantraCount, currentMantraTitles) = getCurrentMantrasInfo()
         mantraPickerTextField.resignFirstResponder()
         if isMantraDuplicating() {
@@ -499,12 +532,12 @@ class MantraViewController: UICollectionViewController {
                                       message: NSLocalizedString("It's already in your mantra list. Add another one?", comment: "Alert Message for Duplication"),
                                       preferredStyle: .alert)
         let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraViewController"),
-                                      style: .default) { [weak self] (action) in
+                                      style: .default) { [weak self] action in
             guard let self = self else { return }
             self.handleAddPreloadedMantra()
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraViewController"),
-                                         style: .default) { [weak self] (action) in
+                                         style: .default) { [weak self] action in
             guard let self = self else { return }
             self.dismissPreloadedMantraPickerState()
         }
@@ -516,7 +549,7 @@ class MantraViewController: UICollectionViewController {
     private func handleAddPreloadedMantra() {
         addPreloadedMantra()
         saveMantras()
-        applyNewSnapshot()
+        applySnapshot()
         dismissPreloadedMantraPickerState()
 
         if !isInFavoriteMode {
@@ -537,8 +570,6 @@ class MantraViewController: UICollectionViewController {
         mantra.details = preloadedMantra[.details]
         mantra.image = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?.pngData()
         mantra.imageForTableView = UIImage(named: preloadedMantra[.imageForTableView] ?? Constants.defaultImage_tableView)?.pngData()
-        currentMantraCount += 1
-        currentMantraTitles.append(mantra.title ?? "")
     }
     
     private func dismissPreloadedMantraPickerState() {
@@ -580,7 +611,7 @@ extension MantraViewController {
         
         do {
             try fetchedResultsController?.performFetch()
-            applyNewSnapshot(animatingDifferences: animatingDifferences)
+            applySnapshot(animatingDifferences: animatingDifferences)
         } catch {
             print("Error fetching data \(error)")
         }
@@ -600,7 +631,7 @@ extension MantraViewController {
 extension MantraViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        applyNewSnapshot()
+        applySnapshot()
     }
 }
 
@@ -678,7 +709,7 @@ extension MantraViewController {
     private func animateBlurEffectViewOut() {
         UIView.animate(withDuration: 0.8) {
             self.blurEffectView.alpha = 0
-        } completion: { (_) in
+        } completion: { _ in
             self.blurEffectView.removeFromSuperview()
         }
     }

@@ -58,20 +58,24 @@ final class ReadsCountViewController: UIViewController {
     }
     
     private func setupNavButtons() {
-        let infoButton = UIButton(type: .infoLight)
-        infoButton.addTarget(self, action: #selector(infoButtonPressed), for: .touchUpInside)
+        let infoButton = UIButton(type: .infoLight,
+                                  primaryAction: UIAction(handler: { [weak self] _ in
+                                    guard let self = self else { return }
+                                    self.infoButtonPressed()
+                                  }))
         let infoButtonItem = UIBarButtonItem(customView: infoButton)
         
         let star = mantra.isFavorite ? "star.fill" : "star"
         let favoriteButtonItem = UIBarButtonItem(image: UIImage(systemName: star),
-                                                 style: .plain,
-                                                 target: self,
-                                                 action: #selector(favoriteButtonPressed))
-        
+                                                 primaryAction: UIAction(handler: { [weak self] _ in
+                                                    guard let self = self else { return }
+                                                    self.favoriteButtonPressed()
+                                                 }))
+        favoriteButtonItem.style = .plain
         navigationItem.rightBarButtonItems = [infoButtonItem, favoriteButtonItem]
     }
     
-    @objc private func infoButtonPressed() {
+    private func infoButtonPressed() {
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
                 creator: { [weak self] coder in
@@ -85,7 +89,7 @@ final class ReadsCountViewController: UIViewController {
         present(navigationController, animated: true)
     }
     
-    @objc private func favoriteButtonPressed() {
+    private func favoriteButtonPressed() {
         mantra.isFavorite = !mantra.isFavorite
         mantra.positionFavorite = mantra.isFavorite ? positionFavorite : 0
         delegate?.favoriteActionPerformed()
@@ -147,15 +151,15 @@ final class ReadsCountViewController: UIViewController {
         let (alertTitle, actionTitle) = alertAndActionTitles(for: updatingType)
         
         let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
-        let positiveAction = UIAlertAction(title: actionTitle, style: .default) { [weak self] (action) in
+        let positiveAction = UIAlertAction(title: actionTitle, style: .default) { [weak self] action in
             guard let self = self else { return }
             self.handleAlertPositiveAction(forValue: value, updatingType: updatingType)
         }
-        alert.addTextField { (alertTextField) in
+        alert.addTextField { alertTextField in
             alertTextField.placeholder = NSLocalizedString("Enter number", comment: "Alert Placehonder on ReadsCountViewController")
             alertTextField.keyboardType = .numberPad
             positiveAction.isEnabled = false
-            NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: alertTextField, queue: .main) { [weak self] (notification) in
+            NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: alertTextField, queue: .main) { [weak self] notification in
                 guard let self = self else { return }
                 if self.isValidUpdatingNumber(text: alertTextField.text, updatingType: updatingType) {
                     positiveAction.isEnabled = true

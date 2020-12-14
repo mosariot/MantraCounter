@@ -8,6 +8,7 @@
 
 import UIKit
 import PhotosUI
+import SafariServices
 
 protocol DetailsViewControllerDelegate: class {
     func updateView()
@@ -92,15 +93,19 @@ final class DetailsViewController: UIViewController {
         let mantraImage = (mantraImageData != nil) ? UIImage(data: mantraImageData!) : UIImage(named: Constants.defaultImage)
         setPhotoButton.setImage(mantraImage, for: .normal)
         setPhotoButton.showsMenuAsPrimaryAction = true
-        let photoLibrary = UIAction(title: NSLocalizedString("Photo Library", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo.on.rectangle.angled")) { [weak self] (action) in
+        let photoLibraryAction = UIAction(title: NSLocalizedString("Photo Library", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo.on.rectangle.angled")) { [weak self] action in
             guard let self = self else { return }
             self.showImagePicker()
         }
-        let standardImage = UIAction(title: NSLocalizedString("Standard Image", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo")) { [weak self] (action) in
+        let standardImageAction = UIAction(title: NSLocalizedString("Standard Image", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo")) { [weak self] action in
             guard let self = self else { return }
             self.setDefaultImage()
         }
-        let photoMenu = UIMenu(children: [photoLibrary, standardImage])
+        let searchAction = UIAction(title: NSLocalizedString("Search on the Internet", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "globe")) { [weak self] action in
+            guard let self = self else { return }
+            self.searchOnTheInternet()
+        }
+        let photoMenu = UIMenu(children: [photoLibraryAction, standardImageAction, searchAction])
         setPhotoButton.menu = photoMenu
         
         titleTextField.text = mantra.title
@@ -121,11 +126,17 @@ final class DetailsViewController: UIViewController {
         mode = .add
         navigationItem.title = NSLocalizedString("New Mantra", comment: "Add new mantra bar title")
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: "Button on MantraTableViewController"),
-                                                            style: .done,
-                                                            target: self,
-                                                            action: #selector(addButtonPressed))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonPressed))
-        navigationItem.rightBarButtonItem?.isEnabled = false
+                                                            primaryAction: UIAction(handler: { [weak self] _ in
+                                                                guard let self = self else { return }
+                                                                self.addButtonPressed()
+                                                            }))
+        navigationItem.rightBarButtonItem?.style = .done
+        navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .cancel,
+                                                           primaryAction: UIAction(handler: { [weak self] _ in
+                                                            guard let self = self else { return }
+                                                            self.cancelButtonPressed()
+                                                           }))
+        navigationItem.rightBarButtonItem?.isEnabled = (titleTextField.text != "")
         setPhotoButton.setEditMode()
         titleTextField.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
@@ -138,8 +149,16 @@ final class DetailsViewController: UIViewController {
     private func setEditMode() {
         mode = .edit
         navigationItem.title = NSLocalizedString("Information", comment: "Information bar title")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPressed))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .done,
+                                                           primaryAction: UIAction(handler: { [weak self] _ in
+                                                            guard let self = self else { return }
+                                                            self.doneButtonPressed()
+                                                           }))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .close,
+                                                           primaryAction: UIAction(handler: { [weak self] _ in
+                                                            guard let self = self else { return }
+                                                            self.closeButtonPressed()
+                                                           }))
         setPhotoButton.setEditMode()
         titleTextField.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
@@ -152,8 +171,16 @@ final class DetailsViewController: UIViewController {
     private func setViewMode() {
         mode = .view
         navigationItem.title = NSLocalizedString("Information", comment: "Information bar title")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPressed))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .edit,
+                                                           primaryAction: UIAction(handler: { [weak self] _ in
+                                                            guard let self = self else { return }
+                                                            self.editButtonPressed()
+                                                           }))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .close,
+                                                           primaryAction: UIAction(handler: { [weak self] _ in
+                                                            guard let self = self else { return }
+                                                            self.closeButtonPressed()
+                                                           }))
         setPhotoButton.setViewMode()
         titleTextField.isUserInteractionEnabled = false
         mantraTextTextView.isEditable = false
@@ -167,7 +194,7 @@ final class DetailsViewController: UIViewController {
     
     //MARK: - Navigation Bar Buttons Methods
     
-    @objc private func addButtonPressed() {
+    private func addButtonPressed() {
         guard let title = titleTextField.text else { return }
         if isMantraDuplicating(for: title) {
             showDuplicatingAlert(for: title)
@@ -176,17 +203,17 @@ final class DetailsViewController: UIViewController {
         }
     }
     
-    @objc private func cancelButtonPressed() {
+    private func cancelButtonPressed() {
         context.delete(mantra)
         delegate?.updateView()
         dismiss(animated: true, completion: nil)
     }
     
-    @objc private func editButtonPressed() {
+    private func editButtonPressed() {
         setEditMode()
     }
     
-    @objc private func doneButtonPressed() {
+    private func doneButtonPressed() {
         guard let title = titleTextField.text else { return }
         processMantra(title: title)
         saveMantras()
@@ -194,7 +221,7 @@ final class DetailsViewController: UIViewController {
         setViewMode()
     }
     
-    @objc private func closeButtonPressed() {
+    private func closeButtonPressed() {
         delegate?.updateView()
         dismiss(animated: true, completion: nil)
     }
@@ -209,7 +236,7 @@ final class DetailsViewController: UIViewController {
                                       message: NSLocalizedString("It's already in your mantra list. Add another one?", comment: "Alert Message for Duplication"),
                                       preferredStyle: .alert)
         let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraTableViewController"),
-                                      style: .default) { [weak self] (action) in
+                                      style: .default) { [weak self] action in
             guard let self = self else { return }
             self.handleAddNewMantra(for: title)
         }
@@ -251,6 +278,15 @@ final class DetailsViewController: UIViewController {
         setPhotoButton.setImage(UIImage(named: Constants.defaultImage), for: .normal)
         mantraImageData = nil
         mantraImageForTableViewData = nil
+    }
+    
+    private func searchOnTheInternet() {
+        guard let search = titleTextField.text else { return }
+        guard let urlString = "https://www.google.com/search?q=\(search)&tbm=isch"
+                .addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed) else { return }
+        guard let url = URL(string: urlString) else { return }
+        let vc = SFSafariViewController(url: url)
+        present(vc, animated: true)
     }
     
     //MARK: - Model Manipulation
@@ -339,7 +375,7 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
                                       message: NSLocalizedString("It seems like this photo is unavailable. Try to pick another one",
                                                                  comment: "Alert Message for unavailable photo"),
                                       preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] (action) in
+        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] action in
             guard let self = self else { return }
             self.showImagePicker()
         }

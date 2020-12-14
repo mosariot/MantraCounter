@@ -18,7 +18,7 @@ final class ConfettiView: UIView {
         alpha = 0
         UIView.animate(withDuration: 0.6) {
             self.alpha = 1
-        } completion: { (_) in
+        } completion: { _ in
             self.stopConfetti()
         }
     }
@@ -69,7 +69,7 @@ final class ConfettiView: UIView {
         var currentTime: Float = 0
         let currentBirthRate = confettiEmitter.birthRate
         let stopTime: Float = 1.2
-        let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] (timer) in
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
             guard let self = self else { return }
             if currentTime >= stopTime + 0.1 {
                 timer.invalidate()

@@ -66,7 +66,7 @@ final class CircularProgressView: UIView {
         
         var currentTime: Double = 0
         let currentReadsGoal = goal
-        let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] (timer) in
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] timer in
             guard let self = self else { return }
             if currentTime >= Constants.progressAnimationDuration + 0.01 {
                 timer.invalidate()
@@ -128,7 +128,7 @@ final class CircularProgressView: UIView {
         currentValue = newValue
         
         var currentTime: Double = 0
-        let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] (timer) in
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] timer in
             guard let self = self else { return }
             if currentTime >= Constants.progressAnimationDuration + 0.01 {
                 timer.invalidate()
