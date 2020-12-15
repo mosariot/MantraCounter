@@ -32,9 +32,10 @@ class MantraViewController: UICollectionViewController {
         set { defaults.set(newValue, forKey: "wasShownOnboardingAlert") }
     }
 
+    private var overallMantraCount = 0
     private var currentMantraCount = 0
-    private var currentMantraTitles: [String] = []
-    private var currentFavoriteMantraCount: Int {
+    private var overallMantraTitles: [String] = []
+    private var overallFavoriteMantraCount: Int {
         return dataSource.snapshot().itemIdentifiers.filter({ $0.isFavorite }).count
     }
     
@@ -244,7 +245,7 @@ class MantraViewController: UICollectionViewController {
             let disclosureIndicatorAccessory = UICellAccessory.disclosureIndicator()
             let reorderAccessory = UICellAccessory.reorder(displayed: .whenEditing)
             let badge = UIImage(systemName: "checkmark.circle.fill",
-                                withConfiguration: UIImage.SymbolConfiguration(weight: .medium))?
+                                withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))?
                 .withTintColor(.systemGreen, renderingMode: .alwaysOriginal)
             let badgeConfiguration = UICellAccessory.CustomViewConfiguration(customView: UIImageView(image: badge),
                                                                              placement: .trailing(displayed: .always),
@@ -338,7 +339,7 @@ class MantraViewController: UICollectionViewController {
                     creator: { [weak self] coder in
                         guard let self = self else { fatalError() }
                         return ReadsCountViewController(mantra: mantra,
-                                                        positionFavorite: Int32(self.currentFavoriteMantraCount),
+                                                        positionFavorite: Int32(self.overallFavoriteMantraCount),
                                                         delegate: self,
                                                         coder: coder)
                     }) else { return }
@@ -400,14 +401,14 @@ class MantraViewController: UICollectionViewController {
         
         saveMantras()
         
-        currentMantraCount = snapshot.itemIdentifiers.count
-        currentMantraTitles = snapshot.itemIdentifiers.compactMap({ $0.title })
+        overallMantraCount = snapshot.itemIdentifiers.count
+        overallMantraTitles = snapshot.itemIdentifiers.compactMap({ $0.title })
     }
     
     private func handleFavoriteAction(for mantra: Mantra) {
         mantra.isFavorite = !mantra.isFavorite
         if mantra.isFavorite {
-            mantra.positionFavorite = Int32(currentFavoriteMantraCount)
+            mantra.positionFavorite = Int32(overallFavoriteMantraCount)
         } else {
             mantra.positionFavorite = 0
         }
@@ -435,7 +436,8 @@ class MantraViewController: UICollectionViewController {
     //MARK: - Add New Mantra Stack
     
     private func showNewMantraVC() {
-        (currentMantraCount, currentMantraTitles) = getCurrentMantrasInfo()
+        (overallMantraCount, overallMantraTitles) = getCurrentMantrasInfo()
+        currentMantraCount = overallMantraCount
         let mantra = Mantra(context: context)
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
@@ -443,8 +445,8 @@ class MantraViewController: UICollectionViewController {
                     guard let self = self else { fatalError() }
                     return DetailsViewController(mantra: mantra,
                                                  mode: .add,
-                                                 position: self.currentMantraCount,
-                                                 mantraTitles: self.currentMantraTitles,
+                                                 position: self.overallMantraCount,
+                                                 mantraTitles: self.overallMantraTitles,
                                                  delegate: self, coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
@@ -507,7 +509,7 @@ class MantraViewController: UICollectionViewController {
     }
     
     private func donePreloadedMantraButtonPressed() {
-        (currentMantraCount, currentMantraTitles) = getCurrentMantrasInfo()
+        (overallMantraCount, overallMantraTitles) = getCurrentMantrasInfo()
         mantraPickerTextField.resignFirstResponder()
         if isMantraDuplicating() {
             dismissPreloadedMantraPickerState()
@@ -521,7 +523,7 @@ class MantraViewController: UICollectionViewController {
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
         guard let title = sortedInitialMantraData[selectedMantraNumber][.title] else { return false }
         var isDuplicating = false
-        if currentMantraTitles.contains(title) {
+        if overallMantraTitles.contains(title) {
             isDuplicating = true
         }
         return isDuplicating
@@ -564,7 +566,7 @@ class MantraViewController: UICollectionViewController {
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
         let mantra = Mantra(context: context)
         let preloadedMantra = sortedInitialMantraData[selectedMantraNumber]
-        mantra.position = Int32(currentMantraCount)
+        mantra.position = Int32(overallMantraCount)
         mantra.title = preloadedMantra[.title]
         mantra.text = preloadedMantra[.text]
         mantra.details = preloadedMantra[.details]
@@ -687,6 +689,13 @@ extension MantraViewController: DetailsViewControllerDelegate {
     
     func updateView() {
         loadMantras()
+        (overallMantraCount, _) = getCurrentMantrasInfo()
+        if !isInFavoriteMode && currentMantraCount < overallMantraCount {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {
+                let indexPath = IndexPath(row: self.dataSource.snapshot().numberOfItems-1, section: 0)
+                self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+            }
+        }
     }
 }
 
