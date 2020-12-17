@@ -16,6 +16,8 @@ protocol DetailsViewControllerDelegate: class {
 
 final class DetailsViewController: UIViewController {
     
+    //MARK: - Properties
+    
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     private var mantra: Mantra
@@ -25,6 +27,8 @@ final class DetailsViewController: UIViewController {
     private var mantraImageData: Data?
     private var mantraImageForTableViewData: Data?
     private weak var delegate: DetailsViewControllerDelegate?
+    
+    //MARK: - IBOutlets
     
     @IBOutlet weak var titleStackView: UIStackView!
     @IBOutlet weak var mantraTextStackView: UIStackView!
@@ -42,6 +46,8 @@ final class DetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Init
+    
     init?(mantra: Mantra,
           mode: DetailsMode,
           position: Int,
@@ -56,6 +62,8 @@ final class DetailsViewController: UIViewController {
         
         super.init(coder: coder)
     }
+    
+    //MARK: - viewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -150,10 +158,10 @@ final class DetailsViewController: UIViewController {
         mode = .edit
         navigationItem.title = NSLocalizedString("Information", comment: "Information bar title")
         navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .done,
-                                                           primaryAction: UIAction(handler: { [weak self] _ in
-                                                            guard let self = self else { return }
-                                                            self.doneButtonPressed()
-                                                           }))
+                                                            primaryAction: UIAction(handler: { [weak self] _ in
+                                                                guard let self = self else { return }
+                                                                self.doneButtonPressed()
+                                                            }))
         navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .close,
                                                            primaryAction: UIAction(handler: { [weak self] _ in
                                                             guard let self = self else { return }
@@ -172,10 +180,10 @@ final class DetailsViewController: UIViewController {
         mode = .view
         navigationItem.title = NSLocalizedString("Information", comment: "Information bar title")
         navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .edit,
-                                                           primaryAction: UIAction(handler: { [weak self] _ in
-                                                            guard let self = self else { return }
-                                                            self.editButtonPressed()
-                                                           }))
+                                                            primaryAction: UIAction(handler: { [weak self] _ in
+                                                                guard let self = self else { return }
+                                                                self.editButtonPressed()
+                                                            }))
         navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .close,
                                                            primaryAction: UIAction(handler: { [weak self] _ in
                                                             guard let self = self else { return }
@@ -191,8 +199,11 @@ final class DetailsViewController: UIViewController {
         mantraTextTextView.placeHolder.isHidden = true
         detailsTextView.placeHolder.isHidden = true
     }
-    
-    //MARK: - Navigation Bar Buttons Methods
+}
+
+//MARK: - Navigation Bar Buttons Methods
+
+extension DetailsViewController {
     
     private func addButtonPressed() {
         guard let title = titleTextField.text else { return }
@@ -263,8 +274,11 @@ final class DetailsViewController: UIViewController {
         mantra.image = mantraImageData ?? nil
         mantra.imageForTableView = mantraImageForTableViewData ?? nil
     }
-    
-    //MARK: - SetPhoto Action
+}
+
+//MARK: - SetPhoto Action
+
+extension DetailsViewController {
     
     private func showImagePicker() {
         var configuration = PHPickerConfiguration()
@@ -288,8 +302,11 @@ final class DetailsViewController: UIViewController {
         let vc = SFSafariViewController(url: url)
         present(vc, animated: true)
     }
-    
-    //MARK: - Model Manipulation
+}
+
+//MARK: - Model Manipulation
+
+extension DetailsViewController {
     
     private func saveMantras() {
         do {
@@ -298,8 +315,11 @@ final class DetailsViewController: UIViewController {
             print("Error saving context, \(error)")
         }
     }
-    
-    //MARK: - Process Image
+}
+
+//MARK: - Process Image
+
+extension DetailsViewController {
     
     private func processImage(image: UIImage) -> UIImage? {
         

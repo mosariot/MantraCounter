@@ -14,11 +14,15 @@ protocol ReadsCountViewControllerDelegate: class {
 
 final class ReadsCountViewController: UIViewController {
     
+    //MARK: - Properties
+    
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     private let mantra: Mantra
     private let positionFavorite: Int32
     private weak var delegate: ReadsCountViewControllerDelegate?
+    
+    //MARK: - IBOutlets
     
     @IBOutlet private weak var portraitMantraImageView: UIImageView!
     @IBOutlet private weak var landscapeMantraImageView: UIImageView!
@@ -28,6 +32,8 @@ final class ReadsCountViewController: UIViewController {
     @IBOutlet private weak var setProperValueButton: AdjustReadsButton!
     @IBOutlet private weak var circularProgressView: CircularProgressView!
     @IBOutlet private weak var readsGoalButton: UIButton!
+    
+    //MARK: - Init
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -43,6 +49,8 @@ final class ReadsCountViewController: UIViewController {
         
         super.init(coder: coder)
     }
+    
+    //MARK: - viewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,7 +108,6 @@ final class ReadsCountViewController: UIViewController {
     //MARK: - Setup UI
     
     private func setupUI() {
-        
         portraitMantraImageView.image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
         landscapeMantraImageView.image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
         titleLabel.text = mantra.title
@@ -280,8 +287,11 @@ final class ReadsCountViewController: UIViewController {
             return NSLocalizedString("Congratulations! You've reached your goal!", comment: "Alert Title on ReadsCountViewController")
         }
     }
-    
-    //MARK: - Model Manipulation
+}
+
+//MARK: - Model Manipulation
+
+extension ReadsCountViewController {
     
     private func saveMantras() {
         do {

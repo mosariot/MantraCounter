@@ -9,7 +9,9 @@
 import UIKit
 import CoreData
 
-class MantraViewController: UICollectionViewController {
+final class MantraViewController: UICollectionViewController {
+    
+    //MARK: - Propertioes
     
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Mantra>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Mantra>
@@ -21,7 +23,7 @@ class MantraViewController: UICollectionViewController {
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     private var fetchedResultsController: NSFetchedResultsController<Mantra>?
-
+    
     private let defaults = UserDefaults.standard
     private var isInFavoriteMode: Bool {
         get { defaults.bool(forKey: "isInFavoriteMode") }
@@ -31,19 +33,19 @@ class MantraViewController: UICollectionViewController {
         get { defaults.bool(forKey: "wasShownOnboardingAlert") }
         set { defaults.set(newValue, forKey: "wasShownOnboardingAlert") }
     }
-
+    
     private var overallMantraCount = 0
     private var currentMantraCount = 0
     private var overallMantraTitles: [String] = []
     private var overallFavoriteMantraCount: Int {
-        return dataSource.snapshot().itemIdentifiers.filter({ $0.isFavorite }).count
+        dataSource.snapshot().itemIdentifiers.filter({ $0.isFavorite }).count
     }
     
     private let segmentedControl = UISegmentedControl(items: [NSLocalizedString("All", comment: "Segment Title on MantraViewController"),
                                                               UIImage(systemName: "star") ?? ""])
-
+    
     private let searchController = UISearchController(searchResultsController: nil)
-
+    
     private lazy var mantraPicker = UIPickerView()
     private lazy var mantraPickerTextField = UITextField(frame: .zero)
     private var coverView: UIView?
@@ -55,15 +57,14 @@ class MantraViewController: UICollectionViewController {
         return blurEffectView
     }()
     
+    //MARK: - ViewController Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupNavigationBar()
         setupSearchController()
-        
-        createLayout()
-        collectionView.backgroundColor = .systemGroupedBackground
-                
+        setupCollectionView()
         loadMantras(animatingDifferences: false)
     }
     
@@ -105,23 +106,26 @@ class MantraViewController: UICollectionViewController {
             if let onboardingViewController = storyboard?.instantiateViewController(identifier: Constants.onboardingViewController) as? OnboardingViewController {
                 onboardingViewController.delegate = self
                 onboardingViewController.modalTransitionStyle = .crossDissolve
+                if traitCollection.userInterfaceIdiom == .phone {
+                    onboardingViewController.modalPresentationStyle = .fullScreen
+                }
                 present(onboardingViewController, animated: true)
             }
         }
     }
-
-    //MARK: - ViewDidLoad Setup
+    
+    //MARK: - viewDidLoad Setup
     
     private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.prefersLargeTitles = true
-
+        
         navigationItem.titleView = segmentedControl
-
+        
         navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
         navigationItem.searchController = searchController
         navigationItem.leftBarButtonItem = editButtonItem
-
+        
         let newMantraAction = UIAction(title: NSLocalizedString("New Mantra", comment: "Menu Item on MantraViewController"),
                                        image: UIImage(systemName: "square.and.pencil")) { [weak self] action in
             guard let self = self else { return }
@@ -135,7 +139,7 @@ class MantraViewController: UICollectionViewController {
         let addingMenu = UIMenu(children: [newMantraAction, preloadedMantraAction])
         navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: nil, menu: addingMenu)
     }
-
+    
     private func setupSegmentedControl() {
         segmentedControl.selectedSegmentIndex = isInFavoriteMode ? 1 : 0
         segmentedControl.addTarget(self, action: #selector(segmentedValueChanged), for: .valueChanged)
@@ -143,14 +147,20 @@ class MantraViewController: UICollectionViewController {
         segmentedControl.setWidth(view.frame.size.width/6, forSegmentAt: 1)
         segmentedControl.sizeToFit()
     }
-
+    
     private func setupSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = NSLocalizedString("Search", comment: "Search Placeholder")
         searchController.definesPresentationContext = true
     }
-
+    
+    private func setupCollectionView() {
+        createLayout()
+        collectionView.backgroundColor = .systemGroupedBackground
+        collectionView.showsVerticalScrollIndicator = false
+    }
+    
     @objc private func segmentedValueChanged() {
         isInFavoriteMode = !isInFavoriteMode
         loadMantras()
@@ -159,7 +169,7 @@ class MantraViewController: UICollectionViewController {
         }
     }
     
-    private func getCurrentMantrasInfo() -> (Int, [String]) {
+    private func getCurrentMantrasInfo() {
         var overallMantraArray: [Mantra] = []
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         do {
@@ -167,9 +177,8 @@ class MantraViewController: UICollectionViewController {
         } catch {
             print("Error fetching data from context \(error)")
         }
-        let currentMantraCount = overallMantraArray.count
-        let currentMantraTitles = overallMantraArray.compactMap({ $0.title })
-        return (currentMantraCount, currentMantraTitles)
+        overallMantraCount = overallMantraArray.count
+        overallMantraTitles = overallMantraArray.compactMap({ $0.title })
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -177,8 +186,11 @@ class MantraViewController: UICollectionViewController {
         
         collectionView.isEditing = editing
     }
-    
-    //MARK: - Home Screen Quick Actions Handling
+}
+
+//MARK: - Home Screen Quick Actions Handling
+
+extension MantraViewController {
     
     func setFavoriteMode() {
         isInFavoriteMode = true
@@ -202,8 +214,11 @@ class MantraViewController: UICollectionViewController {
             }
         }
     }
-    
-    //MARK: - UICollectionView Data Source
+}
+
+//MARK: - UICollectionView Data Source
+
+extension MantraViewController {
     
     private func makeDataSource() -> DataSource {
         
@@ -298,8 +313,11 @@ class MantraViewController: UICollectionViewController {
         snapshot.reloadItems(snapshot.itemIdentifiers)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
-    
-    //MARK: - UICollectionView Layout
+}
+
+//MARK: - UICollectionView Layout
+
+extension MantraViewController {
     
     private func createLayout() {
         
@@ -329,8 +347,11 @@ class MantraViewController: UICollectionViewController {
         }
         collectionView.collectionViewLayout = layout
     }
-    
-    //MARK: - UICollectionView Delegate
+}
+
+//MARK: - UICollectionView Delegate
+
+extension MantraViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let mantra = dataSource.itemIdentifier(for: indexPath) {
@@ -370,8 +391,11 @@ class MantraViewController: UICollectionViewController {
             UIMenu(children: children)
         }
     }
-    
-    //MARK: - Cells Manipulation Methods
+}
+
+//MARK: - Cells Manipulation Methods
+
+extension MantraViewController {
     
     private func showDeleteConfirmationAlert(for mantra: Mantra) {
         let alert = UIAlertController(title: nil,
@@ -432,11 +456,14 @@ class MantraViewController: UICollectionViewController {
             mantra.positionFavorite = Int32(n)
         }
     }
-    
-    //MARK: - Add New Mantra Stack
+}
+
+//MARK: - Add New Mantra Stack
+
+extension MantraViewController {
     
     private func showNewMantraVC() {
-        (overallMantraCount, overallMantraTitles) = getCurrentMantrasInfo()
+        getCurrentMantrasInfo()
         currentMantraCount = overallMantraCount
         let mantra = Mantra(context: context)
         guard let detailsViewController = storyboard?.instantiateViewController(
@@ -509,7 +536,7 @@ class MantraViewController: UICollectionViewController {
     }
     
     private func donePreloadedMantraButtonPressed() {
-        (overallMantraCount, overallMantraTitles) = getCurrentMantrasInfo()
+        getCurrentMantrasInfo()
         mantraPickerTextField.resignFirstResponder()
         if isMantraDuplicating() {
             dismissPreloadedMantraPickerState()
@@ -553,7 +580,7 @@ class MantraViewController: UICollectionViewController {
         saveMantras()
         applySnapshot()
         dismissPreloadedMantraPickerState()
-
+        
         if !isInFavoriteMode {
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
                 let indexPath = IndexPath(row: self.dataSource.snapshot().numberOfItems-1, section: 0)
@@ -583,7 +610,7 @@ class MantraViewController: UICollectionViewController {
 }
 
 //MARK: - Data Manipulation
-    
+
 extension MantraViewController {
     
     private func loadMantras(with request: NSFetchRequest<Mantra> = Mantra.fetchRequest(),
@@ -689,7 +716,7 @@ extension MantraViewController: DetailsViewControllerDelegate {
     
     func updateView() {
         loadMantras()
-        (overallMantraCount, _) = getCurrentMantrasInfo()
+        getCurrentMantrasInfo()
         if !isInFavoriteMode && currentMantraCount < overallMantraCount {
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {
                 let indexPath = IndexPath(row: self.dataSource.snapshot().numberOfItems-1, section: 0)

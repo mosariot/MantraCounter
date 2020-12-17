@@ -28,15 +28,13 @@ final class OnboardingViewController: UIViewController {
     }
     
     private func setupUI() {
-        titleLabel.font = UIFont.preferredFont(for: .title1, weight: .bold)
+        titleLabel.font = UIFont.preferredFont(for: .title1, weight: .heavy)
         dismissButton.titleLabel?.font = UIFont.preferredFont(for: .callout, weight: .bold)
-        dismissButton.layer.cornerRadius = dismissButton.frame.height / 2
+        dismissButton.layer.cornerRadius = dismissButton.frame.height / 4
         titleLabel.text = NSLocalizedString("Welcome to the path of Enlightenment!", comment: "Onboarding Alert Title")
         textLabel.text = NSLocalizedString("""
                                     Recitation of mantras - is a sacrament.
-                                    Approach this issue with all your awareness.
-                                    For this reason, application doesn't include the mantra texts themselves.
-                                    They must be given to you by your spiritual mentor.
+                                    Approach this issue with all your awareness. For this reason, application doesn't include the mantra texts themselves. They must be given to you by your spiritual mentor.
                                     We wish you deep awarenesses and spiritual growth!
                                     """, comment: "Onboarding Alert Message")
         dismissButton.setTitle(NSLocalizedString("UNDERSTAND!", comment: "Onboarding Alert Button"), for: .normal)
