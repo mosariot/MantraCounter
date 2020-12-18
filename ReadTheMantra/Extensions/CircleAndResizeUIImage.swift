@@ -36,6 +36,9 @@ extension UIImage {
             UIImage(cgImage: cgImage, scale: format.scale, orientation: imageOrientation).draw(in: CGRect(origin: .zero, size: breadthSize))
         }
     }
+}
+
+extension UIImage {
     
     func resize(to targetSize: CGSize) -> UIImage {
         let widthRatio = targetSize.width / size.width

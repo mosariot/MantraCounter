@@ -73,7 +73,7 @@ final class DetailsViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         
         mantraImageData = mantra.image ?? nil
-        mantraImageForTableViewData = mantra.image ?? nil
+        mantraImageForTableViewData = mantra.imageForTableView ?? nil
         
         setupUI()
         
@@ -324,8 +324,8 @@ extension DetailsViewController {
     private func processImage(image: UIImage) -> UIImage? {
         
         let circledImage = image.cropToCircle()
-        let resizedCircledImage = circledImage?.resize(to: CGSize(width: 320, height: 320))
-        let resizedCircledImageForTableView = circledImage?.resize(to: CGSize(width: 160, height: 160))
+        let resizedCircledImage = circledImage?.resize(to: CGSize(width: 400, height: 400))
+        let resizedCircledImageForTableView = circledImage?.resize(to: CGSize(width: Constants.rowHeight*3, height: Constants.rowHeight*3))
         
         if let imageData = resizedCircledImage?.pngData() {
             mantraImageData = imageData

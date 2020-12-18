@@ -13,8 +13,8 @@ enum Constants {
     static let readsCountViewControllerID = "ReadsCountViewController"
     static let detailsViewControllerID = "DetailsViewController"
     static let onboardingViewController = "OnboardingViewController"
-    static let defaultImage_tableView = "DefaultImage_tableView"
     static let defaultImage = "DefaultImage"
+    static let rowHeight = 65
     static let initialReadsGoal = 100_000
     static let progressAnimationDuration = 1.0
 }

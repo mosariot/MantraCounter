@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  ReadTheMantra
 //
-//  Created by Александр Воробьев on 14.08.2020.
-//  Copyright © 2020 Александр Воробьев. All rights reserved.
+//  Created by Alex Vorobiev on 14.08.2020.
+//  Copyright © 2020 Alex Vorobiev. All rights reserved.
 //
 
 import UIKit
@@ -51,10 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 case .image:
                     if let image = UIImage(named: value) {
                         mantra.image = image.pngData()
-                    }
-                case .imageForTableView:
-                    if let image = UIImage(named: value) {
-                        mantra.imageForTableView = image.pngData()
+                        mantra.imageForTableView = image.resize(to: CGSize(width: Constants.rowHeight*3, height: Constants.rowHeight*3)).pngData()
                     }
                 }
             }

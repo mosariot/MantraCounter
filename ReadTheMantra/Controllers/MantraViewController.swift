@@ -11,12 +11,12 @@ import CoreData
 
 final class MantraViewController: UICollectionViewController {
     
-    //MARK: - Propertioes
+    //MARK: - Properties
     
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Mantra>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Mantra>
     private lazy var dataSource = makeDataSource()
-    private enum Section {
+    private enum Section: CaseIterable {
         case main
     }
     
@@ -105,9 +105,10 @@ final class MantraViewController: UICollectionViewController {
             animateBlurEffectViewIn()
             if let onboardingViewController = storyboard?.instantiateViewController(identifier: Constants.onboardingViewController) as? OnboardingViewController {
                 onboardingViewController.delegate = self
-                onboardingViewController.modalTransitionStyle = .crossDissolve
                 if traitCollection.userInterfaceIdiom == .phone {
                     onboardingViewController.modalPresentationStyle = .fullScreen
+                } else if traitCollection.userInterfaceIdiom == .pad {
+                    onboardingViewController.modalTransitionStyle = .crossDissolve
                 }
                 present(onboardingViewController, animated: true)
             }
@@ -231,7 +232,9 @@ extension MantraViewController {
                 content.secondaryText = NSLocalizedString("Current readings:", comment: "Current readings count") + " \(mantra.reads)"
                 content.secondaryTextProperties.color = .secondaryLabel
                 content.textToSecondaryTextVerticalPadding = 4
-                content.image = (mantra.imageForTableView != nil) ? UIImage(data: mantra.imageForTableView!) : UIImage(named: Constants.defaultImage_tableView)
+                content.image = (mantra.imageForTableView != nil) ?
+                    UIImage(data: mantra.imageForTableView!) :
+                    UIImage(named: Constants.defaultImage)?.resize(to: CGSize(width: Constants.rowHeight*3, height: Constants.rowHeight*3))
             }
             cell.contentConfiguration = content
             
@@ -303,7 +306,7 @@ extension MantraViewController {
     
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
-        snapshot.appendSections([.main])
+        snapshot.appendSections(Section.allCases)
         snapshot.appendItems(fetchedResultsController?.fetchedObjects ?? [], toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
@@ -329,7 +332,7 @@ extension MantraViewController {
             
             let spacing: CGFloat = 10
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(65))
+                                                   heightDimension: .absolute(CGFloat(Constants.rowHeight)))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                            subitem: item,
                                                            count: layoutEnvironment.container.effectiveContentSize.width >= 1024 ? 2 : 1)
@@ -598,7 +601,8 @@ extension MantraViewController {
         mantra.text = preloadedMantra[.text]
         mantra.details = preloadedMantra[.details]
         mantra.image = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?.pngData()
-        mantra.imageForTableView = UIImage(named: preloadedMantra[.imageForTableView] ?? Constants.defaultImage_tableView)?.pngData()
+        mantra.imageForTableView = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?
+            .resize(to: CGSize(width: Constants.rowHeight*3, height: Constants.rowHeight*3)).pngData()
     }
     
     private func dismissPreloadedMantraPickerState() {
