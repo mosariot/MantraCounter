@@ -88,7 +88,7 @@ struct SmallWidget: View {
                             Text(favorite.title)
                                 .font(.subheadline)
                             Text(String(favorite.reads))
-                                .font(.subheadline)
+                                .font(Font(UIFont.preferredFont(for: .subheadline, weight: .semibold)))
                                 .foregroundColor(.secondary)
                         }
                     }
@@ -103,7 +103,7 @@ struct SmallWidget: View {
                             Text(mantra.title)
                                 .font(.subheadline)
                             Text(String(mantra.reads))
-                                .font(.subheadline)
+                                .font(Font(UIFont.preferredFont(for: .subheadline, weight: .semibold)))
                                 .foregroundColor(.secondary)
                         }
                     }
@@ -139,7 +139,7 @@ struct MediumWidget: View {
                                     .font(.callout)
                                 Spacer()
                                 Text(String(favorite.reads))
-                                    .font(.callout)
+                                    .font(Font(UIFont.preferredFont(for: .callout, weight: .semibold)))
                                     .foregroundColor(.secondary)
                             }
                         }
@@ -161,7 +161,8 @@ struct MediumWidget: View {
                                     .font(.callout)
                                 Spacer()
                                 Text(String(mantra.reads))
-                                    .font(.callout)
+                                    .font(Font(UIFont.preferredFont(for: .callout, weight: .semibold)))
+
                                     .foregroundColor(.secondary)
                             }
                         }
@@ -208,7 +209,7 @@ struct LargeWidget: View {
                                     .font(.callout)
                                 Spacer()
                                 Text(String(favorite.reads))
-                                    .font(.callout)
+                                    .font(Font(UIFont.preferredFont(for: .callout, weight: .semibold)))
                                     .foregroundColor(.secondary)
                             }
                         }
@@ -228,7 +229,7 @@ struct LargeWidget: View {
                                     .font(.callout)
                                 Spacer()
                                 Text(String(mantra.reads))
-                                    .font(.callout)
+                                    .font(Font(UIFont.preferredFont(for: .callout, weight: .semibold)))
                                     .foregroundColor(.secondary)
                             }
                         }
