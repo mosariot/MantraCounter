@@ -11,7 +11,7 @@ import PhotosUI
 import SafariServices
 
 protocol DetailsViewControllerDelegate: class {
-    func updateView()
+    func updateViewAndWidget()
 }
 
 final class DetailsViewController: UIViewController {
@@ -216,7 +216,7 @@ extension DetailsViewController {
     
     private func cancelButtonPressed() {
         context.delete(mantra)
-        delegate?.updateView()
+        delegate?.updateViewAndWidget()
         dismiss(animated: true, completion: nil)
     }
     
@@ -228,12 +228,12 @@ extension DetailsViewController {
         guard let title = titleTextField.text else { return }
         processMantra(title: title)
         saveMantras()
-        delegate?.updateView()
+        delegate?.updateViewAndWidget()
         setViewMode()
     }
     
     private func closeButtonPressed() {
-        delegate?.updateView()
+        delegate?.updateViewAndWidget()
         dismiss(animated: true, completion: nil)
     }
     
@@ -262,7 +262,7 @@ extension DetailsViewController {
         processMantra(title: title)
         saveMantras()
         context.reset()
-        delegate?.updateView()
+        delegate?.updateViewAndWidget()
         dismiss(animated: true, completion: nil)
     }
     
@@ -412,6 +412,6 @@ extension DetailsViewController: UIAdaptivePresentationControllerDelegate {
         if delegate is MantraViewController {
             context.delete(mantra)
         }
-        delegate?.updateView()
+        delegate?.updateViewAndWidget()
     }
 }

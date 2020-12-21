@@ -35,7 +35,41 @@
 		9F9299AF250818B6003D5029 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* Constants.swift */; };
 		9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA97A382570177B005C9078 /* ReadsCountViewController.swift */; };
 		9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */; };
+		9FCA5C52258E52D4002E1D25 /* WidgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855A4258E2B8000771BA1 /* WidgetModel.swift */; };
+		9FCA5C6625907124002E1D25 /* CustomDynamicFontWeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */; };
+		9FCA5C752590EDD1002E1D25 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F5FE6AD24E78EE400D0475E /* Localizable.strings */; };
+		9FE855A5258E2B8000771BA1 /* WidgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855A4258E2B8000771BA1 /* WidgetModel.swift */; };
+		9FE855B2258E4F9A00771BA1 /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */; };
+		9FE855BB258E51BF00771BA1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE855BA258E51BF00771BA1 /* WidgetKit.framework */; };
+		9FE855BD258E51BF00771BA1 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE855BC258E51BF00771BA1 /* SwiftUI.framework */; };
+		9FE855C0258E51BF00771BA1 /* FavoritesWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855BF258E51BF00771BA1 /* FavoritesWidget.swift */; };
+		9FE855C2258E51C300771BA1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FE855C1258E51C300771BA1 /* Assets.xcassets */; };
+		9FE855C6258E51C300771BA1 /* FavoritesWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9FE855B8258E51BF00771BA1 /* FavoritesWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9FE855C4258E51C300771BA1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9F5FE67824E7141300D0475E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9FE855B7258E51BF00771BA1;
+			remoteInfo = FavoritesWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9FE855CA258E51C300771BA1 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				9FE855C6258E51C300771BA1 /* FavoritesWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		9F12CD18258112EE0089AFD8 /* MantraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +102,16 @@
 		9F9299AE250818B6003D5029 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9FA97A382570177B005C9078 /* ReadsCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadsCountViewController.swift; sourceTree = "<group>"; };
 		9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
+		9FE855A4258E2B8000771BA1 /* WidgetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetModel.swift; sourceTree = "<group>"; };
+		9FE855A7258E2CED00771BA1 /* MantraCounter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MantraCounter.entitlements; sourceTree = "<group>"; };
+		9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetManager.swift; sourceTree = "<group>"; };
+		9FE855B8258E51BF00771BA1 /* FavoritesWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FavoritesWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		9FE855BA258E51BF00771BA1 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		9FE855BC258E51BF00771BA1 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		9FE855BF258E51BF00771BA1 /* FavoritesWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesWidget.swift; sourceTree = "<group>"; };
+		9FE855C1258E51C300771BA1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9FE855C3258E51C300771BA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9FE855D0258E521D00771BA1 /* FavoritesWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FavoritesWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +120,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F5FE6B124E7994400D0475E /* IQKeyboardManagerSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9FE855B5258E51BF00771BA1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9FE855BD258E51BF00771BA1 /* SwiftUI.framework in Frameworks */,
+				9FE855BB258E51BF00771BA1 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +151,10 @@
 		9F5FE67724E7141300D0475E = {
 			isa = PBXGroup;
 			children = (
+				9FE855D0258E521D00771BA1 /* FavoritesWidgetExtension.entitlements */,
 				9F5FE68224E7141400D0475E /* ReadTheMantra */,
+				9FE855BE258E51BF00771BA1 /* FavoritesWidget */,
+				9FE855B9258E51BF00771BA1 /* Frameworks */,
 				9F5FE68124E7141400D0475E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -107,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				9F5FE68024E7141400D0475E /* MantraCounter.app */,
+				9FE855B8258E51BF00771BA1 /* FavoritesWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -114,6 +171,7 @@
 		9F5FE68224E7141400D0475E /* ReadTheMantra */ = {
 			isa = PBXGroup;
 			children = (
+				9FE855A7258E2CED00771BA1 /* MantraCounter.entitlements */,
 				9F5FE68324E7141400D0475E /* AppDelegate.swift */,
 				9F5FE68524E7141400D0475E /* SceneDelegate.swift */,
 				9F5FE6A224E7181B00D0475E /* Models */,
@@ -158,6 +216,8 @@
 				9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */,
 				9F9299AE250818B6003D5029 /* Constants.swift */,
 				9F5FE6A424E7183E00D0475E /* DetailsMode.swift */,
+				9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */,
+				9FE855A4258E2B8000771BA1 /* WidgetModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -173,6 +233,25 @@
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
+		9FE855B9258E51BF00771BA1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9FE855BA258E51BF00771BA1 /* WidgetKit.framework */,
+				9FE855BC258E51BF00771BA1 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9FE855BE258E51BF00771BA1 /* FavoritesWidget */ = {
+			isa = PBXGroup;
+			children = (
+				9FE855BF258E51BF00771BA1 /* FavoritesWidget.swift */,
+				9FE855C1258E51C300771BA1 /* Assets.xcassets */,
+				9FE855C3258E51C300771BA1 /* Info.plist */,
+			);
+			path = FavoritesWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -183,10 +262,12 @@
 				9F5FE67C24E7141400D0475E /* Sources */,
 				9F5FE67D24E7141400D0475E /* Frameworks */,
 				9F5FE67E24E7141400D0475E /* Resources */,
+				9FE855CA258E51C300771BA1 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				9FE855C5258E51C300771BA1 /* PBXTargetDependency */,
 			);
 			name = ReadTheMantra;
 			packageProductDependencies = (
@@ -196,18 +277,38 @@
 			productReference = 9F5FE68024E7141400D0475E /* MantraCounter.app */;
 			productType = "com.apple.product-type.application";
 		};
+		9FE855B7258E51BF00771BA1 /* FavoritesWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9FE855C7258E51C300771BA1 /* Build configuration list for PBXNativeTarget "FavoritesWidgetExtension" */;
+			buildPhases = (
+				9FE855B4258E51BF00771BA1 /* Sources */,
+				9FE855B5258E51BF00771BA1 /* Frameworks */,
+				9FE855B6258E51BF00771BA1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FavoritesWidgetExtension;
+			productName = FavoritesWidgetExtension;
+			productReference = 9FE855B8258E51BF00771BA1 /* FavoritesWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		9F5FE67824E7141300D0475E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1160;
+				LastSwiftUpdateCheck = 1230;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Александр Воробьев";
 				TargetAttributes = {
 					9F5FE67F24E7141400D0475E = {
 						CreatedOnToolsVersion = 11.6;
+					};
+					9FE855B7258E51BF00771BA1 = {
+						CreatedOnToolsVersion = 12.3;
 					};
 				};
 			};
@@ -229,6 +330,7 @@
 			projectRoot = "";
 			targets = (
 				9F5FE67F24E7141400D0475E /* ReadTheMantra */,
+				9FE855B7258E51BF00771BA1 /* FavoritesWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -246,6 +348,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9FE855B6258E51BF00771BA1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9FE855C2258E51C300771BA1 /* Assets.xcassets in Resources */,
+				9FCA5C752590EDD1002E1D25 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -255,6 +366,7 @@
 			files = (
 				9F7A5091253CB924008BFD6F /* CustomDynamicFontWeight.swift in Sources */,
 				9F3B62D2257CFFF800B4F5E4 /* OnboardingViewController.swift in Sources */,
+				9FE855B2258E4F9A00771BA1 /* WidgetManager.swift in Sources */,
 				9F293E3B2575503000B7B1C7 /* SetPhotoButton.swift in Sources */,
 				9F5FE6A524E7183E00D0475E /* InitialMantraData.swift in Sources */,
 				9F5FE6BB24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift in Sources */,
@@ -262,6 +374,7 @@
 				9F5FE68E24E7141400D0475E /* ReadTheMantra.xcdatamodeld in Sources */,
 				9F5FE68624E7141400D0475E /* SceneDelegate.swift in Sources */,
 				9F3B62A72578E51E00B4F5E4 /* AdjustReadsButton.swift in Sources */,
+				9FE855A5258E2B8000771BA1 /* WidgetModel.swift in Sources */,
 				9F3766112513C5B9007E6BED /* StringFormattedWithSpaces.swift in Sources */,
 				9F3B62A32578E00D00B4F5E4 /* TextViewWithPlaceholder.swift in Sources */,
 				9F5FE6B924E9B6E500D0475E /* CircleAndResizeUIImage.swift in Sources */,
@@ -278,7 +391,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9FE855B4258E51BF00771BA1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9FCA5C52258E52D4002E1D25 /* WidgetModel.swift in Sources */,
+				9FE855C0258E51BF00771BA1 /* FavoritesWidget.swift in Sources */,
+				9FCA5C6625907124002E1D25 /* CustomDynamicFontWeight.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9FE855C5258E51C300771BA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9FE855B7258E51BF00771BA1 /* FavoritesWidgetExtension */;
+			targetProxy = 9FE855C4258E51C300771BA1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		9F5FE68924E7141400D0475E /* Main.storyboard */ = {
@@ -438,7 +569,9 @@
 		9F5FE69824E7141700D0475E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
@@ -456,7 +589,9 @@
 		9F5FE69924E7141700D0475E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
@@ -466,6 +601,52 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraCounter;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		9FE855C8258E51C300771BA1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R89YUVSKU6;
+				INFOPLIST_FILE = FavoritesWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9FE855C9258E51C300771BA1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R89YUVSKU6;
+				INFOPLIST_FILE = FavoritesWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -488,6 +669,15 @@
 			buildConfigurations = (
 				9F5FE69824E7141700D0475E /* Debug */,
 				9F5FE69924E7141700D0475E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9FE855C7258E51C300771BA1 /* Build configuration list for PBXNativeTarget "FavoritesWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9FE855C8258E51C300771BA1 /* Debug */,
+				9FE855C9258E51C300771BA1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

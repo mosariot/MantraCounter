@@ -10,6 +10,7 @@ import UIKit
 
 protocol ReadsCountViewControllerDelegate: class {
     func favoriteActionPerformed()
+    func updateWidget()
 }
 
 final class ReadsCountViewController: UIViewController {
@@ -101,6 +102,7 @@ final class ReadsCountViewController: UIViewController {
         mantra.isFavorite = !mantra.isFavorite
         mantra.positionFavorite = mantra.isFavorite ? positionFavorite : 0
         delegate?.favoriteActionPerformed()
+        delegate?.updateWidget()
         saveMantras()
         setupNavButtons()
     }
@@ -227,6 +229,7 @@ final class ReadsCountViewController: UIViewController {
         updateProrgessView(for: updatingType)
         readsGoalButton.setTitle(NSLocalizedString("Goal: ", comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(), for: .normal)
         saveMantras()
+        delegate?.updateWidget()
         readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
     }
     
@@ -302,12 +305,13 @@ extension ReadsCountViewController {
     }
 }
 
-//MARK: - DetailsViewController Delegate (Updating View)
+//MARK: - DetailsViewController Delegate (Updating View and Widget)
 
 extension ReadsCountViewController: DetailsViewControllerDelegate {
     
-    func updateView() {
+    func updateViewAndWidget() {
         setupUI()
+        delegate?.updateWidget()
     }
 }
 

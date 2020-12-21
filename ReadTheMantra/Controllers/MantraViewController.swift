@@ -66,6 +66,7 @@ final class MantraViewController: UICollectionViewController {
         setupSearchController()
         setupCollectionView()
         loadMantras(animatingDifferences: false)
+        updateWidgetData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -298,6 +299,7 @@ extension MantraViewController {
             }
             DispatchQueue.main.async {
                 self.saveMantras()
+                self.updateWidgetData()
             }
         }
         
@@ -430,6 +432,7 @@ extension MantraViewController {
         
         overallMantraCount = snapshot.itemIdentifiers.count
         overallMantraTitles = snapshot.itemIdentifiers.compactMap({ $0.title })
+        updateWidgetData()
     }
     
     private func handleFavoriteAction(for mantra: Mantra) {
@@ -446,6 +449,7 @@ extension MantraViewController {
         if isInFavoriteMode {
             applySnapshot()
         }
+        updateWidgetData()
     }
     
     private func reorderMantraPositions(withSnapshot snapshot: Snapshot) {
@@ -659,6 +663,53 @@ extension MantraViewController {
     }
 }
 
+//MARK: - Widget Update
+
+extension MantraViewController {
+    
+    private func updateWidgetData() {
+        
+        var overallReads: Int32 = 0
+        var favoritesMantrasItems: [WidgetModel.Item] = []
+        var mantrasItems: [WidgetModel.Item] = []
+        
+        var overallMantraArray: [Mantra] = []
+        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
+        do {
+            overallMantraArray = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+        
+        for mantra in overallMantraArray {
+            overallReads += mantra.reads
+        }
+        
+        let favoritesMantras = Array(overallMantraArray
+                                                .filter({ $0.isFavorite })
+                                                .sorted(by: { $0.positionFavorite < $1.positionFavorite }))
+        let mantras = Array(overallMantraArray
+                                        .sorted(by: { $0.position < $1.position }))
+        
+        for favoriteItem in favoritesMantras {
+            if let title = favoriteItem.title {
+                favoritesMantrasItems.append(WidgetModel.Item(title: title, reads: favoriteItem.reads))
+            }
+        }
+        
+        for mantraItem in mantras {
+            if let title = mantraItem.title {
+                mantrasItems.append(WidgetModel.Item(title: title, reads: mantraItem.reads))
+            }
+        }
+        
+        let favorites = WidgetModel(overallReads: overallReads, favorites: favoritesMantrasItems, mantras: mantrasItems)
+        
+        let widgetData = WidgetManager(widgetItem: favorites)
+        widgetData.storeFavoritesItem()
+    }
+}
+
 // MARK: - NSFetchedResultsController Delegate
 
 extension MantraViewController: NSFetchedResultsControllerDelegate {
@@ -705,20 +756,24 @@ extension MantraViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
 }
 
-//MARK: - ReadsCountViewController Delegate (Handle Favorite Action)
+//MARK: - ReadsCountViewController Delegate (Handle Favorite Action and Updating Widget)
 
 extension MantraViewController: ReadsCountViewControllerDelegate {
     
     func favoriteActionPerformed() {
         reorderFavoriteMantraPositions(withSnapshot: dataSource.snapshot())
     }
+    
+    func updateWidget() {
+        updateWidgetData()
+    }
 }
 
-//MARK: - DetailsViewController Delegate (Load Mantras With Quantity Check)
+//MARK: - DetailsViewController Delegate (Load Mantras and Updating Widget)
 
 extension MantraViewController: DetailsViewControllerDelegate {
     
-    func updateView() {
+    func updateViewAndWidget() {
         loadMantras()
         getCurrentMantrasInfo()
         if !isInFavoriteMode && currentMantraCount < overallMantraCount {
@@ -727,6 +782,7 @@ extension MantraViewController: DetailsViewControllerDelegate {
                 self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
             }
         }
+        updateWidgetData()
     }
 }
 
