@@ -23,6 +23,5 @@ struct WidgetManager {
         }
         widgetItemData = data
         WidgetCenter.shared.reloadAllTimelines()
-        print(String(decoding: widgetItemData, as: UTF8.self))
     }
 }

@@ -21,10 +21,12 @@ struct Provider: TimelineProvider {
     var widgetItemData: Data = Data()
     
     func placeholder(in context: Context) -> WidgetEntry {
-        let favoritesItem = WidgetModel(overallReads: 80000, favorites: [WidgetModel.Item(title: "Mantra", reads: 40000)], mantras: [WidgetModel.Item(title: "Mantra", reads: 40000)])
+        let favoritesItem = WidgetModel(overallReads: 80000,
+                                        favorites: [WidgetModel.Item(title: "Mantra", reads: 40000)],
+                                        mantras: [WidgetModel.Item(title: "Mantra", reads: 40000)])
         return WidgetEntry(favoritesItem: favoritesItem)
     }
-
+    
     func getSnapshot(in context: Context, completion: @escaping (WidgetEntry) -> ()) {
         guard let favoritesItem = try? JSONDecoder().decode(WidgetModel.self, from: widgetItemData) else {
             print("Could not decode data")
@@ -33,7 +35,7 @@ struct Provider: TimelineProvider {
         let entry = WidgetEntry(favoritesItem: favoritesItem)
         completion(entry)
     }
-
+    
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         guard let favoritesItem = try? JSONDecoder().decode(WidgetModel.self, from: widgetItemData) else {
             print("Could not decode data")
@@ -45,7 +47,7 @@ struct Provider: TimelineProvider {
     }
 }
 
-//MARK: - Widget Views
+//MARK: - Widget View
 
 struct FavoritesWidgetEntryView: View {
     var entry: Provider.Entry
@@ -81,29 +83,30 @@ struct SmallWidget: View {
             if favoriteArray.count > 0 {
                 VStack(alignment: .leading) {
                     Text(NSLocalizedString("Favorites", comment: "Widget Subtitle"))
-                        .font(Font(UIFont.preferredFont(for: .title3, weight: .bold)))
+                        .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
                         .foregroundColor(.green)
                     VStack(alignment: .leading) {
                         ForEach(favoriteArray, id: \.id) { favorite in
                             Text(favorite.title)
-                                .font(.subheadline)
+                                .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                             Text(String(favorite.reads))
-                                .font(Font(UIFont.preferredFont(for: .subheadline, weight: .semibold)))
+                                .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                 .foregroundColor(.secondary)
                         }
                     }
+                    Spacer()
                 }
             } else {
                 VStack(alignment: .leading) {
                     Text(NSLocalizedString("Mantras", comment: "Widget Subtitle"))
-                        .font(Font(UIFont.preferredFont(for: .title3, weight: .bold)))
+                        .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
                         .foregroundColor(.blue)
                     VStack(alignment: .leading) {
                         ForEach(mantraArray, id: \.id) { mantra in
                             Text(mantra.title)
-                                .font(.subheadline)
+                                .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                             Text(String(mantra.reads))
-                                .font(Font(UIFont.preferredFont(for: .subheadline, weight: .semibold)))
+                                .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                 .foregroundColor(.secondary)
                         }
                     }
@@ -121,25 +124,25 @@ struct MediumWidget: View {
     
     @ViewBuilder
     var body: some View {
-        let favoriteArray = Array(entry.favoritesItem.favorites.prefix(4))
+        let favoriteArray = Array(entry.favoritesItem.favorites.prefix(5))
         let mantraArray = Array(entry.favoritesItem.mantras
-                                    .prefix(favoriteArray.count == 0 ? 4
-                                                : ((2-favoriteArray.count) >= 0 ? (2-favoriteArray.count) : 0)))
+                                    .prefix(favoriteArray.count == 0 ? 5
+                                                : ((3-favoriteArray.count) >= 0 ? (3-favoriteArray.count) : 0)))
         
         VStack(alignment: .leading, spacing: 10) {
             if favoriteArray.count > 0 {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(NSLocalizedString("Favorites", comment: "Widget Subtitle"))
-                        .font(Font(UIFont.preferredFont(for: .title3, weight: .bold)))
+                        .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
                         .foregroundColor(.green)
                     VStack(spacing: 5) {
                         ForEach(favoriteArray, id: \.id) { favorite in
                             HStack {
                                 Text(favorite.title)
-                                    .font(.callout)
+                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                 Spacer()
                                 Text(String(favorite.reads))
-                                    .font(Font(UIFont.preferredFont(for: .callout, weight: .semibold)))
+                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                     .foregroundColor(.secondary)
                             }
                         }
@@ -152,17 +155,16 @@ struct MediumWidget: View {
                 }
                 VStack(alignment: .leading, spacing: 5) {
                     Text(NSLocalizedString("Mantras", comment: "Widget Subtitle"))
-                        .font(Font(UIFont.preferredFont(for: .title3, weight: .bold)))
+                        .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
                         .foregroundColor(.blue)
                     VStack(spacing: 5) {
                         ForEach(mantraArray, id: \.id) { mantra in
                             HStack {
                                 Text(mantra.title)
-                                    .font(.callout)
+                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                 Spacer()
                                 Text(String(mantra.reads))
-                                    .font(Font(UIFont.preferredFont(for: .callout, weight: .semibold)))
-
+                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                     .foregroundColor(.secondary)
                             }
                         }
@@ -181,35 +183,34 @@ struct LargeWidget: View {
     
     @ViewBuilder
     var body: some View {
-        let favoriteArray = Array(entry.favoritesItem.favorites.prefix(8))
+        let favoriteArray = Array(entry.favoritesItem.favorites.prefix(9))
         let mantraArray = Array(entry.favoritesItem.mantras
-                                    .prefix(favoriteArray.count == 0 ? 8
-                                                : ((7-favoriteArray.count) >= 0 ? (7-favoriteArray.count) : 0)))
+                                    .prefix(9 - favoriteArray.count))
         
         VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text(NSLocalizedString("Overall readings", comment: "Widget Subtitle"))
-                    .font(Font(UIFont.preferredFont(for: .title3, weight: .bold)))
+                    .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
                     .foregroundColor(.red)
                 Spacer()
                 Text(String(entry.favoritesItem.overallReads))
-                    .font(Font(UIFont.preferredFont(for: .title3, weight: .bold)))
+                    .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
                     .foregroundColor(.secondary)
             }
             if favoriteArray.count > 0 {
                 Divider()
                 VStack(alignment: .leading, spacing: 5) {
                     Text(NSLocalizedString("Favorites", comment: "Widget Subtitle"))
-                        .font(Font(UIFont.preferredFont(for: .title3, weight: .bold)))
+                        .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
                         .foregroundColor(.green)
                     VStack(spacing: 5) {
                         ForEach(favoriteArray, id: \.id) { favorite in
                             HStack {
                                 Text(favorite.title)
-                                    .font(.callout)
+                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                 Spacer()
                                 Text(String(favorite.reads))
-                                    .font(Font(UIFont.preferredFont(for: .callout, weight: .semibold)))
+                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                     .foregroundColor(.secondary)
                             }
                         }
@@ -220,16 +221,16 @@ struct LargeWidget: View {
                 Divider()
                 VStack(alignment: .leading, spacing: 5) {
                     Text(NSLocalizedString("Mantras", comment: "Widget Subtitle"))
-                        .font(Font(UIFont.preferredFont(for: .title3, weight: .bold)))
+                        .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
                         .foregroundColor(.blue)
                     VStack(spacing: 5) {
                         ForEach(mantraArray, id: \.id) { mantra in
                             HStack {
                                 Text(mantra.title)
-                                    .font(.callout)
+                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                 Spacer()
                                 Text(String(mantra.reads))
-                                    .font(Font(UIFont.preferredFont(for: .callout, weight: .semibold)))
+                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                     .foregroundColor(.secondary)
                             }
                         }
@@ -246,7 +247,7 @@ struct LargeWidget: View {
 @main
 struct FavoritesWidget: Widget {
     let kind: String = "FavoritesWidget"
-
+    
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             FavoritesWidgetEntryView(entry: entry)
