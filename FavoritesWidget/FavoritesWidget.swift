@@ -21,7 +21,7 @@ struct Provider: TimelineProvider {
     var widgetItemData: Data = Data()
     
     func placeholder(in context: Context) -> WidgetEntry {
-        let favoritesItem = WidgetModel(overallReads: 80000,
+        let favoritesItem = WidgetModel(overallReads: 100000,
                                         favorites: [WidgetModel.Item(title: "Mantra", reads: 40000)],
                                         mantras: [WidgetModel.Item(title: "Mantra", reads: 40000)])
         return WidgetEntry(favoritesItem: favoritesItem)
@@ -76,12 +76,14 @@ struct SmallWidget: View {
     @ViewBuilder
     var body: some View {
         let favoriteArray = Array(entry.favoritesItem.favorites.prefix(3))
-        let mantraArray = Array(entry.favoritesItem.mantras
-                                    .prefix(favoriteArray.count == 0 ? 3 : 0))
+        let mantraArray = Array(entry.favoritesItem.mantras.prefix(favoriteArray.count == 0 ? 3 : 0))
         
-        VStack(alignment: .leading) {
+        ZStack {
+            Color.init(UIColor.systemGroupedBackground)
+                .ignoresSafeArea()
+            
             if favoriteArray.count > 0 {
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: favoriteArray.count == 3 ? 0 : 5) {
                     Text(NSLocalizedString("Favorites", comment: "Widget Subtitle"))
                         .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
                         .foregroundColor(.green)
@@ -89,15 +91,16 @@ struct SmallWidget: View {
                         ForEach(favoriteArray, id: \.id) { favorite in
                             Text(favorite.title)
                                 .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                            Text(String(favorite.reads))
+                            Text(Int(favorite.reads).stringFormattedWithSpaces())
                                 .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                 .foregroundColor(.secondary)
                         }
                     }
                     Spacer()
                 }
+                .padding()
             } else {
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: mantraArray.count == 3 ? 0 : 5) {
                     Text(NSLocalizedString("Mantras", comment: "Widget Subtitle"))
                         .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
                         .foregroundColor(.blue)
@@ -105,15 +108,15 @@ struct SmallWidget: View {
                         ForEach(mantraArray, id: \.id) { mantra in
                             Text(mantra.title)
                                 .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                            Text(String(mantra.reads))
+                            Text(Int(mantra.reads).stringFormattedWithSpaces())
                                 .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                 .foregroundColor(.secondary)
                         }
                     }
                 }
+                .padding()
             }
         }
-        .padding()
     }
 }
 
@@ -129,50 +132,55 @@ struct MediumWidget: View {
                                     .prefix(favoriteArray.count == 0 ? 5
                                                 : ((3-favoriteArray.count) >= 0 ? (3-favoriteArray.count) : 0)))
         
-        VStack(alignment: .leading, spacing: 10) {
-            if favoriteArray.count > 0 {
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(NSLocalizedString("Favorites", comment: "Widget Subtitle"))
-                        .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
-                        .foregroundColor(.green)
-                    VStack(spacing: 5) {
-                        ForEach(favoriteArray, id: \.id) { favorite in
-                            HStack {
-                                Text(favorite.title)
-                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                                Spacer()
-                                Text(String(favorite.reads))
-                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                                    .foregroundColor(.secondary)
+        ZStack {
+            Color.init(UIColor.systemGroupedBackground)
+                .ignoresSafeArea()
+            
+            VStack(alignment: .leading, spacing: 10) {
+                if favoriteArray.count > 0 {
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(NSLocalizedString("Favorites", comment: "Widget Subtitle"))
+                            .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
+                            .foregroundColor(.green)
+                        VStack(spacing: 5) {
+                            ForEach(favoriteArray, id: \.id) { favorite in
+                                HStack {
+                                    Text(favorite.title)
+                                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
+                                    Spacer()
+                                    Text(Int(favorite.reads).stringFormattedWithSpaces())
+                                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                        }
+                    }
+                }
+                if mantraArray.count > 0 {
+                    if favoriteArray.count != 0 {
+                        Divider()
+                    }
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(NSLocalizedString("Mantras", comment: "Widget Subtitle"))
+                            .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
+                            .foregroundColor(.blue)
+                        VStack(spacing: 5) {
+                            ForEach(mantraArray, id: \.id) { mantra in
+                                HStack {
+                                    Text(mantra.title)
+                                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
+                                    Spacer()
+                                    Text(Int(mantra.reads).stringFormattedWithSpaces())
+                                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
+                                        .foregroundColor(.secondary)
+                                }
                             }
                         }
                     }
                 }
             }
-            if mantraArray.count > 0 {
-                if favoriteArray.count != 0 {
-                    Divider()
-                }
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(NSLocalizedString("Mantras", comment: "Widget Subtitle"))
-                        .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
-                        .foregroundColor(.blue)
-                    VStack(spacing: 5) {
-                        ForEach(mantraArray, id: \.id) { mantra in
-                            HStack {
-                                Text(mantra.title)
-                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                                Spacer()
-                                Text(String(mantra.reads))
-                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                }
-            }
+            .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
         }
-        .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
     }
 }
 
@@ -184,61 +192,65 @@ struct LargeWidget: View {
     @ViewBuilder
     var body: some View {
         let favoriteArray = Array(entry.favoritesItem.favorites.prefix(9))
-        let mantraArray = Array(entry.favoritesItem.mantras
-                                    .prefix(9 - favoriteArray.count))
+        let mantraArray = Array(entry.favoritesItem.mantras.prefix(9-favoriteArray.count))
         
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text(NSLocalizedString("Overall readings", comment: "Widget Subtitle"))
-                    .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
-                    .foregroundColor(.red)
-                Spacer()
-                Text(String(entry.favoritesItem.overallReads))
-                    .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
-                    .foregroundColor(.secondary)
-            }
-            if favoriteArray.count > 0 {
-                Divider()
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(NSLocalizedString("Favorites", comment: "Widget Subtitle"))
+        ZStack {
+            Color.init(UIColor.systemGroupedBackground)
+                .ignoresSafeArea()
+            
+            VStack(alignment: .leading, spacing: 10) {
+                HStack {
+                    Text(NSLocalizedString("Overall readings", comment: "Widget Subtitle"))
                         .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
-                        .foregroundColor(.green)
-                    VStack(spacing: 5) {
-                        ForEach(favoriteArray, id: \.id) { favorite in
-                            HStack {
-                                Text(favorite.title)
-                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                                Spacer()
-                                Text(String(favorite.reads))
-                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                                    .foregroundColor(.secondary)
+                        .foregroundColor(.red)
+                    Spacer()
+                    Text(Int(entry.favoritesItem.overallReads).stringFormattedWithSpaces())
+                        .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
+                        .foregroundColor(.secondary)
+                }
+                if favoriteArray.count > 0 {
+                    Divider()
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(NSLocalizedString("Favorites", comment: "Widget Subtitle"))
+                            .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
+                            .foregroundColor(.green)
+                        VStack(spacing: 5) {
+                            ForEach(favoriteArray, id: \.id) { favorite in
+                                HStack {
+                                    Text(favorite.title)
+                                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
+                                    Spacer()
+                                    Text(Int(favorite.reads).stringFormattedWithSpaces())
+                                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                        }
+                    }
+                }
+                if mantraArray.count > 0 {
+                    Divider()
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(NSLocalizedString("Mantras", comment: "Widget Subtitle"))
+                            .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
+                            .foregroundColor(.blue)
+                        VStack(spacing: 5) {
+                            ForEach(mantraArray, id: \.id) { mantra in
+                                HStack {
+                                    Text(mantra.title)
+                                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
+                                    Spacer()
+                                    Text(Int(mantra.reads).stringFormattedWithSpaces())
+                                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
+                                        .foregroundColor(.secondary)
+                                }
                             }
                         }
                     }
                 }
             }
-            if mantraArray.count > 0 {
-                Divider()
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(NSLocalizedString("Mantras", comment: "Widget Subtitle"))
-                        .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
-                        .foregroundColor(.blue)
-                    VStack(spacing: 5) {
-                        ForEach(mantraArray, id: \.id) { mantra in
-                            HStack {
-                                Text(mantra.title)
-                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                                Spacer()
-                                Text(String(mantra.reads))
-                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                }
-            }
+            .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
         }
-        .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
     }
 }
 
