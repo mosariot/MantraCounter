@@ -11,7 +11,7 @@ import UIKit
 class CollectionViewDataSource {
     
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Mantra>
-    
+
     func makeDataSource(collectionView: UICollectionView,
                         isInFavoriteMode: Bool,
                         favoriteActionHandler: @escaping (Mantra) -> (),

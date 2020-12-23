@@ -101,15 +101,15 @@ final class DetailsViewController: UIViewController {
         let mantraImage = (mantraImageData != nil) ? UIImage(data: mantraImageData!) : UIImage(named: Constants.defaultImage)
         setPhotoButton.setImage(mantraImage, for: .normal)
         setPhotoButton.showsMenuAsPrimaryAction = true
-        let photoLibraryAction = UIAction(title: NSLocalizedString("Photo Library", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo.on.rectangle.angled")) { [weak self] action in
+        let photoLibraryAction = UIAction(title: NSLocalizedString("Photo Library", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo.on.rectangle.angled")) { [weak self] _ in
             guard let self = self else { return }
             self.showImagePicker()
         }
-        let standardImageAction = UIAction(title: NSLocalizedString("Standard Image", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo")) { [weak self] action in
+        let standardImageAction = UIAction(title: NSLocalizedString("Standard Image", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo")) { [weak self] _ in
             guard let self = self else { return }
             self.setDefaultImage()
         }
-        let searchAction = UIAction(title: NSLocalizedString("Search on the Internet", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "globe")) { [weak self] action in
+        let searchAction = UIAction(title: NSLocalizedString("Search on the Internet", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "globe")) { [weak self] _ in
             guard let self = self else { return }
             self.searchOnTheInternet()
         }
@@ -243,18 +243,9 @@ extension DetailsViewController {
     }
     
     private func showDuplicatingAlert(for title: String) {
-        let alert = UIAlertController(title: nil,
-                                      message: NSLocalizedString("It's already in your mantra list. Add another one?", comment: "Alert Message for Duplication"),
-                                      preferredStyle: .alert)
-        let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraTableViewController"),
-                                      style: .default) { [weak self] action in
-            guard let self = self else { return }
+        let alert = UIAlertController.duplicatingAlert {
             self.handleAddNewMantra(for: title)
-        }
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraTableViewController"),
-                                         style: .default, handler: nil)
-        alert.addAction(cancelAction)
-        alert.addAction(addAction)
+        } cancelActionHandler: { return }
         present(alert, animated: true, completion: nil)
     }
     
@@ -371,7 +362,7 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
         for result in results {
             let provider = result.itemProvider
             if provider.canLoadObject(ofClass: UIImage.self) {
-                provider.loadObject(ofClass: UIImage.self, completionHandler: { [weak self] (object, error) in
+                provider.loadObject(ofClass: UIImage.self, completionHandler: { [weak self] (object, _) in
                     guard let self = self else { return }
                     if let image = object as? UIImage {
                         let resultImage = self.processImage(image: image)
@@ -391,15 +382,10 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
     }
     
     func showNoImageAlert() {
-        let alert = UIAlertController(title: nil,
-                                      message: NSLocalizedString("It seems like this photo is unavailable. Try to pick another one",
-                                                                 comment: "Alert Message for unavailable photo"),
-                                      preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] action in
+        let alert = UIAlertController.noImageAlert { [weak self] in
             guard let self = self else { return }
             self.showImagePicker()
         }
-        alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
     }
 }

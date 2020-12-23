@@ -13,8 +13,6 @@ final class MantraViewController: UICollectionViewController {
     
     //MARK: - Properties
     
-    private var collectionViewDataSource = CollectionViewDataSource()
-    
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Mantra>
     private lazy var dataSource = makeDataSource()
     
@@ -165,7 +163,8 @@ final class MantraViewController: UICollectionViewController {
         isInFavoriteMode = !isInFavoriteMode
         loadMantras()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {
-            self.reloadDataSource()
+            self.dataSource = self.makeDataSource()
+            self.loadMantras(animatingDifferences: false)
         }
     }
     
@@ -327,13 +326,13 @@ extension MantraViewController {
         
         let delete = UIAction(title: NSLocalizedString("Delete", comment: "Menu Action on MantraViewController"),
                               image: UIImage(systemName: "trash"),
-                              attributes: [.destructive]) { [weak self] action in
+                              attributes: [.destructive]) { [weak self] _ in
             guard let self = self else { return }
             self.showDeleteConfirmationAlert(for: mantra)
         }
         
         let children = isInFavoriteMode ? [favorite] : [favorite, delete]
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) {_ in
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             UIMenu(children: children)
         }
     }
@@ -344,18 +343,10 @@ extension MantraViewController {
 extension MantraViewController {
     
     private func showDeleteConfirmationAlert(for mantra: Mantra) {
-        let alert = UIAlertController(title: nil,
-                                      message: NSLocalizedString("Are you sure you want to delete this mantra?", comment: "Alert Message on MantraViewController"),
-                                      preferredStyle: .alert)
-        let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: "Alert Button on MantraViewController"),
-                                         style: .destructive) { [weak self] action in
+        let alert = UIAlertController.deleteConfirmationAlert(for: mantra) { [weak self] (mantra) in
             guard let self = self else { return }
             self.handleDeleteMantra(mantra)
         }
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraViewController"),
-                                         style: .default, handler: nil)
-        alert.addAction(cancelAction)
-        alert.addAction(deleteAction)
         present(alert, animated: true, completion: nil)
     }
     
@@ -511,21 +502,13 @@ extension MantraViewController {
     }
     
     private func showDuplicatingAlert() {
-        let alert = UIAlertController(title: nil,
-                                      message: NSLocalizedString("It's already in your mantra list. Add another one?", comment: "Alert Message for Duplication"),
-                                      preferredStyle: .alert)
-        let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button on MantraViewController"),
-                                      style: .default) { [weak self] action in
+        let alert = UIAlertController.duplicatingAlert { [weak self] in
             guard let self = self else { return }
             self.handleAddPreloadedMantra()
-        }
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on MantraViewController"),
-                                         style: .default) { [weak self] action in
+        } cancelActionHandler: { [weak self] in
             guard let self = self else { return }
             self.dismissPreloadedMantraPickerState()
         }
-        alert.addAction(cancelAction)
-        alert.addAction(addAction)
         present(alert, animated: true, completion: nil)
     }
     
@@ -619,8 +602,8 @@ extension MantraViewController {
         var overallReads: Int32 = 0
         var favoritesMantrasItems: [WidgetModel.Item] = []
         var mantrasItems: [WidgetModel.Item] = []
-        
         var overallMantraArray: [Mantra] = []
+        
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         do {
             overallMantraArray = try context.fetch(request)
@@ -650,9 +633,9 @@ extension MantraViewController {
             }
         }
         
-        let favorites = WidgetModel(overallReads: overallReads, favorites: favoritesMantrasItems, mantras: mantrasItems)
+        let widget = WidgetModel(overallReads: overallReads, favorites: favoritesMantrasItems, mantras: mantrasItems)
         
-        let widgetData = WidgetManager(widgetItem: favorites)
+        let widgetData = WidgetManager(widgetItem: widget)
         widgetData.storeFavoritesItem()
     }
 }

@@ -32,10 +32,10 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 /* Alert Message for Duplication */
 "It's already in your mantra list. Add another one?" = "Уже есть в Вашем списке. Добавить еще одну?";
 
-/* Alert Button on MantraViewController */
+/* Alert Button */
 "Add" = "Добавить";
 
-/* Alert Button on MantraViewController */
+/* Alert Button */
 "Cancel" = "Отмена";
 
 /* Alert Message on MantraViewController */
