@@ -39,6 +39,7 @@
 		9FCA5C6625907124002E1D25 /* CustomDynamicFontWeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */; };
 		9FCA5C752590EDD1002E1D25 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F5FE6AD24E78EE400D0475E /* Localizable.strings */; };
 		9FCA5C7A2591C0EE002E1D25 /* StringFormattedWithSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3766102513C5B9007E6BED /* StringFormattedWithSpaces.swift */; };
+		9FCA5C8425922635002E1D25 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5C8325922635002E1D25 /* CollectionViewDataSource.swift */; };
 		9FE855A5258E2B8000771BA1 /* WidgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855A4258E2B8000771BA1 /* WidgetModel.swift */; };
 		9FE855B2258E4F9A00771BA1 /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */; };
 		9FE855BB258E51BF00771BA1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE855BA258E51BF00771BA1 /* WidgetKit.framework */; };
@@ -103,6 +104,7 @@
 		9F9299AE250818B6003D5029 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9FA97A382570177B005C9078 /* ReadsCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadsCountViewController.swift; sourceTree = "<group>"; };
 		9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
+		9FCA5C8325922635002E1D25 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource.swift; sourceTree = "<group>"; };
 		9FE855A4258E2B8000771BA1 /* WidgetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetModel.swift; sourceTree = "<group>"; };
 		9FE855A7258E2CED00771BA1 /* MantraCounter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MantraCounter.entitlements; sourceTree = "<group>"; };
 		9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetManager.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				9F5FE68C24E7141400D0475E /* ReadTheMantra.xcdatamodeld */,
+				9FCA5C8325922635002E1D25 /* CollectionViewDataSource.swift */,
 				9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */,
 				9F9299AE250818B6003D5029 /* Constants.swift */,
 				9F5FE6A424E7183E00D0475E /* DetailsMode.swift */,
@@ -385,6 +388,7 @@
 				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,
 				9F6503D8256651680055ED8F /* ConfettiView.swift in Sources */,
 				9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */,
+				9FCA5C8425922635002E1D25 /* CollectionViewDataSource.swift in Sources */,
 				9F12CD19258112EE0089AFD8 /* MantraViewController.swift in Sources */,
 				9F75828525821EED00695ED7 /* RoundedStackView.swift in Sources */,
 				9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */,

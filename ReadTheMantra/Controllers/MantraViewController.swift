@@ -13,12 +13,10 @@ final class MantraViewController: UICollectionViewController {
     
     //MARK: - Properties
     
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Mantra>
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Mantra>
+    private var collectionViewDataSource = CollectionViewDataSource()
+    
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Mantra>
     private lazy var dataSource = makeDataSource()
-    private enum Section: CaseIterable {
-        case main
-    }
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -221,95 +219,38 @@ extension MantraViewController {
 //MARK: - UICollectionView Data Source
 
 extension MantraViewController {
-    
-    private func makeDataSource() -> DataSource {
         
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Mantra> { (cell, indexPath, mantra) in
-            
-            var content = UIListContentConfiguration.subtitleCell()
-            content.text = mantra.title
-            
-            if (content.text != nil) {
-                content.secondaryText = NSLocalizedString("Current readings:", comment: "Current readings count") + " \(mantra.reads)"
-                content.secondaryTextProperties.color = .secondaryLabel
-                content.textToSecondaryTextVerticalPadding = 4
-                content.image = (mantra.imageForTableView != nil) ?
-                    UIImage(data: mantra.imageForTableView!) :
-                    UIImage(named: Constants.defaultImage)?.resize(to: CGSize(width: Constants.rowHeight*3, height: Constants.rowHeight*3))
+    private func makeDataSource() -> CollectionViewDataSource.DataSource {
+        CollectionViewDataSource().makeDataSource(collectionView: collectionView, isInFavoriteMode: isInFavoriteMode) { [weak self] (mantra) in
+            guard let self = self else { return }
+            self.handleFavoriteAction(for: mantra)
+            if !self.isInFavoriteMode {
+                self.reloadDataSource()
             }
-            cell.contentConfiguration = content
-            
-            var background = UIBackgroundConfiguration.listGroupedCell()
-            background.cornerRadius = 15
-            cell.backgroundConfiguration = background
-            
-            // accessories configuration
-            let favoriteAction = UIAction(image: UIImage(systemName: mantra.isFavorite ? "star.slash" : "star"),
-                                          handler: { [weak self] _ in
-                                            guard let self = self else { return }
-                                            self.handleFavoriteAction(for: mantra)
-                                            if !self.isInFavoriteMode {
-                                                self.reloadDataSource()
-                                            }
-                                          })
-            let favoriteButton = UIButton(primaryAction: favoriteAction)
-            let favoriteAccessoryConfiguration = UICellAccessory.CustomViewConfiguration(customView: favoriteButton,
-                                                                                         placement: .leading(displayed: .whenEditing))
-            let favoriteAccessory = UICellAccessory.customView(configuration: favoriteAccessoryConfiguration)
-            let deleteAccessory = UICellAccessory.delete(displayed: .whenEditing,
-                                                         actionHandler: { [weak self] in
-                                                            guard let self = self else { return }
-                                                            self.showDeleteConfirmationAlert(for: mantra)
-                                                         })
-            let disclosureIndicatorAccessory = UICellAccessory.disclosureIndicator()
-            let reorderAccessory = UICellAccessory.reorder(displayed: .whenEditing)
-            let badge = UIImage(systemName: "checkmark.circle.fill",
-                                withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))?
-                .withTintColor(.systemGreen, renderingMode: .alwaysOriginal)
-            let badgeConfiguration = UICellAccessory.CustomViewConfiguration(customView: UIImageView(image: badge),
-                                                                             placement: .trailing(displayed: .always),
-                                                                             isHidden: mantra.readsGoal > mantra.reads)
-            let badgeAccessory = UICellAccessory.customView(configuration: badgeConfiguration)
-            
-            let accessories = self.isInFavoriteMode ?
-                [favoriteAccessory, disclosureIndicatorAccessory, badgeAccessory, reorderAccessory] :
-                [deleteAccessory, favoriteAccessory, disclosureIndicatorAccessory, badgeAccessory, reorderAccessory]
-            
-            cell.accessories = accessories
-        }
-        
-        let dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, mantra) -> UICollectionViewCell? in
-            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: mantra)
-        }
-        
-        dataSource.reorderingHandlers.canReorderItem = { [weak self] mantra -> Bool in
+        } deleteActionHandler: { [weak self] (mantra) in
+            guard let self = self else { return }
+            self.showDeleteConfirmationAlert(for: mantra)
+        } canReorderingHandler: { [weak self] in
             guard let self = self else { return false }
             return !self.searchController.isActive
-        }
-        
-        dataSource.reorderingHandlers.didReorder = { [weak self] transaction in
+        } reorderingHandler: { [weak self] (snapshot) in
             guard let self = self else { return }
-            let snapshot = transaction.finalSnapshot
-            for (n, mantra) in snapshot.itemIdentifiers.enumerated() {
-                if self.isInFavoriteMode {
-                    mantra.positionFavorite = Int32(n)
-                } else {
-                    mantra.position = Int32(n)
-                }
+            if self.isInFavoriteMode {
+                self.reorderFavoriteMantraPositionsForReordering(withSnapshot: snapshot)
+            } else {
+                self.reorderMantraPositions(withSnapshot: snapshot)
             }
             DispatchQueue.main.async {
                 self.saveMantras()
                 self.updateWidgetData()
             }
         }
-        
-        return dataSource
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
-        snapshot.appendSections(Section.allCases)
-        snapshot.appendItems(fetchedResultsController?.fetchedObjects ?? [], toSection: .main)
+        snapshot.appendSections([0])
+        snapshot.appendItems(fetchedResultsController?.fetchedObjects ?? [], toSection: 0)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
@@ -426,7 +367,7 @@ extension MantraViewController {
         applySnapshot()
         
         reorderMantraPositions(withSnapshot: snapshot)
-        reorderFavoriteMantraPositions(withSnapshot: snapshot)
+        reorderFavoriteMantraPositionsForDeleting(withSnapshot: snapshot)
         
         saveMantras()
         
@@ -443,7 +384,7 @@ extension MantraViewController {
             mantra.positionFavorite = 0
         }
         
-        reorderFavoriteMantraPositions(withSnapshot: dataSource.snapshot())
+        reorderFavoriteMantraPositionsForDeleting(withSnapshot: dataSource.snapshot())
         
         saveMantras()
         if isInFavoriteMode {
@@ -458,8 +399,14 @@ extension MantraViewController {
         }
     }
     
-    private func reorderFavoriteMantraPositions(withSnapshot snapshot: Snapshot) {
+    private func reorderFavoriteMantraPositionsForDeleting(withSnapshot snapshot: Snapshot) {
         for (n, mantra) in snapshot.itemIdentifiers.filter({ $0.isFavorite }).sorted(by: { $0.positionFavorite < $1.positionFavorite }).enumerated() {
+            mantra.positionFavorite = Int32(n)
+        }
+    }
+    
+    private func reorderFavoriteMantraPositionsForReordering(withSnapshot snapshot: Snapshot) {
+        for (n, mantra) in snapshot.itemIdentifiers.enumerated() {
             mantra.positionFavorite = Int32(n)
         }
     }
@@ -761,7 +708,7 @@ extension MantraViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 extension MantraViewController: ReadsCountViewControllerDelegate {
     
     func favoriteActionPerformed() {
-        reorderFavoriteMantraPositions(withSnapshot: dataSource.snapshot())
+        reorderFavoriteMantraPositionsForDeleting(withSnapshot: dataSource.snapshot())
     }
     
     func updateWidget() {
