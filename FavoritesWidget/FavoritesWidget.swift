@@ -11,7 +11,7 @@ import SwiftUI
 
 struct WidgetEntry: TimelineEntry {
     let date: Date = Date()
-    let favoritesItem: WidgetModel
+    let widgetModel: WidgetModel
 }
 
 //MARK: - Widget Provider
@@ -24,7 +24,7 @@ struct Provider: TimelineProvider {
         let favoritesItem = WidgetModel(overallReads: 100000,
                                         favorites: [WidgetModel.Item(title: "Mantra", reads: 40000)],
                                         mantras: [WidgetModel.Item(title: "Mantra", reads: 40000)])
-        return WidgetEntry(favoritesItem: favoritesItem)
+        return WidgetEntry(widgetModel: favoritesItem)
     }
     
     func getSnapshot(in context: Context, completion: @escaping (WidgetEntry) -> ()) {
@@ -32,7 +32,7 @@ struct Provider: TimelineProvider {
             print("Could not decode data")
             return
         }
-        let entry = WidgetEntry(favoritesItem: favoritesItem)
+        let entry = WidgetEntry(widgetModel: favoritesItem)
         completion(entry)
     }
     
@@ -41,7 +41,7 @@ struct Provider: TimelineProvider {
             print("Could not decode data")
             return
         }
-        let entry = WidgetEntry(favoritesItem: favoritesItem)
+        let entry = WidgetEntry(widgetModel: favoritesItem)
         let timeline = Timeline(entries: [entry], policy: .never)
         completion(timeline)
     }
@@ -75,8 +75,8 @@ struct SmallWidget: View {
     
     @ViewBuilder
     var body: some View {
-        let favoriteArray = Array(entry.favoritesItem.favorites.prefix(3))
-        let mantraArray = Array(entry.favoritesItem.mantras.prefix(favoriteArray.count == 0 ? 3 : 0))
+        let favoriteArray = Array(entry.widgetModel.favorites.prefix(3))
+        let mantraArray = Array(entry.widgetModel.mantras.prefix(favoriteArray.count == 0 ? 3 : 0))
         
         ZStack {
             Color.init(UIColor.systemGroupedBackground)
@@ -127,8 +127,8 @@ struct MediumWidget: View {
     
     @ViewBuilder
     var body: some View {
-        let favoriteArray = Array(entry.favoritesItem.favorites.prefix(5))
-        let mantraArray = Array(entry.favoritesItem.mantras
+        let favoriteArray = Array(entry.widgetModel.favorites.prefix(5))
+        let mantraArray = Array(entry.widgetModel.mantras
                                     .prefix(favoriteArray.count == 0 ? 5
                                                 : ((3-favoriteArray.count) >= 0 ? (3-favoriteArray.count) : 0)))
         
@@ -191,8 +191,8 @@ struct LargeWidget: View {
     
     @ViewBuilder
     var body: some View {
-        let favoriteArray = Array(entry.favoritesItem.favorites.prefix(9))
-        let mantraArray = Array(entry.favoritesItem.mantras.prefix(9-favoriteArray.count))
+        let favoriteArray = Array(entry.widgetModel.favorites.prefix(9))
+        let mantraArray = Array(entry.widgetModel.mantras.prefix(9-favoriteArray.count))
         
         ZStack {
             Color.init(UIColor.systemGroupedBackground)
@@ -204,7 +204,7 @@ struct LargeWidget: View {
                         .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
                         .foregroundColor(.red)
                     Spacer()
-                    Text(Int(entry.favoritesItem.overallReads).stringFormattedWithSpaces())
+                    Text(Int(entry.widgetModel.overallReads).stringFormattedWithSpaces())
                         .font(Font(UIFont.preferredFont(for: .headline, weight: .bold)))
                         .foregroundColor(.secondary)
                 }

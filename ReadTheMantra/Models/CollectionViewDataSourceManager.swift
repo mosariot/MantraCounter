@@ -8,18 +8,20 @@
 
 import UIKit
 
-class CollectionViewDataSource {
+class CollectionViewDataSourceManager {
     
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Mantra>
-
+    
+    var isInFavoriteMode = false
+    
     func makeDataSource(collectionView: UICollectionView,
-                        isInFavoriteMode: Bool,
                         favoriteActionHandler: @escaping (Mantra) -> (),
                         deleteActionHandler: @escaping (Mantra) -> (),
                         canReorderingHandler: @escaping () -> Bool,
                         reorderingHandler: @escaping (NSDiffableDataSourceSnapshot<Int, Mantra>) -> ()) -> DataSource {
         
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Mantra> { (cell, indexPath, mantra) in
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Mantra> { [weak self] (cell, indexPath, mantra) in
+            guard let self = self else { return }
             
             var content = UIListContentConfiguration.subtitleCell()
             content.text = mantra.title
@@ -57,7 +59,7 @@ class CollectionViewDataSource {
                                                                              isHidden: mantra.readsGoal > mantra.reads)
             let badgeAccessory = UICellAccessory.customView(configuration: badgeConfiguration)
             
-            let accessories = isInFavoriteMode ?
+            let accessories = self.isInFavoriteMode ?
                 [favoriteAccessory, disclosureIndicatorAccessory, badgeAccessory, reorderAccessory] :
                 [deleteAccessory, favoriteAccessory, disclosureIndicatorAccessory, badgeAccessory, reorderAccessory]
             

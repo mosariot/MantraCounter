@@ -13,11 +13,11 @@ struct WidgetManager {
     @AppStorage("widgetItem", store: UserDefaults(suiteName: "group.com.mosariot.MantraCounter"))
     var widgetItemData: Data = Data()
     
-    let widgetItem: WidgetModel
+    let widgetModel: WidgetModel
     
     func storeFavoritesItem() {
         let encoder = JSONEncoder()
-        guard let data = try? encoder.encode(widgetItem) else {
+        guard let data = try? encoder.encode(widgetModel) else {
             print("Could not encode data")
             return
         }

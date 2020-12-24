@@ -14,6 +14,7 @@ final class MantraViewController: UICollectionViewController {
     //MARK: - Properties
     
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Mantra>
+    private var dataSourceManager = CollectionViewDataSourceManager()
     private lazy var dataSource = makeDataSource()
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -162,9 +163,9 @@ final class MantraViewController: UICollectionViewController {
     @objc private func segmentedValueChanged() {
         isInFavoriteMode = !isInFavoriteMode
         loadMantras()
+        dataSourceManager.isInFavoriteMode = isInFavoriteMode
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {
-            self.dataSource = self.makeDataSource()
-            self.loadMantras(animatingDifferences: false)
+            self.reloadDataSource()
         }
     }
     
@@ -219,8 +220,10 @@ extension MantraViewController {
 
 extension MantraViewController {
         
-    private func makeDataSource() -> CollectionViewDataSource.DataSource {
-        CollectionViewDataSource().makeDataSource(collectionView: collectionView, isInFavoriteMode: isInFavoriteMode) { [weak self] (mantra) in
+    private func makeDataSource() -> CollectionViewDataSourceManager.DataSource {
+       dataSourceManager.isInFavoriteMode = isInFavoriteMode
+        
+       return dataSourceManager.makeDataSource(collectionView: collectionView) { [weak self] (mantra) in
             guard let self = self else { return }
             self.handleFavoriteAction(for: mantra)
             if !self.isInFavoriteMode {
@@ -635,7 +638,7 @@ extension MantraViewController {
         
         let widget = WidgetModel(overallReads: overallReads, favorites: favoritesMantrasItems, mantras: mantrasItems)
         
-        let widgetData = WidgetManager(widgetItem: widget)
+        let widgetData = WidgetManager(widgetModel: widget)
         widgetData.storeFavoritesItem()
     }
 }

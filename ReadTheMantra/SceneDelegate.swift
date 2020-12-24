@@ -11,13 +11,12 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    var savedShortCutItem: UIApplicationShortcutItem!
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let _ = (scene as? UIWindowScene) else { return }
         
         if let shortcutItem = connectionOptions.shortcutItem {
-            savedShortCutItem = shortcutItem
+            handleShortcutAction(shortcutItem: shortcutItem)
         }
     }
     
@@ -50,9 +49,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
-        if savedShortCutItem != nil {
-            handleShortcutAction(shortcutItem: savedShortCutItem)
-        }
     }
     
     func sceneWillResignActive(_ scene: UIScene) {
