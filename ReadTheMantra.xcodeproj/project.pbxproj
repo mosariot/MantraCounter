@@ -233,13 +233,13 @@
 			children = (
 				9F5FE68C24E7141400D0475E /* ReadTheMantra.xcdatamodeld */,
 				9FCA5C8325922635002E1D25 /* CollectionViewDataSourceManager.swift */,
-				9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */,
-				9F9299AE250818B6003D5029 /* Constants.swift */,
-				9F5FE6A424E7183E00D0475E /* DetailsMode.swift */,
 				9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */,
 				9FE855A4258E2B8000771BA1 /* WidgetModel.swift */,
+				9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */,
+				9F5FE6A424E7183E00D0475E /* DetailsMode.swift */,
 				9FCA5CB025936668002E1D25 /* UpdatingType.swift */,
 				9FCA5CB425936692002E1D25 /* Level.swift */,
+				9F9299AE250818B6003D5029 /* Constants.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
