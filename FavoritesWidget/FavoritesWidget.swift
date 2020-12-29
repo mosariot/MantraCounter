@@ -126,22 +126,22 @@ struct MediumWidget: View {
     
     @ViewBuilder
     var body: some View {
-        let favoriteArray = Array(entry.widgetModel.favorites.prefix(6))
+        let favoriteArray = Array(entry.widgetModel.favorites.prefix(5))
         let mantraArray = Array(entry.widgetModel.mantras
-                                    .prefix(favoriteArray.count == 0 ? 6
-                                                : ((4-favoriteArray.count) >= 0 ? (4-favoriteArray.count) : 0)))
+                                    .prefix(favoriteArray.count == 0 ? 5
+                                                : ((3-favoriteArray.count) >= 0 ? (3-favoriteArray.count) : 0)))
         
         ZStack {
             Color.init(UIColor.systemGroupedBackground)
                 .ignoresSafeArea()
             
-            VStack(alignment: .leading, spacing: 5) {
+            VStack(alignment: .leading, spacing: 10) {
                 if favoriteArray.count > 0 {
                     VStack(alignment: .leading, spacing: 5) {
                         Text(NSLocalizedString("FAVORITES", comment: "Widget Subtitle"))
                             .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
                             .foregroundColor(.green)
-                        VStack(spacing: 1) {
+                        VStack(spacing: 5) {
                             ForEach(favoriteArray, id: \.id) { favorite in
                                 HStack {
                                     Text(favorite.title)
@@ -163,7 +163,7 @@ struct MediumWidget: View {
                         Text(NSLocalizedString("MANTRAS", comment: "Widget Subtitle"))
                             .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
                             .foregroundColor(.blue)
-                        VStack(spacing: 1) {
+                        VStack(spacing: 5) {
                             ForEach(mantraArray, id: \.id) { mantra in
                                 HStack {
                                     Text(mantra.title)
@@ -204,7 +204,7 @@ struct LargeWidget: View {
                         .foregroundColor(.red)
                     Spacer()
                     Text(Int(entry.widgetModel.overallReads).stringFormattedWithSpaces())
-                        .font(Font(UIFont.preferredFont(for: .subheadline, weight: .bold)))
+                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
                         .foregroundColor(.red)
                 }
                 if favoriteArray.count > 0 {
