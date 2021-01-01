@@ -17,7 +17,7 @@ final class ReadsCountViewController: UIViewController {
     
     //MARK: - Properties
     
-    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
     
     private let mantra: Mantra
     private let positionFavorite: Int32
@@ -155,7 +155,7 @@ final class ReadsCountViewController: UIViewController {
     }
     
     private func showUpdatingAlert(updatingType: UpdatingType) {
-        let alert = UIAlertController.UpdatingAlert(mantra: mantra, updatingType: updatingType) { (value, updatingType) in
+        let alert = UIAlertController.UpdatingAlert(mantra: mantra, updatingType: updatingType) { (value) in
             self.handleAlertPositiveAction(forValue: value, updatingType: updatingType)
         }
         present(alert, animated: true, completion: nil)

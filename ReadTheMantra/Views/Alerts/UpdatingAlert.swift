@@ -12,7 +12,7 @@ extension UIAlertController {
     
     static func UpdatingAlert(mantra: Mantra,
                               updatingType: UpdatingType,
-                              positiveActionHanlder: @escaping (Int32, UpdatingType) -> ()) -> UIAlertController {
+                              positiveActionHanlder: @escaping (Int32) -> ()) -> UIAlertController {
         
         func isValidUpdatingNumber(text: String?, updatingType: UpdatingType) -> Bool {
             guard
@@ -52,7 +52,7 @@ extension UIAlertController {
         
         let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
         let positiveAction = UIAlertAction(title: actionTitle, style: .default) { _ in
-            positiveActionHanlder(value, updatingType)
+            positiveActionHanlder(value)
         }
         alert.addTextField { alertTextField in
             alertTextField.placeholder = NSLocalizedString("Enter number", comment: "Alert Placehonder on ReadsCountViewController")

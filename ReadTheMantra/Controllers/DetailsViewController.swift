@@ -18,7 +18,7 @@ final class DetailsViewController: UIViewController {
     
     //MARK: - Properties
     
-    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
     
     private var mantra: Mantra
     private var mode: DetailsMode

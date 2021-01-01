@@ -47,6 +47,7 @@
 		9FCA5CB92593672D002E1D25 /* UpdatingAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CB82593672D002E1D25 /* UpdatingAlert.swift */; };
 		9FCA5CBF25936F16002E1D25 /* CongratulationsAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CBE25936F16002E1D25 /* CongratulationsAlert.swift */; };
 		9FCA5CCB2593BEC6002E1D25 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9FCA5CC92593BEAC002E1D25 /* Localizable.strings */; };
+		9FCA5CD5259F6938002E1D25 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CD4259F6936002E1D25 /* CoreDataManager.swift */; };
 		9FE855A5258E2B8000771BA1 /* WidgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855A4258E2B8000771BA1 /* WidgetModel.swift */; };
 		9FE855B2258E4F9A00771BA1 /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */; };
 		9FE855BB258E51BF00771BA1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE855BA258E51BF00771BA1 /* WidgetKit.framework */; };
@@ -120,6 +121,7 @@
 		9FCA5CB82593672D002E1D25 /* UpdatingAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatingAlert.swift; sourceTree = "<group>"; };
 		9FCA5CBE25936F16002E1D25 /* CongratulationsAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongratulationsAlert.swift; sourceTree = "<group>"; };
 		9FCA5CCA2593BEAC002E1D25 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9FCA5CD4259F6936002E1D25 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		9FE855A4258E2B8000771BA1 /* WidgetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetModel.swift; sourceTree = "<group>"; };
 		9FE855A7258E2CED00771BA1 /* MantraCounter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MantraCounter.entitlements; sourceTree = "<group>"; };
 		9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetManager.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				9F5FE68C24E7141400D0475E /* ReadTheMantra.xcdatamodeld */,
+				9FCA5CD4259F6936002E1D25 /* CoreDataManager.swift */,
 				9FCA5C8325922635002E1D25 /* CollectionViewDataSourceManager.swift */,
 				9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */,
 				9FE855A4258E2B8000771BA1 /* WidgetModel.swift */,
@@ -420,6 +423,7 @@
 				9F7A5096253DD439008BFD6F /* CopyableLabel.swift in Sources */,
 				9F9299AF250818B6003D5029 /* Constants.swift in Sources */,
 				9FCA5CB525936692002E1D25 /* Level.swift in Sources */,
+				9FCA5CD5259F6938002E1D25 /* CoreDataManager.swift in Sources */,
 				9FCA5C93259349EC002E1D25 /* DuplicatingAlert.swift in Sources */,
 				9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */,
 				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,

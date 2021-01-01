@@ -17,7 +17,7 @@ final class MantraViewController: UICollectionViewController {
     private var dataSourceManager = CollectionViewDataSourceManager()
     private lazy var dataSource = makeDataSource()
     
-    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
     
     private var fetchedResultsController: NSFetchedResultsController<Mantra>?
     

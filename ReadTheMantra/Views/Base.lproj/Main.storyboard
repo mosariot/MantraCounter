@@ -507,7 +507,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pyN-Dz-03y" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8228.9855072463779" y="498.88392857142856"/>
+            <point key="canvasLocation" x="8228" y="498.80059970014997"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rZn-X1-UhO">

@@ -159,6 +159,7 @@ final class CircularProgressView: UIView {
     private func drawBackgroundLayer() {
         
         let path = UIBezierPath(arcCenter: pathCenter, radius: radius, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
+//        let path = UIBezierPath(arcCenter: pathCenter, radius: radius, startAngle: 0.8*CGFloat.pi, endAngle: 0.2*CGFloat.pi, clockwise: true)
         backgroundLayer.path = path.cgPath
         backgroundLayer.strokeColor = UIColor.systemGray.cgColor
         backgroundLayer.lineWidth = lineWidth - (0.3 * lineWidth)
@@ -170,6 +171,8 @@ final class CircularProgressView: UIView {
         
         let startAngle = (-CGFloat.pi/2)
         let endAngle = 2 * CGFloat.pi + startAngle
+//        let startAngle = 0.8*CGFloat.pi
+//        let endAngle = 1.4 * CGFloat.pi + startAngle
         
         let path = UIBezierPath(arcCenter: pathCenter, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
         
