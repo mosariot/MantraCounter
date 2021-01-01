@@ -7,15 +7,57 @@
 //
 
 import SwiftUI
+import CoreData
 import WidgetKit
 
 struct WidgetManager {
     @AppStorage("widgetItem", store: UserDefaults(suiteName: "group.com.mosariot.MantraCounter"))
     var widgetItemData: Data = Data()
     
-    let widgetModel: WidgetModel
+    private let context = CoreDataManager.shared.persistentContainer.viewContext
     
-    func storeFavoritesItem() {
+    func updateWidgetData() {
+        
+        var overallReads: Int32 = 0
+        var favoritesMantrasItems: [WidgetModel.Item] = []
+        var mantrasItems: [WidgetModel.Item] = []
+        var overallMantraArray: [Mantra] = []
+        
+        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
+        do {
+            overallMantraArray = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+        
+        for mantra in overallMantraArray {
+            overallReads += mantra.reads
+        }
+        
+        let favoritesMantras = Array(overallMantraArray
+                                                .filter({ $0.isFavorite })
+                                                .sorted(by: { $0.positionFavorite < $1.positionFavorite }))
+        let mantras = Array(overallMantraArray
+                                        .sorted(by: { $0.position < $1.position }))
+        
+        for favoriteItem in favoritesMantras {
+            if let title = favoriteItem.title {
+                favoritesMantrasItems.append(WidgetModel.Item(title: title, reads: favoriteItem.reads))
+            }
+        }
+        
+        for mantraItem in mantras {
+            if let title = mantraItem.title {
+                mantrasItems.append(WidgetModel.Item(title: title, reads: mantraItem.reads))
+            }
+        }
+        
+        let widgetModel = WidgetModel(overallReads: overallReads, favorites: favoritesMantrasItems, mantras: mantrasItems)
+        
+        storeWidgetItem(widgetModel: widgetModel)
+    }
+    
+    private func storeWidgetItem(widgetModel: WidgetModel) {
         let encoder = JSONEncoder()
         guard let data = try? encoder.encode(widgetModel) else {
             print("Could not encode data")

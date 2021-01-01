@@ -11,14 +11,17 @@ import PhotosUI
 import SafariServices
 
 protocol DetailsViewControllerDelegate: class {
-    func updateViewAndWidget()
+    func updateView()
 }
 
 final class DetailsViewController: UIViewController {
     
     //MARK: - Properties
     
-    private let context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
+    private let coreDataManager = CoreDataManager.shared
+    private let context = CoreDataManager.shared.persistentContainer.viewContext
+    
+    private let widgetManager = WidgetManager()
     
     private var mantra: Mantra
     private var mode: DetailsMode
@@ -30,9 +33,9 @@ final class DetailsViewController: UIViewController {
     
     //MARK: - IBOutlets
     
-    @IBOutlet weak var titleStackView: UIStackView!
-    @IBOutlet weak var mantraTextStackView: UIStackView!
-    @IBOutlet weak var descriptionStackView: UIStackView!
+    @IBOutlet private weak var titleStackView: UIStackView!
+    @IBOutlet private weak var mantraTextStackView: UIStackView!
+    @IBOutlet private weak var descriptionStackView: UIStackView!
     @IBOutlet private weak var setPhotoButton: SetPhotoButton!
     @IBOutlet private weak var titleTextField: UITextField!
     @IBOutlet private weak var mantraTextTextView: TextViewWithPlaceholder!
@@ -216,7 +219,7 @@ extension DetailsViewController {
     
     private func cancelButtonPressed() {
         context.delete(mantra)
-        delegate?.updateViewAndWidget()
+        delegate?.updateView()
         dismiss(animated: true, completion: nil)
     }
     
@@ -227,13 +230,14 @@ extension DetailsViewController {
     private func doneButtonPressed() {
         guard let title = titleTextField.text else { return }
         processMantra(title: title)
-        saveMantras()
-        delegate?.updateViewAndWidget()
+        coreDataManager.saveContext()
+        widgetManager.updateWidgetData()
+        delegate?.updateView()
         setViewMode()
     }
     
     private func closeButtonPressed() {
-        delegate?.updateViewAndWidget()
+        delegate?.updateView()
         dismiss(animated: true, completion: nil)
     }
     
@@ -251,9 +255,10 @@ extension DetailsViewController {
     
     private func handleAddNewMantra(for title: String) {
         processMantra(title: title)
-        saveMantras()
+        coreDataManager.saveContext()
         context.reset()
-        delegate?.updateViewAndWidget()
+        widgetManager.updateWidgetData()
+        delegate?.updateView()
         dismiss(animated: true, completion: nil)
     }
     
@@ -292,19 +297,6 @@ extension DetailsViewController {
         guard let url = URL(string: urlString) else { return }
         let vc = SFSafariViewController(url: url)
         present(vc, animated: true)
-    }
-}
-
-//MARK: - Model Manipulation
-
-extension DetailsViewController {
-    
-    private func saveMantras() {
-        do {
-            try context.save()
-        } catch {
-            print("Error saving context, \(error)")
-        }
     }
 }
 
@@ -398,6 +390,6 @@ extension DetailsViewController: UIAdaptivePresentationControllerDelegate {
         if delegate is MantraViewController {
             context.delete(mantra)
         }
-        delegate?.updateViewAndWidget()
+        delegate?.updateView()
     }
 }

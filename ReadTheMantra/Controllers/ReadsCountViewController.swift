@@ -10,14 +10,16 @@ import UIKit
 
 protocol ReadsCountViewControllerDelegate: class {
     func favoriteActionPerformed()
-    func updateWidget()
 }
 
 final class ReadsCountViewController: UIViewController {
     
     //MARK: - Properties
     
-    private let context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
+    private let coreDataManager = CoreDataManager.shared
+    private let context = CoreDataManager.shared.persistentContainer.viewContext
+    
+    private let widgetManager = WidgetManager()
     
     private let mantra: Mantra
     private let positionFavorite: Int32
@@ -102,8 +104,8 @@ final class ReadsCountViewController: UIViewController {
         mantra.isFavorite = !mantra.isFavorite
         mantra.positionFavorite = mantra.isFavorite ? positionFavorite : 0
         delegate?.favoriteActionPerformed()
-        delegate?.updateWidget()
-        saveMantras()
+        coreDataManager.saveContext()
+        widgetManager.updateWidgetData()
         setupNavButtons()
     }
     
@@ -166,8 +168,8 @@ final class ReadsCountViewController: UIViewController {
         updateValues(with: value, updatingType: updatingType)
         updateProrgessView(for: updatingType)
         readsGoalButton.setTitle(NSLocalizedString("Goal: ", comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(), for: .normal)
-        saveMantras()
-        delegate?.updateWidget()
+        coreDataManager.saveContext()
+        widgetManager.updateWidgetData()
         readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
     }
     
@@ -217,25 +219,11 @@ final class ReadsCountViewController: UIViewController {
     }
 }
 
-//MARK: - Model Manipulation
-
-extension ReadsCountViewController {
-    
-    private func saveMantras() {
-        do {
-            try context.save()
-        } catch {
-            print("Error saving context, \(error)")
-        }
-    }
-}
-
-//MARK: - DetailsViewController Delegate (Updating View and Widget)
+//MARK: - DetailsViewController Delegate (Updating View)
 
 extension ReadsCountViewController: DetailsViewControllerDelegate {
     
-    func updateViewAndWidget() {
+    func updateView() {
         setupUI()
-        delegate?.updateWidget()
     }
 }
