@@ -17,7 +17,6 @@ final class ReadsCountViewController: UIViewController {
     //MARK: - Properties
     
     private let coreDataManager = CoreDataManager.shared
-    private let context = CoreDataManager.shared.persistentContainer.viewContext
     
     private let widgetManager = WidgetManager()
     

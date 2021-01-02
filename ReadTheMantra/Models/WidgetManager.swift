@@ -17,18 +17,15 @@ struct WidgetManager {
     private let context = CoreDataManager.shared.persistentContainer.viewContext
     
     func updateWidgetData() {
-        
+        let widgetModel = getWidgetModel()
+        storeWidgetItem(widgetModel: widgetModel)
+    }
+    
+    private func getWidgetModel() -> WidgetModel {
         var overallReads: Int32 = 0
         var favoritesMantrasItems: [WidgetModel.Item] = []
         var mantrasItems: [WidgetModel.Item] = []
-        var overallMantraArray: [Mantra] = []
-        
-        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
-        do {
-            overallMantraArray = try context.fetch(request)
-        } catch {
-            print("Error fetching data from context \(error)")
-        }
+        let overallMantraArray = getOverallMatraArray()
         
         for mantra in overallMantraArray {
             overallReads += mantra.reads
@@ -53,8 +50,18 @@ struct WidgetManager {
         }
         
         let widgetModel = WidgetModel(overallReads: overallReads, favorites: favoritesMantrasItems, mantras: mantrasItems)
-        
-        storeWidgetItem(widgetModel: widgetModel)
+        return widgetModel
+    }
+    
+    private func getOverallMatraArray() -> [Mantra] {
+        var overallMantraArray: [Mantra] = []
+        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
+        do {
+            overallMantraArray = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+        return overallMantraArray
     }
     
     private func storeWidgetItem(widgetModel: WidgetModel) {

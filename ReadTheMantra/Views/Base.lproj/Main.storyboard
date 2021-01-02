@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KRA-ew-P98">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -13,7 +13,7 @@
             <objects>
                 <collectionViewController storyboardIdentifier="MantraViewController" id="NFQ-oD-5FU" customClass="MantraViewController" customModule="MantraCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="0Tg-Nk-LcB">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5oD-43-SHp">
@@ -39,26 +39,26 @@
             <objects>
                 <viewController storyboardIdentifier="OnboardingViewController" id="1Jb-bv-xnI" customClass="OnboardingViewController" customModule="MantraCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HyO-GG-cdw">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="jdD-CX-unP" userLabel="Main Stack View">
-                                <rect key="frame" x="20" y="20" width="335" height="627"/>
+                                <rect key="frame" x="20" y="64" width="350" height="726"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Welcome to the path of Enlightenment!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7KD-zQ-R2b" userLabel="Title Label">
-                                        <rect key="frame" x="25" y="0.0" width="285" height="67.5"/>
+                                        <rect key="frame" x="32.666666666666657" y="0.0" width="285" height="67.666666666666671"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="DefaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="Z84-h7-wXb" userLabel="Image">
-                                        <rect key="frame" x="101" y="134.5" width="133" height="133.5"/>
+                                        <rect key="frame" x="90.666666666666671" y="156" width="168.66666666666663" height="169"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Z84-h7-wXb" secondAttribute="height" id="R2s-BO-Qg2"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7r2-FB-UtH" userLabel="Text Label">
-                                        <rect key="frame" x="0.5" y="335.5" width="334.5" height="174.5"/>
+                                        <rect key="frame" x="5.3333333333333428" y="413.33333333333331" width="339.66666666666663" height="174.33333333333331"/>
                                         <string key="text">Recitation of mantras - is a sacrament.
 Approach this issue with all your awareness.
 For this reason, application does not include the mantra texts themselves.
@@ -72,7 +72,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                                         </variation>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PUZ-IY-Geb" userLabel="Dismiss Button">
-                                        <rect key="frame" x="67.5" y="577" width="200" height="50"/>
+                                        <rect key="frame" x="75" y="676" width="200" height="50"/>
                                         <color key="backgroundColor" systemColor="linkColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="2n2-Hl-qeE"/>
@@ -137,17 +137,17 @@ We wish you deep awarenesses and spiritual growth!</string>
             <objects>
                 <viewController storyboardIdentifier="DetailsViewController" id="oME-Mn-XWI" customClass="DetailsViewController" customModule="MantraCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eEh-mS-Rdf">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ufR-lF-3WM">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="k9h-cR-IWt" userLabel="Main Stack View">
-                                        <rect key="frame" x="0.0" y="20" width="375" height="472.5"/>
+                                        <rect key="frame" x="0.0" y="20" width="390" height="472"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KXK-gN-mOv" customClass="SetPhotoButton" customModule="MantraCounter" customModuleProvider="target">
-                                                <rect key="frame" x="107.5" y="0.0" width="160" height="160"/>
+                                                <rect key="frame" x="115" y="0.0" width="160" height="160"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="KXK-gN-mOv" secondAttribute="height" id="BA3-i3-E3E"/>
                                                     <constraint firstAttribute="height" constant="160" id="kZH-dg-36F"/>
@@ -155,16 +155,16 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                 <state key="normal" image="DefaultImage"/>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="a1H-9L-kHe" userLabel="Title Stack View">
-                                                <rect key="frame" x="15" y="175" width="345" height="88.5"/>
+                                                <rect key="frame" x="15" y="175" width="360" height="88.333333333333314"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGu-qb-SNX" userLabel="Title Label">
-                                                        <rect key="frame" x="20" y="15" width="305" height="20.5"/>
+                                                        <rect key="frame" x="20" y="14.999999999999998" width="320" height="20.333333333333329"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" systemColor="secondaryLabelColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Title" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YbO-xG-hna">
-                                                        <rect key="frame" x="20" y="35.5" width="305" height="43"/>
+                                                        <rect key="frame" x="20" y="35.333333333333343" width="320" height="43"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="43" id="klb-EA-vbT"/>
                                                         </constraints>
@@ -181,16 +181,16 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                 <edgeInsets key="layoutMargins" top="15" left="0.0" bottom="10" right="0.0"/>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xuB-nR-Oiy" userLabel="Mantra Text Stack View">
-                                                <rect key="frame" x="15" y="278.5" width="345" height="89.5"/>
+                                                <rect key="frame" x="15" y="278.33333333333331" width="360" height="89.333333333333314"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mantra text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxE-9v-7MR">
-                                                        <rect key="frame" x="20" y="15" width="305" height="20.5"/>
+                                                        <rect key="frame" x="20" y="14.999999999999998" width="320" height="20.333333333333329"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" systemColor="secondaryLabelColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Text" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xhj-0A-Osd" customClass="TextViewWithPlaceholder" customModule="MantraCounter" customModuleProvider="target">
-                                                        <rect key="frame" x="15" y="35.5" width="315" height="44"/>
+                                                        <rect key="frame" x="15" y="35.333333333333371" width="330" height="44"/>
                                                         <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor"/>
                                                         <color key="textColor" systemColor="labelColor"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
@@ -206,16 +206,16 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                 <edgeInsets key="layoutMargins" top="15" left="0.0" bottom="10" right="0.0"/>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="MIL-18-J7h" userLabel="Description Stack View">
-                                                <rect key="frame" x="15" y="383" width="345" height="89.5"/>
+                                                <rect key="frame" x="15" y="382.66666666666669" width="360" height="89.333333333333314"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oer-C2-YaE" userLabel="Description Label">
-                                                        <rect key="frame" x="20" y="15" width="305" height="20.5"/>
+                                                        <rect key="frame" x="20" y="14.999999999999998" width="320" height="20.333333333333329"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" systemColor="secondaryLabelColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Description" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dBV-0g-Qvz" customClass="TextViewWithPlaceholder" customModule="MantraCounter" customModuleProvider="target">
-                                                        <rect key="frame" x="15" y="35.5" width="315" height="44"/>
+                                                        <rect key="frame" x="15" y="35.333333333333314" width="330" height="44"/>
                                                         <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor"/>
                                                         <color key="textColor" systemColor="labelColor"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
@@ -282,14 +282,14 @@ We wish you deep awarenesses and spiritual growth!</string>
             <objects>
                 <viewController storyboardIdentifier="ReadsCountViewController" id="9Ew-Yb-oIM" customClass="ReadsCountViewController" customModule="MantraCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LJz-A8-q5d">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="wUI-LR-HUU" userLabel="Main Stack View">
-                                <rect key="frame" x="30" y="20" width="315" height="627"/>
+                                <rect key="frame" x="30" y="64" width="330" height="726"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aYM-Zj-T08">
-                                        <rect key="frame" x="92" y="0.0" width="131" height="131.5"/>
+                                        <rect key="frame" x="96.666666666666671" y="0.0" width="136.66666666666663" height="136.66666666666666"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="aYM-Zj-T08" secondAttribute="height" id="WVO-By-qtL"/>
                                         </constraints>
@@ -297,16 +297,16 @@ We wish you deep awarenesses and spiritual growth!</string>
                                         <variation key="heightClass=compact-widthClass=regular" hidden="YES"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z7q-lJ-Yge" customClass="CopyableLabel" customModule="MantraCounter" customModuleProvider="target">
-                                        <rect key="frame" x="126.5" y="175.5" width="62.5" height="41"/>
+                                        <rect key="frame" x="133.66666666666666" y="209" width="62.666666666666657" height="40.666666666666657"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="heightClass=compact-widthClass=compact" hidden="YES"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="o6T-hj-L0V" userLabel="Landscape Stack View">
-                                        <rect key="frame" x="49" y="260.5" width="217.5" height="252.5"/>
+                                        <rect key="frame" x="52" y="322.33333333333331" width="226" height="260.99999999999994"/>
                                         <subviews>
                                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Rbr-tp-RAr" userLabel="Landscape Mantra Image View">
-                                                <rect key="frame" x="0.0" y="126" width="0.0" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="130.66666666666669" width="0.0" height="0.0"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="Rbr-tp-RAr" secondAttribute="height" id="jMU-G9-1pX"/>
                                                 </constraints>
@@ -314,10 +314,10 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                 <variation key="heightClass=compact-widthClass=regular" hidden="NO"/>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="iRH-g6-fRu" userLabel="Circular Progress Stack View">
-                                                <rect key="frame" x="0.0" y="0.0" width="217.5" height="252.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="226" height="261"/>
                                                 <subviews>
                                                     <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="56j-8c-bvo" customClass="CircularProgressView" customModule="MantraCounter" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="217.5" height="217.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="226" height="226"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <accessibility key="accessibilityConfiguration" label="123">
                                                             <bool key="isElement" value="NO"/>
@@ -327,7 +327,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                         </constraints>
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MmZ-ji-SKX">
-                                                        <rect key="frame" x="92.5" y="222.5" width="32" height="30"/>
+                                                        <rect key="frame" x="97" y="231.00000000000006" width="32" height="30"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                         <state key="normal" title="Goal"/>
                                                         <connections>
@@ -357,7 +357,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                                         </variation>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="f0G-CI-caq" userLabel="Buttons Stack View">
-                                        <rect key="frame" x="0.0" y="557" width="315" height="70"/>
+                                        <rect key="frame" x="0.0" y="656" width="330" height="70"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dUS-5m-kus" customClass="AdjustReadsButton" customModule="MantraCounter" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
@@ -375,7 +375,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZdM-Gq-d1v" customClass="AdjustReadsButton" customModule="MantraCounter" customModuleProvider="target">
-                                                <rect key="frame" x="122.5" y="0.0" width="70" height="70"/>
+                                                <rect key="frame" x="130" y="0.0" width="70" height="70"/>
                                                 <color key="backgroundColor" systemColor="linkColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="1eA-gg-d4z"/>
@@ -390,7 +390,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5fa-hA-HQ2" userLabel="Set Proper Value Button" customClass="AdjustReadsButton" customModule="MantraCounter" customModuleProvider="target">
-                                                <rect key="frame" x="245" y="0.0" width="70" height="70"/>
+                                                <rect key="frame" x="260" y="0.0" width="70" height="70"/>
                                                 <color key="backgroundColor" systemColor="linkColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="70" id="Ylk-1l-Pwm"/>
@@ -507,7 +507,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pyN-Dz-03y" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8228" y="498.80059970014997"/>
+            <point key="canvasLocation" x="8228.9855072463779" y="498.88392857142856"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rZn-X1-UhO">
@@ -515,7 +515,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KRA-ew-P98" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="gA4-rO-jvW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
