@@ -308,7 +308,7 @@ extension DetailsViewController {
         
         let circledImage = image.cropToCircle()
         let resizedCircledImage = circledImage?.resize(to: CGSize(width: 400, height: 400))
-        let resizedCircledImageForTableView = circledImage?.resize(to: CGSize(width: Constants.rowHeight*3, height: Constants.rowHeight*3))
+        let resizedCircledImageForTableView = circledImage?.resize(to: CGSize(width: Constants.rowHeight*2, height: Constants.rowHeight*2))
         
         if let imageData = resizedCircledImage?.pngData() {
             mantraImageData = imageData

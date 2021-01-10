@@ -1,5 +1,5 @@
 //
-//  K.swift
+//  Constants.swift
 //  ReadTheMantra
 //
 //  Created by Alex Vorobiev on 08.09.2020.

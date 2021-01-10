@@ -106,6 +106,7 @@
 		9F5FE6B824E9B6E500D0475E /* CircleAndResizeUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleAndResizeUIImage.swift; sourceTree = "<group>"; };
 		9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardWhenTappedAround.swift; sourceTree = "<group>"; };
 		9F6503D7256651670055ED8F /* ConfettiView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
+		9F65C45625AA20A00037A8F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9F75828125821EC600695ED7 /* RoundedStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedStackView.swift; sourceTree = "<group>"; };
 		9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDynamicFontWeight.swift; sourceTree = "<group>"; };
 		9F7A5095253DD438008BFD6F /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
@@ -497,6 +498,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				9FCA5CCA2593BEAC002E1D25 /* ru */,
+				9F65C45625AA20A00037A8F7 /* en */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

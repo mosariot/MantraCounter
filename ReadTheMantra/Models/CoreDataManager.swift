@@ -55,7 +55,7 @@ final class CoreDataManager {
                 case .image:
                     if let image = UIImage(named: value) {
                         mantra.image = image.pngData()
-                        mantra.imageForTableView = image.resize(to: CGSize(width: Constants.rowHeight*3, height: Constants.rowHeight*3)).pngData()
+                        mantra.imageForTableView = image.resize(to: CGSize(width: Constants.rowHeight*2, height: Constants.rowHeight*2)).pngData()
                     }
                 }
             }

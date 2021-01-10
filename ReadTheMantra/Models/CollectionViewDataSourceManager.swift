@@ -32,7 +32,7 @@ class CollectionViewDataSourceManager {
                 content.textToSecondaryTextVerticalPadding = 4
                 content.image = (mantra.imageForTableView != nil) ?
                     UIImage(data: mantra.imageForTableView!) :
-                    UIImage(named: Constants.defaultImage)?.resize(to: CGSize(width: Constants.rowHeight*3, height: Constants.rowHeight*3))
+                    UIImage(named: Constants.defaultImage)?.resize(to: CGSize(width: Constants.rowHeight*2, height: Constants.rowHeight*2))
             }
             cell.contentConfiguration = content
             
@@ -58,11 +58,11 @@ class CollectionViewDataSourceManager {
                                                                              placement: .trailing(displayed: .always),
                                                                              isHidden: mantra.readsGoal > mantra.reads)
             let badgeAccessory = UICellAccessory.customView(configuration: badgeConfiguration)
-            
+
             let accessories = self.isInFavoriteMode ?
                 [favoriteAccessory, disclosureIndicatorAccessory, badgeAccessory, reorderAccessory] :
                 [deleteAccessory, favoriteAccessory, disclosureIndicatorAccessory, badgeAccessory, reorderAccessory]
-            
+
             cell.accessories = accessories
         }
         

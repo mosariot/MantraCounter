@@ -17,6 +17,12 @@ final class AdjustReadsButton: UIButton {
         }
     }
     
+    override var isHighlighted: Bool {
+        didSet {
+            alpha = isHighlighted ? 0.6 : 1
+        }
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = frame.height / 2

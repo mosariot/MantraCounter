@@ -52,7 +52,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="DefaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="Z84-h7-wXb" userLabel="Image">
-                                        <rect key="frame" x="90.666666666666671" y="156" width="168.66666666666663" height="169"/>
+                                        <rect key="frame" x="90.666666666666686" y="156" width="168.66666666666663" height="169"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Z84-h7-wXb" secondAttribute="height" id="R2s-BO-Qg2"/>
                                         </constraints>
@@ -288,15 +288,15 @@ We wish you deep awarenesses and spiritual growth!</string>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="wUI-LR-HUU" userLabel="Main Stack View">
                                 <rect key="frame" x="30" y="64" width="330" height="726"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aYM-Zj-T08">
-                                        <rect key="frame" x="96.666666666666671" y="0.0" width="136.66666666666663" height="136.66666666666666"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="aYM-Zj-T08">
+                                        <rect key="frame" x="96.666666666666686" y="0.0" width="136.66666666666663" height="136.66666666666666"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="aYM-Zj-T08" secondAttribute="height" id="WVO-By-qtL"/>
                                         </constraints>
                                         <variation key="heightClass=compact-widthClass=compact" hidden="YES"/>
                                         <variation key="heightClass=compact-widthClass=regular" hidden="YES"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z7q-lJ-Yge" customClass="CopyableLabel" customModule="MantraCounter" customModuleProvider="target">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z7q-lJ-Yge" customClass="CopyableLabel" customModule="MantraCounter" customModuleProvider="target">
                                         <rect key="frame" x="133.66666666666666" y="209" width="62.666666666666657" height="40.666666666666657"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                         <nil key="highlightedColor"/>
@@ -305,7 +305,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="o6T-hj-L0V" userLabel="Landscape Stack View">
                                         <rect key="frame" x="52" y="322.33333333333331" width="226" height="260.99999999999994"/>
                                         <subviews>
-                                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Rbr-tp-RAr" userLabel="Landscape Mantra Image View">
+                                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Rbr-tp-RAr" userLabel="Landscape Mantra Image View">
                                                 <rect key="frame" x="0.0" y="130.66666666666669" width="0.0" height="0.0"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="Rbr-tp-RAr" secondAttribute="height" id="jMU-G9-1pX"/>
@@ -363,8 +363,8 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                 <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                                                 <color key="backgroundColor" systemColor="linkColor"/>
                                                 <constraints>
+                                                    <constraint firstAttribute="width" secondItem="dUS-5m-kus" secondAttribute="height" id="UoE-Oe-a9R"/>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="cbo-kR-HZB"/>
-                                                    <constraint firstAttribute="height" constant="70" id="wzd-Tu-n02"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <state key="normal">
@@ -379,7 +379,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                 <color key="backgroundColor" systemColor="linkColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="1eA-gg-d4z"/>
-                                                    <constraint firstAttribute="height" constant="70" id="toD-rb-1W7"/>
+                                                    <constraint firstAttribute="width" secondItem="ZdM-Gq-d1v" secondAttribute="height" id="t7Y-h5-RP5"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <state key="normal">
@@ -393,8 +393,8 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                 <rect key="frame" x="260" y="0.0" width="70" height="70"/>
                                                 <color key="backgroundColor" systemColor="linkColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="70" id="Ylk-1l-Pwm"/>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="clL-dz-X9U"/>
+                                                    <constraint firstAttribute="width" secondItem="5fa-hA-HQ2" secondAttribute="height" id="fgb-7D-Fn6"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <state key="normal">
@@ -507,7 +507,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pyN-Dz-03y" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8228.9855072463779" y="498.88392857142856"/>
+            <point key="canvasLocation" x="8228" y="498"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rZn-X1-UhO">
