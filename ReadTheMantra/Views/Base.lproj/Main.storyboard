@@ -52,7 +52,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="DefaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="Z84-h7-wXb" userLabel="Image">
-                                        <rect key="frame" x="90.666666666666686" y="156" width="168.66666666666663" height="169"/>
+                                        <rect key="frame" x="90.666666666666671" y="156" width="168.66666666666663" height="169"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Z84-h7-wXb" secondAttribute="height" id="R2s-BO-Qg2"/>
                                         </constraints>
@@ -289,12 +289,14 @@ We wish you deep awarenesses and spiritual growth!</string>
                                 <rect key="frame" x="30" y="64" width="330" height="726"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="aYM-Zj-T08">
-                                        <rect key="frame" x="96.666666666666686" y="0.0" width="136.66666666666663" height="136.66666666666666"/>
+                                        <rect key="frame" x="96.666666666666671" y="0.0" width="136.66666666666663" height="136.66666666666666"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="aYM-Zj-T08" secondAttribute="height" id="WVO-By-qtL"/>
                                         </constraints>
                                         <variation key="heightClass=compact-widthClass=compact" hidden="YES"/>
                                         <variation key="heightClass=compact-widthClass=regular" hidden="YES"/>
+                                        <variation key="heightClass=regular-widthClass=compact" hidden="NO"/>
+                                        <variation key="heightClass=regular-widthClass=regular" hidden="NO"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z7q-lJ-Yge" customClass="CopyableLabel" customModule="MantraCounter" customModuleProvider="target">
                                         <rect key="frame" x="133.66666666666666" y="209" width="62.666666666666657" height="40.666666666666657"/>
@@ -305,13 +307,15 @@ We wish you deep awarenesses and spiritual growth!</string>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="o6T-hj-L0V" userLabel="Landscape Stack View">
                                         <rect key="frame" x="52" y="322.33333333333331" width="226" height="260.99999999999994"/>
                                         <subviews>
-                                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Rbr-tp-RAr" userLabel="Landscape Mantra Image View">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Rbr-tp-RAr" userLabel="Landscape Mantra Image View">
                                                 <rect key="frame" x="0.0" y="130.66666666666669" width="0.0" height="0.0"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="Rbr-tp-RAr" secondAttribute="height" id="jMU-G9-1pX"/>
                                                 </constraints>
                                                 <variation key="heightClass=compact-widthClass=compact" hidden="NO"/>
                                                 <variation key="heightClass=compact-widthClass=regular" hidden="NO"/>
+                                                <variation key="heightClass=regular-widthClass=compact" hidden="YES"/>
+                                                <variation key="heightClass=regular-widthClass=regular" hidden="YES"/>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="iRH-g6-fRu" userLabel="Circular Progress Stack View">
                                                 <rect key="frame" x="0.0" y="0.0" width="226" height="261"/>
@@ -408,25 +412,19 @@ We wish you deep awarenesses and spiritual growth!</string>
                                     </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="f0G-CI-caq" firstAttribute="leading" secondItem="wUI-LR-HUU" secondAttribute="leading" id="8XO-Um-U77"/>
-                                    <constraint firstItem="f0G-CI-caq" firstAttribute="trailing" secondItem="wUI-LR-HUU" secondAttribute="trailing" id="qus-2p-GWK"/>
+                                    <constraint firstItem="f0G-CI-caq" firstAttribute="leading" secondItem="wUI-LR-HUU" secondAttribute="leading" id="IDK-VV-lBs"/>
+                                    <constraint firstItem="f0G-CI-caq" firstAttribute="trailing" secondItem="wUI-LR-HUU" secondAttribute="trailing" id="jqN-9e-1Qa"/>
                                 </constraints>
-                                <variation key="heightClass=compact-widthClass=compact">
+                                <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="8XO-Um-U77"/>
-                                        <exclude reference="qus-2p-GWK"/>
+                                        <exclude reference="IDK-VV-lBs"/>
+                                        <exclude reference="jqN-9e-1Qa"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=compact-widthClass=regular">
+                                <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="8XO-Um-U77"/>
-                                        <exclude reference="qus-2p-GWK"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <mask key="constraints">
-                                        <exclude reference="8XO-Um-U77"/>
-                                        <exclude reference="qus-2p-GWK"/>
+                                        <include reference="IDK-VV-lBs"/>
+                                        <include reference="jqN-9e-1Qa"/>
                                     </mask>
                                 </variation>
                             </stackView>
@@ -434,61 +432,65 @@ We wish you deep awarenesses and spiritual growth!</string>
                         <viewLayoutGuide key="safeArea" id="c4c-wV-DI0"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="wUI-LR-HUU" firstAttribute="top" secondItem="c4c-wV-DI0" secondAttribute="top" constant="20" id="0ie-qI-VNO"/>
+                            <constraint firstItem="aYM-Zj-T08" firstAttribute="width" secondItem="LJz-A8-q5d" secondAttribute="width" multiplier="0.35" id="3hd-gF-8ty"/>
                             <constraint firstItem="56j-8c-bvo" firstAttribute="height" secondItem="LJz-A8-q5d" secondAttribute="height" multiplier="0.35" id="6f3-MF-ix0"/>
-                            <constraint firstItem="wUI-LR-HUU" firstAttribute="top" secondItem="c4c-wV-DI0" secondAttribute="top" constant="20" id="CxH-vY-AAo"/>
                             <constraint firstItem="wUI-LR-HUU" firstAttribute="leading" secondItem="c4c-wV-DI0" secondAttribute="leading" constant="30" id="FIe-tn-R19"/>
-                            <constraint firstItem="aYM-Zj-T08" firstAttribute="width" secondItem="LJz-A8-q5d" secondAttribute="width" multiplier="0.35" id="R3b-oq-x13"/>
                             <constraint firstItem="56j-8c-bvo" firstAttribute="height" secondItem="LJz-A8-q5d" secondAttribute="height" multiplier="0.56" id="SN2-YQ-H1v"/>
-                            <constraint firstItem="56j-8c-bvo" firstAttribute="width" secondItem="LJz-A8-q5d" secondAttribute="width" multiplier="0.58" id="SaG-cj-MRI"/>
                             <constraint firstItem="wUI-LR-HUU" firstAttribute="top" secondItem="c4c-wV-DI0" secondAttribute="top" constant="5" id="U3z-kr-lZg"/>
                             <constraint firstItem="56j-8c-bvo" firstAttribute="height" secondItem="LJz-A8-q5d" secondAttribute="height" multiplier="0.46" id="UTR-Dv-P5t"/>
-                            <constraint firstItem="wUI-LR-HUU" firstAttribute="bottom" secondItem="c4c-wV-DI0" secondAttribute="bottom" constant="-20" id="Zwv-AT-NvK"/>
+                            <constraint firstItem="c4c-wV-DI0" firstAttribute="bottom" secondItem="wUI-LR-HUU" secondAttribute="bottom" constant="20" id="cnS-Ha-03C"/>
                             <constraint firstItem="wUI-LR-HUU" firstAttribute="trailing" secondItem="c4c-wV-DI0" secondAttribute="trailing" constant="-30" id="ePn-A2-Slk"/>
                             <constraint firstItem="f0G-CI-caq" firstAttribute="width" secondItem="LJz-A8-q5d" secondAttribute="width" multiplier="0.5" id="mS5-BY-H84"/>
                             <constraint firstItem="wUI-LR-HUU" firstAttribute="bottom" secondItem="c4c-wV-DI0" secondAttribute="bottom" constant="-5" id="maV-Fh-pgv"/>
+                            <constraint firstItem="56j-8c-bvo" firstAttribute="width" secondItem="LJz-A8-q5d" secondAttribute="width" multiplier="0.58" id="nw0-1U-ehe"/>
                             <constraint firstItem="aYM-Zj-T08" firstAttribute="height" secondItem="LJz-A8-q5d" secondAttribute="height" multiplier="0.2" id="zJ6-Mt-JlY"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="cnS-Ha-03C"/>
+                                <exclude reference="0ie-qI-VNO"/>
                                 <exclude reference="U3z-kr-lZg"/>
                                 <exclude reference="maV-Fh-pgv"/>
+                                <exclude reference="3hd-gF-8ty"/>
                                 <exclude reference="zJ6-Mt-JlY"/>
                                 <exclude reference="6f3-MF-ix0"/>
                                 <exclude reference="SN2-YQ-H1v"/>
                                 <exclude reference="UTR-Dv-P5t"/>
+                                <exclude reference="nw0-1U-ehe"/>
                                 <exclude reference="mS5-BY-H84"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=compact-widthClass=compact">
                             <mask key="constraints">
-                                <exclude reference="CxH-vY-AAo"/>
                                 <include reference="U3z-kr-lZg"/>
-                                <exclude reference="Zwv-AT-NvK"/>
                                 <include reference="maV-Fh-pgv"/>
-                                <exclude reference="R3b-oq-x13"/>
                                 <include reference="SN2-YQ-H1v"/>
-                                <exclude reference="SaG-cj-MRI"/>
                                 <include reference="mS5-BY-H84"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=compact-widthClass=regular">
                             <mask key="constraints">
-                                <exclude reference="CxH-vY-AAo"/>
                                 <include reference="U3z-kr-lZg"/>
-                                <exclude reference="Zwv-AT-NvK"/>
                                 <include reference="maV-Fh-pgv"/>
-                                <exclude reference="R3b-oq-x13"/>
-                                <exclude reference="SaG-cj-MRI"/>
                                 <include reference="UTR-Dv-P5t"/>
                                 <include reference="mS5-BY-H84"/>
                             </mask>
                         </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="constraints">
+                                <include reference="cnS-Ha-03C"/>
+                                <include reference="0ie-qI-VNO"/>
+                                <include reference="3hd-gF-8ty"/>
+                                <include reference="nw0-1U-ehe"/>
+                            </mask>
+                        </variation>
                         <variation key="heightClass=regular-widthClass=regular">
                             <mask key="constraints">
-                                <exclude reference="R3b-oq-x13"/>
+                                <include reference="cnS-Ha-03C"/>
+                                <include reference="0ie-qI-VNO"/>
                                 <include reference="zJ6-Mt-JlY"/>
                                 <include reference="6f3-MF-ix0"/>
-                                <exclude reference="SaG-cj-MRI"/>
                                 <include reference="mS5-BY-H84"/>
                             </mask>
                         </variation>

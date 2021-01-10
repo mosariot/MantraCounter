@@ -72,6 +72,7 @@ final class DetailsViewController: UIViewController {
         super.viewDidLoad()
         
         hideKeyboardWhenTappedAround()
+        view.fixInputAssistant()
         
         navigationItem.largeTitleDisplayMode = .never
         
