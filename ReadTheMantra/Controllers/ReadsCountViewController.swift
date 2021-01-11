@@ -111,8 +111,13 @@ final class ReadsCountViewController: UIViewController {
     //MARK: - Setup UI
     
     private func setupUI() {
-        portraitMantraImageView.image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
-        landscapeMantraImageView.image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
+        let mantraImageData = (mantra.image != nil) ? mantra.image : UIImage(named: Constants.defaultImage)?.pngData()
+        let downsampledPortraitMantraImage = downsampleImageFromData(mantraImageData, to: portraitMantraImageView.bounds.size)
+        let downsampledLandscapeMantraImage = downsampleImageFromData(mantraImageData,
+                                                              to: CGSize(width: portraitMantraImageView.bounds.width*1.5,
+                                                                         height: portraitMantraImageView.bounds.height*1.5))
+        portraitMantraImageView.image = downsampledPortraitMantraImage
+        landscapeMantraImageView.image = downsampledLandscapeMantraImage
         titleLabel.text = mantra.title
         titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
         titleLabel.adjustsFontForContentSizeCategory = true
@@ -130,6 +135,33 @@ final class ReadsCountViewController: UIViewController {
         addReadsButton.imageSystemName = "plus.circle"
         addRoundsButton.imageSystemName = "goforward.plus"
         setProperValueButton.imageSystemName = "hand.draw"
+    }
+    
+    private func downsampleImageFromData(_ imageData: Data?,
+                                         to pointSize: CGSize,
+                                         scale: CGFloat = UIScreen.main.scale) -> UIImage? {
+        guard let imageData = imageData else { return nil }
+        
+        let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+        
+        guard let imageSource = CGImageSourceCreateWithData(imageData as CFData, imageSourceOptions) else {
+            return nil
+        }
+        
+        let maxDimensionInPixels = max(pointSize.width, pointSize.height) * scale
+        
+        let downsampleOptions = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceShouldCacheImmediately: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxDimensionInPixels
+        ] as CFDictionary
+        
+        guard let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
+            return nil
+        }
+        
+        return UIImage(cgImage: downsampledImage)
     }
     
     private func animateCircularProgressViewForUpdatedValues() {

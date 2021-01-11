@@ -102,8 +102,9 @@ final class DetailsViewController: UIViewController {
         mantraTextTextView.placeHolderText = NSLocalizedString("Enter mantra text", comment: "Mantra text placeholder")
         detailsTextView.placeHolderText = NSLocalizedString("Enter mantra description", comment: "Mantra description placeholder")
         
-        let mantraImage = (mantraImageData != nil) ? UIImage(data: mantraImageData!) : UIImage(named: Constants.defaultImage)
-        setPhotoButton.setImage(mantraImage, for: .normal)
+        let mantraImageData = (mantra.image != nil) ? mantra.image : UIImage(named: Constants.defaultImage)?.pngData()
+        let downsampledMantraImage = downsampleImageFromData(mantraImageData, to: setPhotoButton.bounds.size)
+        setPhotoButton.setImage(downsampledMantraImage, for: .normal)
         setPhotoButton.showsMenuAsPrimaryAction = true
         let photoLibraryAction = UIAction(title: NSLocalizedString("Photo Library", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo.on.rectangle.angled")) { [weak self] _ in
             guard let self = self else { return }
@@ -132,6 +133,33 @@ final class DetailsViewController: UIViewController {
         case .view:
             setViewMode()
         }
+    }
+    
+    private func downsampleImageFromData(_ imageData: Data?,
+                                         to pointSize: CGSize,
+                                         scale: CGFloat = UIScreen.main.scale) -> UIImage? {
+        guard let imageData = imageData else { return nil }
+        
+        let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+        
+        guard let imageSource = CGImageSourceCreateWithData(imageData as CFData, imageSourceOptions) else {
+            return nil
+        }
+        
+        let maxDimensionInPixels = max(pointSize.width, pointSize.height) * scale
+        
+        let downsampleOptions = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceShouldCacheImmediately: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxDimensionInPixels
+        ] as CFDictionary
+        
+        guard let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
+            return nil
+        }
+        
+        return UIImage(cgImage: downsampledImage)
     }
     
     private func setAddMode() {
@@ -309,7 +337,8 @@ extension DetailsViewController {
         
         let circledImage = image.cropToCircle()
         let resizedCircledImage = circledImage?.resize(to: CGSize(width: 400, height: 400))
-        let resizedCircledImageForTableView = circledImage?.resize(to: CGSize(width: Constants.rowHeight*2, height: Constants.rowHeight*2))
+        let resizedCircledImageForTableView = circledImage?.resize(to: CGSize(width: Double(Constants.rowHeight)*1.5,
+                                                                              height: Double(Constants.rowHeight)*1.5))
         
         if let imageData = resizedCircledImage?.pngData() {
             mantraImageData = imageData
@@ -360,7 +389,8 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
                     if let image = object as? UIImage {
                         let resultImage = self.processImage(image: image)
                         DispatchQueue.main.async {
-                            self.setPhotoButton.setImage(resultImage, for: .normal)
+                            let downsampledImage = self.downsampleImageFromData(resultImage?.pngData(), to: self.setPhotoButton.bounds.size)
+                            self.setPhotoButton.setImage(downsampledImage, for: .normal)
                             self.setPhotoButton.setEditMode()
                         }
                     } else {
