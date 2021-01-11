@@ -18,7 +18,7 @@ final class MantraViewController: UICollectionViewController {
     private lazy var dataSource = makeDataSource()
     
     private let coreDataManager = CoreDataManager.shared
-    private let context = CoreDataManager.shared.persistentContainer.viewContext
+    private lazy var context = coreDataManager.persistentContainer.viewContext
     
     private let widgetManager = WidgetManager()
     
@@ -542,7 +542,8 @@ extension MantraViewController {
         mantra.details = preloadedMantra[.details]
         mantra.image = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?.pngData()
         mantra.imageForTableView = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?
-            .resize(to: CGSize(width: Constants.rowHeight*3, height: Constants.rowHeight*3)).pngData()
+            .resize(to: CGSize(width: Constants.rowHeight,
+                                   height: Constants.rowHeight))?.pngData()
     }
     
     private func dismissPreloadedMantraPickerState() {

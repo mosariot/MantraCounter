@@ -152,7 +152,6 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                     <constraint firstAttribute="width" secondItem="KXK-gN-mOv" secondAttribute="height" id="BA3-i3-E3E"/>
                                                     <constraint firstAttribute="height" constant="160" id="kZH-dg-36F"/>
                                                 </constraints>
-                                                <state key="normal" image="DefaultImage"/>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="a1H-9L-kHe" userLabel="Title Stack View">
                                                 <rect key="frame" x="15" y="175" width="360" height="88.333333333333314"/>

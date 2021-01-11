@@ -32,7 +32,8 @@ class CollectionViewDataSourceManager {
                 content.textToSecondaryTextVerticalPadding = 4
                 content.image = (mantra.imageForTableView != nil) ?
                     UIImage(data: mantra.imageForTableView!) :
-                    UIImage(named: Constants.defaultImage)?.resize(to: CGSize(width: Constants.rowHeight*2, height: Constants.rowHeight*2))
+                    UIImage(named: Constants.defaultImage)?.resize(to: CGSize(width: Constants.rowHeight,
+                                                                              height: Constants.rowHeight))
             }
             cell.contentConfiguration = content
             
