@@ -11,7 +11,7 @@ import UIKit
 extension UIAlertController {
     
     static func firstSearchOnTheInternetAlert() -> UIAlertController {
-
+        
         let alert = UIAlertController(title: nil,
                                       message: NSLocalizedString("Just longpress on the image you liked and choose 'Copy' in contextual menu",
                                                                  comment: "Alert Message for first search on the Internet"),

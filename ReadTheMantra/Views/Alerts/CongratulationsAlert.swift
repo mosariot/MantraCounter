@@ -26,7 +26,7 @@ extension UIAlertController {
                                         """, comment: "Alert Title on ReadsCountViewController")
             }
         }
-
+        
         let alert = UIAlertController(title: congratulationsAlertTitle(for: level),
                                       message: nil,
                                       preferredStyle: .alert)

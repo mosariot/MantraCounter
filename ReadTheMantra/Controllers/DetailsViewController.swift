@@ -290,6 +290,7 @@ extension DetailsViewController {
     
     private func setDefaultImage() {
         setPhotoButton.setImage(UIImage(named: Constants.defaultImage), for: .normal)
+        addTransition()
         mantraImageData = nil
         mantraImageForTableViewData = nil
     }
@@ -297,7 +298,6 @@ extension DetailsViewController {
     private func checkForFirstSearchOnTheInternet(handler: @escaping (UIAlertController) -> ()) {
         let defaults = UserDefaults.standard
         let wasShownFirstSearchOnTheInternetAlert = defaults.bool(forKey: "wasShownFirstSearchOnTheInternetAlert")
-        print(wasShownFirstSearchOnTheInternetAlert)
         if !wasShownFirstSearchOnTheInternetAlert {
             let alert = UIAlertController.firstSearchOnTheInternetAlert()
             defaults.setValue(true, forKey: "wasShownFirstSearchOnTheInternetAlert")
@@ -383,6 +383,7 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
                             let downsampledImage = resultImage?.resize(to: self.setPhotoButton.bounds.size)
                             self.setPhotoButton.setImage(downsampledImage, for: .normal)
                             self.setPhotoButton.setEditMode()
+                            self.addTransition()
                         }
                     } else {
                         DispatchQueue.main.async {
@@ -395,12 +396,20 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
         }
     }
     
-    func showNoImageAlert() {
+    private func showNoImageAlert() {
         let alert = UIAlertController.noImageAlert { [weak self] in
             guard let self = self else { return }
             self.showImagePicker()
         }
         present(alert, animated: true, completion: nil)
+    }
+    
+    private func addTransition() {
+        let transition = CATransition()
+        transition.type = .fade
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: .easeOut)
+        self.view.layer.add(transition, forKey: nil)
     }
 }
 
@@ -421,14 +430,12 @@ extension DetailsViewController: SFSafariViewControllerDelegate {
             }
         }
         pasteboard.items.removeAll()
-        controller.dismiss(animated: true, completion: nil)
     }
     
     private func didSelectImageFromSafariController(image: UIImage) {
         let resultImage = processImage(image: image)
         let downsampledImage = resultImage?.resize(to: setPhotoButton.bounds.size)
         setPhotoButton.setImage(downsampledImage, for: .normal)
-        setPhotoButton.setEditMode()
     }
 }
 
