@@ -36,6 +36,7 @@
 		9F9299AF250818B6003D5029 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* Constants.swift */; };
 		9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA97A382570177B005C9078 /* ReadsCountViewController.swift */; };
 		9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */; };
+		9FC3971925B14611002B1EE0 /* FirstSearchOnTheInternetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3971325B143C8002B1EE0 /* FirstSearchOnTheInternetAlert.swift */; };
 		9FCA5C52258E52D4002E1D25 /* WidgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855A4258E2B8000771BA1 /* WidgetModel.swift */; };
 		9FCA5C6625907124002E1D25 /* CustomDynamicFontWeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */; };
 		9FCA5C7A2591C0EE002E1D25 /* StringFormattedWithSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3766102513C5B9007E6BED /* StringFormattedWithSpaces.swift */; };
@@ -115,6 +116,7 @@
 		9F9299AE250818B6003D5029 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9FA97A382570177B005C9078 /* ReadsCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadsCountViewController.swift; sourceTree = "<group>"; };
 		9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
+		9FC3971325B143C8002B1EE0 /* FirstSearchOnTheInternetAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstSearchOnTheInternetAlert.swift; sourceTree = "<group>"; };
 		9FCA5C8325922635002E1D25 /* CollectionViewDataSourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSourceManager.swift; sourceTree = "<group>"; };
 		9FCA5C8B259347A5002E1D25 /* DeleteConfirmationAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteConfirmationAlert.swift; sourceTree = "<group>"; };
 		9FCA5C92259349EC002E1D25 /* DuplicatingAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicatingAlert.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				9FCA5CAA259363E2002E1D25 /* NoImageAlert.swift */,
 				9FCA5CB82593672D002E1D25 /* UpdatingAlert.swift */,
 				9FCA5CBE25936F16002E1D25 /* CongratulationsAlert.swift */,
+				9FC3971325B143C8002B1EE0 /* FirstSearchOnTheInternetAlert.swift */,
 			);
 			path = Alerts;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				9F65C46025AB5BBE0037A8F7 /* FixInputAssistant.swift in Sources */,
 				9F3B62A72578E51E00B4F5E4 /* AdjustReadsButton.swift in Sources */,
 				9FE855A5258E2B8000771BA1 /* WidgetModel.swift in Sources */,
+				9FC3971925B14611002B1EE0 /* FirstSearchOnTheInternetAlert.swift in Sources */,
 				9F3766112513C5B9007E6BED /* StringFormattedWithSpaces.swift in Sources */,
 				9F3B62A32578E00D00B4F5E4 /* TextViewWithPlaceholder.swift in Sources */,
 				9F5FE6B924E9B6E500D0475E /* CircleAndResizeUIImage.swift in Sources */,

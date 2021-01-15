@@ -15,9 +15,15 @@ extension UIAlertController {
         func congratulationsAlertTitle(for level: Level) -> String {
             switch level {
             case .halfGoal:
-                return NSLocalizedString("Congratulations! You're half way to your goal!", comment: "Alert Title on ReadsCountViewController")
+                return NSLocalizedString("""
+                                        Congratulations!
+                                        You're half way to your goal!
+                                        """, comment: "Alert Title on ReadsCountViewController")
             case .fullGoal:
-                return NSLocalizedString("Congratulations! You've reached your goal!", comment: "Alert Title on ReadsCountViewController")
+                return NSLocalizedString("""
+                                        Congratulations!
+                                        You've reached your goal!
+                                        """, comment: "Alert Title on ReadsCountViewController")
             }
         }
 

@@ -81,10 +81,14 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 "Enter Rounds Number" = "Введите число кругов";
 
 /* Alert Title on ReadsCountViewController */
-"Congratulations! You're half way to your goal!" = "Поздравляем! Вы на половине пути к цели!";
+"Congratulations!
+You're half way to your goal!" = "Поздравляем!
+Вы на половине пути к цели!";
 
 /* Alert Title on ReadsCountViewController */
-"Congratulations! You've reached your goal!" = "Поздравляем! Вы достигли поставленной цели!";
+"Congratulations!
+You've reached your goal!" = "Поздравляем!
+Вы достигли поставленной цели!";
 
 /* Edit mark label */
 "EDIT" = "ПРАВИТЬ";
@@ -109,6 +113,9 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 
 /* Menu Item on DetailsViewController */
 "Search on the Internet" = "Искать в Интернете";
+
+/* Alert Message for first search on the Internet */
+"Just longpress on the image you liked and choose 'Copy' in contextual menu" = "Просто удерживайте понравившееся изображение и выберите 'Скопировать' в контекстном меню";
 
 /* Alert Message for unavailable photo */
 "It seems like this photo is unavailable. Try to pick another one" = "Похоже это фото недоступно. Попробуйте выбрать другое";

@@ -52,7 +52,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="DefaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="Z84-h7-wXb" userLabel="Image">
-                                        <rect key="frame" x="90.666666666666686" y="156" width="168.66666666666663" height="169"/>
+                                        <rect key="frame" x="90.666666666666671" y="156" width="168.66666666666663" height="169"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Z84-h7-wXb" secondAttribute="height" id="R2s-BO-Qg2"/>
                                         </constraints>
@@ -288,7 +288,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                                 <rect key="frame" x="30" y="64" width="330" height="726"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="aYM-Zj-T08">
-                                        <rect key="frame" x="96.666666666666686" y="0.0" width="136.66666666666663" height="136.66666666666666"/>
+                                        <rect key="frame" x="96.666666666666671" y="0.0" width="136.66666666666663" height="136.66666666666666"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="aYM-Zj-T08" secondAttribute="height" id="WVO-By-qtL"/>
                                         </constraints>

@@ -23,6 +23,8 @@ final class DetailsViewController: UIViewController {
     
     private let widgetManager = WidgetManager()
     
+    private let pasteboard = UIPasteboard.general
+    
     private var mantra: Mantra
     private var mode: DetailsMode
     private var position: Int
@@ -292,13 +294,30 @@ extension DetailsViewController {
         mantraImageForTableViewData = nil
     }
     
+    private func checkForFirstSearchOnTheInternet(handler: @escaping (UIAlertController) -> ()) {
+        let defaults = UserDefaults.standard
+        let wasShownFirstSearchOnTheInternetAlert = defaults.bool(forKey: "wasShownFirstSearchOnTheInternetAlert")
+        print(wasShownFirstSearchOnTheInternetAlert)
+        if !wasShownFirstSearchOnTheInternetAlert {
+            let alert = UIAlertController.firstSearchOnTheInternetAlert()
+            defaults.setValue(true, forKey: "wasShownFirstSearchOnTheInternetAlert")
+            handler(alert)
+        }
+    }
+    
     private func searchOnTheInternet() {
         guard let search = titleTextField.text else { return }
         guard let urlString = "https://www.google.com/search?q=\(search)&tbm=isch"
                 .addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed) else { return }
         guard let url = URL(string: urlString) else { return }
         let vc = SFSafariViewController(url: url)
-        present(vc, animated: true)
+        vc.delegate = self
+        present(vc, animated: true) {
+            self.checkForFirstSearchOnTheInternet { [weak vc] (alert) in
+                guard let vc = vc else { return }
+                vc.present(alert, animated: true, completion: nil)
+            }
+        }
     }
 }
 
@@ -309,7 +328,7 @@ extension DetailsViewController {
     private func processImage(image: UIImage) -> UIImage? {
         
         let circledImage = image.cropToCircle()
-        let resizedCircledImage = circledImage?.resize(to: CGSize(width: 400, height: 400))
+        let resizedCircledImage = circledImage?.resize(to: CGSize(width: 500, height: 500))
         let resizedCircledImageForTableView = circledImage?.resize(to: CGSize(width: Constants.rowHeight,
                                                                               height: Constants.rowHeight))
         if let imageData = resizedCircledImage?.pngData() {
@@ -382,6 +401,34 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
             self.showImagePicker()
         }
         present(alert, animated: true, completion: nil)
+    }
+}
+
+//MARK: - SFSafariViewController Delegate
+
+extension DetailsViewController: SFSafariViewControllerDelegate {
+    
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        if pasteboard.hasImages {
+            guard let image = pasteboard.image else { return }
+            didSelectImageFromSafariController(image: image)
+        } else if pasteboard.hasURLs {
+            guard let url = pasteboard.url else { return }
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    didSelectImageFromSafariController(image: image)
+                }
+            }
+        }
+        pasteboard.items.removeAll()
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    private func didSelectImageFromSafariController(image: UIImage) {
+        let resultImage = processImage(image: image)
+        let downsampledImage = resultImage?.resize(to: setPhotoButton.bounds.size)
+        setPhotoButton.setImage(downsampledImage, for: .normal)
+        setPhotoButton.setEditMode()
     }
 }
 
