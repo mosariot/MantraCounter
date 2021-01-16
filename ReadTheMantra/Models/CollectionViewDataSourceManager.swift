@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CollectionViewDataSourceManager {
+final class CollectionViewDataSourceManager {
     
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Mantra>
     

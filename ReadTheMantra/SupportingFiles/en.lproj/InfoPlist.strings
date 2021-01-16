@@ -6,7 +6,7 @@
   Copyright © 2020 Alex Vorobiev. All rights reserved.
 */
 
-CFBundleDisplayName = "MantraCounter";
+CFBundleDisplayName = "Mantra Counter";
 
 Search_Shortcut_Title = "Search";
 

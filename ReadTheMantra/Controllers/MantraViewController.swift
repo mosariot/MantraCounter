@@ -14,6 +14,7 @@ final class MantraViewController: UICollectionViewController {
     //MARK: - Properties
     
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Mantra>
+    private typealias DataSource = CollectionViewDataSourceManager.DataSource
     private var dataSourceManager = CollectionViewDataSourceManager()
     private lazy var dataSource = makeDataSource()
     
@@ -26,8 +27,17 @@ final class MantraViewController: UICollectionViewController {
     
     private let defaults = UserDefaults.standard
     private var isInFavoriteMode: Bool {
-        get { defaults.bool(forKey: "isInFavoriteMode") }
-        set { defaults.set(newValue, forKey: "isInFavoriteMode") }
+        get {
+            defaults.bool(forKey: "isInFavoriteMode")
+        }
+        set {
+            defaults.set(newValue, forKey: "isInFavoriteMode")
+            dataSourceManager.isInFavoriteMode = isInFavoriteMode
+            loadMantras()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {
+                self.reloadDataSource()
+            }
+        }
     }
     private var wasShownOnboardingAlert: Bool {
         get { defaults.bool(forKey: "wasShownOnboardingAlert") }
@@ -165,11 +175,6 @@ final class MantraViewController: UICollectionViewController {
     
     @objc private func segmentedValueChanged() {
         isInFavoriteMode = !isInFavoriteMode
-        loadMantras()
-        dataSourceManager.isInFavoriteMode = isInFavoriteMode
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {
-            self.reloadDataSource()
-        }
     }
     
     private func getCurrentMantrasInfo() {
@@ -223,7 +228,7 @@ extension MantraViewController {
 
 extension MantraViewController {
         
-    private func makeDataSource() -> CollectionViewDataSourceManager.DataSource {
+    private func makeDataSource() -> DataSource {
        dataSourceManager.isInFavoriteMode = isInFavoriteMode
         
        return dataSourceManager.makeDataSource(collectionView: collectionView) { [weak self] (mantra) in

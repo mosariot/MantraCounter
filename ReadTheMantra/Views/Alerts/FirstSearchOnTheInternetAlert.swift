@@ -1,5 +1,5 @@
 //
-//  CongratulationsAlert.swift
+//  FirstSearchOnTheInternetAlert.swift
 //  ReadTheMantra
 //
 //  Created by Alex Vorobiev on 15.01.2021.
