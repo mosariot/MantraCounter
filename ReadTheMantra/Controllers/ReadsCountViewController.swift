@@ -63,6 +63,10 @@ final class ReadsCountViewController: UIViewController {
         
         circularProgressView.goal = Int(mantra.readsGoal)
         circularProgressView.value = Int(mantra.reads)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         setupUI()
     }
@@ -100,7 +104,7 @@ final class ReadsCountViewController: UIViewController {
     }
     
     private func favoriteButtonPressed() {
-        mantra.isFavorite = !mantra.isFavorite
+        mantra.isFavorite.toggle()
         mantra.positionFavorite = mantra.isFavorite ? positionFavorite : 0
         delegate?.favoriteActionPerformed()
         coreDataManager.saveContext()
@@ -112,9 +116,10 @@ final class ReadsCountViewController: UIViewController {
     
     private func setupUI() {
         let image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
-        let downsampledPortraitMantraImage = image?.resize(to: portraitMantraImageView.bounds.size)
-        let downsampledLandscapeMantraImage = image?.resize(to: CGSize(width: portraitMantraImageView.bounds.width*1.5,
-                                                                         height: portraitMantraImageView.bounds.height*1.5))        
+        let downsampledPortraitMantraImage = image?.resize(to: CGSize(width: portraitMantraImageView.bounds.width == 0 ? landscapeMantraImageView.bounds.width/1.5 : portraitMantraImageView.bounds.width,
+                                                                      height: portraitMantraImageView.bounds.height == 0 ?  landscapeMantraImageView.bounds.height/1.5 : portraitMantraImageView.bounds.height))
+        let downsampledLandscapeMantraImage = image?.resize(to: CGSize(width: landscapeMantraImageView.bounds.width == 0 ? portraitMantraImageView.bounds.width*1.5 : landscapeMantraImageView.bounds.width,
+                                                                       height: landscapeMantraImageView.bounds.height == 0 ?  portraitMantraImageView.bounds.height*1.5 : landscapeMantraImageView.bounds.height))
         portraitMantraImageView.image = downsampledPortraitMantraImage
         landscapeMantraImageView.image = downsampledLandscapeMantraImage
         titleLabel.text = mantra.title

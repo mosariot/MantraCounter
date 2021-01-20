@@ -81,12 +81,16 @@ final class DetailsViewController: UIViewController {
         mantraImageData = mantra.image ?? nil
         mantraImageForTableViewData = mantra.imageForTableView ?? nil
         
-        setupUI()
-        
         navigationController?.presentationController?.delegate = self
         titleTextField.delegate = self
         mantraTextTextView.delegate = self
         detailsTextView.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setupUI()
     }
     
     private func setupUI() {

@@ -152,14 +152,6 @@ final class MantraViewController: UICollectionViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: nil, menu: addingMenu)
     }
     
-    private func setupSegmentedControl() {
-        segmentedControl.selectedSegmentIndex = isInFavoriteMode ? 1 : 0
-        segmentedControl.addTarget(self, action: #selector(segmentedValueChanged), for: .valueChanged)
-        segmentedControl.setWidth(view.frame.size.width/6, forSegmentAt: 0)
-        segmentedControl.setWidth(view.frame.size.width/6, forSegmentAt: 1)
-        segmentedControl.sizeToFit()
-    }
-    
     private func setupSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -173,8 +165,16 @@ final class MantraViewController: UICollectionViewController {
         collectionView.showsVerticalScrollIndicator = false
     }
     
+    private func setupSegmentedControl() {
+        segmentedControl.selectedSegmentIndex = isInFavoriteMode ? 1 : 0
+        segmentedControl.addTarget(self, action: #selector(segmentedValueChanged), for: .valueChanged)
+        segmentedControl.setWidth(view.frame.size.width/6, forSegmentAt: 0)
+        segmentedControl.setWidth(view.frame.size.width/6, forSegmentAt: 1)
+        segmentedControl.sizeToFit()
+    }
+    
     @objc private func segmentedValueChanged() {
-        isInFavoriteMode = !isInFavoriteMode
+        isInFavoriteMode.toggle()
     }
     
     private func getCurrentMantrasInfo() {
@@ -310,24 +310,28 @@ extension MantraViewController {
 extension MantraViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let mantra = dataSource.itemIdentifier(for: indexPath) {
-            guard let readsCountViewController = storyboard?.instantiateViewController(
-                    identifier: Constants.readsCountViewControllerID,
-                    creator: { [weak self] coder in
-                        guard let self = self else { fatalError() }
-                        return ReadsCountViewController(mantra: mantra,
-                                                        positionFavorite: Int32(self.overallFavoriteMantraCount),
-                                                        delegate: self,
-                                                        coder: coder)
-                    }) else { return }
-            navigationItem.backBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Mantra List", comment: "Back button of MantraViewController"), style: .plain, target: nil, action: nil)
-            show(readsCountViewController, sender: true)
-        }
+        guard let mantra = dataSource.itemIdentifier(for: indexPath) else { return }
+        guard let readsCountViewController = storyboard?.instantiateViewController(
+                identifier: Constants.readsCountViewControllerID,
+                creator: { [weak self] coder in
+                    guard let self = self else { fatalError() }
+                    return ReadsCountViewController(mantra: mantra,
+                                                    positionFavorite: Int32(self.overallFavoriteMantraCount),
+                                                    delegate: self,
+                                                    coder: coder)
+                }) else { return }
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Mantra List", comment: "Back button of MantraViewController"),
+                                                           style: .plain,
+                                                           target: nil,
+                                                           action: nil)
+        show(readsCountViewController, sender: true)
     }
     
     override func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         guard let mantra = dataSource.itemIdentifier(for: indexPath) else { return nil }
-        let title = mantra.isFavorite ? NSLocalizedString("Unfavorite", comment: "Menu Action on MantraViewController") : NSLocalizedString("Favorite", comment: "Menu Action on MantraViewController")
+        let title = mantra.isFavorite ?
+            NSLocalizedString("Unfavorite", comment: "Menu Action on MantraViewController") :
+            NSLocalizedString("Favorite", comment: "Menu Action on MantraViewController")
         let image = mantra.isFavorite ? UIImage(systemName: "star.slash") : UIImage(systemName: "star")
         
         let favorite = UIAction(title: title, image: image) { [weak self] _ in
@@ -379,7 +383,7 @@ extension MantraViewController {
     }
     
     private func handleFavoriteAction(for mantra: Mantra) {
-        mantra.isFavorite = !mantra.isFavorite
+        mantra.isFavorite.toggle()
         if mantra.isFavorite {
             mantra.positionFavorite = Int32(overallFavoriteMantraCount)
         } else {
@@ -699,6 +703,6 @@ extension MantraViewController: OnboardingViewControllerDelegate {
     
     func dismissButtonPressed() {
         animateBlurEffectViewOut()
-        wasShownOnboardingAlert = !wasShownOnboardingAlert
+        wasShownOnboardingAlert.toggle()
     }
 }
