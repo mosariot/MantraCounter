@@ -13,17 +13,26 @@ import IQKeyboardManagerSwift
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let coreDataManager = CoreDataManager.shared
+    let networkMonitor = NetworkMonitor.shared
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         IQKeyboardManager.shared.enable = true
         
-        // Preload Data For First Launch
+        // preload data for first launch
         let defaults = UserDefaults.standard
-        let isPreloaded = defaults.bool(forKey: "isPreloaded")
-        if !isPreloaded {
-            coreDataManager.preloadData()
-            defaults.set(true, forKey: "isPreloaded")
+        let hasLaunched = defaults.bool(forKey: "hasLaunched")
+        if !hasLaunched {
+            networkMonitor.startMonitoring()
+            DispatchQueue.main.async {
+                if !(self.networkMonitor.isReachable) {
+                    self.coreDataManager.preloadData()
+                } else {
+                    self.coreDataManager.checkForiCloudRecords()
+                }
+                defaults.set(true, forKey: "hasLaunched")
+                self.networkMonitor.stopMonitoring()
+            }
         }
         
         return true

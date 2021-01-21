@@ -606,7 +606,9 @@ extension MantraViewController {
 extension MantraViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        reloadDataSource()
         applySnapshot()
+        widgetManager.updateWidgetData()
     }
 }
 

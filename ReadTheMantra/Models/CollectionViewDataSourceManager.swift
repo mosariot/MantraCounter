@@ -26,7 +26,7 @@ final class CollectionViewDataSourceManager {
             var content = UIListContentConfiguration.subtitleCell()
             content.text = mantra.title
             
-            if (content.text != nil) {
+            if (content.text != "") {
                 content.secondaryText = NSLocalizedString("Current readings:", comment: "Current readings count") + " \(mantra.reads)"
                 content.secondaryTextProperties.color = .secondaryLabel
                 content.textToSecondaryTextVerticalPadding = 4

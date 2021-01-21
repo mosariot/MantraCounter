@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20C69" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Mantra" representedClassName="Mantra" syncable="YES" codeGenerationType="class">
-        <attribute name="details" attributeType="String"/>
+        <attribute name="details" attributeType="String" defaultValueString=""/>
         <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="imageForTableView" optional="YES" attributeType="Binary"/>
         <attribute name="isFavorite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="position" attributeType="Integer 32" usesScalarValueType="YES"/>
+        <attribute name="position" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="positionFavorite" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="reads" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="readsGoal" attributeType="Integer 32" defaultValueString="100000" usesScalarValueType="YES"/>
-        <attribute name="text" optional="YES" attributeType="String"/>
-        <attribute name="title" attributeType="String"/>
+        <attribute name="text" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="title" attributeType="String" defaultValueString=""/>
     </entity>
     <elements>
         <element name="Mantra" positionX="-63" positionY="-18" width="128" height="193"/>

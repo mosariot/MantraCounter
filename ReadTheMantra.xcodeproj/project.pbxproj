@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9F12CD19258112EE0089AFD8 /* MantraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F12CD18258112EE0089AFD8 /* MantraViewController.swift */; };
+		9F2715B025B83D92002A98FD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F2715AF25B83D92002A98FD /* CloudKit.framework */; };
 		9F293E3B2575503000B7B1C7 /* SetPhotoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */; };
 		9F3766112513C5B9007E6BED /* StringFormattedWithSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3766102513C5B9007E6BED /* StringFormattedWithSpaces.swift */; };
 		9F3B1C032538F50200BEE838 /* RoundedSystemFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B1C022538F50200BEE838 /* RoundedSystemFont.swift */; };
@@ -33,6 +34,7 @@
 		9F75828525821EED00695ED7 /* RoundedStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F75828125821EC600695ED7 /* RoundedStackView.swift */; };
 		9F7A5091253CB924008BFD6F /* CustomDynamicFontWeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */; };
 		9F7A5096253DD439008BFD6F /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A5095253DD438008BFD6F /* CopyableLabel.swift */; };
+		9F7EAC1C25B9360400AEC901 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7EAC1B25B9360400AEC901 /* NetworkMonitor.swift */; };
 		9F9299AF250818B6003D5029 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* Constants.swift */; };
 		9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA97A382570177B005C9078 /* ReadsCountViewController.swift */; };
 		9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */; };
@@ -85,6 +87,7 @@
 
 /* Begin PBXFileReference section */
 		9F12CD18258112EE0089AFD8 /* MantraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraViewController.swift; sourceTree = "<group>"; };
+		9F2715AF25B83D92002A98FD /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPhotoButton.swift; sourceTree = "<group>"; };
 		9F3766102513C5B9007E6BED /* StringFormattedWithSpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringFormattedWithSpaces.swift; sourceTree = "<group>"; };
 		9F3B1C022538F50200BEE838 /* RoundedSystemFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedSystemFont.swift; sourceTree = "<group>"; };
@@ -113,6 +116,7 @@
 		9F75828125821EC600695ED7 /* RoundedStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedStackView.swift; sourceTree = "<group>"; };
 		9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDynamicFontWeight.swift; sourceTree = "<group>"; };
 		9F7A5095253DD438008BFD6F /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
+		9F7EAC1B25B9360400AEC901 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		9F9299AE250818B6003D5029 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9FA97A382570177B005C9078 /* ReadsCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadsCountViewController.swift; sourceTree = "<group>"; };
 		9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
@@ -145,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F5FE6B124E7994400D0475E /* IQKeyboardManagerSwift in Frameworks */,
+				9F2715B025B83D92002A98FD /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,6 +246,7 @@
 			children = (
 				9F5FE68C24E7141400D0475E /* ReadTheMantra.xcdatamodeld */,
 				9FCA5CD4259F6936002E1D25 /* CoreDataManager.swift */,
+				9F7EAC1B25B9360400AEC901 /* NetworkMonitor.swift */,
 				9FCA5C8325922635002E1D25 /* CollectionViewDataSourceManager.swift */,
 				9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */,
 				9FE855A4258E2B8000771BA1 /* WidgetModel.swift */,
@@ -280,6 +286,7 @@
 		9FE855B9258E51BF00771BA1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9F2715AF25B83D92002A98FD /* CloudKit.framework */,
 				9FE855BA258E51BF00771BA1 /* WidgetKit.framework */,
 				9FE855BC258E51BF00771BA1 /* SwiftUI.framework */,
 			);
@@ -444,6 +451,7 @@
 				9F75828525821EED00695ED7 /* RoundedStackView.swift in Sources */,
 				9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */,
 				9F3B1C032538F50200BEE838 /* RoundedSystemFont.swift in Sources */,
+				9F7EAC1C25B9360400AEC901 /* NetworkMonitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

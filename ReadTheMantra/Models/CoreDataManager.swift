@@ -16,12 +16,17 @@ final class CoreDataManager {
     private init() {}
     
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "ReadTheMantra")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
+        let container = NSPersistentCloudKitContainer(name: "ReadTheMantra")
+        
+        container.loadPersistentStores(completionHandler: { (_, error) in
+            guard let error = error as NSError? else { return }
+            fatalError("Failed to load persistent stores: \(error)")
         })
+        
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        try? container.viewContext.setQueryGenerationFrom(.current)
+        
         return container
     }()
     
@@ -36,8 +41,39 @@ final class CoreDataManager {
             }
         }
     }
+}
     
-    //MARK: - Preload Data For First Launch
+//MARK: - Preload Data For First Launch
+
+extension CoreDataManager {
+    
+    func checkForiCloudRecords() {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: "CD_Mantra", predicate: predicate)
+        let operation = CKQueryOperation(query: query)
+        var recordsCount = 0
+        
+        operation.recordFetchedBlock = { _ in
+            recordsCount += 1
+        }
+        
+        operation.queryCompletionBlock = { (_, error) in
+            DispatchQueue.main.async {
+                if error == nil {
+                    // no records in iCloud
+                    if recordsCount == 0 {
+                        self.preloadData()
+                    } else {
+                        // loading records from iCloud
+                    }
+                } else {
+                    // for example there is no iCloud Account
+                    self.preloadData()
+                }
+            }
+        }
+        CKContainer.default().privateCloudDatabase.add(operation)
+    }
     
     func preloadData() {
         let context = persistentContainer.viewContext
