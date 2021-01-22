@@ -1,5 +1,5 @@
 //
-//  WidgetFavoritesItem.swift
+//  WidgetManager.swift
 //  ReadTheMantra
 //
 //  Created by Alex Vorobiev on 19.12.2020.
