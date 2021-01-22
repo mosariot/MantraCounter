@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KRA-ew-P98">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <device id="retina4_7" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -52,17 +52,18 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="DefaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="Z84-h7-wXb" userLabel="Image">
-                                        <rect key="frame" x="101" y="95.5" width="133" height="133.5"/>
+                                        <rect key="frame" x="101" y="83.5" width="133" height="133.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Z84-h7-wXb" secondAttribute="height" id="R2s-BO-Qg2"/>
                                         </constraints>
+                                        <variation key="heightClass=compact-widthClass=compact" hidden="YES"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7r2-FB-UtH" userLabel="Text Label">
-                                        <rect key="frame" x="0.0" y="256.5" width="335" height="292.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7r2-FB-UtH" userLabel="Text Label">
+                                        <rect key="frame" x="0.0" y="232.5" width="335" height="328.5"/>
                                         <string key="text">Recitation of mantras - is a sacrament.
 Approach this issue with all your awareness. In order for the practice of reciting the mantra to be correct, one must receive the transmission of the mantra from the teacher. Transmission is essential to maintain the strength of the original source of the mantra. It is not enough just to read it in a book or on the Internet. For this reason, application does not include the mantra texts themselves. They must be given to you by your spiritual mentor.
 We wish you deep awarenesses and spiritual growth!</string>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="heightClass=regular-widthClass=regular">
@@ -122,6 +123,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                     </view>
                     <connections>
                         <outlet property="dismissButton" destination="PUZ-IY-Geb" id="Pe2-J3-f0N"/>
+                        <outlet property="image" destination="Z84-h7-wXb" id="gZt-st-wzQ"/>
                         <outlet property="textLabel" destination="7r2-FB-UtH" id="nyR-eR-P0B"/>
                         <outlet property="titleLabel" destination="7KD-zQ-R2b" id="gNv-IR-xBH"/>
                     </connections>

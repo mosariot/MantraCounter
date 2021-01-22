@@ -35,6 +35,7 @@
 		9F7A5091253CB924008BFD6F /* CustomDynamicFontWeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */; };
 		9F7A5096253DD439008BFD6F /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A5095253DD438008BFD6F /* CopyableLabel.swift */; };
 		9F7EAC1C25B9360400AEC901 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7EAC1B25B9360400AEC901 /* NetworkMonitor.swift */; };
+		9F91804725BB48F20016FEB6 /* ModelDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91804625BB48F20016FEB6 /* ModelDetection.swift */; };
 		9F9299AF250818B6003D5029 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* Constants.swift */; };
 		9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA97A382570177B005C9078 /* ReadsCountViewController.swift */; };
 		9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */; };
@@ -117,6 +118,7 @@
 		9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDynamicFontWeight.swift; sourceTree = "<group>"; };
 		9F7A5095253DD438008BFD6F /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
 		9F7EAC1B25B9360400AEC901 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		9F91804625BB48F20016FEB6 /* ModelDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDetection.swift; sourceTree = "<group>"; };
 		9F9299AE250818B6003D5029 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9FA97A382570177B005C9078 /* ReadsCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadsCountViewController.swift; sourceTree = "<group>"; };
 		9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				9F3B1C022538F50200BEE838 /* RoundedSystemFont.swift */,
 				9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */,
 				9F75828125821EC600695ED7 /* RoundedStackView.swift */,
+				9F91804625BB48F20016FEB6 /* ModelDetection.swift */,
 				9F65C45F25AB5BBE0037A8F7 /* FixInputAssistant.swift */,
 			);
 			path = Extensions;
@@ -452,6 +455,7 @@
 				9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */,
 				9F3B1C032538F50200BEE838 /* RoundedSystemFont.swift in Sources */,
 				9F7EAC1C25B9360400AEC901 /* NetworkMonitor.swift in Sources */,
+				9F91804725BB48F20016FEB6 /* ModelDetection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

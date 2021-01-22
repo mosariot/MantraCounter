@@ -19,11 +19,15 @@ final class OnboardingViewController: UIViewController {
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var textLabel: UILabel!
     @IBOutlet private weak var dismissButton: UIButton!
+    @IBOutlet private weak var image: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(UIDevice.modelName)
         isModalInPresentation = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         setupUI()
     }
     
@@ -32,6 +36,12 @@ final class OnboardingViewController: UIViewController {
         dismissButton.titleLabel?.font = UIFont.preferredFont(for: .callout, weight: .bold)
         dismissButton.layer.cornerRadius = dismissButton.frame.height / 4
         titleLabel.text = NSLocalizedString("Welcome to the path of Enlightenment!", comment: "Onboarding Alert Title")
+        
+        if UIDevice.modelName == "iPhone SE" || UIDevice.modelName == "iPod touch (7th generation)" {
+            textLabel.font = .preferredFont(for: .subheadline, weight: .regular)
+            image.isHidden = true
+        }
+        
         textLabel.text = NSLocalizedString("""
                                     Recitation of mantras - is a sacrament.
                                     Approach this issue with all your awareness.
@@ -45,5 +55,18 @@ final class OnboardingViewController: UIViewController {
     @IBAction private func dismissButtonPressed(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
         delegate?.dismissButtonPressed()
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: { [weak self] context in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if UIDevice.modelName == "iPhone SE" || UIDevice.modelName == "iPod touch (7th generation)" {
+                    self.textLabel.font = .preferredFont(for: .subheadline, weight: .regular)
+                    self.image.isHidden = true
+                }
+            }
+        })
     }
 }
