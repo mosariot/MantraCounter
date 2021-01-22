@@ -25,6 +25,8 @@ final class MantraViewController: UICollectionViewController {
     
     private var fetchedResultsController: NSFetchedResultsController<Mantra>?
     
+    private let activityIndicatorView = UIActivityIndicatorView(style: .large)
+    
     private let defaults = UserDefaults.standard
     private var isInFavoriteMode: Bool {
         get {
@@ -42,6 +44,10 @@ final class MantraViewController: UICollectionViewController {
     private var wasShownOnboardingAlert: Bool {
         get { defaults.bool(forKey: "wasShownOnboardingAlert") }
         set { defaults.set(newValue, forKey: "wasShownOnboardingAlert") }
+    }
+    private var wasShownAcitvityIndicatorForInitalDataLoading: Bool {
+        get { defaults.bool(forKey: "wasShownAcitvityIndicatorForInitalDataLoading") }
+        set { defaults.set(newValue, forKey: "wasShownAcitvityIndicatorForInitalDataLoading") }
     }
     
     private var overallMantraCount = 0
@@ -90,6 +96,7 @@ final class MantraViewController: UICollectionViewController {
         super.viewDidAppear(true)
         
         checkForOnboardingAlert()
+        startActivityIndicatorForInitialDataLoading()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -114,7 +121,8 @@ final class MantraViewController: UICollectionViewController {
         if !wasShownOnboardingAlert {
             setupBlurEffectView()
             animateBlurEffectViewIn()
-            if let onboardingViewController = storyboard?.instantiateViewController(identifier: Constants.onboardingViewController) as? OnboardingViewController {
+            if let onboardingViewController = storyboard?.instantiateViewController(
+                identifier: Constants.onboardingViewController) as? OnboardingViewController {
                 onboardingViewController.delegate = self
                 if traitCollection.userInterfaceIdiom == .phone {
                     onboardingViewController.modalPresentationStyle = .fullScreen
@@ -122,6 +130,19 @@ final class MantraViewController: UICollectionViewController {
                     onboardingViewController.modalTransitionStyle = .crossDissolve
                 }
                 present(onboardingViewController, animated: true)
+            }
+        }
+    }
+    
+    private func startActivityIndicatorForInitialDataLoading() {
+        if !wasShownAcitvityIndicatorForInitalDataLoading {
+            if let fetchedData = fetchedResultsController?.fetchedObjects {
+                if fetchedData.isEmpty {
+                    activityIndicatorView.center = view.center
+                    activityIndicatorView.hidesWhenStopped = true
+                    view.addSubview(activityIndicatorView)
+                    activityIndicatorView.startAnimating()
+                }
             }
         }
     }
@@ -552,7 +573,7 @@ extension MantraViewController {
         mantra.image = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?.pngData()
         mantra.imageForTableView = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?
             .resize(to: CGSize(width: Constants.rowHeight,
-                                   height: Constants.rowHeight))?.pngData()
+                               height: Constants.rowHeight))?.pngData()
     }
     
     private func dismissPreloadedMantraPickerState() {
@@ -609,6 +630,19 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
         reloadDataSource()
         applySnapshot()
         widgetManager.updateWidgetData()
+        stopActivityIndicatorForInitialDataLoading()
+    }
+    
+    private func stopActivityIndicatorForInitialDataLoading() {
+        if !wasShownAcitvityIndicatorForInitalDataLoading {
+            if let fetchedData = fetchedResultsController?.fetchedObjects {
+                if !fetchedData.isEmpty {
+                    activityIndicatorView.stopAnimating()
+                    activityIndicatorView.removeFromSuperview()
+                    wasShownAcitvityIndicatorForInitalDataLoading.toggle()
+                }
+            }
+        }
     }
 }
 
@@ -632,7 +666,7 @@ extension MantraViewController: UISearchResultsUpdating {
     }
 }
 
-//MARK: - PickerView Delegate, PickerView DataSource
+//MARK: - PickerView DataSource
 
 extension MantraViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     

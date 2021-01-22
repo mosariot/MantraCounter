@@ -9,8 +9,8 @@
 import Foundation
 
 enum UpdatingType {
-        case goal
-        case reads
-        case rounds
-        case properValue
-    }
+    case goal
+    case reads
+    case rounds
+    case properValue
+}
