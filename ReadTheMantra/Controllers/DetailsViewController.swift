@@ -26,8 +26,9 @@ final class DetailsViewController: UIViewController {
     private let pasteboard = UIPasteboard.general
     
     private var mantra: Mantra
-    private var mode: DetailsMode
-    private var position: Int
+    private var mode: DetailsMode {
+        didSet { setMode () }
+    }
     private var mantraTitles: [String]?
     private var mantraImageData: Data?
     private var mantraImageForTableViewData: Data?
@@ -55,13 +56,11 @@ final class DetailsViewController: UIViewController {
     
     init?(mantra: Mantra,
           mode: DetailsMode,
-          position: Int,
           mantraTitles: [String]? = nil,
           delegate: DetailsViewControllerDelegate?,
           coder: NSCoder) {
         self.mantra = mantra
         self.mode = mode
-        self.position = position
         self.mantraTitles = mantraTitles
         self.delegate = delegate
         
@@ -112,15 +111,18 @@ final class DetailsViewController: UIViewController {
         let downsampledMantraImage = mantraImage?.resize(to: setPhotoButton.bounds.size)
         setPhotoButton.setImage(downsampledMantraImage, for: .normal)
         setPhotoButton.showsMenuAsPrimaryAction = true
-        let photoLibraryAction = UIAction(title: NSLocalizedString("Photo Library", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo.on.rectangle.angled")) { [weak self] _ in
+        let photoLibraryAction = UIAction(title: NSLocalizedString("Photo Library", comment: "Menu Item on DetailsViewController"),
+                                          image: UIImage(systemName: "photo.on.rectangle.angled")) { [weak self] _ in
             guard let self = self else { return }
             self.showImagePicker()
         }
-        let standardImageAction = UIAction(title: NSLocalizedString("Standard Image", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "photo")) { [weak self] _ in
+        let standardImageAction = UIAction(title: NSLocalizedString("Standard Image", comment: "Menu Item on DetailsViewController"),
+                                           image: UIImage(systemName: "photo")) { [weak self] _ in
             guard let self = self else { return }
             self.setDefaultImage()
         }
-        let searchAction = UIAction(title: NSLocalizedString("Search on the Internet", comment: "Menu Item on DetailsViewController"), image: UIImage(systemName: "globe")) { [weak self] _ in
+        let searchAction = UIAction(title: NSLocalizedString("Search on the Internet", comment: "Menu Item on DetailsViewController"),
+                                    image: UIImage(systemName: "globe")) { [weak self] _ in
             guard let self = self else { return }
             self.searchOnTheInternet()
         }
@@ -131,6 +133,10 @@ final class DetailsViewController: UIViewController {
         mantraTextTextView.text = mantra.text
         detailsTextView.text = mantra.details
         
+        setMode()
+    }
+    
+    private func setMode() {
         switch mode {
         case .add:
             setAddMode()
@@ -142,8 +148,7 @@ final class DetailsViewController: UIViewController {
     }
     
     private func setAddMode() {
-        mode = .add
-        navigationItem.title = NSLocalizedString("New Mantra", comment: "Add new mantra bar title")
+        title = NSLocalizedString("New Mantra", comment: "Add new mantra bar title")
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: "Button on MantraTableViewController"),
                                                             primaryAction: UIAction(handler: { [weak self] _ in
                                                                 guard let self = self else { return }
@@ -166,8 +171,7 @@ final class DetailsViewController: UIViewController {
     }
     
     private func setEditMode() {
-        mode = .edit
-        navigationItem.title = NSLocalizedString("Information", comment: "Information bar title")
+        title = NSLocalizedString("Information", comment: "Information bar title")
         navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .done,
                                                             primaryAction: UIAction(handler: { [weak self] _ in
                                                                 guard let self = self else { return }
@@ -188,7 +192,6 @@ final class DetailsViewController: UIViewController {
     }
     
     private func setViewMode() {
-        mode = .view
         navigationItem.title = NSLocalizedString("Information", comment: "Information bar title")
         navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .edit,
                                                             primaryAction: UIAction(handler: { [weak self] _ in
@@ -232,7 +235,7 @@ extension DetailsViewController {
     }
     
     private func editButtonPressed() {
-        setEditMode()
+        mode = .edit
     }
     
     private func doneButtonPressed() {
@@ -241,7 +244,7 @@ extension DetailsViewController {
         coreDataManager.saveContext()
         widgetManager.updateWidgetData()
         delegate?.updateView()
-        setViewMode()
+        mode = .view
     }
     
     private func closeButtonPressed() {
@@ -274,7 +277,6 @@ extension DetailsViewController {
         mantra.title = title
         mantra.text = mantraTextTextView.text
         mantra.details = detailsTextView.text
-        mantra.position = Int32(position)
         mantra.image = mantraImageData ?? nil
         mantra.imageForTableView = mantraImageForTableViewData ?? nil
     }
@@ -413,7 +415,7 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
         transition.type = .fade
         transition.duration = 0.5
         transition.timingFunction = CAMediaTimingFunction(name: .easeOut)
-        self.view.layer.add(transition, forKey: nil)
+        view.layer.add(transition, forKey: nil)
     }
 }
 

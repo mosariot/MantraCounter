@@ -96,7 +96,6 @@ final class ReadsCountViewController: UIViewController {
                     guard let self = self else { fatalError() }
                     return DetailsViewController(mantra: self.mantra,
                                                  mode: .view,
-                                                 position: Int(self.mantra.position),
                                                  delegate: self, coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)

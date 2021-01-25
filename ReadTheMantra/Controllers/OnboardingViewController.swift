@@ -23,7 +23,6 @@ final class OnboardingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(UIDevice.modelName)
         isModalInPresentation = true
     }
     

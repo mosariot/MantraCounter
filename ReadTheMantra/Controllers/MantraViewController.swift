@@ -447,13 +447,13 @@ extension MantraViewController {
         getCurrentMantrasInfo()
         currentMantraCount = overallMantraCount
         let mantra = Mantra(context: context)
+        mantra.position = Int32(overallMantraCount)
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
                 creator: { [weak self] coder in
                     guard let self = self else { fatalError() }
                     return DetailsViewController(mantra: mantra,
                                                  mode: .add,
-                                                 position: self.overallMantraCount,
                                                  mantraTitles: self.overallMantraTitles,
                                                  delegate: self, coder: coder)
                 }) else { return }
