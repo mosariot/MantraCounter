@@ -119,7 +119,7 @@ You've reached your goal!" = "Поздравляем!
 "Search on the Internet" = "Искать в Интернете";
 
 /* Alert Message for first search on the Internet */
-"Just longpress on the image you liked and choose 'Copy' in contextual menu" = "Просто удерживайте понравившееся изображение и выберите 'Скопировать' в контекстном меню";
+"Just longpress on the image you liked, choose 'Copy' in contextual menu and confirm by 'Done'" = "Просто удерживайте понравившееся изображение, выберите 'Скопировать' в контекстном меню и нажмите 'Готово'";
 
 /* Alert Message for unavailable photo */
 "It seems like this photo is unavailable. Try to pick another one" = "Похоже это фото недоступно. Попробуйте выбрать другое";

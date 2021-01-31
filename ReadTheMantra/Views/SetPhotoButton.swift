@@ -65,6 +65,7 @@ final class SetPhotoButton: UIButton {
     
     public func setViewMode() {
         isUserInteractionEnabled = false
+        activityIndicatorView.stopAnimating()
         UIView.animate(withDuration: 0.2) {
             self.alpha = 1
             self.editLabel.alpha = 0

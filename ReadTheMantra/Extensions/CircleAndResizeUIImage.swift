@@ -39,29 +39,29 @@ extension UIImage {
 }
 
 extension UIImage {
-    
-    func resize(to pointSize: CGSize, scale: CGFloat = UIScreen.main.scale) -> UIImage? {
-                
-        let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+
+    func resize(to targetSize: CGSize) -> UIImage {
         
-        guard let imageSource = CGImageSourceCreateWithData(self.pngData()! as CFData, imageSourceOptions) else {
-            return nil
+        // Determine the scale factor that preserves aspect ratio
+        let widthRatio = targetSize.width / size.width
+        let heightRatio = targetSize.height / size.height
+
+        let scaleFactor = min(widthRatio, heightRatio)
+
+        // Compute the new image size that preserves aspect ratio
+        let scaledImageRectSize = CGSize(
+            width: size.width * scaleFactor,
+            height: size.height * scaleFactor
+        )
+
+        // Draw and return the resized UIImage
+        let renderer = UIGraphicsImageRenderer(size: scaledImageRectSize)
+
+        let scaledImage = renderer.image { _ in
+            draw(in: CGRect(origin: .zero, size: scaledImageRectSize))
         }
-        
-        let maxDimensionInPixels = max(pointSize.width, pointSize.height) * scale
-        
-        let downsampleOptions = [
-            kCGImageSourceCreateThumbnailFromImageAlways: true,
-            kCGImageSourceShouldCacheImmediately: true,
-            kCGImageSourceCreateThumbnailWithTransform: true,
-            kCGImageSourceThumbnailMaxPixelSize: maxDimensionInPixels
-        ] as CFDictionary
-        
-        guard let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
-            return nil
-        }
-        
-        return UIImage(cgImage: downsampledImage)
+
+        return scaledImage
     }
 }
 

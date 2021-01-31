@@ -16,7 +16,7 @@ final class ReadsCountViewController: UIViewController {
     
     //MARK: - Properties
     
-    private let coreDataManager = CoreDataManager.shared
+    private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
     
     private let widgetManager = WidgetManager()
     
@@ -106,7 +106,7 @@ final class ReadsCountViewController: UIViewController {
         mantra.isFavorite.toggle()
         mantra.positionFavorite = mantra.isFavorite ? positionFavorite : 0
         delegate?.favoriteActionPerformed()
-        coreDataManager.saveContext()
+        saveContext()
         widgetManager.updateWidgetData()
         setupNavButtons()
     }
@@ -174,8 +174,10 @@ final class ReadsCountViewController: UIViewController {
         let oldReads = mantra.reads
         updateValues(with: value, updatingType: updatingType)
         updateProrgessView(for: updatingType)
-        readsGoalButton.setTitle(NSLocalizedString("Goal: ", comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(), for: .normal)
-        coreDataManager.saveContext()
+        readsGoalButton.setTitle(NSLocalizedString("Goal: ",
+                                                   comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(),
+                                 for: .normal)
+        saveContext()
         widgetManager.updateWidgetData()
         readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
     }
@@ -223,6 +225,17 @@ final class ReadsCountViewController: UIViewController {
     private func showReadsCongratulationsAlert(level: Level) {
         let alert = UIAlertController.congratulationsAlert(level: level)
         present(alert, animated: true, completion: nil)
+    }
+    
+    func saveContext() {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
     }
 }
 

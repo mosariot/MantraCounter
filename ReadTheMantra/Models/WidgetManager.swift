@@ -14,7 +14,7 @@ struct WidgetManager {
     @AppStorage("widgetItem", store: UserDefaults(suiteName: "group.com.mosariot.MantraCounter"))
     var widgetItemData: Data = Data()
     
-    private let context = CoreDataManager.shared.persistentContainer.viewContext
+    private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
     
     func updateWidgetData() {
         let widgetModel = getWidgetModel()
@@ -54,14 +54,15 @@ struct WidgetManager {
     }
     
     private func getOverallMatraArray() -> [Mantra] {
-        var overallMantraArray: [Mantra] = []
-        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
-        do {
-            overallMantraArray = try context.fetch(request)
-        } catch {
-            print("Error fetching data from context \(error)")
-        }
-        return overallMantraArray
+//        var overallMantraArray: [Mantra] = []
+//        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
+//        do {
+//            overallMantraArray = try context.fetch(request)
+//        } catch {
+//            print("Error fetching data from context \(error)")
+//        }
+//        return overallMantraArray
+        return []
     }
     
     private func storeWidgetItem(widgetModel: WidgetModel) {

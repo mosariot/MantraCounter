@@ -18,8 +18,7 @@ final class DetailsViewController: UIViewController {
     
     //MARK: - Properties
     
-    private let coreDataManager = CoreDataManager.shared
-    private lazy var context = coreDataManager.persistentContainer.viewContext
+    private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
     
     private let widgetManager = WidgetManager()
     
@@ -241,7 +240,7 @@ extension DetailsViewController {
     private func doneButtonPressed() {
         guard let title = titleTextField.text else { return }
         processMantra(title: title)
-        coreDataManager.saveContext()
+        saveContext()
         widgetManager.updateWidgetData()
         delegate?.updateView()
         mode = .view
@@ -266,7 +265,7 @@ extension DetailsViewController {
     
     private func handleAddNewMantra(for title: String) {
         processMantra(title: title)
-        coreDataManager.saveContext()
+        saveContext()
         context.reset()
         widgetManager.updateWidgetData()
         delegate?.updateView()
@@ -279,6 +278,17 @@ extension DetailsViewController {
         mantra.details = detailsTextView.text
         mantra.image = mantraImageData ?? nil
         mantra.imageForTableView = mantraImageForTableViewData ?? nil
+    }
+    
+    func saveContext() {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
     }
 }
 
@@ -303,10 +313,10 @@ extension DetailsViewController {
     
     private func checkForFirstSearchOnTheInternet(handler: @escaping (UIAlertController) -> ()) {
         let defaults = UserDefaults.standard
-        let wasShownFirstSearchOnTheInternetAlert = defaults.bool(forKey: "wasShownFirstSearchOnTheInternetAlert")
-        if !wasShownFirstSearchOnTheInternetAlert {
+        let isFirstSearchOnTheInternet = defaults.bool(forKey: "isFirstSearchOnTheInternet")
+        if isFirstSearchOnTheInternet {
             let alert = UIAlertController.firstSearchOnTheInternetAlert()
-            defaults.setValue(true, forKey: "wasShownFirstSearchOnTheInternetAlert")
+            defaults.setValue(false, forKey: "isFirstSearchOnTheInternet")
             handler(alert)
         }
     }
@@ -318,6 +328,7 @@ extension DetailsViewController {
         guard let url = URL(string: urlString) else { return }
         let vc = SFSafariViewController(url: url)
         vc.delegate = self
+        vc.modalPresentationStyle = .pageSheet
         present(vc, animated: true) {
             self.checkForFirstSearchOnTheInternet { [weak vc] (alert) in
                 guard let vc = vc else { return }
@@ -334,7 +345,7 @@ extension DetailsViewController {
     private func processImage(image: UIImage) -> UIImage? {
         
         let circledImage = image.cropToCircle()
-        let resizedCircledImage = circledImage?.resize(to: CGSize(width: 500, height: 500))
+        let resizedCircledImage = circledImage?.resize(to: CGSize(width: 200, height: 200))
         let resizedCircledImageForTableView = circledImage?.resize(to: CGSize(width: Constants.rowHeight,
                                                                               height: Constants.rowHeight))
         if let imageData = resizedCircledImage?.pngData() {

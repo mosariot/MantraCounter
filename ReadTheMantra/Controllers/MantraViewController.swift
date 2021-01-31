@@ -14,18 +14,14 @@ final class MantraViewController: UICollectionViewController {
     //MARK: - Properties
     
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Mantra>
-    private typealias DataSource = CollectionViewDataSourceManager.DataSource
-    private var dataSourceManager = CollectionViewDataSourceManager()
+    private typealias DataSource = UICollectionViewDiffableDataSource<Int, Mantra>
     private lazy var dataSource = makeDataSource()
     
-    private let coreDataManager = CoreDataManager.shared
-    private lazy var context = coreDataManager.persistentContainer.viewContext
+    private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
     
     private let widgetManager = WidgetManager()
     
     private var fetchedResultsController: NSFetchedResultsController<Mantra>?
-    
-    private let activityIndicatorView = UIActivityIndicatorView(style: .large)
     
     private let defaults = UserDefaults.standard
     private var isInFavoriteMode: Bool {
@@ -34,20 +30,18 @@ final class MantraViewController: UICollectionViewController {
         }
         set {
             defaults.set(newValue, forKey: "isInFavoriteMode")
-            dataSourceManager.isInFavoriteMode = isInFavoriteMode
             loadMantras()
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {
-                self.reloadDataSource()
-            }
         }
     }
-    private var wasShownOnboardingAlert: Bool {
-        get { defaults.bool(forKey: "wasShownOnboardingAlert") }
-        set { defaults.set(newValue, forKey: "wasShownOnboardingAlert") }
+    private var isOnboarding: Bool {
+        get { defaults.bool(forKey: "isOnboarding") }
+        set { defaults.set(newValue, forKey: "isOnboarding") }
     }
-    private var wasShownAcitvityIndicatorForInitalDataLoading: Bool {
-        get { defaults.bool(forKey: "wasShownAcitvityIndicatorForInitalDataLoading") }
-        set { defaults.set(newValue, forKey: "wasShownAcitvityIndicatorForInitalDataLoading") }
+    
+    private let activityIndicatorView = UIActivityIndicatorView(style: .large)
+    private var isInitalDataLoading: Bool {
+        get { defaults.bool(forKey: "isInitalDataLoading") }
+        set { defaults.set(newValue, forKey: "isInitalDataLoading") }
     }
     
     private var overallMantraCount = 0
@@ -89,7 +83,6 @@ final class MantraViewController: UICollectionViewController {
         super.viewWillAppear(true)
         
         setupSegmentedControl()
-        reloadDataSource()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -106,8 +99,11 @@ final class MantraViewController: UICollectionViewController {
             DispatchQueue.main.async {
                 self.setupSegmentedControl()
                 self.coverView?.frame = UIScreen.main.bounds
-                if !self.wasShownOnboardingAlert {
+                if self.isOnboarding {
                     self.blurEffectView.frame = UIScreen.main.bounds
+                }
+                if self.isInitalDataLoading {
+                    self.activityIndicatorView.center = self.view.center
                 }
             }
         })
@@ -118,7 +114,7 @@ final class MantraViewController: UICollectionViewController {
     }
     
     private func checkForOnboardingAlert() {
-        if !wasShownOnboardingAlert {
+        if isOnboarding {
             setupBlurEffectView()
             animateBlurEffectViewIn()
             if let onboardingViewController = storyboard?.instantiateViewController(
@@ -135,7 +131,7 @@ final class MantraViewController: UICollectionViewController {
     }
     
     private func startActivityIndicatorForInitialDataLoading() {
-        if !wasShownAcitvityIndicatorForInitalDataLoading {
+        if isInitalDataLoading {
             if let fetchedData = fetchedResultsController?.fetchedObjects {
                 if fetchedData.isEmpty {
                     activityIndicatorView.center = view.center
@@ -248,45 +244,93 @@ extension MantraViewController {
 //MARK: - UICollectionView Data Source
 
 extension MantraViewController {
-        
+    
+    
     private func makeDataSource() -> DataSource {
-       dataSourceManager.isInFavoriteMode = isInFavoriteMode
         
-       return dataSourceManager.makeDataSource(collectionView: collectionView) { [weak self] (mantra) in
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Mantra> { [weak self] (cell, indexPath, mantra) in
             guard let self = self else { return }
-            self.handleFavoriteAction(for: mantra)
-            if !self.isInFavoriteMode {
-                self.reloadDataSource()
+            
+            var content = UIListContentConfiguration.subtitleCell()
+            content.text = mantra.title
+            
+            if (content.text != "") {
+                content.secondaryText = NSLocalizedString("Current readings:", comment: "Current readings count") + " \(mantra.reads)"
+                content.secondaryTextProperties.color = .secondaryLabel
+                content.textToSecondaryTextVerticalPadding = 4
+                content.image = (mantra.imageForTableView != nil) ?
+                    UIImage(data: mantra.imageForTableView!) :
+                    UIImage(named: Constants.defaultImage)?.resize(to: CGSize(width: Constants.rowHeight,
+                                                                              height: Constants.rowHeight))
             }
-        } deleteActionHandler: { [weak self] (mantra) in
-            guard let self = self else { return }
-            self.showDeleteConfirmationAlert(for: mantra)
-        } canReorderingHandler: { [weak self] in
+            cell.contentConfiguration = content
+            
+            var background = UIBackgroundConfiguration.listGroupedCell()
+            background.cornerRadius = 15
+            cell.backgroundConfiguration = background
+            
+            // accessories configuration
+            let favoriteAction = UIAction(image: UIImage(systemName: mantra.isFavorite ? "star.slash" : "star"),
+                                          handler: { [weak self] _ in
+                                            guard let self = self else { return }
+                                            self.handleFavoriteAction(for: mantra)
+                                            if !self.isInFavoriteMode {
+                                                self.applySnapshot()
+                                            }})
+            let favoriteButton = UIButton(primaryAction: favoriteAction)
+            let favoriteAccessoryConfiguration = UICellAccessory.CustomViewConfiguration(customView: favoriteButton,
+                                                                                         placement: .leading(displayed: .whenEditing))
+            let favoriteAccessory = UICellAccessory.customView(configuration: favoriteAccessoryConfiguration)
+            let deleteAccessory = UICellAccessory.delete(displayed: .whenEditing,
+                                                         actionHandler: { [weak self] in
+                                                            guard let self = self else { return }
+                                                            self.showDeleteConfirmationAlert(for: mantra) })
+            let disclosureIndicatorAccessory = UICellAccessory.disclosureIndicator()
+            let reorderAccessory = UICellAccessory.reorder(displayed: .whenEditing)
+            let badge = UIImage(systemName: "checkmark.circle.fill",
+                                withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))?
+                .withTintColor(.systemGreen, renderingMode: .alwaysOriginal)
+            let badgeConfiguration = UICellAccessory.CustomViewConfiguration(customView: UIImageView(image: badge),
+                                                                             placement: .trailing(displayed: .always),
+                                                                             isHidden: mantra.readsGoal > mantra.reads)
+            let badgeAccessory = UICellAccessory.customView(configuration: badgeConfiguration)
+            
+            let accessories = self.isInFavoriteMode ?
+                [favoriteAccessory, disclosureIndicatorAccessory, badgeAccessory, reorderAccessory] :
+                [deleteAccessory, favoriteAccessory, disclosureIndicatorAccessory, badgeAccessory, reorderAccessory]
+            
+            cell.accessories = accessories
+        }
+        
+        let dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, mantra) -> UICollectionViewCell? in
+            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: mantra)
+        }
+        
+        dataSource.reorderingHandlers.canReorderItem = { [weak self] _ -> Bool in
             guard let self = self else { return false }
             return !self.searchController.isActive
-        } reorderingHandler: { [weak self] (snapshot) in
+        }
+        
+        dataSource.reorderingHandlers.didReorder = { [weak self] transaction in
             guard let self = self else { return }
+            let snapshot = transaction.finalSnapshot
             if self.isInFavoriteMode {
                 self.reorderFavoriteMantraPositionsForReordering(withSnapshot: snapshot)
             } else {
                 self.reorderMantraPositions(withSnapshot: snapshot)
             }
             DispatchQueue.main.async {
-                self.coreDataManager.saveContext()
+                self.saveContext()
                 self.widgetManager.updateWidgetData()
             }
         }
+        return dataSource
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections([0])
         snapshot.appendItems(fetchedResultsController?.fetchedObjects ?? [], toSection: 0)
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-    }
-    
-    private func reloadDataSource(animatingDifferences: Bool = true) {
-        var snapshot = dataSource.snapshot()
         snapshot.reloadItems(snapshot.itemIdentifiers)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
@@ -391,12 +435,15 @@ extension MantraViewController {
         
         var snapshot = dataSource.snapshot()
         snapshot.deleteItems([mantra])
-        applySnapshot()
         
         reorderMantraPositions(withSnapshot: snapshot)
         reorderFavoriteMantraPositionsForDeleting(withSnapshot: snapshot)
         
-        coreDataManager.saveContext()
+//        DispatchQueue.main.async {
+//            self.applySnapshot()
+//        }
+        
+        saveContext()
         
         overallMantraCount = snapshot.itemIdentifiers.count
         overallMantraTitles = snapshot.itemIdentifiers.compactMap({ $0.title })
@@ -413,10 +460,11 @@ extension MantraViewController {
         
         reorderFavoriteMantraPositionsForDeleting(withSnapshot: dataSource.snapshot())
         
-        coreDataManager.saveContext()
-        if isInFavoriteMode {
-            applySnapshot()
-        }
+        saveContext()
+        
+//        if isInFavoriteMode {
+//            applySnapshot()
+//        }
         widgetManager.updateWidgetData()
     }
     
@@ -550,7 +598,7 @@ extension MantraViewController {
     
     private func handleAddPreloadedMantra() {
         addPreloadedMantra()
-        coreDataManager.saveContext()
+        saveContext()
         applySnapshot()
         dismissPreloadedMantraPickerState()
         
@@ -573,7 +621,7 @@ extension MantraViewController {
         mantra.image = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?.pngData()
         mantra.imageForTableView = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?
             .resize(to: CGSize(width: Constants.rowHeight,
-                               height: Constants.rowHeight))?.pngData()
+                               height: Constants.rowHeight)).pngData()
     }
     
     private func dismissPreloadedMantraPickerState() {
@@ -620,6 +668,17 @@ extension MantraViewController {
             print("Error fetching data \(error)")
         }
     }
+    
+    func saveContext() {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
 }
 
 // MARK: - NSFetchedResultsController Delegate
@@ -627,19 +686,19 @@ extension MantraViewController {
 extension MantraViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        reloadDataSource()
+        print("did change")
         applySnapshot()
         widgetManager.updateWidgetData()
         stopActivityIndicatorForInitialDataLoading()
     }
     
     private func stopActivityIndicatorForInitialDataLoading() {
-        if !wasShownAcitvityIndicatorForInitalDataLoading {
+        if isInitalDataLoading {
             if let fetchedData = fetchedResultsController?.fetchedObjects {
                 if !fetchedData.isEmpty {
                     activityIndicatorView.stopAnimating()
                     activityIndicatorView.removeFromSuperview()
-                    wasShownAcitvityIndicatorForInitalDataLoading.toggle()
+                    isInitalDataLoading.toggle()
                 }
             }
         }
@@ -739,6 +798,6 @@ extension MantraViewController: OnboardingViewControllerDelegate {
     
     func dismissButtonPressed() {
         animateBlurEffectViewOut()
-        wasShownOnboardingAlert.toggle()
+        isOnboarding.toggle()
     }
 }

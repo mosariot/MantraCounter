@@ -10,10 +10,6 @@ import Network
 
 class NetworkMonitor {
     
-    static let shared = NetworkMonitor()
-    
-    private init() {}
-    
     let monitor = NWPathMonitor()
     private var status: NWPath.Status = .requiresConnection
     var isReachable: Bool {

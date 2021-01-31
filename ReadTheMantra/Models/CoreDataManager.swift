@@ -11,9 +11,10 @@ import CoreData
 
 final class CoreDataManager {
     
-    static let shared = CoreDataManager()
-    
-    private init() {}
+    init() {
+        registerDefaults()
+        handleFirstLaunch()
+    }
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentCloudKitContainer(name: "ReadTheMantra")
@@ -22,6 +23,9 @@ final class CoreDataManager {
             fatalError("Failed to retrieve a persistent store description.")
         }
         
+        // Enabale self-cleaining for SQL database
+        description.setOption(true as NSNumber, forKey: NSSQLiteManualVacuumOption)
+        // Enable history tracking and remote notifications
         description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
         description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
         
@@ -30,6 +34,7 @@ final class CoreDataManager {
             fatalError("Failed to load persistent stores: \(error)")
         })
         
+        // Pin the viewContext to the current generation token and set it to keep itself up to date with local changes
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         container.viewContext.automaticallyMergesChangesFromParent = true
         
@@ -53,11 +58,39 @@ final class CoreDataManager {
             }
         }
     }
+    
+    //MARK: - Register Defaults
+    
+    func registerDefaults() {
+        let dictionary = ["isFirstLaunch": true,
+                          "isOnboarding": true,
+                          "isInitalDataLoading": true,
+                          "isFirstSearchOnTheInternet": true]
+        UserDefaults.standard.register(defaults: dictionary)
+    }
+    
 }
     
 //MARK: - Preload Data For First Launch
 
 extension CoreDataManager {
+    
+    func handleFirstLaunch() {
+        let networkMonitor = NetworkMonitor()
+        let isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch")
+        if isFirstLaunch {
+            networkMonitor.startMonitoring()
+            DispatchQueue.main.async {
+                if !(networkMonitor.isReachable) {
+                    self.preloadData()
+                } else {
+                    self.checkForiCloudRecords()
+                }
+                UserDefaults.standard.set(false, forKey: "isFirstLaunch")
+                networkMonitor.stopMonitoring()
+            }
+        }
+    }
     
     func checkForiCloudRecords() {
         let predicate = NSPredicate(value: true)
@@ -103,7 +136,7 @@ extension CoreDataManager {
                 case .image:
                     if let image = UIImage(named: value) {
                         mantra.image = image.pngData()
-                        mantra.imageForTableView = image.resize(to: CGSize(width: Constants.rowHeight, height: Constants.rowHeight))?.pngData()
+                        mantra.imageForTableView = image.resize(to: CGSize(width: Constants.rowHeight, height: Constants.rowHeight)).pngData()
                     }
                 }
             }
