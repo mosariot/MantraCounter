@@ -11,6 +11,17 @@ import CoreData
 
 final class CoreDataManager {
     
+    var overallMantraArray: [Mantra] {
+        let context = persistentContainer.viewContext
+        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
+        do {
+            return try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+            return []
+        }
+    }
+    
     init() {
         registerDefaults()
         handleFirstLaunch()
@@ -23,8 +34,6 @@ final class CoreDataManager {
             fatalError("Failed to retrieve a persistent store description.")
         }
         
-        // Enabale self-cleaining for SQL database
-        description.setOption(true as NSNumber, forKey: NSSQLiteManualVacuumOption)
         // Enable history tracking and remote notifications
         description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
         description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
@@ -49,17 +58,19 @@ final class CoreDataManager {
     
     func saveContext() {
         let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
+        guard context.hasChanges else { return }
+        do {
+            try context.save()
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
+}
     
     //MARK: - Register Defaults
+    
+extension CoreDataManager {
     
     func registerDefaults() {
         let dictionary = ["isFirstLaunch": true,
@@ -68,9 +79,8 @@ final class CoreDataManager {
                           "isFirstSearchOnTheInternet": true]
         UserDefaults.standard.register(defaults: dictionary)
     }
-    
 }
-    
+
 //MARK: - Preload Data For First Launch
 
 extension CoreDataManager {

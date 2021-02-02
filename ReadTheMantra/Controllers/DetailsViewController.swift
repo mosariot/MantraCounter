@@ -19,6 +19,9 @@ final class DetailsViewController: UIViewController {
     //MARK: - Properties
     
     private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
+    private var overallMantraArray: [Mantra] {
+        (UIApplication.shared.delegate as! AppDelegate).coreDataManager.overallMantraArray
+    }
     
     private let widgetManager = WidgetManager()
     
@@ -28,7 +31,6 @@ final class DetailsViewController: UIViewController {
     private var mode: DetailsMode {
         didSet { setMode () }
     }
-    private var mantraTitles: [String]?
     private var mantraImageData: Data?
     private var mantraImageForTableViewData: Data?
     private weak var delegate: DetailsViewControllerDelegate?
@@ -55,12 +57,10 @@ final class DetailsViewController: UIViewController {
     
     init?(mantra: Mantra,
           mode: DetailsMode,
-          mantraTitles: [String]? = nil,
           delegate: DetailsViewControllerDelegate?,
           coder: NSCoder) {
         self.mantra = mantra
         self.mode = mode
-        self.mantraTitles = mantraTitles
         self.delegate = delegate
         
         super.init(coder: coder)
@@ -83,12 +83,24 @@ final class DetailsViewController: UIViewController {
         titleTextField.delegate = self
         mantraTextTextView.delegate = self
         detailsTextView.delegate = self
+        
+        setupData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         setupUI()
+    }
+    
+    private func setupData() {
+        titleTextField.text = mantra.title
+        mantraTextTextView.text = mantra.text
+        detailsTextView.text = mantra.details
+        
+        let mantraImage = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
+        let downsampledMantraImage = mantraImage?.resize(to: setPhotoButton.bounds.size)
+        setPhotoButton.setImage(downsampledMantraImage, for: .normal)
     }
     
     private func setupUI() {
@@ -106,9 +118,6 @@ final class DetailsViewController: UIViewController {
         mantraTextTextView.placeHolderText = NSLocalizedString("Enter mantra text", comment: "Mantra text placeholder")
         detailsTextView.placeHolderText = NSLocalizedString("Enter mantra description", comment: "Mantra description placeholder")
         
-        let mantraImage = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
-        let downsampledMantraImage = mantraImage?.resize(to: setPhotoButton.bounds.size)
-        setPhotoButton.setImage(downsampledMantraImage, for: .normal)
         setPhotoButton.showsMenuAsPrimaryAction = true
         let photoLibraryAction = UIAction(title: NSLocalizedString("Photo Library", comment: "Menu Item on DetailsViewController"),
                                           image: UIImage(systemName: "photo.on.rectangle.angled")) { [weak self] _ in
@@ -127,10 +136,6 @@ final class DetailsViewController: UIViewController {
         }
         let photoMenu = UIMenu(children: [photoLibraryAction, standardImageAction, searchAction])
         setPhotoButton.menu = photoMenu
-        
-        titleTextField.text = mantra.title
-        mantraTextTextView.text = mantra.text
-        detailsTextView.text = mantra.details
         
         setMode()
     }
@@ -229,7 +234,6 @@ extension DetailsViewController {
     
     private func cancelButtonPressed() {
         context.delete(mantra)
-        delegate?.updateView()
         dismiss(animated: true, completion: nil)
     }
     
@@ -240,19 +244,18 @@ extension DetailsViewController {
     private func doneButtonPressed() {
         guard let title = titleTextField.text else { return }
         processMantra(title: title)
-        saveContext()
-        widgetManager.updateWidgetData()
         delegate?.updateView()
         mode = .view
+        saveContext()
+        widgetManager.updateWidgetData()
     }
     
     private func closeButtonPressed() {
-        delegate?.updateView()
         dismiss(animated: true, completion: nil)
     }
     
     private func isMantraDuplicating(for title: String) -> Bool {
-        guard let mantraTitles = mantraTitles else { return false }
+        let mantraTitles = overallMantraArray.compactMap({ $0.title })
         return mantraTitles.contains(title)
     }
     
@@ -265,10 +268,11 @@ extension DetailsViewController {
     
     private func handleAddNewMantra(for title: String) {
         processMantra(title: title)
-        saveContext()
-        context.reset()
-        widgetManager.updateWidgetData()
         delegate?.updateView()
+        DispatchQueue.main.async {
+            self.saveContext()
+            self.widgetManager.updateWidgetData()
+        }
         dismiss(animated: true, completion: nil)
     }
     
@@ -281,13 +285,12 @@ extension DetailsViewController {
     }
     
     func saveContext() {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
+        guard context.hasChanges else { return }
+        do {
+            try context.save()
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
 }
@@ -464,6 +467,5 @@ extension DetailsViewController: UIAdaptivePresentationControllerDelegate {
         if delegate is MantraViewController {
             context.delete(mantra)
         }
-        delegate?.updateView()
     }
 }

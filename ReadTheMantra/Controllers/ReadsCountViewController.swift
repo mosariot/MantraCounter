@@ -17,11 +17,13 @@ final class ReadsCountViewController: UIViewController {
     //MARK: - Properties
     
     private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
+    private var overallMantraArray: [Mantra] {
+        (UIApplication.shared.delegate as! AppDelegate).coreDataManager.overallMantraArray
+    }
     
     private let widgetManager = WidgetManager()
     
     private let mantra: Mantra
-    private let positionFavorite: Int32
     private weak var delegate: ReadsCountViewControllerDelegate?
     
     //MARK: - IBOutlets
@@ -42,11 +44,9 @@ final class ReadsCountViewController: UIViewController {
     }
     
     init?(mantra: Mantra,
-          positionFavorite: Int32,
           delegate: ReadsCountViewControllerDelegate,
           coder: NSCoder) {
         self.mantra = mantra
-        self.positionFavorite = positionFavorite
         self.delegate = delegate
         
         super.init(coder: coder)
@@ -104,7 +104,10 @@ final class ReadsCountViewController: UIViewController {
     
     private func favoriteButtonPressed() {
         mantra.isFavorite.toggle()
-        mantra.positionFavorite = mantra.isFavorite ? positionFavorite : 0
+        mantra.positionFavorite = mantra.isFavorite ? ((overallMantraArray
+                                                            .filter{ $0.isFavorite }
+                                                            .sorted{ $0.positionFavorite < $1.positionFavorite }
+                                                            .last?.positionFavorite ?? -1) + 1) : 0
         delegate?.favoriteActionPerformed()
         saveContext()
         widgetManager.updateWidgetData()
@@ -177,8 +180,10 @@ final class ReadsCountViewController: UIViewController {
         readsGoalButton.setTitle(NSLocalizedString("Goal: ",
                                                    comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(),
                                  for: .normal)
-        saveContext()
-        widgetManager.updateWidgetData()
+        DispatchQueue.main.async {
+            self.saveContext()
+            self.widgetManager.updateWidgetData()
+        }
         readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
     }
     
@@ -228,13 +233,12 @@ final class ReadsCountViewController: UIViewController {
     }
     
     func saveContext() {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
+        guard context.hasChanges else { return }
+        do {
+            try context.save()
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
 }

@@ -18,6 +18,9 @@ final class MantraViewController: UICollectionViewController {
     private lazy var dataSource = makeDataSource()
     
     private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
+    private var overallMantraArray: [Mantra] {
+        (UIApplication.shared.delegate as! AppDelegate).coreDataManager.overallMantraArray
+    }
     
     private let widgetManager = WidgetManager()
     
@@ -43,14 +46,7 @@ final class MantraViewController: UICollectionViewController {
         get { defaults.bool(forKey: "isInitalDataLoading") }
         set { defaults.set(newValue, forKey: "isInitalDataLoading") }
     }
-    
-    private var overallMantraCount = 0
-    private var currentMantraCount = 0
-    private var overallMantraTitles: [String] = []
-    private var overallFavoriteMantraCount: Int {
-        dataSource.snapshot().itemIdentifiers.filter({ $0.isFavorite }).count
-    }
-    
+        
     private let segmentedControl = UISegmentedControl(items: [NSLocalizedString("All", comment: "Segment Title on MantraViewController"),
                                                               UIImage(systemName: "star") ?? ""])
     
@@ -89,7 +85,7 @@ final class MantraViewController: UICollectionViewController {
         super.viewDidAppear(true)
         
         checkForOnboardingAlert()
-        startActivityIndicatorForInitialDataLoading()
+        checkForInitialDataLoading()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -130,7 +126,7 @@ final class MantraViewController: UICollectionViewController {
         }
     }
     
-    private func startActivityIndicatorForInitialDataLoading() {
+    private func checkForInitialDataLoading() {
         if isInitalDataLoading {
             if let fetchedData = fetchedResultsController?.fetchedObjects {
                 if fetchedData.isEmpty {
@@ -194,18 +190,6 @@ final class MantraViewController: UICollectionViewController {
         isInFavoriteMode.toggle()
     }
     
-    private func getCurrentMantrasInfo() {
-        var overallMantraArray: [Mantra] = []
-        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
-        do {
-            overallMantraArray = try context.fetch(request)
-        } catch {
-            print("Error fetching data from context \(error)")
-        }
-        overallMantraCount = overallMantraArray.count
-        overallMantraTitles = overallMantraArray.compactMap({ $0.title })
-    }
-    
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         
@@ -255,7 +239,7 @@ extension MantraViewController {
             content.text = mantra.title
             
             if (content.text != "") {
-                content.secondaryText = NSLocalizedString("Current readings:", comment: "Current readings count") + " \(mantra.reads)"
+                content.secondaryText = NSLocalizedString("Current readings:", comment: "Current readings count") + " \(mantra.position)" + " \(mantra.positionFavorite)" + " \(mantra.reads)"
                 content.secondaryTextProperties.color = .secondaryLabel
                 content.textToSecondaryTextVerticalPadding = 4
                 content.image = (mantra.imageForTableView != nil) ?
@@ -273,10 +257,7 @@ extension MantraViewController {
             let favoriteAction = UIAction(image: UIImage(systemName: mantra.isFavorite ? "star.slash" : "star"),
                                           handler: { [weak self] _ in
                                             guard let self = self else { return }
-                                            self.handleFavoriteAction(for: mantra)
-                                            if !self.isInFavoriteMode {
-                                                self.applySnapshot()
-                                            }})
+                                            self.handleFavoriteAction(for: mantra)})
             let favoriteButton = UIButton(primaryAction: favoriteAction)
             let favoriteAccessoryConfiguration = UICellAccessory.CustomViewConfiguration(customView: favoriteButton,
                                                                                          placement: .leading(displayed: .whenEditing))
@@ -381,7 +362,6 @@ extension MantraViewController {
                 creator: { [weak self] coder in
                     guard let self = self else { fatalError() }
                     return ReadsCountViewController(mantra: mantra,
-                                                    positionFavorite: Int32(self.overallFavoriteMantraCount),
                                                     delegate: self,
                                                     coder: coder)
                 }) else { return }
@@ -437,35 +417,27 @@ extension MantraViewController {
         snapshot.deleteItems([mantra])
         
         reorderMantraPositions(withSnapshot: snapshot)
-        reorderFavoriteMantraPositionsForDeleting(withSnapshot: snapshot)
+        reorderFavoriteMantraPositionsForAddingOrDeleting(withSnapshot: snapshot)
         
-//        DispatchQueue.main.async {
-//            self.applySnapshot()
-//        }
-        
-        saveContext()
-        
-        overallMantraCount = snapshot.itemIdentifiers.count
-        overallMantraTitles = snapshot.itemIdentifiers.compactMap({ $0.title })
-        widgetManager.updateWidgetData()
+        DispatchQueue.main.async {
+            self.saveContext()
+            self.widgetManager.updateWidgetData()
+        }
     }
     
     private func handleFavoriteAction(for mantra: Mantra) {
         mantra.isFavorite.toggle()
-        if mantra.isFavorite {
-            mantra.positionFavorite = Int32(overallFavoriteMantraCount)
-        } else {
-            mantra.positionFavorite = 0
+        mantra.positionFavorite = mantra.isFavorite ? ((overallMantraArray
+                                                            .filter{ $0.isFavorite }
+                                                            .sorted{ $0.positionFavorite < $1.positionFavorite }
+                                                            .last?.positionFavorite ?? -1) + 1) : 0
+        
+        reorderFavoriteMantraPositionsForAddingOrDeleting(withSnapshot: dataSource.snapshot())
+        
+        DispatchQueue.main.async {
+            self.saveContext()
+            self.widgetManager.updateWidgetData()
         }
-        
-        reorderFavoriteMantraPositionsForDeleting(withSnapshot: dataSource.snapshot())
-        
-        saveContext()
-        
-//        if isInFavoriteMode {
-//            applySnapshot()
-//        }
-        widgetManager.updateWidgetData()
     }
     
     private func reorderMantraPositions(withSnapshot snapshot: Snapshot) {
@@ -474,7 +446,7 @@ extension MantraViewController {
         }
     }
     
-    private func reorderFavoriteMantraPositionsForDeleting(withSnapshot snapshot: Snapshot) {
+    private func reorderFavoriteMantraPositionsForAddingOrDeleting(withSnapshot snapshot: Snapshot) {
         for (n, mantra) in snapshot.itemIdentifiers.filter({ $0.isFavorite }).sorted(by: { $0.positionFavorite < $1.positionFavorite }).enumerated() {
             mantra.positionFavorite = Int32(n)
         }
@@ -492,18 +464,19 @@ extension MantraViewController {
 extension MantraViewController {
     
     private func showNewMantraVC() {
-        getCurrentMantrasInfo()
-        currentMantraCount = overallMantraCount
+        let positionForNewMantra = (overallMantraArray
+                                        .sorted{ $0.position < $1.position }
+                                        .last?.position ?? -1) + 1
         let mantra = Mantra(context: context)
-        mantra.position = Int32(overallMantraCount)
+        mantra.position = Int32(positionForNewMantra)
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
                 creator: { [weak self] coder in
                     guard let self = self else { fatalError() }
                     return DetailsViewController(mantra: mantra,
                                                  mode: .add,
-                                                 mantraTitles: self.overallMantraTitles,
-                                                 delegate: self, coder: coder)
+                                                 delegate: self,
+                                                 coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
         present(navigationController, animated: true)
@@ -565,7 +538,6 @@ extension MantraViewController {
     }
     
     private func donePreloadedMantraButtonPressed() {
-        getCurrentMantrasInfo()
         mantraPickerTextField.resignFirstResponder()
         if isMantraDuplicating() {
             dismissPreloadedMantraPickerState()
@@ -579,7 +551,7 @@ extension MantraViewController {
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
         guard let title = sortedInitialMantraData[selectedMantraNumber][.title] else { return false }
         var isDuplicating = false
-        if overallMantraTitles.contains(title) {
+        if overallMantraArray.compactMap({ $0.title }).contains(title) {
             isDuplicating = true
         }
         return isDuplicating
@@ -599,7 +571,6 @@ extension MantraViewController {
     private func handleAddPreloadedMantra() {
         addPreloadedMantra()
         saveContext()
-        applySnapshot()
         dismissPreloadedMantraPickerState()
         
         if !isInFavoriteMode {
@@ -612,9 +583,12 @@ extension MantraViewController {
     
     private func addPreloadedMantra() {
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
-        let mantra = Mantra(context: context)
         let preloadedMantra = sortedInitialMantraData[selectedMantraNumber]
-        mantra.position = Int32(overallMantraCount)
+        let positionForNewMantra = (overallMantraArray
+                                        .sorted{ $0.position < $1.position }
+                                        .last?.position ?? -1) + 1
+        let mantra = Mantra(context: context)
+        mantra.position = Int32(positionForNewMantra)
         mantra.title = preloadedMantra[.title]
         mantra.text = preloadedMantra[.text]
         mantra.details = preloadedMantra[.details]
@@ -636,10 +610,10 @@ extension MantraViewController {
 
 extension MantraViewController {
     
-    private func loadMantras(with request: NSFetchRequest<Mantra> = Mantra.fetchRequest(),
-                             predicate: NSPredicate? = nil,
+    private func loadMantras(with predicate: NSPredicate? = nil,
                              animatingDifferences: Bool = true) {
         
+        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         request.sortDescriptors = isInFavoriteMode ?
             [NSSortDescriptor(key: "positionFavorite", ascending: true)] :
             [NSSortDescriptor(key: "position", ascending: true)]
@@ -670,13 +644,12 @@ extension MantraViewController {
     }
     
     func saveContext() {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
+        guard context.hasChanges else { return }
+        do {
+            try context.save()
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
 }
@@ -686,13 +659,13 @@ extension MantraViewController {
 extension MantraViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print("did change")
+        print("controller did change content")
         applySnapshot()
         widgetManager.updateWidgetData()
-        stopActivityIndicatorForInitialDataLoading()
+        stopActivityIndicatorForInitialDataLoadingIfNeeded()
     }
     
-    private func stopActivityIndicatorForInitialDataLoading() {
+    private func stopActivityIndicatorForInitialDataLoadingIfNeeded() {
         if isInitalDataLoading {
             if let fetchedData = fetchedResultsController?.fetchedObjects {
                 if !fetchedData.isEmpty {
@@ -719,9 +692,8 @@ extension MantraViewController: UISearchResultsUpdating {
             loadMantras()
             return
         }
-        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         let predicate = NSPredicate(format: "title CONTAINS[cd] %@", text)
-        loadMantras(with: request, predicate: predicate)
+        loadMantras(with: predicate)
     }
 }
 
@@ -747,18 +719,16 @@ extension MantraViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 extension MantraViewController: ReadsCountViewControllerDelegate {
     
     func favoriteActionPerformed() {
-        reorderFavoriteMantraPositionsForDeleting(withSnapshot: dataSource.snapshot())
+        reorderFavoriteMantraPositionsForAddingOrDeleting(withSnapshot: dataSource.snapshot())
     }
 }
 
-//MARK: - DetailsViewController Delegate (Load Mantras With Quantity Check)
+//MARK: - DetailsViewController Delegate (Jump to the new mantra at the bottom)
 
 extension MantraViewController: DetailsViewControllerDelegate {
     
     func updateView() {
-        loadMantras()
-        getCurrentMantrasInfo()
-        if !isInFavoriteMode && currentMantraCount < overallMantraCount {
+        if !isInFavoriteMode {
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {
                 let indexPath = IndexPath(row: self.dataSource.snapshot().numberOfItems-1, section: 0)
                 self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)

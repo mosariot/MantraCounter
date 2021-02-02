@@ -12,9 +12,7 @@ class NetworkMonitor {
     
     let monitor = NWPathMonitor()
     private var status: NWPath.Status = .requiresConnection
-    var isReachable: Bool {
-        status == .satisfied
-    }
+    var isReachable: Bool { status == .satisfied }
     
     func startMonitoring() {
         monitor.pathUpdateHandler = { [weak self] path in

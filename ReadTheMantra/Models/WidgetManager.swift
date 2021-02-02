@@ -14,7 +14,9 @@ struct WidgetManager {
     @AppStorage("widgetItem", store: UserDefaults(suiteName: "group.com.mosariot.MantraCounter"))
     var widgetItemData: Data = Data()
     
-    private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
+    private var overallMantraArray: [Mantra] {
+        (UIApplication.shared.delegate as! AppDelegate).coreDataManager.overallMantraArray
+    }
     
     func updateWidgetData() {
         let widgetModel = getWidgetModel()
@@ -25,17 +27,16 @@ struct WidgetManager {
         var overallReads: Int32 = 0
         var favoritesMantrasItems: [WidgetModel.Item] = []
         var mantrasItems: [WidgetModel.Item] = []
-        let overallMantraArray = getOverallMatraArray()
         
         for mantra in overallMantraArray {
             overallReads += mantra.reads
         }
         
         let favoritesMantras = Array(overallMantraArray
-                                                .filter({ $0.isFavorite })
-                                                .sorted(by: { $0.positionFavorite < $1.positionFavorite }))
+                                        .filter{ $0.isFavorite }
+                                        .sorted{ $0.positionFavorite < $1.positionFavorite })
         let mantras = Array(overallMantraArray
-                                        .sorted(by: { $0.position < $1.position }))
+                                .sorted{ $0.position < $1.position })
         
         for favoriteItem in favoritesMantras {
             if let title = favoriteItem.title {
@@ -51,18 +52,6 @@ struct WidgetManager {
         
         let widgetModel = WidgetModel(overallReads: overallReads, favorites: favoritesMantrasItems, mantras: mantrasItems)
         return widgetModel
-    }
-    
-    private func getOverallMatraArray() -> [Mantra] {
-//        var overallMantraArray: [Mantra] = []
-//        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
-//        do {
-//            overallMantraArray = try context.fetch(request)
-//        } catch {
-//            print("Error fetching data from context \(error)")
-//        }
-//        return overallMantraArray
-        return []
     }
     
     private func storeWidgetItem(widgetModel: WidgetModel) {
