@@ -11,8 +11,9 @@
         <attribute name="readsGoal" attributeType="Integer 32" defaultValueString="100000" usesScalarValueType="YES"/>
         <attribute name="text" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
+        <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
     </entity>
     <elements>
-        <element name="Mantra" positionX="-63" positionY="-18" width="128" height="193"/>
+        <element name="Mantra" positionX="-63" positionY="-18" width="128" height="194"/>
     </elements>
 </model>

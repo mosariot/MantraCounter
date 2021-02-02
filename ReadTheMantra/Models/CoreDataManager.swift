@@ -134,6 +134,7 @@ extension CoreDataManager {
         let context = persistentContainer.viewContext
         for (index, data) in InitialMantra.data.enumerated() {
             let mantra = Mantra(context: context)
+            mantra.uuid = UUID()
             mantra.position = Int32(index)
             for (key, value) in data {
                 switch key {

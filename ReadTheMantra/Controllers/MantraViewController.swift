@@ -455,6 +455,7 @@ extension MantraViewController {
                                         .sorted{ $0.position < $1.position }
                                         .last?.position ?? -1) + 1
         let mantra = Mantra(context: context)
+        mantra.uuid = UUID()
         mantra.position = Int32(positionForNewMantra)
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
@@ -574,6 +575,7 @@ extension MantraViewController {
                                         .sorted{ $0.position < $1.position }
                                         .last?.position ?? -1) + 1
         let mantra = Mantra(context: context)
+        mantra.uuid = UUID()
         mantra.position = Int32(positionForNewMantra)
         mantra.title = preloadedMantra[.title]
         mantra.text = preloadedMantra[.text]
