@@ -16,12 +16,10 @@ final class ReadsCountViewController: UIViewController {
     
     //MARK: - Properties
     
-    private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
+    private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     private var overallMantraArray: [Mantra] {
         (UIApplication.shared.delegate as! AppDelegate).coreDataManager.overallMantraArray
     }
-    
-    private let widgetManager = WidgetManager()
     
     private let mantra: Mantra
     private weak var delegate: ReadsCountViewControllerDelegate?
@@ -109,9 +107,8 @@ final class ReadsCountViewController: UIViewController {
                                                             .sorted{ $0.positionFavorite < $1.positionFavorite }
                                                             .last?.positionFavorite ?? -1) + 1) : 0
         delegate?.favoriteActionPerformed()
-        saveContext()
-        widgetManager.updateWidgetData()
-        setupNavButtons()
+        
+        self.setupNavButtons()
     }
     
     //MARK: - Setup UI
@@ -180,10 +177,6 @@ final class ReadsCountViewController: UIViewController {
         readsGoalButton.setTitle(NSLocalizedString("Goal: ",
                                                    comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(),
                                  for: .normal)
-        DispatchQueue.main.async {
-            self.saveContext()
-            self.widgetManager.updateWidgetData()
-        }
         readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
     }
     
@@ -230,16 +223,6 @@ final class ReadsCountViewController: UIViewController {
     private func showReadsCongratulationsAlert(level: Level) {
         let alert = UIAlertController.congratulationsAlert(level: level)
         present(alert, animated: true, completion: nil)
-    }
-    
-    func saveContext() {
-        guard context.hasChanges else { return }
-        do {
-            try context.save()
-        } catch {
-            let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
     }
 }
 

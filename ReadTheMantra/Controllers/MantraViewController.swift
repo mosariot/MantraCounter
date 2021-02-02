@@ -17,6 +17,7 @@ final class MantraViewController: UICollectionViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Int, Mantra>
     private lazy var dataSource = makeDataSource()
     
+    private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
     private var overallMantraArray: [Mantra] {
         (UIApplication.shared.delegate as! AppDelegate).coreDataManager.overallMantraArray
@@ -300,10 +301,6 @@ extension MantraViewController {
             } else {
                 self.reorderMantraPositions(withSnapshot: snapshot)
             }
-            DispatchQueue.main.async {
-                self.saveContext()
-                self.widgetManager.updateWidgetData()
-            }
         }
         return dataSource
     }
@@ -418,11 +415,6 @@ extension MantraViewController {
         
         reorderMantraPositions(withSnapshot: snapshot)
         reorderFavoriteMantraPositionsForAddingOrDeleting(withSnapshot: snapshot)
-        
-        DispatchQueue.main.async {
-            self.saveContext()
-            self.widgetManager.updateWidgetData()
-        }
     }
     
     private func handleFavoriteAction(for mantra: Mantra) {
@@ -433,11 +425,6 @@ extension MantraViewController {
                                                             .last?.positionFavorite ?? -1) + 1) : 0
         
         reorderFavoriteMantraPositionsForAddingOrDeleting(withSnapshot: dataSource.snapshot())
-        
-        DispatchQueue.main.async {
-            self.saveContext()
-            self.widgetManager.updateWidgetData()
-        }
     }
     
     private func reorderMantraPositions(withSnapshot snapshot: Snapshot) {
@@ -570,7 +557,6 @@ extension MantraViewController {
     
     private func handleAddPreloadedMantra() {
         addPreloadedMantra()
-        saveContext()
         dismissPreloadedMantraPickerState()
         
         if !isInFavoriteMode {
@@ -642,16 +628,6 @@ extension MantraViewController {
             print("Error fetching data \(error)")
         }
     }
-    
-    func saveContext() {
-        guard context.hasChanges else { return }
-        do {
-            try context.save()
-        } catch {
-            let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
-    }
 }
 
 // MARK: - NSFetchedResultsController Delegate
@@ -661,7 +637,12 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         print("controller did change content")
         applySnapshot()
-        widgetManager.updateWidgetData()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            self.coreDataManager.saveContext()
+        }
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            self.widgetManager.updateWidgetData()
+        }
         stopActivityIndicatorForInitialDataLoadingIfNeeded()
     }
     

@@ -18,12 +18,11 @@ final class DetailsViewController: UIViewController {
     
     //MARK: - Properties
     
+    private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
     private var overallMantraArray: [Mantra] {
         (UIApplication.shared.delegate as! AppDelegate).coreDataManager.overallMantraArray
     }
-    
-    private let widgetManager = WidgetManager()
     
     private let pasteboard = UIPasteboard.general
     
@@ -246,8 +245,6 @@ extension DetailsViewController {
         processMantra(title: title)
         delegate?.updateView()
         mode = .view
-        saveContext()
-        widgetManager.updateWidgetData()
     }
     
     private func closeButtonPressed() {
@@ -269,10 +266,6 @@ extension DetailsViewController {
     private func handleAddNewMantra(for title: String) {
         processMantra(title: title)
         delegate?.updateView()
-        DispatchQueue.main.async {
-            self.saveContext()
-            self.widgetManager.updateWidgetData()
-        }
         dismiss(animated: true, completion: nil)
     }
     
@@ -282,16 +275,6 @@ extension DetailsViewController {
         mantra.details = detailsTextView.text
         mantra.image = mantraImageData ?? nil
         mantra.imageForTableView = mantraImageForTableViewData ?? nil
-    }
-    
-    func saveContext() {
-        guard context.hasChanges else { return }
-        do {
-            try context.save()
-        } catch {
-            let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
     }
 }
 
