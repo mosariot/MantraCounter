@@ -10,10 +10,11 @@
         <attribute name="reads" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="readsGoal" attributeType="Integer 32" defaultValueString="100000" usesScalarValueType="YES"/>
         <attribute name="text" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
     </entity>
     <elements>
-        <element name="Mantra" positionX="-63" positionY="-18" width="128" height="194"/>
+        <element name="Mantra" positionX="-63" positionY="-18" width="128" height="209"/>
     </elements>
 </model>

@@ -24,31 +24,16 @@ struct WidgetManager {
     }
     
     private func getWidgetModel() -> WidgetModel {
-        var overallReads: Int32 = 0
-        var favoritesMantrasItems: [WidgetModel.Item] = []
-        var mantrasItems: [WidgetModel.Item] = []
+        let allMantras = overallMantraArray
+        let overallReads = allMantras.map({ $0.reads }).reduce(0, +)
         
-        for mantra in overallMantraArray {
-            overallReads += mantra.reads
-        }
-        
-        let favoritesMantras = Array(overallMantraArray
+        let mantras = Array(allMantras.sorted{ $0.position < $1.position })
+        let favoritesMantras = Array(allMantras
                                         .filter{ $0.isFavorite }
                                         .sorted{ $0.positionFavorite < $1.positionFavorite })
-        let mantras = Array(overallMantraArray
-                                .sorted{ $0.position < $1.position })
         
-        for favoriteItem in favoritesMantras {
-            if let title = favoriteItem.title {
-                favoritesMantrasItems.append(WidgetModel.Item(title: title, reads: favoriteItem.reads))
-            }
-        }
-        
-        for mantraItem in mantras {
-            if let title = mantraItem.title {
-                mantrasItems.append(WidgetModel.Item(title: title, reads: mantraItem.reads))
-            }
-        }
+        let mantrasItems = mantras.map({ WidgetModel.Item(title: $0.title ?? "", reads: $0.reads) })
+        let favoritesMantrasItems = favoritesMantras.map({ WidgetModel.Item(title: $0.title ?? "", reads: $0.reads) })
         
         let widgetModel = WidgetModel(overallReads: overallReads, favorites: favoritesMantrasItems, mantras: mantrasItems)
         return widgetModel
@@ -56,10 +41,7 @@ struct WidgetManager {
     
     private func storeWidgetItem(widgetModel: WidgetModel) {
         let encoder = JSONEncoder()
-        guard let data = try? encoder.encode(widgetModel) else {
-            print("Could not encode data")
-            return
-        }
+        guard let data = try? encoder.encode(widgetModel) else { return }
         widgetItemData = data
         WidgetCenter.shared.reloadAllTimelines()
     }

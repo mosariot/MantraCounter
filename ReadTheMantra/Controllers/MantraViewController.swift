@@ -11,6 +11,7 @@ import CoreData
 
 final class MantraViewController: UICollectionViewController {
     
+    
     //MARK: - Properties
     
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Mantra>
@@ -240,7 +241,8 @@ extension MantraViewController {
             content.text = mantra.title
             
             if (content.text != "") {
-                content.secondaryText = NSLocalizedString("Current readings:", comment: "Current readings count") + " \(mantra.position)" + " \(mantra.positionFavorite)" + " \(mantra.reads)"
+                content.secondaryText = NSLocalizedString("Current readings:",
+                                                          comment: "Current readings count") + " \(mantra.reads)"
                 content.secondaryTextProperties.color = .secondaryLabel
                 content.textToSecondaryTextVerticalPadding = 4
                 content.image = (mantra.imageForTableView != nil) ?
@@ -354,11 +356,19 @@ extension MantraViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let mantra = dataSource.itemIdentifier(for: indexPath) else { return }
+        
+        let snapshot = dataSource.snapshot()
+        let newPossibleMantraPosition = ((snapshot.itemIdentifiers
+                                                            .filter({ $0.isFavorite })
+                                                            .sorted(by: { $0.positionFavorite < $1.positionFavorite })
+                                                            .last?.positionFavorite ?? -1) + 1)
+        
         guard let readsCountViewController = storyboard?.instantiateViewController(
                 identifier: Constants.readsCountViewControllerID,
                 creator: { [weak self] coder in
                     guard let self = self else { fatalError() }
                     return ReadsCountViewController(mantra: mantra,
+                                                    newPossibleMantraPosition: newPossibleMantraPosition,
                                                     delegate: self,
                                                     coder: coder)
                 }) else { return }
@@ -419,9 +429,10 @@ extension MantraViewController {
     
     private func handleFavoriteAction(for mantra: Mantra) {
         mantra.isFavorite.toggle()
-        mantra.positionFavorite = mantra.isFavorite ? ((overallMantraArray
-                                                            .filter{ $0.isFavorite }
-                                                            .sorted{ $0.positionFavorite < $1.positionFavorite }
+        let snapshot = dataSource.snapshot()
+        mantra.positionFavorite = mantra.isFavorite ? ((snapshot.itemIdentifiers
+                                                            .filter({ $0.isFavorite })
+                                                            .sorted(by: { $0.positionFavorite < $1.positionFavorite })
                                                             .last?.positionFavorite ?? -1) + 1) : 0
         
         reorderFavoriteMantraPositionsForAddingOrDeleting(withSnapshot: dataSource.snapshot())
@@ -434,7 +445,10 @@ extension MantraViewController {
     }
     
     private func reorderFavoriteMantraPositionsForAddingOrDeleting(withSnapshot snapshot: Snapshot) {
-        for (n, mantra) in snapshot.itemIdentifiers.filter({ $0.isFavorite }).sorted(by: { $0.positionFavorite < $1.positionFavorite }).enumerated() {
+        for (n, mantra) in snapshot.itemIdentifiers
+            .filter({ $0.isFavorite })
+            .sorted(by: { $0.positionFavorite < $1.positionFavorite })
+            .enumerated() {
             mantra.positionFavorite = Int32(n)
         }
     }
@@ -456,6 +470,7 @@ extension MantraViewController {
                                         .last?.position ?? -1) + 1
         let mantra = Mantra(context: context)
         mantra.uuid = UUID()
+        mantra.timestamp = Date()
         mantra.position = Int32(positionForNewMantra)
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
@@ -576,6 +591,7 @@ extension MantraViewController {
                                         .last?.position ?? -1) + 1
         let mantra = Mantra(context: context)
         mantra.uuid = UUID()
+        mantra.timestamp = Date()
         mantra.position = Int32(positionForNewMantra)
         mantra.title = preloadedMantra[.title]
         mantra.text = preloadedMantra[.text]
@@ -637,14 +653,19 @@ extension MantraViewController {
 extension MantraViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print("controller did change content")
-        applySnapshot()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.2) {
+            self.applySnapshot()
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {
             self.coreDataManager.saveContext()
         }
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.6) {
             self.widgetManager.updateWidgetData()
         }
+        
         stopActivityIndicatorForInitialDataLoadingIfNeeded()
     }
     

@@ -11,6 +11,8 @@ import CoreData
 
 final class CoreDataManager {
     
+    static let shared = CoreDataManager()
+    
     var overallMantraArray: [Mantra] {
         let context = persistentContainer.viewContext
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
@@ -22,10 +24,7 @@ final class CoreDataManager {
         }
     }
     
-    init() {
-        registerDefaults()
-        handleFirstLaunch()
-    }
+    private init() { }
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentCloudKitContainer(name: "ReadTheMantra")
@@ -63,7 +62,7 @@ final class CoreDataManager {
             try context.save()
         } catch {
             let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            fatalError("Unresolved error \(nserror)")
         }
     }
 }
@@ -85,7 +84,7 @@ extension CoreDataManager {
 
 extension CoreDataManager {
     
-    func handleFirstLaunch() {
+    func checkForFirstLaunch() {
         let networkMonitor = NetworkMonitor()
         let isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch")
         if isFirstLaunch {
@@ -102,7 +101,7 @@ extension CoreDataManager {
         }
     }
     
-    func checkForiCloudRecords() {
+    private func checkForiCloudRecords() {
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "CD_Mantra", predicate: predicate)
         let operation = CKQueryOperation(query: query)
@@ -115,14 +114,14 @@ extension CoreDataManager {
         operation.queryCompletionBlock = { (_, error) in
             DispatchQueue.main.async {
                 if error == nil {
-                    // no records in iCloud
                     if recordsCount == 0 {
+                        // no records in iCloud
                         self.preloadData()
                     } else {
-                        // loading records from iCloud
+                        // automatically handle loading records from iCloud
                     }
                 } else {
-                    // for example there is no iCloud Account
+                    // for example user is not logged-in iCloud
                     self.preloadData()
                 }
             }
@@ -130,11 +129,12 @@ extension CoreDataManager {
         CKContainer.default().privateCloudDatabase.add(operation)
     }
     
-    func preloadData() {
+    private func preloadData() {
         let context = persistentContainer.viewContext
         for (index, data) in InitialMantra.data.enumerated() {
             let mantra = Mantra(context: context)
             mantra.uuid = UUID()
+            mantra.timestamp = Date()
             mantra.position = Int32(index)
             for (key, value) in data {
                 switch key {
