@@ -8,19 +8,13 @@
 
 import UIKit
 
-protocol ReadsCountViewControllerDelegate: class {
-    func favoriteActionPerformed()
-}
-
 final class ReadsCountViewController: UIViewController {
     
     //MARK: - Properties
     
     private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
-    private let newPossibleMantraPosition: Int32
     
     private let mantra: Mantra
-    private weak var delegate: ReadsCountViewControllerDelegate?
     
     //MARK: - IBOutlets
     
@@ -39,14 +33,8 @@ final class ReadsCountViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init?(mantra: Mantra,
-          newPossibleMantraPosition: Int32,
-          delegate: ReadsCountViewControllerDelegate,
-          coder: NSCoder) {
+    init?(mantra: Mantra, coder: NSCoder) {
         self.mantra = mantra
-        self.newPossibleMantraPosition = newPossibleMantraPosition
-        self.delegate = delegate
-        
         super.init(coder: coder)
     }
     
@@ -102,10 +90,7 @@ final class ReadsCountViewController: UIViewController {
     
     private func favoriteButtonPressed() {
         mantra.isFavorite.toggle()
-        mantra.positionFavorite = mantra.isFavorite ? newPossibleMantraPosition : 0
-        delegate?.favoriteActionPerformed()
-        
-        self.setupNavButtons()
+        setupNavButtons()
     }
     
     //MARK: - Setup UI
@@ -121,7 +106,9 @@ final class ReadsCountViewController: UIViewController {
         titleLabel.text = mantra.title
         titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
         titleLabel.adjustsFontForContentSizeCategory = true
-        readsGoalButton.setTitle(NSLocalizedString("Goal: ", comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(), for: .normal)
+        readsGoalButton.setTitle(NSLocalizedString("Goal: ",
+                                                   comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(),
+                                 for: .normal)
         animateCircularProgressViewForUpdatedValues()
         
         let standardAppearance = UINavigationBarAppearance()

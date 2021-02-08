@@ -27,10 +27,8 @@ struct WidgetManager {
         let allMantras = overallMantraArray
         let overallReads = allMantras.map({ $0.reads }).reduce(0, +)
         
-        let mantras = Array(allMantras.sorted{ $0.position < $1.position })
-        let favoritesMantras = Array(allMantras
-                                        .filter{ $0.isFavorite }
-                                        .sorted{ $0.positionFavorite < $1.positionFavorite })
+        let mantras = Array(allMantras.filter{ !$0.isFavorite })
+        let favoritesMantras = Array(allMantras.filter{ $0.isFavorite })
         
         let mantrasItems = mantras.map({ WidgetModel.Item(title: $0.title ?? "", reads: $0.reads) })
         let favoritesMantrasItems = favoritesMantras.map({ WidgetModel.Item(title: $0.title ?? "", reads: $0.reads) })

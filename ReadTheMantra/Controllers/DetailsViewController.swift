@@ -20,13 +20,11 @@ final class DetailsViewController: UIViewController {
     
     private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
-    private var overallMantraArray: [Mantra] {
-        (UIApplication.shared.delegate as! AppDelegate).coreDataManager.overallMantraArray
-    }
     
     private let pasteboard = UIPasteboard.general
     
     private var mantra: Mantra
+    private var mantraTitles: [String]?
     private var mode: DetailsMode {
         didSet { setMode () }
     }
@@ -56,9 +54,11 @@ final class DetailsViewController: UIViewController {
     
     init?(mantra: Mantra,
           mode: DetailsMode,
+          mantraTitles: [String]? = nil,
           delegate: DetailsViewControllerDelegate?,
           coder: NSCoder) {
         self.mantra = mantra
+        self.mantraTitles = mantraTitles
         self.mode = mode
         self.delegate = delegate
         
@@ -252,7 +252,7 @@ extension DetailsViewController {
     }
     
     private func isMantraDuplicating(for title: String) -> Bool {
-        let mantraTitles = overallMantraArray.compactMap({ $0.title })
+        guard let mantraTitles = mantraTitles else { return false }
         return mantraTitles.contains(title)
     }
     
@@ -265,7 +265,6 @@ extension DetailsViewController {
     
     private func handleAddNewMantra(for title: String) {
         processMantra(title: title)
-        delegate?.updateView()
         dismiss(animated: true, completion: nil)
     }
     

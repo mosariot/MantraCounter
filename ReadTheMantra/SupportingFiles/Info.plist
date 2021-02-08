@@ -44,14 +44,6 @@
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>
-			<key>UIApplicationShortcutItemIconSymbolName</key>
-			<string>star</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Favorites_Shortcut_Title</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>com.mosariot.MantraCounter.favorites</string>
-		</dict>
-		<dict>
 			<key>UIApplicationShortcutItemIconType</key>
 			<string>UIApplicationShortcutIconTypeCompose</string>
 			<key>UIApplicationShortcutItemTitle</key>

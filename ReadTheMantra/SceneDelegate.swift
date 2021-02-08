@@ -33,8 +33,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window?.makeKeyAndVisible()
             
             switch shortcutItem.type {
-            case "com.mosariot.MantraCounter.favorites":
-                mantraTableViewController.setFavoriteMode()
             case "com.mosariot.MantraCounter.addNewMantra":
                 mantraTableViewController.setAddNewMantraMode()
             case "com.mosariot.MantraCounter.search":

@@ -18,6 +18,15 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 /* Onboarding Alert Button */
 "UNDERSTAND!" = "ПОНЯТНО!";
 
+/* Favorites section title */
+"Favorites" = "Избранное";
+
+/* Main section title */
+"Mantras" = "Мантры";
+
+/* Other section title */
+"Other Mantras" = "Остальные мантры";
+
 /* Back Button of MantraViewController */
 "Mantra List" = "Список мантр";
 

@@ -16,6 +16,7 @@ final class CoreDataManager {
     var overallMantraArray: [Mantra] {
         let context = persistentContainer.viewContext
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         do {
             return try context.fetch(request)
         } catch {
@@ -131,12 +132,10 @@ extension CoreDataManager {
     
     private func preloadData() {
         let context = persistentContainer.viewContext
-        for (index, data) in InitialMantra.data.enumerated() {
+        InitialMantra.data.forEach { (data) in
             let mantra = Mantra(context: context)
             mantra.uuid = UUID()
-            mantra.timestamp = Date()
-            mantra.position = Int32(index)
-            for (key, value) in data {
+            data.forEach { (key, value) in
                 switch key {
                 case .title:
                     mantra.title = value
@@ -151,7 +150,7 @@ extension CoreDataManager {
                     }
                 }
             }
-            saveContext()
         }
+        saveContext()
     }
 }

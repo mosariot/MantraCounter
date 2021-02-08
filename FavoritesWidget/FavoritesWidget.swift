@@ -154,18 +154,11 @@ struct MediumWidget: View {
             
             if mantraArray.count == 0 && favoriteArray.count == 0 {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("ADD")
-                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                        .foregroundColor(.red)
-                    Text("YOUR")
-                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                        .foregroundColor(.red)
-                    Text("MANTRAS")
+                    Text("ADD YOUR MANTRAS")
                         .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
                         .foregroundColor(.red)
                 }
-            }
-            else {
+            } else {
                 VStack(alignment: .leading, spacing: 10) {
                     if favoriteArray.count > 0 {
                         VStack(alignment: .leading, spacing: 5) {
@@ -192,9 +185,15 @@ struct MediumWidget: View {
                             Divider()
                         }
                         VStack(alignment: .leading, spacing: 5) {
-                            Text("MANTRAS")
-                                .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                                .foregroundColor(.blue)
+                            if favoriteArray.count > 0 {
+                                Text("OTHER MANTRAS")
+                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
+                                    .foregroundColor(.blue)
+                            } else {
+                                Text("MANTRAS")
+                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
+                                    .foregroundColor(.blue)
+                            }
                             VStack(spacing: 5) {
                                 ForEach(mantraArray, id: \.id) { mantra in
                                     HStack {
@@ -233,13 +232,7 @@ struct LargeWidget: View {
             
             if mantraArray.count == 0 && favoriteArray.count == 0 {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("ADD")
-                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                        .foregroundColor(.red)
-                    Text("YOUR")
-                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                        .foregroundColor(.red)
-                    Text("MANTRAS")
+                    Text("ADD YOUR MANTRAS")
                         .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
                         .foregroundColor(.red)
                 }
@@ -279,9 +272,15 @@ struct LargeWidget: View {
                     if mantraArray.count > 0 {
                     Divider()
                     VStack(alignment: .leading, spacing: 5) {
-                        Text("MANTRAS")
-                            .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                            .foregroundColor(.blue)
+                        if favoriteArray.count > 0 {
+                            Text("OTHER MANTRAS")
+                                .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
+                                .foregroundColor(.blue)
+                        } else {
+                            Text("MANTRAS")
+                                .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
+                                .foregroundColor(.blue)
+                        }
                         VStack(spacing: 4) {
                             ForEach(mantraArray, id: \.id) { mantra in
                                 HStack {
