@@ -11,7 +11,7 @@ import UIKit
 extension UIView {
     
     func fixInputAssistant() {
-        for subview in self.subviews {
+        subviews.forEach { subview in
             if type(of: subview) is UITextField.Type {
                 let item = (subview as! UITextField).inputAssistantItem
                 item.leadingBarButtonGroups = []

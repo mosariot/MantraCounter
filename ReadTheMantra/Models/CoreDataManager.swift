@@ -27,7 +27,7 @@ final class CoreDataManager {
     
     private init() { }
     
-    lazy var persistentContainer: NSPersistentContainer = {
+    private(set) lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentCloudKitContainer(name: "ReadTheMantra")
         
         guard let description = container.persistentStoreDescriptions.first else {

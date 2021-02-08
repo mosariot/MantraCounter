@@ -20,6 +20,7 @@ final class DetailsViewController: UIViewController {
     
     private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
+    private var dataProvider = MantraProvider()
     
     private let pasteboard = UIPasteboard.general
     
@@ -88,7 +89,6 @@ final class DetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         setupUI()
     }
     
@@ -242,7 +242,12 @@ extension DetailsViewController {
     
     private func doneButtonPressed() {
         guard let title = titleTextField.text else { return }
-        processMantra(title: title)
+        dataProvider.processMantra(mantra: mantra,
+                                   title: title,
+                                   text: mantraTextTextView.text,
+                                   details: detailsTextView.text,
+                                   imageData: mantraImageData,
+                                   imageForTableViewData: mantraImageForTableViewData)
         delegate?.updateView()
         mode = .view
     }
@@ -264,16 +269,13 @@ extension DetailsViewController {
     }
     
     private func handleAddNewMantra(for title: String) {
-        processMantra(title: title)
+        dataProvider.processMantra(mantra: mantra,
+                                   title: title,
+                                   text: mantraTextTextView.text,
+                                   details: detailsTextView.text,
+                                   imageData: mantraImageData,
+                                   imageForTableViewData: mantraImageForTableViewData)
         dismiss(animated: true, completion: nil)
-    }
-    
-    private func processMantra(title: String) {
-        mantra.title = title
-        mantra.text = mantraTextTextView.text
-        mantra.details = detailsTextView.text
-        mantra.image = mantraImageData ?? nil
-        mantra.imageForTableView = mantraImageForTableViewData ?? nil
     }
 }
 
@@ -374,7 +376,7 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
         
         setPhotoButton.setProcessMode()
         
-        for result in results {
+        results.forEach { result in
             let provider = result.itemProvider
             if provider.canLoadObject(ofClass: UIImage.self) {
                 provider.loadObject(ofClass: UIImage.self, completionHandler: { [weak self] (object, _) in

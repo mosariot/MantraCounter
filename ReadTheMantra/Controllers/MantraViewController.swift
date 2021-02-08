@@ -25,21 +25,19 @@ final class MantraViewController: UICollectionViewController {
     
     private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
-    private var allMantras: [Mantra]? {
-        fetchedResultsController?.fetchedObjects
-    }
+    
+    private lazy var dataProvider: MantraProvider = {
+        MantraProvider(fetchedResultsControllerDelegate: self)
+    }()
+    
     private var favoritesSectionMantras: [Mantra] {
-        guard let allMantras = allMantras else { return [] }
-        return allMantras.filter{ $0.isFavorite }
+        dataProvider.fetchedMantras.filter{ $0.isFavorite }
     }
     private var mainSectionMantras: [Mantra] {
-        guard let allMantras = allMantras else { return [] }
-        return allMantras.filter{ !$0.isFavorite }
+        dataProvider.fetchedMantras.filter{ !$0.isFavorite }
     }
     
     private let widgetManager = WidgetManager()
-    
-    private var fetchedResultsController: NSFetchedResultsController<Mantra>?
     
     private let defaults = UserDefaults.standard
     private var isOnboarding: Bool {
@@ -73,7 +71,8 @@ final class MantraViewController: UICollectionViewController {
         setupNavigationBar()
         setupSearchController()
         setupCollectionView()
-        loadMantras(animatingDifferences: false)
+        dataProvider.loadMantras()
+        applySnapshot()
         widgetManager.updateWidgetData()
     }
     
@@ -123,13 +122,11 @@ final class MantraViewController: UICollectionViewController {
     
     private func checkForInitialDataLoading() {
         if isInitalDataLoading {
-            if let fetchedData = fetchedResultsController?.fetchedObjects {
-                if fetchedData.isEmpty {
-                    activityIndicatorView.center = view.center
-                    activityIndicatorView.hidesWhenStopped = true
-                    view.addSubview(activityIndicatorView)
-                    activityIndicatorView.startAnimating()
-                }
+            if dataProvider.fetchedMantras.isEmpty {
+                activityIndicatorView.center = view.center
+                activityIndicatorView.hidesWhenStopped = true
+                view.addSubview(activityIndicatorView)
+                activityIndicatorView.startAnimating()
             }
         }
     }
@@ -377,20 +374,16 @@ extension MantraViewController {
     }
 }
 
-//MARK: - Cells Manipulation Methods
+//MARK: - Delete Mantra Stack
 
 extension MantraViewController {
     
     private func showDeleteConfirmationAlert(for mantra: Mantra) {
         let alert = UIAlertController.deleteConfirmationAlert(for: mantra) { [weak self] (mantra) in
             guard let self = self else { return }
-            self.handleDeleteMantra(mantra)
+            self.dataProvider.deleteMantra(mantra)
         }
         present(alert, animated: true, completion: nil)
-    }
-    
-    private func handleDeleteMantra(_ mantra: Mantra) {
-        context.delete(mantra)
     }
 }
 
@@ -407,7 +400,7 @@ extension MantraViewController {
                     guard let self = self else { fatalError() }
                     return DetailsViewController(mantra: mantra,
                                                  mode: .add,
-                                                 mantraTitles: self.allMantras?.compactMap({ $0.title }),
+                                                 mantraTitles: self.dataProvider.fetchedMantras.compactMap({ $0.title }),
                                                  delegate: self,
                                                  coder: coder)
                 }) else { return }
@@ -481,10 +474,9 @@ extension MantraViewController {
     }
     
     private func isMantraDuplicating() -> Bool {
-        guard let allMantras = allMantras else { return false }
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
         guard let title = sortedInitialMantraData[selectedMantraNumber][.title] else { return false }
-        return allMantras.compactMap({ $0.title }).contains(title)
+        return dataProvider.fetchedMantras.compactMap({ $0.title }).contains(title)
     }
     
     private func showDuplicatingAlert() {
@@ -499,22 +491,8 @@ extension MantraViewController {
     }
     
     private func handleAddPreloadedMantra() {
-        addPreloadedMantra()
+        dataProvider.addPreloadedMantra(with: mantraPicker.selectedRow(inComponent: 0))
         dismissPreloadedMantraPickerState()
-    }
-    
-    private func addPreloadedMantra() {
-        let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
-        let preloadedMantra = sortedInitialMantraData[selectedMantraNumber]
-        let mantra = Mantra(context: context)
-        mantra.uuid = UUID()
-        mantra.title = preloadedMantra[.title]
-        mantra.text = preloadedMantra[.text]
-        mantra.details = preloadedMantra[.details]
-        mantra.image = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?.pngData()
-        mantra.imageForTableView = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?
-            .resize(to: CGSize(width: Constants.rowHeight,
-                               height: Constants.rowHeight)).pngData()
     }
     
     private func dismissPreloadedMantraPickerState() {
@@ -525,45 +503,19 @@ extension MantraViewController {
     }
 }
 
-//MARK: - Load Mantras
-
-extension MantraViewController {
-    
-    private func loadMantras(with predicate: NSPredicate? = nil,
-                             animatingDifferences: Bool = true) {
-        
-        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-        request.predicate = predicate
-
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: request,
-                                                              managedObjectContext: context,
-                                                              sectionNameKeyPath: nil,
-                                                              cacheName: nil)
-        fetchedResultsController?.delegate = self
-        
-        do {
-            try fetchedResultsController?.performFetch()
-            applySnapshot(animatingDifferences: animatingDifferences)
-        } catch {
-            print("Error fetching data \(error)")
-        }
-    }
-}
-
 // MARK: - NSFetchedResultsController Delegate
 
 extension MantraViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        print("controllerDidChangeContent")
+        applySnapshot()
         
-        self.applySnapshot()
-        
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.2) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
             self.coreDataManager.saveContext()
         }
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.2) {
             self.widgetManager.updateWidgetData()
         }
         
@@ -572,12 +524,10 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
     
     private func stopActivityIndicatorForInitialDataLoadingIfNeeded() {
         if isInitalDataLoading {
-            if let fetchedData = fetchedResultsController?.fetchedObjects {
-                if !fetchedData.isEmpty {
-                    activityIndicatorView.stopAnimating()
-                    activityIndicatorView.removeFromSuperview()
-                    isInitalDataLoading.toggle()
-                }
+            if !dataProvider.fetchedMantras.isEmpty {
+                activityIndicatorView.stopAnimating()
+                activityIndicatorView.removeFromSuperview()
+                isInitalDataLoading.toggle()
             }
         }
     }
@@ -594,11 +544,13 @@ extension MantraViewController: UISearchResultsUpdating {
     private func performSearch() {
         guard let text = searchController.searchBar.text else { return }
         if text.isEmpty {
-            loadMantras()
+            dataProvider.loadMantras()
+            applySnapshot()
             return
         }
         let predicate = NSPredicate(format: "title CONTAINS[cd] %@", text)
-        loadMantras(with: predicate)
+        dataProvider.loadMantras(with: predicate)
+        applySnapshot()
     }
 }
 

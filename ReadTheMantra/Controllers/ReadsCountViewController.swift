@@ -13,6 +13,7 @@ final class ReadsCountViewController: UIViewController {
     //MARK: - Properties
     
     private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
+    private var dataProvider = MantraProvider()
     
     private let mantra: Mantra
     
@@ -53,7 +54,6 @@ final class ReadsCountViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         setupUI()
     }
     
@@ -96,13 +96,9 @@ final class ReadsCountViewController: UIViewController {
     //MARK: - Setup UI
     
     private func setupUI() {
-        let image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
-        let downsampledPortraitMantraImage = image?.resize(to: CGSize(width: portraitMantraImageView.bounds.width == 0 ? landscapeMantraImageView.bounds.width/1.5 : portraitMantraImageView.bounds.width,
-                                                                      height: portraitMantraImageView.bounds.height == 0 ?  landscapeMantraImageView.bounds.height/1.5 : portraitMantraImageView.bounds.height))
-        let downsampledLandscapeMantraImage = image?.resize(to: CGSize(width: landscapeMantraImageView.bounds.width == 0 ? portraitMantraImageView.bounds.width*1.5 : landscapeMantraImageView.bounds.width,
-                                                                       height: landscapeMantraImageView.bounds.height == 0 ?  portraitMantraImageView.bounds.height*1.5 : landscapeMantraImageView.bounds.height))
-        portraitMantraImageView.image = downsampledPortraitMantraImage
-        landscapeMantraImageView.image = downsampledLandscapeMantraImage
+        
+        getMantraImages()
+        
         titleLabel.text = mantra.title
         titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
         titleLabel.adjustsFontForContentSizeCategory = true
@@ -122,6 +118,16 @@ final class ReadsCountViewController: UIViewController {
         addReadsButton.imageSystemName = "plus.circle"
         addRoundsButton.imageSystemName = "goforward.plus"
         setProperValueButton.imageSystemName = "hand.draw"
+    }
+    
+    private func getMantraImages() {
+        let image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
+        let downsampledPortraitMantraImage = image?.resize(to: CGSize(width: portraitMantraImageView.bounds.width == 0 ? landscapeMantraImageView.bounds.width/1.5 : portraitMantraImageView.bounds.width,
+                                                                      height: portraitMantraImageView.bounds.height == 0 ?  landscapeMantraImageView.bounds.height/1.5 : portraitMantraImageView.bounds.height))
+        let downsampledLandscapeMantraImage = image?.resize(to: CGSize(width: landscapeMantraImageView.bounds.width == 0 ? portraitMantraImageView.bounds.width*1.5 : landscapeMantraImageView.bounds.width,
+                                                                       height: landscapeMantraImageView.bounds.height == 0 ?  portraitMantraImageView.bounds.height*1.5 : landscapeMantraImageView.bounds.height))
+        portraitMantraImageView.image = downsampledPortraitMantraImage
+        landscapeMantraImageView.image = downsampledLandscapeMantraImage
     }
     
     private func animateCircularProgressViewForUpdatedValues() {
@@ -156,25 +162,12 @@ final class ReadsCountViewController: UIViewController {
     
     private func handleAlertPositiveAction(forValue value: Int32, updatingType: UpdatingType) {
         let oldReads = mantra.reads
-        updateValues(with: value, updatingType: updatingType)
+        dataProvider.updateValues(for: mantra, with: value, updatingType: updatingType)
         updateProrgessView(for: updatingType)
         readsGoalButton.setTitle(NSLocalizedString("Goal: ",
                                                    comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(),
                                  for: .normal)
         readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
-    }
-    
-    private func updateValues(with value: Int32, updatingType: UpdatingType) {
-        switch updatingType {
-        case .goal:
-            mantra.readsGoal = value
-        case .reads:
-            mantra.reads += value
-        case .rounds:
-            mantra.reads += value * 108
-        case .properValue:
-            mantra.reads = value
-        }
     }
     
     private func updateProrgessView(for updatingType: UpdatingType) {
