@@ -72,7 +72,7 @@ final class MantraViewController: UICollectionViewController {
         setupSearchController()
         setupCollectionView()
         dataProvider.loadMantras()
-        applySnapshot()
+        applySnapshot(animatingDifferences: false)
         widgetManager.updateWidgetData()
     }
     
@@ -136,6 +136,7 @@ final class MantraViewController: UICollectionViewController {
     private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.tintColor = .systemOrange
         
         navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
         navigationItem.searchController = searchController
@@ -200,7 +201,6 @@ extension MantraViewController {
 //MARK: - UICollectionView Data Source
 
 extension MantraViewController {
-    
     
     private func makeDataSource() -> DataSource {
         
@@ -312,7 +312,7 @@ extension MantraViewController {
                                                            subitem: item,
                                                            count: layoutEnvironment.traitCollection.userInterfaceIdiom == .pad ? 2 : 1)
             group.interItemSpacing = .fixed(spacing)
-            let sideSpacing: CGFloat = layoutEnvironment.container.effectiveContentSize.width > 375 ? 10 : 5
+            let sideSpacing: CGFloat = 10
             let section = NSCollectionLayoutSection(group: group)
             section.contentInsets = NSDirectionalEdgeInsets(top: 0,
                                                             leading: sideSpacing,
@@ -437,6 +437,7 @@ extension MantraViewController {
         // custom toolbar
         let toolBar = UIToolbar()
         toolBar.barStyle = .default
+        toolBar.tintColor = .systemOrange
         toolBar.isTranslucent = true
         toolBar.sizeToFit()
         let doneButton = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] _ in
@@ -499,7 +500,7 @@ extension MantraViewController {
         coverView?.removeFromSuperview()
         coverView = nil
         mantraPickerTextField.resignFirstResponder()
-        navigationController?.navigationBar.tintColor = nil
+        navigationController?.navigationBar.tintColor = .systemOrange
     }
 }
 
@@ -508,7 +509,6 @@ extension MantraViewController {
 extension MantraViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print("controllerDidChangeContent")
         applySnapshot()
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {

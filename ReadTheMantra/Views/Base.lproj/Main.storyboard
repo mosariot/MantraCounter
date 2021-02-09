@@ -72,7 +72,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PUZ-IY-Geb" userLabel="Dismiss Button">
                                         <rect key="frame" x="67.5" y="577" width="200" height="50"/>
-                                        <color key="backgroundColor" systemColor="linkColor"/>
+                                        <color key="backgroundColor" systemColor="systemOrangeColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="2n2-Hl-qeE"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="gLM-pB-IM4"/>
@@ -364,7 +364,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dUS-5m-kus" customClass="AdjustReadsButton" customModule="MantraCounter" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
-                                                <color key="backgroundColor" systemColor="linkColor"/>
+                                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="dUS-5m-kus" secondAttribute="height" id="UoE-Oe-a9R"/>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="cbo-kR-HZB"/>
@@ -379,7 +379,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZdM-Gq-d1v" customClass="AdjustReadsButton" customModule="MantraCounter" customModuleProvider="target">
                                                 <rect key="frame" x="122.5" y="0.0" width="70" height="70"/>
-                                                <color key="backgroundColor" systemColor="linkColor"/>
+                                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="1eA-gg-d4z"/>
                                                     <constraint firstAttribute="width" secondItem="ZdM-Gq-d1v" secondAttribute="height" id="t7Y-h5-RP5"/>
@@ -394,7 +394,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5fa-hA-HQ2" userLabel="Set Proper Value Button" customClass="AdjustReadsButton" customModule="MantraCounter" customModuleProvider="target">
                                                 <rect key="frame" x="245" y="0.0" width="70" height="70"/>
-                                                <color key="backgroundColor" systemColor="linkColor"/>
+                                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="clL-dz-X9U"/>
                                                     <constraint firstAttribute="width" secondItem="5fa-hA-HQ2" secondAttribute="height" id="fgb-7D-Fn6"/>
@@ -515,8 +515,8 @@ We wish you deep awarenesses and spiritual growth!</string>
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KRA-ew-P98" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="gA4-rO-jvW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="gA4-rO-jvW">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -540,6 +540,7 @@ We wish you deep awarenesses and spiritual growth!</string>
             <size key="intrinsicContentSize" width="30" height="33"/>
         </designable>
     </designables>
+    <color key="tintColor" systemColor="systemOrangeColor"/>
     <resources>
         <image name="DefaultImage" width="320" height="320"/>
         <systemColor name="labelColor">
@@ -559,6 +560,9 @@ We wish you deep awarenesses and spiritual growth!</string>
         </systemColor>
         <systemColor name="systemGroupedBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

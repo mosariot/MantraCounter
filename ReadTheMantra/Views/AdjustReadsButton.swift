@@ -12,15 +12,11 @@ import UIKit
 final class AdjustReadsButton: UIButton {
     
     public var imageSystemName = "" {
-        didSet {
-            setupButtonImage(forSystemName: imageSystemName)
-        }
+        didSet { setupButtonImage(forSystemName: imageSystemName) }
     }
     
     override var isHighlighted: Bool {
-        didSet {
-            alpha = isHighlighted ? 0.6 : 1
-        }
+        didSet { alpha = isHighlighted ? 0.6 : 1 }
     }
     
     override func layoutSubviews() {
