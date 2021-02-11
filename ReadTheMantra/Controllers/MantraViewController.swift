@@ -40,6 +40,17 @@ final class MantraViewController: UICollectionViewController {
     private let widgetManager = WidgetManager()
     
     private let defaults = UserDefaults.standard
+    private var isAlphabeticalSorting: Bool {
+        get {
+            defaults.bool(forKey: "isAlphabeticalSorting")
+        }
+        set {
+            defaults.set(newValue, forKey: "isAlphabeticalSorting")
+            dataProvider.loadMantras()
+            applySnapshot()
+            widgetManager.updateWidgetData()
+        }
+    }
     private var isOnboarding: Bool {
         get { defaults.bool(forKey: "isOnboarding") }
         set { defaults.set(newValue, forKey: "isOnboarding") }
@@ -152,8 +163,39 @@ final class MantraViewController: UICollectionViewController {
             guard let self = self else { return }
             self.setPreloadedMantraPickerState()
         }
-        let addingMenu = UIMenu(children: [newMantraAction, preloadedMantraAction])
-        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: nil, menu: addingMenu)
+        let addMenu = UIMenu(children: [newMantraAction, preloadedMantraAction])
+        let addBarItem = UIBarButtonItem(systemItem: .add, menu: addMenu)
+        
+        let sortBarItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3.decrease.circle"), menu: createSortMenu())
+        
+        navigationItem.rightBarButtonItems = [addBarItem, sortBarItem]
+    }
+    
+    private func createSortMenu() -> UIMenu{
+        let alphabetSortingAction = UIAction(title: NSLocalizedString("Alphabetically", comment: "Menu Item on MantraViewController"),
+                                       image: UIImage(systemName: "character")) { [weak self] action in
+            guard let self = self else { return }
+            self.isAlphabeticalSorting = true
+            if let barButtonItem = action.sender as? UIBarButtonItem {
+                barButtonItem.menu = self.createSortMenu()
+            }
+        }
+        let readsCountSortingAction = UIAction(title: NSLocalizedString("By reads count", comment: "Menu Item on MantraViewController"),
+                                             image: UIImage(systemName: "text.book.closed")) { [weak self] action in
+            guard let self = self else { return }
+            self.isAlphabeticalSorting = false
+            if let barButtonItem = action.sender as? UIBarButtonItem {
+                barButtonItem.menu = self.createSortMenu()
+            }
+        }
+        
+        if isAlphabeticalSorting {
+            alphabetSortingAction.state = .on
+        } else {
+            readsCountSortingAction.state = .on
+        }
+        
+        return UIMenu(children: [alphabetSortingAction, readsCountSortingAction])
     }
     
     private func setupSearchController() {

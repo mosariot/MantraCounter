@@ -42,6 +42,12 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 /* Menu Item on MantraViewController */
 "Preloaded Mantra" = "Из предустановленных";
 
+/* Menu Item on MantraViewController */
+"Alphabetically" = "По алфавиту";
+
+/* Menu Item on MantraViewController */
+"By reads count" = "По числу начиток";
+
 /* Alert Message for Duplication */
 "It's already in your mantra list. Add another one?" = "Уже есть в Вашем списке. Добавить еще одну?";
 

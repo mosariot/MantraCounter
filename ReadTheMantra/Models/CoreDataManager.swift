@@ -16,7 +16,8 @@ final class CoreDataManager {
     var overallMantraArray: [Mantra] {
         let context = persistentContainer.viewContext
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        request.sortDescriptors = UserDefaults.standard.bool(forKey: "isAlphabeticalSorting") ?
+            [NSSortDescriptor(key: "title", ascending: true)] : [NSSortDescriptor(key: "reads", ascending: false)]
         do {
             return try context.fetch(request)
         } catch {
@@ -76,7 +77,8 @@ extension CoreDataManager {
         let dictionary = ["isFirstLaunch": true,
                           "isOnboarding": true,
                           "isInitalDataLoading": true,
-                          "isFirstSearchOnTheInternet": true]
+                          "isFirstSearchOnTheInternet": true,
+                          "isAlphabeticalSorting": true]
         UserDefaults.standard.register(defaults: dictionary)
     }
 }

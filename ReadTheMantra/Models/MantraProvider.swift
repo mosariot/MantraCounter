@@ -26,7 +26,8 @@ class MantraProvider {
     
     func loadMantras(with predicate: NSPredicate? = nil) {
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        request.sortDescriptors = UserDefaults.standard.bool(forKey: "isAlphabeticalSorting") ?
+            [NSSortDescriptor(key: "title", ascending: true)] : [NSSortDescriptor(key: "reads", ascending: false)]
         request.predicate = predicate
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request,

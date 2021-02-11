@@ -115,9 +115,9 @@ final class ReadsCountViewController: UIViewController {
         navigationItem.compactAppearance = compactAppearance
         navigationItem.title = mantra.title
         
-        addReadsButton.imageSystemName = "plus.circle"
-        addRoundsButton.imageSystemName = "goforward.plus"
-        setProperValueButton.imageSystemName = "hand.draw"
+        addReadsButton.imageSystemName = "plus.circle.fill" // "plus.circle"
+        addRoundsButton.imageSystemName = "arrow.clockwise.circle.fill" // "goforward.plus"
+        setProperValueButton.imageSystemName = "hand.draw.fill" // "hand.draw"
     }
     
     private func getMantraImages() {
