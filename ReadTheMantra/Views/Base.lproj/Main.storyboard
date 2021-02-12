@@ -298,13 +298,13 @@ We wish you deep awarenesses and spiritual growth!</string>
                                         <variation key="heightClass=regular-widthClass=regular" hidden="NO"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z7q-lJ-Yge" customClass="CopyableLabel" customModule="MantraCounter" customModuleProvider="target">
-                                        <rect key="frame" x="126.5" y="175.5" width="62.5" height="41"/>
+                                        <rect key="frame" x="126.5" y="185.5" width="62.5" height="41"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="heightClass=compact-widthClass=compact" hidden="YES"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="o6T-hj-L0V" userLabel="Landscape Stack View">
-                                        <rect key="frame" x="49" y="260.5" width="217.5" height="252.5"/>
+                                        <rect key="frame" x="49" y="280.5" width="217.5" height="252.5"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Rbr-tp-RAr" userLabel="Landscape Mantra Image View">
                                                 <rect key="frame" x="0.0" y="126" width="0.0" height="0.0"/>
@@ -360,22 +360,22 @@ We wish you deep awarenesses and spiritual growth!</string>
                                         </variation>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="f0G-CI-caq" userLabel="Buttons Stack View">
-                                        <rect key="frame" x="0.0" y="557" width="315" height="70"/>
+                                        <rect key="frame" x="0.0" y="587" width="315" height="40"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dUS-5m-kus" customClass="AdjustReadsButton" customModule="MantraCounter" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="dUS-5m-kus" secondAttribute="height" id="UoE-Oe-a9R"/>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="cbo-kR-HZB"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="cbo-kR-HZB"/>
                                                 </constraints>
                                                 <connections>
                                                     <action selector="addReadsButtonPressed:" destination="9Ew-Yb-oIM" eventType="touchUpInside" id="IPn-4D-4mm"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZdM-Gq-d1v" customClass="AdjustReadsButton" customModule="MantraCounter" customModuleProvider="target">
-                                                <rect key="frame" x="122.5" y="0.0" width="70" height="70"/>
+                                                <rect key="frame" x="137.5" y="0.0" width="40" height="40"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="1eA-gg-d4z"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="1eA-gg-d4z"/>
                                                     <constraint firstAttribute="width" secondItem="ZdM-Gq-d1v" secondAttribute="height" id="t7Y-h5-RP5"/>
                                                 </constraints>
                                                 <connections>
@@ -383,9 +383,9 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5fa-hA-HQ2" userLabel="Set Proper Value Button" customClass="AdjustReadsButton" customModule="MantraCounter" customModuleProvider="target">
-                                                <rect key="frame" x="245" y="0.0" width="70" height="70"/>
+                                                <rect key="frame" x="275" y="0.0" width="40" height="40"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="clL-dz-X9U"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="clL-dz-X9U"/>
                                                     <constraint firstAttribute="width" secondItem="5fa-hA-HQ2" secondAttribute="height" id="fgb-7D-Fn6"/>
                                                 </constraints>
                                                 <connections>

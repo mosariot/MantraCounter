@@ -24,7 +24,7 @@ struct WidgetManager {
     }
     
     private func getWidgetModel() -> WidgetModel {
-        let allMantras = overallMantraArray
+        let allMantras = overallMantraArray.filter{ $0.title != "" }
         let overallReads = allMantras.map({ $0.reads }).reduce(0, +)
         
         let mantras = Array(allMantras.filter{ !$0.isFavorite })

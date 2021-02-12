@@ -83,6 +83,7 @@ final class MantraViewController: UICollectionViewController {
         setupSearchController()
         setupCollectionView()
         dataProvider.loadMantras()
+        deleteEmptyMantrasIfNeeded()
         applySnapshot(animatingDifferences: false)
         widgetManager.updateWidgetData()
     }
@@ -142,6 +143,15 @@ final class MantraViewController: UICollectionViewController {
         }
     }
     
+    private func deleteEmptyMantrasIfNeeded() {
+        favoritesSectionMantras.filter{ $0.title == "" }.forEach { (mantra) in
+            context.delete(mantra)
+        }
+        mainSectionMantras.filter{ $0.title == "" }.forEach { (mantra) in
+            context.delete(mantra)
+        }
+    }
+    
     //MARK: - viewDidLoad Setup
     
     private func setupNavigationBar() {
@@ -173,14 +183,14 @@ final class MantraViewController: UICollectionViewController {
     
     private func createSortMenu() -> UIMenu{
         let alphabetSortingAction = UIAction(title: NSLocalizedString("Alphabetically", comment: "Menu Item on MantraViewController"),
-                                       image: UIImage(systemName: "character")) { [weak self] action in
+                                       image: UIImage(systemName: "textformat")) { [weak self] action in
             guard let self = self else { return }
             self.isAlphabeticalSorting = true
             if let barButtonItem = action.sender as? UIBarButtonItem {
                 barButtonItem.menu = self.createSortMenu()
             }
         }
-        let readsCountSortingAction = UIAction(title: NSLocalizedString("By reads count", comment: "Menu Item on MantraViewController"),
+        let readsCountSortingAction = UIAction(title: NSLocalizedString("Readings count", comment: "Menu Item on MantraViewController"),
                                              image: UIImage(systemName: "text.book.closed")) { [weak self] action in
             guard let self = self else { return }
             self.isAlphabeticalSorting = false
