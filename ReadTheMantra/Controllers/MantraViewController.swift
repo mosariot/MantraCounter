@@ -171,18 +171,18 @@ final class MantraViewController: UICollectionViewController {
         let addMenu = UIMenu(children: [newMantraAction, preloadedMantraAction])
         let addBarItem = UIBarButtonItem(systemItem: .add, menu: addMenu)
         
-        let sortBarItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3.decrease.circle"), menu: createSortMenu())
+        let sortBarItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3.decrease.circle"), menu: createSortingMenu())
         
         navigationItem.rightBarButtonItems = [addBarItem, sortBarItem]
     }
     
-    private func createSortMenu() -> UIMenu{
+    private func createSortingMenu() -> UIMenu{
         let alphabetSortingAction = UIAction(title: NSLocalizedString("Alphabetically", comment: "Menu Item on MantraViewController"),
                                        image: UIImage(systemName: "textformat")) { [weak self] action in
             guard let self = self else { return }
             self.isAlphabeticalSorting = true
             if let barButtonItem = action.sender as? UIBarButtonItem {
-                barButtonItem.menu = self.createSortMenu()
+                barButtonItem.menu = self.createSortingMenu()
             }
         }
         let readsCountSortingAction = UIAction(title: NSLocalizedString("Readings count", comment: "Menu Item on MantraViewController"),
@@ -190,7 +190,7 @@ final class MantraViewController: UICollectionViewController {
             guard let self = self else { return }
             self.isAlphabeticalSorting = false
             if let barButtonItem = action.sender as? UIBarButtonItem {
-                barButtonItem.menu = self.createSortMenu()
+                barButtonItem.menu = self.createSortingMenu()
             }
         }
         
