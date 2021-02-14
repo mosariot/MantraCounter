@@ -104,7 +104,7 @@ final class DetailsViewController: UIViewController {
     
     private func setupUI() {
         
-        navigationController?.navigationBar.tintColor = .systemOrange
+        navigationController?.navigationBar.tintColor = UIColor(named: "Accent") ?? .systemOrange
         titleStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
         mantraTextStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
         descriptionStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)

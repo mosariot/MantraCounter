@@ -8,19 +8,19 @@
 
 import UIKit
 
-@IBDesignable
 final class AdjustReadsButton: UIButton {
     
     public var imageSystemName = "" {
-        didSet {
-            setupButtonImage(forSystemName: imageSystemName)
-        }
+        didSet { setupButtonImage(forSystemName: imageSystemName) }
     }
     
     private func setupButtonImage(forSystemName systemName: String) {
-        let buttonSize: CGFloat = traitCollection.userInterfaceIdiom == .pad ? 50 : 40
-        let largeConfig = UIImage.SymbolConfiguration(pointSize: buttonSize, weight: .light, scale: .large)
-        let buttonImage = UIImage(systemName: systemName, withConfiguration: largeConfig)?.withTintColor(.systemOrange, renderingMode: .alwaysOriginal)
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .light, scale: .large)
+        let buttonImage = UIImage(systemName: systemName, withConfiguration: largeConfig)?.withTintColor(UIColor(named: "Accent") ?? .systemOrange, renderingMode: .alwaysOriginal)
         setImage(buttonImage, for: .normal)
+        layer.shadowColor = UIColor(.black).cgColor
+        layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        layer.shadowOpacity = 0.15
+        layer.shadowRadius = 2.0
     }
 }

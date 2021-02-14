@@ -65,14 +65,10 @@ final class MantraViewController: UICollectionViewController {
     
     private lazy var mantraPicker = UIPickerView()
     private lazy var mantraPickerTextField = UITextField(frame: .zero)
-    private var coverView: UIView?
     private lazy var sortedInitialMantraData = InitialMantra.sortedData()
+    private var coverView: UIView?
     
-    private lazy var blurEffectView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .light)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        return blurEffectView
-    }()
+    private lazy var blurEffectView = BlurEffectView()
     
     //MARK: - ViewController Lifecycle
     
@@ -102,7 +98,7 @@ final class MantraViewController: UICollectionViewController {
             DispatchQueue.main.async {
                 self.coverView?.frame = UIScreen.main.bounds
                 if self.isOnboarding {
-                    self.blurEffectView.frame = UIScreen.main.bounds
+                    self.blurEffectView.updateFrame()
                 }
                 if self.isInitalDataLoading {
                     self.activityIndicatorView.center = self.view.center
@@ -117,8 +113,7 @@ final class MantraViewController: UICollectionViewController {
     
     private func checkForOnboardingAlert() {
         if isOnboarding {
-            setupBlurEffectView()
-            animateBlurEffectViewIn()
+            navigationController?.view.addSubview(blurEffectView)
             if let onboardingViewController = storyboard?.instantiateViewController(
                 identifier: Constants.onboardingViewController) as? OnboardingViewController {
                 onboardingViewController.delegate = self
@@ -157,7 +152,7 @@ final class MantraViewController: UICollectionViewController {
     private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.tintColor = .systemOrange
+        navigationController?.navigationBar.tintColor = UIColor(named: "Accent") ?? .systemOrange
         
         navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
         navigationItem.searchController = searchController
@@ -489,7 +484,7 @@ extension MantraViewController {
         // custom toolbar
         let toolBar = UIToolbar()
         toolBar.barStyle = .default
-        toolBar.tintColor = .systemOrange
+        toolBar.tintColor = UIColor(named: "Accent") ?? .systemOrange
         toolBar.isTranslucent = true
         toolBar.sizeToFit()
         let doneButton = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] _ in
@@ -552,7 +547,7 @@ extension MantraViewController {
         coverView?.removeFromSuperview()
         coverView = nil
         mantraPickerTextField.resignFirstResponder()
-        navigationController?.navigationBar.tintColor = .systemOrange
+        navigationController?.navigationBar.tintColor = UIColor(named: "Accent") ?? .systemOrange
     }
 }
 
@@ -630,37 +625,12 @@ extension MantraViewController: DetailsViewControllerDelegate {
     }
 }
 
-//MARK: - OnboardingViewController
-
-extension MantraViewController {
-    
-    private func setupBlurEffectView() {
-        navigationController?.view.addSubview(blurEffectView)
-        blurEffectView.frame = UIScreen.main.bounds
-        blurEffectView.alpha = 0
-    }
-    
-    private func animateBlurEffectViewIn() {
-        UIView.animate(withDuration: 0.5) {
-            self.blurEffectView.alpha =  1
-        }
-    }
-    
-    private func animateBlurEffectViewOut() {
-        UIView.animate(withDuration: 0.8) {
-            self.blurEffectView.alpha = 0
-        } completion: { _ in
-            self.blurEffectView.removeFromSuperview()
-        }
-    }
-}
-
 //MARK: - OnboardingViewController Delegate
 
 extension MantraViewController: OnboardingViewControllerDelegate {
     
     func dismissButtonPressed() {
-        animateBlurEffectViewOut()
+        blurEffectView.animateOut()
         isOnboarding.toggle()
     }
 }

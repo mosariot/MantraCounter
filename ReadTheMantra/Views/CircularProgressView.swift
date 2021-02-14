@@ -203,9 +203,9 @@ final class CircularProgressView: UIView {
         var color = UIColor()
         switch value {
         case 0..<readsGoal/2:
-            color = .systemGreen
+            color = .systemTeal
         case readsGoal/2..<readsGoal:
-            color = .systemOrange
+            color = .systemGreen
         case readsGoal...:
             color = .systemPurple
         default:

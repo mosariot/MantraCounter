@@ -25,6 +25,7 @@ extension UIAlertController {
         }
         alert.addAction(cancelAction)
         alert.addAction(addAction)
+        alert.view.tintColor = UIColor(named: "Accent") ?? .systemOrange
         return alert
     }
 }

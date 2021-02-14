@@ -39,6 +39,7 @@
 		9F9299AF250818B6003D5029 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* Constants.swift */; };
 		9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA97A382570177B005C9078 /* ReadsCountViewController.swift */; };
 		9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */; };
+		9FC0B81525D9828100EDA40E /* BlurEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC0B81425D9828100EDA40E /* BlurEffectView.swift */; };
 		9FC3971925B14611002B1EE0 /* FirstSearchOnTheInternetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3971325B143C8002B1EE0 /* FirstSearchOnTheInternetAlert.swift */; };
 		9FC558B025D158D30015C3C4 /* MantraProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC558AF25D158D20015C3C4 /* MantraProvider.swift */; };
 		9FC9F49425CD1FF400B4D2B5 /* TitleSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC9F49325CD1FF400B4D2B5 /* TitleSupplementaryView.swift */; };
@@ -123,6 +124,7 @@
 		9F9299AE250818B6003D5029 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9FA97A382570177B005C9078 /* ReadsCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadsCountViewController.swift; sourceTree = "<group>"; };
 		9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
+		9FC0B81425D9828100EDA40E /* BlurEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurEffectView.swift; sourceTree = "<group>"; };
 		9FC3971325B143C8002B1EE0 /* FirstSearchOnTheInternetAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstSearchOnTheInternetAlert.swift; sourceTree = "<group>"; };
 		9FC558AF25D158D20015C3C4 /* MantraProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraProvider.swift; sourceTree = "<group>"; };
 		9FC9F49325CD1FF400B4D2B5 /* TitleSupplementaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleSupplementaryView.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 				9F3B627425781A6F00B4F5E4 /* AdjustReadsButton.swift */,
 				9F3B62952578DAD200B4F5E4 /* TextViewWithPlaceholder.swift */,
 				9FC9F49325CD1FF400B4D2B5 /* TitleSupplementaryView.swift */,
+				9FC0B81425D9828100EDA40E /* BlurEffectView.swift */,
 				9FCA5C8F2593496B002E1D25 /* Alerts */,
 			);
 			path = Views;
@@ -457,6 +460,7 @@
 				9F12CD19258112EE0089AFD8 /* MantraViewController.swift in Sources */,
 				9F75828525821EED00695ED7 /* RoundedStackView.swift in Sources */,
 				9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */,
+				9FC0B81525D9828100EDA40E /* BlurEffectView.swift in Sources */,
 				9F3B1C032538F50200BEE838 /* RoundedSystemFont.swift in Sources */,
 				9F7EAC1C25B9360400AEC901 /* NetworkMonitor.swift in Sources */,
 				9F91804725BB48F20016FEB6 /* ModelDetection.swift in Sources */,

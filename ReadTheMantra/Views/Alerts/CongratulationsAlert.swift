@@ -32,6 +32,7 @@ extension UIAlertController {
                                       preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
+        alert.view.tintColor = UIColor(named: "Accent") ?? .systemOrange
         return alert
     }
 }

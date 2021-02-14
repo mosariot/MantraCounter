@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TitleSupplementaryView: UICollectionReusableView {
+final class TitleSupplementaryView: UICollectionReusableView {
     let label = UILabel()
 
     override init(frame: CGRect) {
@@ -19,10 +19,8 @@ class TitleSupplementaryView: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError()
     }
-}
 
-extension TitleSupplementaryView {
-    func configure() {
+    private func configure() {
         addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontForContentSizeCategory = true
