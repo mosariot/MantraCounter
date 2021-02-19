@@ -83,19 +83,10 @@ struct SmallWidget: View {
                 .ignoresSafeArea()
             
             if mantraArray.count == 0 && favoriteArray.count == 0 {
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("ADD")
-                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                        .foregroundColor(.red)
-                    Text("YOUR")
-                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                        .foregroundColor(.red)
-                    Text("MANTRAS")
-                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                        .foregroundColor(.red)
-                }
-            }
-            else {
+                Image("DefaultImage")
+                    .resizable()
+                    .frame(width: 100, height: 100, alignment: .center)
+            } else {
                 if favoriteArray.count > 0 {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("FAVORITES")
@@ -153,11 +144,9 @@ struct MediumWidget: View {
                 .ignoresSafeArea()
             
             if mantraArray.count == 0 && favoriteArray.count == 0 {
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("ADD YOUR MANTRAS")
-                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                        .foregroundColor(.red)
-                }
+                Image("DefaultImage")
+                    .resizable()
+                    .frame(width: 100, height: 100, alignment: .center)
             } else {
                 VStack(alignment: .leading, spacing: 10) {
                     if favoriteArray.count > 0 {
@@ -231,13 +220,8 @@ struct LargeWidget: View {
                 .ignoresSafeArea()
             
             if mantraArray.count == 0 && favoriteArray.count == 0 {
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("ADD YOUR MANTRAS")
-                        .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                        .foregroundColor(.red)
-                }
-            }
-            else {
+                Image("DefaultImage")
+            } else {
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {
                         Text("OVERALL READINGS")

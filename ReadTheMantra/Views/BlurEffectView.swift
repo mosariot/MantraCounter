@@ -2,8 +2,8 @@
 //  BlurEffectView.swift
 //  ReadTheMantra
 //
-//  Created by Александр Воробьев on 14.02.2021.
-//  Copyright © 2021 Александр Воробьев. All rights reserved.
+//  Created by Alex Vorobiev on 14.02.2021.
+//  Copyright © 2021 Alex Vorobiev. All rights reserved.
 //
 
 import UIKit
