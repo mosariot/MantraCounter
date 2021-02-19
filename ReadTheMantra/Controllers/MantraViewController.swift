@@ -152,7 +152,7 @@ final class MantraViewController: UICollectionViewController {
     private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.tintColor = UIColor(named: "Accent") ?? .systemOrange
+        navigationController?.navigationBar.tintColor = Constants.accentColor ?? .systemOrange
         
         navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
         navigationItem.searchController = searchController
@@ -484,7 +484,7 @@ extension MantraViewController {
         // custom toolbar
         let toolBar = UIToolbar()
         toolBar.barStyle = .default
-        toolBar.tintColor = UIColor(named: "Accent") ?? .systemOrange
+        toolBar.tintColor = Constants.accentColor ?? .systemOrange
         toolBar.isTranslucent = true
         toolBar.sizeToFit()
         let doneButton = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] _ in
@@ -547,7 +547,7 @@ extension MantraViewController {
         coverView?.removeFromSuperview()
         coverView = nil
         mantraPickerTextField.resignFirstResponder()
-        navigationController?.navigationBar.tintColor = UIColor(named: "Accent") ?? .systemOrange
+        navigationController?.navigationBar.tintColor = Constants.accentColor ?? .systemOrange
     }
 }
 

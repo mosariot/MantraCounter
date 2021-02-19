@@ -8,14 +8,14 @@
 
 import Foundation
 
-enum MantraAttributes {
-    case title
-    case text
-    case details
-    case image
-}
-
 enum InitialMantra {
+    
+    enum MantraAttributes {
+        case title
+        case text
+        case details
+        case image
+    }
     
     static let data: [[MantraAttributes: String]] = [
         [
