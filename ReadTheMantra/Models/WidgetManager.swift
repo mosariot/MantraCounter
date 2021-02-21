@@ -12,19 +12,14 @@ import WidgetKit
 
 struct WidgetManager {
     @AppStorage("widgetItem", store: UserDefaults(suiteName: "group.com.mosariot.MantraCounter"))
-    var widgetItemData: Data = Data()
+    private var widgetItemData: Data = Data()
     
-    private var overallMantraArray: [Mantra] {
-        (UIApplication.shared.delegate as! AppDelegate).coreDataManager.overallMantraArray
-    }
-    
-    func updateWidgetData() {
-        let widgetModel = getWidgetModel()
+    func updateWidgetData(for allMantras: [Mantra]) {
+        let widgetModel = getWidgetModel(for: allMantras)
         storeWidgetItem(widgetModel: widgetModel)
     }
     
-    private func getWidgetModel() -> WidgetModel {
-        let allMantras = overallMantraArray.filter{ $0.title != "" }
+    private func getWidgetModel(for allMantras: [Mantra]) -> WidgetModel {
         let overallReads = allMantras.map({ $0.reads }).reduce(0, +)
         
         let mantras = Array(allMantras.filter{ !$0.isFavorite })

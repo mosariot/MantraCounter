@@ -13,19 +13,6 @@ final class CoreDataManager {
     
     static let shared = CoreDataManager()
     
-    var overallMantraArray: [Mantra] {
-        let context = persistentContainer.viewContext
-        let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
-        request.sortDescriptors = UserDefaults.standard.bool(forKey: "isAlphabeticalSorting") ?
-            [NSSortDescriptor(key: "title", ascending: true)] : [NSSortDescriptor(key: "reads", ascending: false)]
-        do {
-            return try context.fetch(request)
-        } catch {
-            print("Error fetching data from context \(error)")
-            return []
-        }
-    }
-    
     private init() { }
     
     private(set) lazy var persistentContainer: NSPersistentContainer = {

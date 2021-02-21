@@ -13,30 +13,30 @@ class MantraProvider {
     
     private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
     private weak var fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate?
-    private(set) var fetchedResultsController: NSFetchedResultsController<Mantra>?
+    private(set) var fetchedResultsController: NSFetchedResultsController<Mantra>!
     private lazy var sortedInitialMantraData = InitialMantra.sortedData()
     
     var fetchedMantras: [Mantra] {
-        fetchedResultsController?.fetchedObjects ?? []
+        fetchedResultsController.fetchedObjects ?? []
     }
     
     init(fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate? = nil) {
         self.fetchedResultsControllerDelegate = fetchedResultsControllerDelegate
     }
     
-    func loadMantras(with predicate: NSPredicate? = nil) {
+    func loadMantras() {
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         request.sortDescriptors = UserDefaults.standard.bool(forKey: "isAlphabeticalSorting") ?
-            [NSSortDescriptor(key: "title", ascending: true)] : [NSSortDescriptor(key: "reads", ascending: false)]
-        request.predicate = predicate
+            [NSSortDescriptor(key: "title", ascending: true)] :
+            [NSSortDescriptor(key: "reads", ascending: false), NSSortDescriptor(key: "title", ascending: true)]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request,
                                                     managedObjectContext: context,
                                                     sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController?.delegate = fetchedResultsControllerDelegate
+        fetchedResultsController.delegate = fetchedResultsControllerDelegate
         
         do {
-            try fetchedResultsController?.performFetch()
+            try fetchedResultsController.performFetch()
         } catch {
             print("Error fetching data \(error)")
         }

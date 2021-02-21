@@ -18,7 +18,7 @@ struct WidgetEntry: TimelineEntry {
 
 struct Provider: TimelineProvider {
     @AppStorage("widgetItem", store: UserDefaults(suiteName: "group.com.mosariot.MantraCounter"))
-    var widgetItemData: Data = Data()
+    private var widgetItemData: Data = Data()
     
     func placeholder(in context: Context) -> WidgetEntry {
         let favoritesItem = WidgetModel(overallReads: 100000,
