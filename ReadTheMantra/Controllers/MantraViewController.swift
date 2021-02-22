@@ -32,10 +32,7 @@ final class MantraViewController: UICollectionViewController {
     
     private let widgetManager = WidgetManager()
     
-    private var overallMantras: [Mantra] {
-        dataProvider.fetchedMantras.filter{ $0.title != "" }
-    }
-    private lazy var displayedMantras = overallMantras
+    private lazy var displayedMantras = dataProvider.fetchedMantras
     private var favoritesSectionMantras: [Mantra] {
         displayedMantras.filter{ $0.isFavorite }
     }
@@ -51,9 +48,9 @@ final class MantraViewController: UICollectionViewController {
         set {
             defaults.set(newValue, forKey: "isAlphabeticalSorting")
             dataProvider.loadMantras()
-            displayedMantras = overallMantras
+            displayedMantras = dataProvider.fetchedMantras
             applySnapshot()
-            widgetManager.updateWidgetData(for: overallMantras)
+            widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
         }
     }
     private var isOnboarding: Bool {
@@ -86,7 +83,7 @@ final class MantraViewController: UICollectionViewController {
         dataProvider.loadMantras()
         deleteEmptyMantrasIfNeeded()
         applySnapshot(animatingDifferences: false)
-        widgetManager.updateWidgetData(for: overallMantras)
+        widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -134,7 +131,7 @@ final class MantraViewController: UICollectionViewController {
     
     private func checkForInitialDataLoading() {
         if isInitalDataLoading {
-            if overallMantras.isEmpty {
+            if dataProvider.fetchedMantras.isEmpty {
                 activityIndicatorView.center = view.center
                 activityIndicatorView.hidesWhenStopped = true
                 view.addSubview(activityIndicatorView)
@@ -452,7 +449,7 @@ extension MantraViewController {
                     guard let self = self else { fatalError() }
                     return DetailsViewController(mantra: mantra,
                                                  mode: .add,
-                                                 mantraTitles: self.overallMantras.compactMap({ $0.title }),
+                                                 mantraTitles: self.dataProvider.fetchedMantras.compactMap({ $0.title }),
                                                  delegate: self,
                                                  coder: coder)
                 }) else { return }
@@ -529,7 +526,7 @@ extension MantraViewController {
     private func isMantraDuplicating() -> Bool {
         let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
         guard let title = sortedInitialMantraData[selectedMantraNumber][.title] else { return false }
-        return overallMantras.compactMap({ $0.title }).contains(title)
+        return dataProvider.fetchedMantras.compactMap({ $0.title }).contains(title)
     }
     
     private func showDuplicatingAlert() {
@@ -562,7 +559,7 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         if !searchController.isActive {
-            displayedMantras = overallMantras
+            displayedMantras = dataProvider.fetchedMantras
         }
         applySnapshot()
         
@@ -571,7 +568,7 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
         }
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.2) {
-            self.widgetManager.updateWidgetData(for: self.overallMantras)
+            self.widgetManager.updateWidgetData(for: self.dataProvider.fetchedMantras)
         }
         
         stopActivityIndicatorForInitialDataLoadingIfNeeded()
@@ -579,7 +576,7 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
     
     private func stopActivityIndicatorForInitialDataLoadingIfNeeded() {
         if isInitalDataLoading {
-            if !overallMantras.isEmpty {
+            if !dataProvider.fetchedMantras.isEmpty {
                 activityIndicatorView.stopAnimating()
                 activityIndicatorView.removeFromSuperview()
                 isInitalDataLoading.toggle()
@@ -599,11 +596,11 @@ extension MantraViewController: UISearchResultsUpdating {
     private func performSearch() {
         guard let text = searchController.searchBar.text else { return }
         if text.isEmpty {
-            displayedMantras = overallMantras
+            displayedMantras = dataProvider.fetchedMantras
             applySnapshot()
             return
         }
-        displayedMantras = overallMantras.filter{
+        displayedMantras = dataProvider.fetchedMantras.filter{
             if let title = $0.title {
                 return title.localizedCaseInsensitiveContains(text)
             } else {

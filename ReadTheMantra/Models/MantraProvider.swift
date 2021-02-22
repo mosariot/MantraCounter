@@ -13,11 +13,11 @@ class MantraProvider {
     
     private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
     private weak var fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate?
-    private(set) var fetchedResultsController: NSFetchedResultsController<Mantra>!
+    private(set) var fetchedResultsController: NSFetchedResultsController<Mantra>?
     private lazy var sortedInitialMantraData = InitialMantra.sortedData()
     
     var fetchedMantras: [Mantra] {
-        fetchedResultsController.fetchedObjects ?? []
+        fetchedResultsController?.fetchedObjects?.filter{ $0.title != "" } ?? []
     }
     
     init(fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate? = nil) {
@@ -33,10 +33,10 @@ class MantraProvider {
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request,
                                                     managedObjectContext: context,
                                                     sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController.delegate = fetchedResultsControllerDelegate
+        fetchedResultsController?.delegate = fetchedResultsControllerDelegate
         
         do {
-            try fetchedResultsController.performFetch()
+            try fetchedResultsController?.performFetch()
         } catch {
             print("Error fetching data \(error)")
         }

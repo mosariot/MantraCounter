@@ -137,6 +137,7 @@ final class DetailsViewController: UIViewController {
         let photoMenu = UIMenu(children: [photoLibraryAction, standardImageAction, searchAction])
         setPhotoButton.menu = photoMenu
         
+        setKeyboardToolBars()
         setMode()
     }
     
@@ -216,6 +217,48 @@ final class DetailsViewController: UIViewController {
         detailsTextView.resignFirstResponder()
         mantraTextTextView.placeHolder.isHidden = true
         detailsTextView.placeHolder.isHidden = true
+    }
+    
+    func setKeyboardToolBars() {
+        let titleToolBar = UIToolbar()
+        titleToolBar.barStyle = .default
+        titleToolBar.tintColor = Constants.accentColor ?? .systemOrange
+        titleToolBar.isTranslucent = true
+        titleToolBar.sizeToFit()
+        let titleDoneButton = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.titleTextField.resignFirstResponder()
+        }))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        titleToolBar.setItems([spaceButton, titleDoneButton], animated: false)
+        titleToolBar.isUserInteractionEnabled = true
+        titleTextField.inputAccessoryView = titleToolBar
+        
+        let textToolBar = UIToolbar()
+        textToolBar.barStyle = .default
+        textToolBar.tintColor = Constants.accentColor ?? .systemOrange
+        textToolBar.isTranslucent = true
+        textToolBar.sizeToFit()
+        let textDoneButton = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.mantraTextTextView.resignFirstResponder()
+        }))
+        textToolBar.setItems([spaceButton, textDoneButton], animated: false)
+        textToolBar.isUserInteractionEnabled = true
+        mantraTextTextView.inputAccessoryView = textToolBar
+        
+        let detailsToolBar = UIToolbar()
+        detailsToolBar.barStyle = .default
+        detailsToolBar.tintColor = Constants.accentColor ?? .systemOrange
+        detailsToolBar.isTranslucent = true
+        detailsToolBar.sizeToFit()
+        let detailsDoneButton = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.detailsTextView.resignFirstResponder()
+        }))
+        detailsToolBar.setItems([spaceButton, detailsDoneButton], animated: false)
+        detailsToolBar.isUserInteractionEnabled = true
+        detailsTextView.inputAccessoryView = detailsToolBar
     }
 }
 
