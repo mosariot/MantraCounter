@@ -57,6 +57,7 @@ extension UIAlertController {
         alert.addTextField { alertTextField in
             alertTextField.placeholder = NSLocalizedString("Enter number", comment: "Alert Placehonder on ReadsCountViewController")
             alertTextField.keyboardType = .numberPad
+            alertTextField.clearButtonMode = .always
             positiveAction.isEnabled = false
             NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: alertTextField, queue: .main) { _ in
                 if isValidUpdatingNumber(text: alertTextField.text, updatingType: updatingType) {
