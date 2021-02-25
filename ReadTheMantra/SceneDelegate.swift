@@ -13,34 +13,65 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard
+            let splitViewController = window?.rootViewController as? UISplitViewController,
+            let leftNavController = splitViewController.viewControllers.first as? UINavigationController,
+            let primaryViewController = leftNavController.viewControllers.first as? MantraViewController,
+            let secondaryViewController = (splitViewController.viewControllers.last as? UINavigationController)?.topViewController as? ReadsCountViewController
+        else { fatalError() }
+        
+        splitViewController.delegate = self
+        splitViewController.view.tintColor = Constants.accentColor
+        splitViewController.preferredDisplayMode = .oneBesideSecondary
+        splitViewController.preferredPrimaryColumnWidthFraction = 0.5
+        splitViewController.maximumPrimaryColumnWidth = 400
+        primaryViewController.delegate = secondaryViewController
         
         if let shortcutItem = connectionOptions.shortcutItem {
-            handleShortcutAction(shortcutItem: shortcutItem)
+            splitViewController.show(.primary)
+            splitViewController.dismiss(animated: false, completion: nil)
+            leftNavController.popToRootViewController(animated: false)
+            handleShortcutAction(for: shortcutItem, controller: primaryViewController)
         }
     }
     
     func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-        handleShortcutAction(shortcutItem: shortcutItem)
+        guard
+            let splitViewController = window?.rootViewController as? UISplitViewController,
+            let leftNavController = splitViewController.viewControllers.first as? UINavigationController,
+            let primaryViewController = leftNavController.viewControllers.first as? MantraViewController
+        else { return }
+        
+        splitViewController.show(.primary)
+        splitViewController.dismiss(animated: false, completion: nil)
+        leftNavController.popToRootViewController(animated: false)
+        
+        handleShortcutAction(for: shortcutItem, controller: primaryViewController)
         completionHandler(true)
     }
     
-    private func handleShortcutAction(shortcutItem: UIApplicationShortcutItem) {
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        if let mantraTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.mantraViewControllerID) as? MantraViewController {
-            let navigationController = UINavigationController(rootViewController: mantraTableViewController)
-            self.window?.rootViewController = navigationController
-            self.window?.makeKeyAndVisible()
-            
-            switch shortcutItem.type {
-            case "com.mosariot.MantraCounter.addNewMantra":
-                mantraTableViewController.setAddNewMantraMode()
-            case "com.mosariot.MantraCounter.search":
-                mantraTableViewController.setSearchMode()
-            default:
-                break
+    private func handleShortcutAction(for shortcutItem: UIApplicationShortcutItem, controller: MantraViewController) {
+        switch shortcutItem.type {
+        case "com.mosariot.MantraCounter.addNewMantra":
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+                controller.setAddNewMantraMode()
             }
+        case "com.mosariot.MantraCounter.search":
+            controller.setSearchMode()
+        default:
+            break
         }
     }
 }
 
+extension SceneDelegate: UISplitViewControllerDelegate {
+    
+    func splitViewController(_ svc: UISplitViewController,
+                             topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column)
+    -> UISplitViewController.Column {
+        let splitViewController = window?.rootViewController as? UISplitViewController
+        let leftNavController = splitViewController?.viewControllers.first as? UINavigationController
+        let primaryViewController = leftNavController?.viewControllers.first as? MantraViewController
+        return (primaryViewController?.collapseSecondaryViewController ?? true) ? .primary : .secondary
+    }
+}

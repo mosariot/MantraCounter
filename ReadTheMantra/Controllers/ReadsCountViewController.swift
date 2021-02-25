@@ -15,7 +15,22 @@ final class ReadsCountViewController: UIViewController {
     private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     private var dataProvider = MantraProvider()
     
-    private let mantra: Mantra
+    var mantra: Mantra? {
+        didSet {
+            loadViewIfNeeded()
+            if let mantra = mantra {
+                navigationItem.largeTitleDisplayMode = .never
+                mainStackView.isHidden = false
+                setupNavButtons()
+                circularProgressView.goal = Int(mantra.readsGoal)
+                circularProgressView.value = Int(mantra.reads)
+                setupUI(animated: false)
+            } else {
+                navigationItem.rightBarButtonItems = nil
+                mainStackView.isHidden = true
+            }
+        }
+    }
     
     //MARK: - IBOutlets
     
@@ -27,37 +42,12 @@ final class ReadsCountViewController: UIViewController {
     @IBOutlet private weak var setProperValueButton: AdjustReadsButton!
     @IBOutlet private weak var circularProgressView: CircularProgressView!
     @IBOutlet private weak var readsGoalButton: UIButton!
+    @IBOutlet private weak var mainStackView: UIStackView!
     
-    //MARK: - Init
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    init?(mantra: Mantra, coder: NSCoder) {
-        self.mantra = mantra
-        super.init(coder: coder)
-    }
-    
-    //MARK: - viewDidLoad
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        navigationItem.largeTitleDisplayMode = .never
-        
-        setupNavButtons()
-        
-        circularProgressView.goal = Int(mantra.readsGoal)
-        circularProgressView.value = Int(mantra.reads)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupUI()
-    }
+    //MARK: - Setup UI
     
     private func setupNavButtons() {
+        guard let mantra = mantra else { return }
         let infoButton = UIButton(type: .infoLight,
                                   primaryAction: UIAction(handler: { [weak self] _ in
                                     guard let self = self else { return }
@@ -76,11 +66,12 @@ final class ReadsCountViewController: UIViewController {
     }
     
     private func infoButtonPressed() {
+        guard let mantra = mantra else { return }
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
                 creator: { [weak self] coder in
                     guard let self = self else { fatalError() }
-                    return DetailsViewController(mantra: self.mantra,
+                    return DetailsViewController(mantra: mantra,
                                                  mode: .view,
                                                  delegate: self, coder: coder)
                 }) else { return }
@@ -89,13 +80,13 @@ final class ReadsCountViewController: UIViewController {
     }
     
     private func favoriteButtonPressed() {
+        guard let mantra = mantra else { return }
         mantra.isFavorite.toggle()
         setupNavButtons()
     }
     
-    //MARK: - Setup UI
-    
-    private func setupUI() {
+    private func setupUI(animated: Bool = true) {
+        guard let mantra = mantra else { return }
         
         getMantraImages()
         
@@ -105,7 +96,7 @@ final class ReadsCountViewController: UIViewController {
         readsGoalButton.setTitle(NSLocalizedString("Goal: ",
                                                    comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(),
                                  for: .normal)
-        animateCircularProgressViewForUpdatedValues()
+        animateCircularProgressViewForUpdatedValues(animated: animated)
         
         let standardAppearance = UINavigationBarAppearance()
         let compactAppearance = UINavigationBarAppearance()
@@ -121,6 +112,7 @@ final class ReadsCountViewController: UIViewController {
     }
     
     private func getMantraImages() {
+        guard let mantra = mantra else { return }
         let image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
         let downsampledPortraitMantraImage = image?.resize(to: CGSize(width: portraitMantraImageView.bounds.width == 0 ? landscapeMantraImageView.bounds.width/1.5 : portraitMantraImageView.bounds.width,
                                                                       height: portraitMantraImageView.bounds.height == 0 ?  landscapeMantraImageView.bounds.height/1.5 : portraitMantraImageView.bounds.height))
@@ -130,9 +122,10 @@ final class ReadsCountViewController: UIViewController {
         landscapeMantraImageView.image = downsampledLandscapeMantraImage
     }
     
-    private func animateCircularProgressViewForUpdatedValues() {
-        circularProgressView.setGoalAnimation(to: Int(mantra.readsGoal))
-        circularProgressView.setValueAnimation(to: Int(mantra.reads))
+    private func animateCircularProgressViewForUpdatedValues(animated: Bool = true) {
+        guard let mantra = mantra else { return }
+        circularProgressView.setGoalAnimation(to: Int(mantra.readsGoal), animated: animated)
+        circularProgressView.setValueAnimation(to: Int(mantra.reads), animated: animated)
     }
     
     //MARK: - Updating ReadsCount and ReadsGoal
@@ -154,6 +147,7 @@ final class ReadsCountViewController: UIViewController {
     }
     
     private func showUpdatingAlert(updatingType: UpdatingType) {
+        guard let mantra = mantra else { return }
         let alert = UIAlertController.UpdatingAlert(mantra: mantra, updatingType: updatingType) { (value) in
             self.handleAlertPositiveAction(forValue: value, updatingType: updatingType)
         }
@@ -161,6 +155,7 @@ final class ReadsCountViewController: UIViewController {
     }
     
     private func handleAlertPositiveAction(forValue value: Int32, updatingType: UpdatingType) {
+        guard let mantra = mantra else { return }
         let oldReads = mantra.reads
         dataProvider.updateValues(for: mantra, with: value, updatingType: updatingType)
         updateProrgessView(for: updatingType)
@@ -171,6 +166,7 @@ final class ReadsCountViewController: UIViewController {
     }
     
     private func updateProrgessView(for updatingType: UpdatingType) {
+        guard let mantra = mantra else { return }
         switch updatingType {
         case .goal:
             circularProgressView.setGoalAnimation(to: Int(mantra.readsGoal))
@@ -180,6 +176,7 @@ final class ReadsCountViewController: UIViewController {
     }
     
     private func readsCongratulationsCheck(oldReads: Int32, newReads: Int32) {
+        guard let mantra = mantra else { return }
         if (oldReads < mantra.readsGoal/2 && mantra.readsGoal/2..<mantra.readsGoal ~= newReads) {
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Constants.progressAnimationDuration + 0.3) {
                 self.showReadsCongratulationsAlert(level: .halfGoal)
@@ -209,5 +206,13 @@ extension ReadsCountViewController: DetailsViewControllerDelegate {
     
     func updateView() {
         setupUI()
+    }
+}
+
+//MARK: - MantraSelectionDelegate Delegate
+
+extension ReadsCountViewController: MantraSelectionDelegate {
+    func mantraSelected(_ newMantra: Mantra?) {
+        mantra = newMantra
     }
 }

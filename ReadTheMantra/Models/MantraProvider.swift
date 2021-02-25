@@ -37,6 +37,7 @@ class MantraProvider {
         
         do {
             try fetchedResultsController?.performFetch()
+            deleteEmptyMantrasIfNeeded()
         } catch {
             print("Error fetching data \(error)")
         }
@@ -78,5 +79,13 @@ class MantraProvider {
     
     func deleteMantra(_ mantra: Mantra) {
         context.delete(mantra)
+    }
+    
+    private func deleteEmptyMantrasIfNeeded() {
+        fetchedResultsController?.fetchedObjects?
+            .filter{ $0.title == "" }
+            .forEach { (mantra) in
+                context.delete(mantra)
+            }
     }
 }

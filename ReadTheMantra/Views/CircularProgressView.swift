@@ -24,9 +24,9 @@ final class CircularProgressView: UIView {
             if currentGoal != goal {
                 setGoalAnimation(to: currentGoal)
             } else {
-                setValueCircleAnimation(to: currentValue)                                     
+                setValueCircleAnimation(to: currentValue, animated: false)
             }
-            setValueLabelAnimation(to: currentValue)
+            setValueLabelAnimation(to: currentValue, animated: false)
         }
     }
     
@@ -38,7 +38,7 @@ final class CircularProgressView: UIView {
         didSet { currentGoal = goal }
     }
     
-    public func setGoalAnimation(to newGoal: Int) {
+    public func setGoalAnimation(to newGoal: Int, animated: Bool = true) {
         
         currentGoal = newGoal
         
@@ -61,14 +61,14 @@ final class CircularProgressView: UIView {
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = currentProgress
         animation.toValue = newProgress
-        animation.duration = Constants.progressAnimationDuration
+        animation.duration = animated ? Constants.progressAnimationDuration : 0
         foregroundLayer.add(animation, forKey: "foregroundAnimation")
         
         var currentTime: Double = 0
         let currentReadsGoal = goal
         let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] timer in
             guard let self = self else { return }
-            if currentTime >= Constants.progressAnimationDuration + 0.01 {
+            if currentTime >= (animated ? Constants.progressAnimationDuration : 0) + 0.01 {
                 timer.invalidate()
                 self.goal = newGoal
             } else {
@@ -80,9 +80,9 @@ final class CircularProgressView: UIView {
         timer.fire()
     }
     
-    public func setValueAnimation(to newValue: Int) {
-        setValueCircleAnimation(to: newValue)
-        setValueLabelAnimation(to: newValue)
+    public func setValueAnimation(to newValue: Int, animated: Bool = true) {
+        setValueCircleAnimation(to: newValue, animated: animated)
+        setValueLabelAnimation(to: newValue, animated: animated)
     }
     
     //MARK: - Private
@@ -103,7 +103,7 @@ final class CircularProgressView: UIView {
             return (frame.height - lineWidth)/2 }
     }
     
-    private func setValueCircleAnimation(to newValue: Int) {
+    private func setValueCircleAnimation(to newValue: Int, animated: Bool) {
         
         currentValue = newValue
         
@@ -119,18 +119,18 @@ final class CircularProgressView: UIView {
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = Double(value) / Double(goal)
         animation.toValue = progress
-        animation.duration = Constants.progressAnimationDuration
+        animation.duration = animated ? Constants.progressAnimationDuration : 0
         foregroundLayer.add(animation, forKey: "foregroundAnimation")
     }
     
-    private func setValueLabelAnimation(to newValue: Int) {
+    private func setValueLabelAnimation(to newValue: Int, animated: Bool) {
         
         currentValue = newValue
         
         var currentTime: Double = 0
         let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] timer in
             guard let self = self else { return }
-            if currentTime >= Constants.progressAnimationDuration + 0.01 {
+            if currentTime >= (animated ? Constants.progressAnimationDuration : 0) + 0.01 {
                 timer.invalidate()
                 self.value = newValue
             } else {

@@ -9,8 +9,6 @@
 import UIKit
 
 enum Constants {
-    static let mantraViewControllerID = "MantraViewController"
-    static let readsCountViewControllerID = "ReadsCountViewController"
     static let detailsViewControllerID = "DetailsViewController"
     static let onboardingViewController = "OnboardingViewController"
     static let defaultImage = "DefaultImage"
