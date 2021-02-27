@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F0ABF3825EA22E400742A36 /* MantraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0ABF3725EA22E400742A36 /* MantraCell.swift */; };
 		9F12CD19258112EE0089AFD8 /* MantraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F12CD18258112EE0089AFD8 /* MantraViewController.swift */; };
 		9F2715B025B83D92002A98FD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F2715AF25B83D92002A98FD /* CloudKit.framework */; };
 		9F293E3B2575503000B7B1C7 /* SetPhotoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */; };
@@ -89,6 +90,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9F0ABF3725EA22E400742A36 /* MantraCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraCell.swift; sourceTree = "<group>"; };
 		9F12CD18258112EE0089AFD8 /* MantraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraViewController.swift; sourceTree = "<group>"; };
 		9F2715AF25B83D92002A98FD /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPhotoButton.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 			children = (
 				9F5FE68924E7141400D0475E /* Main.storyboard */,
 				9F5FE69124E7141700D0475E /* LaunchScreen.storyboard */,
+				9F0ABF3725EA22E400742A36 /* MantraCell.swift */,
 				9F6503D7256651670055ED8F /* ConfettiView.swift */,
 				9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */,
 				9F7A5095253DD438008BFD6F /* CopyableLabel.swift */,
@@ -455,6 +458,7 @@
 				9FC558B025D158D30015C3C4 /* MantraProvider.swift in Sources */,
 				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,
 				9F6503D8256651680055ED8F /* ConfettiView.swift in Sources */,
+				9F0ABF3825EA22E400742A36 /* MantraCell.swift in Sources */,
 				9FCA5CAB259363E2002E1D25 /* NoImageAlert.swift in Sources */,
 				9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */,
 				9F12CD19258112EE0089AFD8 /* MantraViewController.swift in Sources */,

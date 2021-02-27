@@ -31,8 +31,8 @@ class MantraProvider {
             [NSSortDescriptor(key: "reads", ascending: false), NSSortDescriptor(key: "title", ascending: true)]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request,
-                                                    managedObjectContext: context,
-                                                    sectionNameKeyPath: nil, cacheName: nil)
+                                                              managedObjectContext: context,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController?.delegate = fetchedResultsControllerDelegate
         
         do {

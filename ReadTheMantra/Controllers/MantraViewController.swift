@@ -39,8 +39,6 @@ final class MantraViewController: UICollectionViewController {
     
     private let widgetManager = WidgetManager()
     
-    private var isColdStart = true
-    
     private lazy var displayedMantras = dataProvider.fetchedMantras
     private var favoritesSectionMantras: [Mantra] {
         displayedMantras.filter{ $0.isFavorite }
@@ -51,6 +49,8 @@ final class MantraViewController: UICollectionViewController {
     private var selectedMantra: Mantra? {
         didSet { delegate?.mantraSelected(selectedMantra) }
     }
+    
+    private var isColdStart = true
     
     private let defaults = UserDefaults.standard
     private var isAlphabeticalSorting: Bool {
@@ -156,7 +156,7 @@ final class MantraViewController: UICollectionViewController {
     
     private func checkForOnboardingAlert() {
         if isOnboarding {
-            navigationController?.view.addSubview(blurEffectView)
+            splitViewController?.view.addSubview(blurEffectView)
             if let onboardingViewController = storyboard?.instantiateViewController(
                 identifier: Constants.onboardingViewController) as? OnboardingViewController {
                 onboardingViewController.delegate = self
@@ -289,7 +289,7 @@ extension MantraViewController {
     
     private func makeDataSource() -> DataSource {
         
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Mantra> { [weak self] (cell, indexPath, mantra) in
+        let cellRegistration = UICollectionView.CellRegistration<MantraCell, Mantra> { [weak self] (cell, indexPath, mantra) in
             guard let self = self else { return }
             var configuration = UIListContentConfiguration.subtitleCell()
             configuration.text = mantra.title
@@ -302,10 +302,6 @@ extension MantraViewController {
                 UIImage(named: Constants.defaultImage)?.resize(to: CGSize(width: Constants.rowHeight,
                                                                           height: Constants.rowHeight))
             cell.contentConfiguration = configuration
-            
-            var background = UIBackgroundConfiguration.listGroupedCell()
-            background.cornerRadius = 15
-            cell.backgroundConfiguration = background
             
             // accessories configuration
             let favoriteAction = UIAction(image: UIImage(systemName: mantra.isFavorite ? "star.slash" : "star"),
@@ -420,8 +416,8 @@ extension MantraViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let mantra = dataSource.itemIdentifier(for: indexPath) else { return }
-        
         selectedMantra = mantra
+        collapseSecondaryViewController = false
         if
             let readsCountViewController = delegate as? ReadsCountViewController,
             let readsCountNavigationController = readsCountViewController.navigationController {
@@ -430,7 +426,6 @@ extension MantraViewController {
                                                                target: nil,
                                                                action: nil)
             splitViewController?.showDetailViewController(readsCountNavigationController, sender: nil)
-            collapseSecondaryViewController = false
         }
     }
     
@@ -509,7 +504,7 @@ extension MantraViewController {
         coverView = dimmedBackgroundView
         if let coverView = coverView {
             coverView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCoverTap(_:))))
-            navigationController?.view.addSubview(coverView)
+            splitViewController?.view.addSubview(coverView)
             UIView.animate(withDuration: 0.15) {
                 coverView.alpha = CGFloat(dimmedAlpha)
             }
@@ -539,7 +534,7 @@ extension MantraViewController {
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         
-        navigationController?.view.addSubview(mantraPickerTextField)
+        splitViewController?.view.addSubview(mantraPickerTextField)
         
         mantraPickerTextField.inputView = mantraPicker
         mantraPickerTextField.inputAccessoryView = toolBar
@@ -626,8 +621,9 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
             if !dataProvider.fetchedMantras.isEmpty {
                 activityIndicatorView.stopAnimating()
                 activityIndicatorView.removeFromSuperview()
-                isInitalDataLoading.toggle()
                 loadFirstMantraForSecondaryView()
+                reselectSelectedMantraIfNeeded()
+                isInitalDataLoading.toggle()
             }
         }
     }
