@@ -51,6 +51,12 @@ final class MantraViewController: UICollectionViewController {
     }
     
     private var isColdStart = true
+    private var isPadOrMac: Bool {
+        traitCollection.userInterfaceIdiom == .pad || traitCollection.userInterfaceIdiom == .mac
+    }
+    private var isPhone: Bool {
+        traitCollection.userInterfaceIdiom == .phone
+    }
     
     private let defaults = UserDefaults.standard
     private var isAlphabeticalSorting: Bool {
@@ -62,7 +68,6 @@ final class MantraViewController: UICollectionViewController {
             dataProvider.loadMantras()
             displayedMantras = dataProvider.fetchedMantras
             applySnapshot()
-            reselectSelectedMantraIfNeeded()
             widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
         }
     }
@@ -101,7 +106,7 @@ final class MantraViewController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if isColdStart {
-            applySnapshot(animatingDifferences: false)
+            applySnapshot(animatingDifferences: false, withReloading: false)
             isColdStart.toggle()
         }
     }
@@ -123,7 +128,8 @@ final class MantraViewController: UICollectionViewController {
                     self.blurEffectView.updateFrame()
                 }
                 if self.isInitalDataLoading {
-                    self.activityIndicatorView.center = self.view.center
+                    guard let splitViewController = self.splitViewController else { return }
+                    self.activityIndicatorView.center = splitViewController.view.center
                 }
             }
         })
@@ -140,7 +146,7 @@ final class MantraViewController: UICollectionViewController {
     }
     
     private func reselectSelectedMantraIfNeeded() {
-        if traitCollection.userInterfaceIdiom == .pad || traitCollection.userInterfaceIdiom == .mac {
+        if isPadOrMac {
             if let selectedMantra = selectedMantra {
                 collectionView.indexPathsForSelectedItems?
                     .forEach { collectionView.deselectItem(at: $0, animated: false) }
@@ -160,9 +166,9 @@ final class MantraViewController: UICollectionViewController {
             if let onboardingViewController = storyboard?.instantiateViewController(
                 identifier: Constants.onboardingViewController) as? OnboardingViewController {
                 onboardingViewController.delegate = self
-                if traitCollection.userInterfaceIdiom == .phone {
+                if isPhone {
                     onboardingViewController.modalPresentationStyle = .fullScreen
-                } else if (traitCollection.userInterfaceIdiom == .pad || traitCollection.userInterfaceIdiom == .mac) {
+                } else if isPadOrMac {
                     onboardingViewController.modalTransitionStyle = .crossDissolve
                 }
                 present(onboardingViewController, animated: true)
@@ -173,9 +179,10 @@ final class MantraViewController: UICollectionViewController {
     private func checkForInitialDataLoading() {
         if isInitalDataLoading {
             if dataProvider.fetchedMantras.isEmpty {
-                activityIndicatorView.center = view.center
+                guard let splitViewController = splitViewController else { return }
+                activityIndicatorView.center = splitViewController.view.center
                 activityIndicatorView.hidesWhenStopped = true
-                view.addSubview(activityIndicatorView)
+                splitViewController.view.addSubview(activityIndicatorView)
                 activityIndicatorView.startAnimating()
             }
         }
@@ -248,7 +255,7 @@ final class MantraViewController: UICollectionViewController {
         createLayout()
         collectionView.backgroundColor = .systemGroupedBackground
         collectionView.showsVerticalScrollIndicator = false
-        if traitCollection.userInterfaceIdiom == .pad || traitCollection.userInterfaceIdiom == .mac {
+        if isPadOrMac {
             clearsSelectionOnViewWillAppear = false
         }
     }
@@ -291,59 +298,17 @@ extension MantraViewController {
         
         let cellRegistration = UICollectionView.CellRegistration<MantraCell, Mantra> { [weak self] (cell, indexPath, mantra) in
             guard let self = self else { return }
-            var configuration = UIListContentConfiguration.subtitleCell()
-            configuration.text = mantra.title
-            configuration.secondaryText = NSLocalizedString("Current readings:",
-                                                            comment: "Current readings count") + " \(mantra.reads)"
-            configuration.secondaryTextProperties.color = .secondaryLabel
-            configuration.textToSecondaryTextVerticalPadding = 4
-            configuration.image = (mantra.imageForTableView != nil) ?
-                UIImage(data: mantra.imageForTableView!) :
-                UIImage(named: Constants.defaultImage)?.resize(to: CGSize(width: Constants.rowHeight,
-                                                                          height: Constants.rowHeight))
-            cell.contentConfiguration = configuration
-            
-            // accessories configuration
-            let favoriteAction = UIAction(image: UIImage(systemName: mantra.isFavorite ? "star.slash" : "star"),
-                                          handler: { _ in
-                                            mantra.isFavorite.toggle()})
-            let favoriteButton = UIButton(primaryAction: favoriteAction)
-            let favoriteAccessoryConfiguration = UICellAccessory.CustomViewConfiguration(customView: favoriteButton,
-                                                                                         placement: .leading(displayed: .whenEditing))
-            let favoriteAccessory = UICellAccessory.customView(configuration: favoriteAccessoryConfiguration)
-            let deleteAccessory = UICellAccessory.delete(displayed: .whenEditing,
-                                                         actionHandler: { [weak self] in
-                                                            guard let self = self else { return }
-                                                            self.showDeleteConfirmationAlert(for: mantra) })
-            let disclosureIndicatorAccessory = UICellAccessory.disclosureIndicator()
-            let badge = UIImage(systemName: "checkmark.circle.fill",
-                                withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))?
-                .withTintColor(.systemGreen, renderingMode: .alwaysOriginal)
-            let badgeConfiguration = UICellAccessory.CustomViewConfiguration(customView: UIImageView(image: badge),
-                                                                             placement: .trailing(displayed: .always),
-                                                                             isHidden: mantra.readsGoal > mantra.reads)
-            let badgeAccessory = UICellAccessory.customView(configuration: badgeConfiguration)
-            
-            cell.accessories = [deleteAccessory, favoriteAccessory, disclosureIndicatorAccessory, badgeAccessory]
+            cell.mantra = mantra
+            cell.delegate = self
         }
         
         let dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, mantra) -> UICollectionViewCell? in
             collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: mantra)
         }
         
-        let headerRegistration = UICollectionView.SupplementaryRegistration<TitleSupplementaryView>(elementKind: "Header") {
+        let headerRegistration = UICollectionView.SupplementaryRegistration<HeaderSupplementaryView>(elementKind: "Header") {
             (supplementaryView, string, indexPath) in
-            
-            let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
-            
-            switch section {
-            case .favorites:
-                supplementaryView.label.text = NSLocalizedString("Favorites", comment: "Favorites section title")
-            case .main:
-                supplementaryView.label.text = NSLocalizedString("Mantras", comment: "Main section title")
-            case .other:
-                supplementaryView.label.text = NSLocalizedString("Other Mantras", comment: "Other section title")
-            }
+            supplementaryView.section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
         }
         
         dataSource.supplementaryViewProvider = { (view, kind, index) in
@@ -353,23 +318,25 @@ extension MantraViewController {
         return dataSource
     }
     
-    private func applySnapshot(animatingDifferences: Bool = true) {
+    private func applySnapshot(animatingDifferences: Bool = true, withReloading: Bool = false) {
         var snapshot = Snapshot()
         if !favoritesSectionMantras.isEmpty {
-            snapshot.appendSections([Section.favorites])
+            snapshot.appendSections([.favorites])
             snapshot.appendItems(favoritesSectionMantras, toSection: .favorites)
         }
         if !mainSectionMantras.isEmpty && favoritesSectionMantras.isEmpty {
-            snapshot.appendSections([Section.main])
+            snapshot.appendSections([.main])
             snapshot.appendItems(mainSectionMantras, toSection: .main)
         }
         
         if !mainSectionMantras.isEmpty && !favoritesSectionMantras.isEmpty {
-            snapshot.appendSections([Section.other])
+            snapshot.appendSections([.other])
             snapshot.appendItems(mainSectionMantras, toSection: .other)
         }
         
-        snapshot.reloadItems(snapshot.itemIdentifiers)
+        if withReloading {
+            snapshot.reloadItems(snapshot.itemIdentifiers)
+        }
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
@@ -410,7 +377,7 @@ extension MantraViewController {
     }
 }
 
-//MARK: - UICollectionView Delegate
+//MARK: - UICollectionView Delegate (Selection of Cells)
 
 extension MantraViewController {
     
@@ -453,22 +420,6 @@ extension MantraViewController {
     }
 }
 
-//MARK: - Delete Mantra Stack
-
-extension MantraViewController {
-    
-    private func showDeleteConfirmationAlert(for mantra: Mantra) {
-        let alert = UIAlertController.deleteConfirmationAlert(for: mantra) { [weak self] (mantra) in
-            guard let self = self else { return }
-            if self.selectedMantra == mantra {
-                self.selectedMantra = nil
-            }
-            self.dataProvider.deleteMantra(mantra)
-        }
-        present(alert, animated: true, completion: nil)
-    }
-}
-
 //MARK: - Add New Mantra Stack
 
 extension MantraViewController {
@@ -500,8 +451,8 @@ extension MantraViewController {
         let dimmedBackgroundView = UIView(frame: UIScreen.main.bounds)
         dimmedBackgroundView.backgroundColor = .black
         dimmedBackgroundView.alpha = 0
-        let dimmedAlpha = traitCollection.userInterfaceStyle == .light ? 0.2 : 0.5
         coverView = dimmedBackgroundView
+        let dimmedAlpha = traitCollection.userInterfaceStyle == .light ? 0.2 : 0.5
         if let coverView = coverView {
             coverView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCoverTap(_:))))
             splitViewController?.view.addSubview(coverView)
@@ -582,7 +533,23 @@ extension MantraViewController {
         coverView?.removeFromSuperview()
         coverView = nil
         mantraPickerTextField.resignFirstResponder()
-        navigationController?.navigationBar.tintColor = Constants.accentColor ?? .systemOrange
+        navigationController?.navigationBar.tintColor = nil
+    }
+}
+
+//MARK: - Delete Mantra Delegate
+
+extension MantraViewController: DeleteMantraDelegate {
+    
+    func showDeleteConfirmationAlert(for mantra: Mantra) {
+        let alert = UIAlertController.deleteConfirmationAlert(for: mantra) { [weak self] (mantra) in
+            guard let self = self else { return }
+            if self.selectedMantra == mantra {
+                self.selectedMantra = nil
+            }
+            self.dataProvider.deleteMantra(mantra)
+        }
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -592,7 +559,7 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         handleSearchControllerResultsIfNeeded()
-        applySnapshot()
+        applySnapshot(withReloading: true)
         reselectSelectedMantraIfNeeded()
         updateSecondaryView()
         
@@ -652,7 +619,6 @@ extension MantraViewController: UISearchResultsUpdating {
         if text.isEmpty {
             displayedMantras = dataProvider.fetchedMantras
             applySnapshot()
-            reselectSelectedMantraIfNeeded()
             return
         }
         displayedMantras = dataProvider.fetchedMantras.filter{
@@ -663,7 +629,6 @@ extension MantraViewController: UISearchResultsUpdating {
             }
         }
         applySnapshot()
-        reselectSelectedMantraIfNeeded()
     }
 }
 

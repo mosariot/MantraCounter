@@ -8,18 +8,88 @@
 
 import UIKit
 
+protocol DeleteMantraDelegate: class {
+    func showDeleteConfirmationAlert(for: Mantra)
+}
+
 class MantraCell: UICollectionViewListCell {
     
+    var mantra: Mantra? {
+        didSet {
+            setNeedsUpdateConfiguration()
+        }
+    }
+    weak var delegate: DeleteMantraDelegate?
+    
     override func updateConfiguration(using state: UICellConfigurationState) {
+        super.updateConfiguration(using: state)
         
+        guard let mantra = mantra else { return }
+        
+        // Content Configuration
+        var configuration = UIListContentConfiguration.subtitleCell().updated(for: state)
+        configuration.text = mantra.title
+        configuration.secondaryText = NSLocalizedString("Current readings:",
+                                                        comment: "Current readings count") + " \(mantra.reads)"
+        configuration.secondaryTextProperties.color = .secondaryLabel
+        configuration.textToSecondaryTextVerticalPadding = 4
+        configuration.image = (mantra.imageForTableView != nil) ?
+            UIImage(data: mantra.imageForTableView!) :
+            UIImage(named: Constants.defaultImage)?.resize(to: CGSize(width: Constants.rowHeight,
+                                                                      height: Constants.rowHeight))
+        
+        // Background Configuration
         var backgroundConfig = UIBackgroundConfiguration.listGroupedCell().updated(for: state)
         backgroundConfig.cornerRadius = 15
         
-        if (state.isHighlighted || state.isSelected) &&
-            (traitCollection.userInterfaceIdiom == .pad || traitCollection.userInterfaceIdiom == .mac) {
-            backgroundConfig.backgroundColor = Constants.accentColor
+        if state.isHighlighted || state.isSelected {
+            configuration.textProperties.color = .white
+            configuration.secondaryTextProperties.color = .white
+            backgroundConfig.backgroundColor = nil
+            if state.isHighlighted {
+                backgroundConfig.backgroundColorTransformer = .init { $0.withAlphaComponent(0.3) }
+            }
+        } else {
+            backgroundConfig.backgroundColor = .secondarySystemGroupedBackground
         }
         
-        self.backgroundConfiguration = backgroundConfig
+        contentConfiguration = configuration
+        backgroundConfiguration = backgroundConfig
+        
+        // Accessories Setup
+        let disclosureIndicatorAccessory = UICellAccessory.disclosureIndicator()
+        
+        if state.isEditing {
+            let favoriteAction = UIAction(image: UIImage(systemName: mantra.isFavorite ? "star.slash" : "star")?
+                                            .withTintColor((state.isHighlighted || state.isSelected) ? .white : Constants.accentColor ?? .systemOrange,
+                                                           renderingMode: .alwaysOriginal),
+                                          handler: { _ in
+                                            mantra.isFavorite.toggle()})
+            let favoriteButton = UIButton(primaryAction: favoriteAction)
+            let favoriteAccessoryConfiguration = UICellAccessory.CustomViewConfiguration(customView: favoriteButton,
+                                                                                         placement: .leading(displayed: .whenEditing))
+            let favoriteAccessory = UICellAccessory.customView(configuration: favoriteAccessoryConfiguration)
+            let deleteAccessory = UICellAccessory.delete(displayed: .whenEditing,
+                                                         actionHandler: { [weak self] in
+                                                            guard let self = self else { return }
+                                                            self.delegate?.showDeleteConfirmationAlert(for: mantra) })
+            let badge = UIImage(systemName: "checkmark.circle.fill",
+                                withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))?
+                .withTintColor(.systemGreen, renderingMode: .alwaysOriginal)
+            let badgeConfiguration = UICellAccessory.CustomViewConfiguration(customView: UIImageView(image: badge),
+                                                                             placement: .trailing(displayed: .always),
+                                                                             isHidden: mantra.readsGoal > mantra.reads)
+            let badgeAccessory = UICellAccessory.customView(configuration: badgeConfiguration)
+            accessories = [deleteAccessory, favoriteAccessory, disclosureIndicatorAccessory, badgeAccessory]
+        } else {
+            let badge = UIImage(systemName: "checkmark.circle.fill",
+                                withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))?
+                .withTintColor(.systemGreen, renderingMode: .alwaysOriginal)
+            let badgeConfiguration = UICellAccessory.CustomViewConfiguration(customView: UIImageView(image: badge),
+                                                                             placement: .trailing(displayed: .always),
+                                                                             isHidden: mantra.readsGoal > mantra.reads)
+            let badgeAccessory = UICellAccessory.customView(configuration: badgeConfiguration)
+            accessories = [disclosureIndicatorAccessory, badgeAccessory]
+        }
     }
 }

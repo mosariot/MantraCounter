@@ -8,8 +8,22 @@
 
 import UIKit
 
-final class TitleSupplementaryView: UICollectionReusableView {
+final class HeaderSupplementaryView: UICollectionReusableView {
     let label = UILabel()
+    var section: MantraViewController.Section? {
+        didSet {
+            switch section {
+            case .favorites:
+                label.text = NSLocalizedString("Favorites", comment: "Favorites section title")
+            case .main:
+                label.text = NSLocalizedString("Mantras", comment: "Main section title")
+            case .other:
+                label.text = NSLocalizedString("Other Mantras", comment: "Other section title")
+            case .none:
+                label.text = ""
+            }
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
