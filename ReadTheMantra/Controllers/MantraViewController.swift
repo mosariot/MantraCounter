@@ -24,7 +24,6 @@ final class MantraViewController: UICollectionViewController {
     //MARK: - Properties
     
     weak var delegate: MantraSelectionDelegate?
-    var collapseSecondaryViewController = true
     
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Mantra>
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Mantra>
@@ -193,7 +192,6 @@ final class MantraViewController: UICollectionViewController {
     private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.tintColor = Constants.accentColor ?? .systemOrange
         
         navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
         navigationItem.searchController = searchController
@@ -384,7 +382,7 @@ extension MantraViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let mantra = dataSource.itemIdentifier(for: indexPath) else { return }
         selectedMantra = mantra
-        collapseSecondaryViewController = false
+        defaults.set(false, forKey: "collapseSecondaryViewController")
         if
             let readsCountViewController = delegate as? ReadsCountViewController,
             let readsCountNavigationController = readsCountViewController.navigationController {

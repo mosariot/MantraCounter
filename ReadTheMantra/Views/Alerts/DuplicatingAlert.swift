@@ -12,7 +12,7 @@ extension UIAlertController {
     
     static func duplicatingAlert(addPreloadedMantraHandler: @escaping () -> (),
                                  cancelActionHandler: @escaping () -> ()) -> UIAlertController {
-        let alert = UIAlertController(title: nil,
+        let alert = UIAlertController(title: "",
                                       message: NSLocalizedString("It's already in your mantra list. Add another one?", comment: "Alert Message for Duplication"),
                                       preferredStyle: .alert)
         let addAction = UIAlertAction(title: NSLocalizedString("Add", comment: "Alert Button"),

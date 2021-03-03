@@ -14,22 +14,39 @@ final class ReadsCountViewController: UIViewController {
     
     private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     private var dataProvider = MantraProvider()
+    private var previousReadsCount: Int32? = nil {
+        didSet { setupNavButtons() }
+    }
+    private let defaults = UserDefaults.standard
     
     var mantra: Mantra? {
         didSet {
             loadViewIfNeeded()
-            if let mantra = mantra {
-                navigationItem.largeTitleDisplayMode = .never
-                mainStackView.isHidden = false
-                setupNavButtons()
-                circularProgressView.goal = Int(mantra.readsGoal)
-                circularProgressView.value = Int(mantra.reads)
-                setupUI(animated: false)
-            } else {
-                navigationItem.rightBarButtonItems = nil
+            guard let mantra = mantra else {
+                navigationItem.rightBarButtonItem = nil
                 mainStackView.isHidden = true
+                return
+            }
+            navigationItem.largeTitleDisplayMode = .never
+            mainStackView.isHidden = false
+            circularProgressView.goal = Int(mantra.readsGoal)
+            circularProgressView.value = Int(mantra.reads)
+            setupUI(animated: false)
+            if currentMantra == nil {
+                currentMantra = mantra
+                previousReadsCount = nil
+            }
+            if let currentMantra = currentMantra, mantra !== currentMantra {
+                self.currentMantra = mantra
+                previousReadsCount = nil
             }
         }
+    }
+    private var currentMantra: Mantra? = nil
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        defaults.set(true, forKey: "collapseSecondaryViewController")
     }
     
     //MARK: - IBOutlets
@@ -48,21 +65,39 @@ final class ReadsCountViewController: UIViewController {
     
     private func setupNavButtons() {
         guard let mantra = mantra else { return }
+        
+        let undoButton = UIButton(primaryAction: UIAction(handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.undoButtonPressed()
+        }))
+        undoButton.setImage(UIImage(systemName: "arrow.uturn.backward.circle"), for: .normal)
+        undoButton.isEnabled = previousReadsCount != nil //readsCountDidChanged
+        
         let infoButton = UIButton(type: .infoLight,
                                   primaryAction: UIAction(handler: { [weak self] _ in
                                     guard let self = self else { return }
                                     self.infoButtonPressed()
                                   }))
-        let infoButtonItem = UIBarButtonItem(customView: infoButton)
         
         let star = mantra.isFavorite ? "star.fill" : "star"
-        let favoriteButtonItem = UIBarButtonItem(image: UIImage(systemName: star),
-                                                 primaryAction: UIAction(handler: { [weak self] _ in
-                                                    guard let self = self else { return }
-                                                    self.favoriteButtonPressed()
-                                                 }))
-        favoriteButtonItem.style = .plain
-        navigationItem.rightBarButtonItems = [infoButtonItem, favoriteButtonItem]
+        
+        let favoriteButton = UIButton(primaryAction: UIAction(handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.favoriteButtonPressed()
+         }))
+        favoriteButton.setImage(UIImage(systemName: star), for: .normal)
+        
+        let buttonStackView = UIStackView.init(arrangedSubviews: [undoButton, favoriteButton, infoButton])
+        buttonStackView.distribution = .equalSpacing
+        buttonStackView.axis = .horizontal
+        buttonStackView.alignment = .center
+        buttonStackView.spacing = 16
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonStackView)
+    }
+    
+    private func undoButtonPressed() {
+        showUndoAlert()
     }
     
     private func infoButtonPressed() {
@@ -148,7 +183,8 @@ final class ReadsCountViewController: UIViewController {
     
     private func showUpdatingAlert(updatingType: UpdatingType) {
         guard let mantra = mantra else { return }
-        let alert = UIAlertController.UpdatingAlert(mantra: mantra, updatingType: updatingType) { (value) in
+        let alert = UIAlertController.UpdatingAlert(mantra: mantra, updatingType: updatingType) { [weak self] (value) in
+            guard let self = self else { return }
             self.handleAlertPositiveAction(forValue: value, updatingType: updatingType)
         }
         present(alert, animated: true, completion: nil)
@@ -156,13 +192,13 @@ final class ReadsCountViewController: UIViewController {
     
     private func handleAlertPositiveAction(forValue value: Int32, updatingType: UpdatingType) {
         guard let mantra = mantra else { return }
-        let oldReads = mantra.reads
+        previousReadsCount = mantra.reads
         dataProvider.updateValues(for: mantra, with: value, updatingType: updatingType)
         updateProrgessView(for: updatingType)
         readsGoalButton.setTitle(NSLocalizedString("Goal: ",
                                                    comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(),
                                  for: .normal)
-        readsCongratulationsCheck(oldReads: oldReads, newReads: mantra.reads)
+        readsCongratulationsCheck(oldReads: previousReadsCount, newReads: mantra.reads)
     }
     
     private func updateProrgessView(for updatingType: UpdatingType) {
@@ -175,8 +211,8 @@ final class ReadsCountViewController: UIViewController {
         }
     }
     
-    private func readsCongratulationsCheck(oldReads: Int32, newReads: Int32) {
-        guard let mantra = mantra else { return }
+    private func readsCongratulationsCheck(oldReads: Int32?, newReads: Int32) {
+        guard let mantra = mantra, let oldReads = oldReads else { return }
         if (oldReads < mantra.readsGoal/2 && mantra.readsGoal/2..<mantra.readsGoal ~= newReads) {
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Constants.progressAnimationDuration + 0.3) {
                 self.showReadsCongratulationsAlert(level: .halfGoal)
@@ -197,6 +233,22 @@ final class ReadsCountViewController: UIViewController {
     private func showReadsCongratulationsAlert(level: Level) {
         let alert = UIAlertController.congratulationsAlert(level: level)
         present(alert, animated: true, completion: nil)
+    }
+    
+    private func showUndoAlert() {
+        let alert = UIAlertController.undoAlert { [weak self] in
+            guard let self = self else { return }
+            self.undoReadsCount()
+        }
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func undoReadsCount() {
+        guard let mantra = mantra, let previousReadsCount = previousReadsCount else { return }
+        mantra.reads = previousReadsCount
+        circularProgressView.value = Int(previousReadsCount)
+        setupUI(animated: false)
+        self.previousReadsCount = nil
     }
 }
 

@@ -63,6 +63,7 @@
 		9FE855C0258E51BF00771BA1 /* FavoritesWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855BF258E51BF00771BA1 /* FavoritesWidget.swift */; };
 		9FE855C2258E51C300771BA1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FE855C1258E51C300771BA1 /* Assets.xcassets */; };
 		9FE855C6258E51C300771BA1 /* FavoritesWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9FE855B8258E51BF00771BA1 /* FavoritesWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9FFF85B725EEAF7F00131AA7 /* UndoAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF85AF25EEAEB200131AA7 /* UndoAlert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,6 +150,7 @@
 		9FE855C1258E51C300771BA1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9FE855C3258E51C300771BA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9FE855D0258E521D00771BA1 /* FavoritesWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FavoritesWidgetExtension.entitlements; sourceTree = "<group>"; };
+		9FFF85AF25EEAEB200131AA7 /* UndoAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoAlert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -289,6 +291,7 @@
 				9FCA5C92259349EC002E1D25 /* DuplicatingAlert.swift */,
 				9FCA5CAA259363E2002E1D25 /* NoImageAlert.swift */,
 				9FCA5CB82593672D002E1D25 /* UpdatingAlert.swift */,
+				9FFF85AF25EEAEB200131AA7 /* UndoAlert.swift */,
 				9FCA5CBE25936F16002E1D25 /* CongratulationsAlert.swift */,
 				9FC3971325B143C8002B1EE0 /* FirstSearchOnTheInternetAlert.swift */,
 			);
@@ -452,6 +455,7 @@
 				9F7A5096253DD439008BFD6F /* CopyableLabel.swift in Sources */,
 				9F9299AF250818B6003D5029 /* Constants.swift in Sources */,
 				9FCA5CB525936692002E1D25 /* Level.swift in Sources */,
+				9FFF85B725EEAF7F00131AA7 /* UndoAlert.swift in Sources */,
 				9FCA5CD5259F6938002E1D25 /* CoreDataManager.swift in Sources */,
 				9FCA5C93259349EC002E1D25 /* DuplicatingAlert.swift in Sources */,
 				9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */,

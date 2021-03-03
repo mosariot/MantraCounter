@@ -11,6 +11,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
+    private let defaults = UserDefaults.standard
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard
@@ -20,6 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let secondaryViewController = (splitViewController.viewControllers.last as? UINavigationController)?.topViewController as? ReadsCountViewController
         else { fatalError() }
         
+        defaults.set(true, forKey: "collapseSecondaryViewController")
+                
         splitViewController.delegate = self
         splitViewController.view.tintColor = Constants.accentColor
         splitViewController.preferredDisplayMode = .oneBesideSecondary
@@ -67,11 +70,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate: UISplitViewControllerDelegate {
     
     func splitViewController(_ svc: UISplitViewController,
-                             topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column)
-    -> UISplitViewController.Column {
-        let splitViewController = window?.rootViewController as? UISplitViewController
-        let leftNavController = splitViewController?.viewControllers.first as? UINavigationController
-        let primaryViewController = leftNavController?.viewControllers.first as? MantraViewController
-        return (primaryViewController?.collapseSecondaryViewController ?? true) ? .primary : .secondary
+                             topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
+        defaults.bool(forKey: "collapseSecondaryViewController") ? .primary : .secondary
     }
 }

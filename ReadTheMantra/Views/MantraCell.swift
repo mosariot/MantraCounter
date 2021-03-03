@@ -20,6 +20,9 @@ class MantraCell: UICollectionViewListCell {
         }
     }
     weak var delegate: DeleteMantraDelegate?
+    private var isPadOrMac: Bool {
+        traitCollection.userInterfaceIdiom == .pad || traitCollection.userInterfaceIdiom == .mac
+    }
     
     override func updateConfiguration(using state: UICellConfigurationState) {
         super.updateConfiguration(using: state)
@@ -42,15 +45,19 @@ class MantraCell: UICollectionViewListCell {
         var backgroundConfig = UIBackgroundConfiguration.listGroupedCell().updated(for: state)
         backgroundConfig.cornerRadius = 15
         
-        if state.isHighlighted || state.isSelected {
-            configuration.textProperties.color = .white
-            configuration.secondaryTextProperties.color = .white
-            backgroundConfig.backgroundColor = nil
-            if state.isHighlighted {
-                backgroundConfig.backgroundColorTransformer = .init { $0.withAlphaComponent(0.3) }
+        // Selecting and Highlighting
+        if isPadOrMac {
+            if state.isSelected {
+                configuration.textProperties.color = .white
+                configuration.secondaryTextProperties.color = .white
+                backgroundConfig.backgroundColor = nil
+            } else {
+                backgroundConfig.backgroundColor = .secondarySystemGroupedBackground
             }
-        } else {
-            backgroundConfig.backgroundColor = .secondarySystemGroupedBackground
+        }
+        
+        if state.isHighlighted {
+            backgroundConfig.backgroundColor = Constants.accentColor?.withAlphaComponent(0.3)
         }
         
         contentConfiguration = configuration

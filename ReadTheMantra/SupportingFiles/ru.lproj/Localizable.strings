@@ -109,6 +109,15 @@ You're half way to your goal!" = "Поздравляем!
 You've reached your goal!" = "Поздравляем!
 Вы достигли поставленной цели!";
 
+/* Alert Message for Undo Action */
+"Are you shure you want to revert last readings count changes?" = "Вы уверены, что хотите отменить последнее изменение числа начиток?";
+
+/* Alert Button on ReadsCountViewController */
+"Yes" = "Да";
+
+/* Alert Button on ReadsCountViewController */
+"No" = "Нет";
+
 /* Edit mark label */
 "EDIT" = "ПРАВИТЬ";
 

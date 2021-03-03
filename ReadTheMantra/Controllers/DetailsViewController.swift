@@ -306,7 +306,8 @@ extension DetailsViewController {
     }
     
     private func showDuplicatingAlert(for title: String) {
-        let alert = UIAlertController.duplicatingAlert {
+        let alert = UIAlertController.duplicatingAlert { [weak self] in
+            guard let self = self else { return }
             self.handleAddNewMantra(for: title)
         } cancelActionHandler: { return }
         present(alert, animated: true, completion: nil)
