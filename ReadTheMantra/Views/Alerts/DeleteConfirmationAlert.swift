@@ -11,8 +11,8 @@ import UIKit
 extension UIAlertController {
     
     static func deleteConfirmationAlert(for mantra: Mantra, deleteActionHandler: @escaping (Mantra) -> ()) -> UIAlertController {
-        let alert = UIAlertController(title: "",
-                                      message: NSLocalizedString("Are you sure you want to delete this mantra?", comment: "Alert Message on MantraViewController"),
+        let alert = UIAlertController(title: NSLocalizedString("Are you sure you want to delete this mantra?", comment: "Alert Message on MantraViewController"),
+                                      message: nil,
                                       preferredStyle: .alert)
         let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: "Alert Button on MantraViewController"),
                                          style: .destructive) { action in

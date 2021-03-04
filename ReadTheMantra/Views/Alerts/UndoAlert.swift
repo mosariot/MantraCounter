@@ -11,9 +11,9 @@ import UIKit
 extension UIAlertController {
     
     static func undoAlert(okActionHandler: @escaping () -> ()) -> UIAlertController {
-        let alert = UIAlertController(title: "",
-                                      message: NSLocalizedString("Are you shure you want to revert last readings count changes?",
-                                                                 comment: "Alert Message for Undo Action"),
+        let alert = UIAlertController(title: NSLocalizedString("Are you shure you want to revert last readings count changes?",
+                                                               comment: "Alert Message for Undo Action"),
+                                      message: nil,
                                       preferredStyle: .alert)
         let okAction = UIAlertAction(title: NSLocalizedString("Yes", comment: "Alert Button on ReadsCountViewController"),
                                      style: .default) { _ in

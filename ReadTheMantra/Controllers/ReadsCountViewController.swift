@@ -31,7 +31,7 @@ final class ReadsCountViewController: UIViewController {
             mainStackView.isHidden = false
             circularProgressView.goal = Int(mantra.readsGoal)
             circularProgressView.value = Int(mantra.reads)
-            setupUI(animated: false)
+            setupUI()
             if currentMantra == nil {
                 currentMantra = mantra
                 previousReadsCount = nil
@@ -71,7 +71,7 @@ final class ReadsCountViewController: UIViewController {
             self.undoButtonPressed()
         }))
         undoButton.setImage(UIImage(systemName: "arrow.uturn.backward.circle"), for: .normal)
-        undoButton.isEnabled = previousReadsCount != nil //readsCountDidChanged
+        undoButton.isEnabled = previousReadsCount != nil
         
         let infoButton = UIButton(type: .infoLight,
                                   primaryAction: UIAction(handler: { [weak self] _ in
@@ -91,7 +91,7 @@ final class ReadsCountViewController: UIViewController {
         buttonStackView.distribution = .equalSpacing
         buttonStackView.axis = .horizontal
         buttonStackView.alignment = .center
-        buttonStackView.spacing = 16
+        buttonStackView.spacing = 20
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonStackView)
     }
@@ -120,9 +120,10 @@ final class ReadsCountViewController: UIViewController {
         setupNavButtons()
     }
     
-    private func setupUI(animated: Bool = true) {
+    private func setupUI(animated: Bool = false) {
         guard let mantra = mantra else { return }
         
+        setupNavButtons()
         getMantraImages()
         
         titleLabel.text = mantra.title
@@ -183,7 +184,7 @@ final class ReadsCountViewController: UIViewController {
     
     private func showUpdatingAlert(updatingType: UpdatingType) {
         guard let mantra = mantra else { return }
-        let alert = UIAlertController.UpdatingAlert(mantra: mantra, updatingType: updatingType) { [weak self] (value) in
+        let alert = UIAlertController.updatingAlert(mantra: mantra, updatingType: updatingType) { [weak self] (value) in
             guard let self = self else { return }
             self.handleAlertPositiveAction(forValue: value, updatingType: updatingType)
         }
@@ -247,7 +248,7 @@ final class ReadsCountViewController: UIViewController {
         guard let mantra = mantra, let previousReadsCount = previousReadsCount else { return }
         mantra.reads = previousReadsCount
         circularProgressView.value = Int(previousReadsCount)
-        setupUI(animated: false)
+        setupUI()
         self.previousReadsCount = nil
     }
 }

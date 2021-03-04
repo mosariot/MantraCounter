@@ -10,7 +10,7 @@ import UIKit
 
 extension UIAlertController {
     
-    static func UpdatingAlert(mantra: Mantra,
+    static func updatingAlert(mantra: Mantra,
                               updatingType: UpdatingType,
                               positiveActionHanlder: @escaping (Int32) -> ()) -> UIAlertController {
         
