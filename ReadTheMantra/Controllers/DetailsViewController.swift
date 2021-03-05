@@ -361,6 +361,7 @@ extension DetailsViewController {
         let vc = SFSafariViewController(url: url)
         vc.delegate = self
         vc.modalPresentationStyle = .pageSheet
+        vc.preferredControlTintColor = Constants.accentColor
         present(vc, animated: true) {
             self.checkForFirstSearchOnTheInternet { [weak vc] (alert) in
                 guard let vc = vc else { return }

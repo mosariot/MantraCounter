@@ -11,7 +11,8 @@ import UIKit
 extension UIAlertController {
     
     static func noImageAlert(okActionHandler: @escaping () -> ()) -> UIAlertController {
-        let alert = UIAlertController(title: "",
+        let alert = UIAlertController(title: NSLocalizedString("Unavailable Photo",
+                                                               comment: "Alert Title for unavailable photo"),
                                       message: NSLocalizedString("It seems like this photo is unavailable. Try to pick another one",
                                                                  comment: "Alert Message for unavailable photo"),
                                       preferredStyle: .alert)

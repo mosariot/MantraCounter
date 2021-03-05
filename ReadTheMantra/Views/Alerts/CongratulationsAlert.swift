@@ -12,23 +12,17 @@ extension UIAlertController {
     
     static func congratulationsAlert(level: Level) -> UIAlertController {
         
-        func congratulationsAlertTitle(for level: Level) -> String {
+        func congratulationsAlertMessage(for level: Level) -> String {
             switch level {
             case .halfGoal:
-                return NSLocalizedString("""
-                                        Congratulations!
-                                        You're half way to your goal!
-                                        """, comment: "Alert Title on ReadsCountViewController")
+                return NSLocalizedString("You're half way to your goal!", comment: "Alert Meassage on ReadsCountViewController")
             case .fullGoal:
-                return NSLocalizedString("""
-                                        Congratulations!
-                                        You've reached your goal!
-                                        """, comment: "Alert Title on ReadsCountViewController")
+                return NSLocalizedString("You've reached your goal!", comment: "Alert Message on ReadsCountViewController")
             }
         }
         
-        let alert = UIAlertController(title: congratulationsAlertTitle(for: level),
-                                      message: nil,
+        let alert = UIAlertController(title: NSLocalizedString("Congratulations!", comment: "Alert Title on ReadsCountViewController"),
+                                      message: congratulationsAlertMessage(for: level),
                                       preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
