@@ -30,15 +30,15 @@ final class CircularProgressView: UIView {
         }
     }
     
-    public var value = 0 {
+    var value = 0 {
         didSet { currentValue = value }
     }
     
-    public var goal = Constants.initialReadsGoal {
+    var goal = Constants.initialReadsGoal {
         didSet { currentGoal = goal }
     }
     
-    public func setGoalAnimation(to newGoal: Int, animated: Bool = true) {
+    func setGoalAnimation(to newGoal: Int, animated: Bool = true) {
         
         currentGoal = newGoal
         
@@ -64,25 +64,38 @@ final class CircularProgressView: UIView {
         animation.duration = animated ? Constants.progressAnimationDuration : 0
         foregroundLayer.add(animation, forKey: "foregroundAnimation")
         
+        guard animated else {
+            self.setForegroundLayerColor(value: value, readsGoal: goal)
+            return
+        }
+        
         var currentTime: Double = 0
         let currentReadsGoal = goal
-        let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] timer in
+        goalCircleTimer = Timer.scheduledTimer(withTimeInterval: Constants.progressAnimationDuration*0.01, repeats: true) { [weak self] timer in
             guard let self = self else { return }
-            if currentTime >= (animated ? Constants.progressAnimationDuration : 0) + 0.01 {
+            if currentTime >= Constants.progressAnimationDuration*1.01 {
                 timer.invalidate()
+                self.goalCircleTimer = nil
                 self.goal = newGoal
             } else {
-                let momentGoal = Double(currentReadsGoal) + Double(newGoal - currentReadsGoal) * currentTime
-                currentTime += 0.01
-                self.setForegroundLayerColor(value: Int(self.value), readsGoal: Int(momentGoal))
+                let momentGoal = Double(currentReadsGoal) + Double(newGoal - currentReadsGoal) * (currentTime / Constants.progressAnimationDuration)
+                currentTime += Constants.progressAnimationDuration*0.01
+                self.setForegroundLayerColor(value: self.value, readsGoal: Int(momentGoal))
             }
         }
-        timer.fire()
+        goalCircleTimer?.fire()
     }
     
-    public func setValueAnimation(to newValue: Int, animated: Bool = true) {
+    func setValueAnimation(to newValue: Int, animated: Bool = true) {
         setValueCircleAnimation(to: newValue, animated: animated)
         setValueLabelAnimation(to: newValue, animated: animated)
+    }
+    
+    func stopAnimationIfNeeded() {
+            labelTimer?.invalidate()
+            labelTimer = nil
+            goalCircleTimer?.invalidate()
+            goalCircleTimer = nil
     }
     
     //MARK: - Private
@@ -102,6 +115,8 @@ final class CircularProgressView: UIView {
         } else {
             return (frame.height - lineWidth)/2 }
     }
+    private var labelTimer: Timer?
+    private var goalCircleTimer: Timer?
     
     private func setValueCircleAnimation(to newValue: Int, animated: Bool) {
         
@@ -125,17 +140,25 @@ final class CircularProgressView: UIView {
     
     private func setValueLabelAnimation(to newValue: Int, animated: Bool) {
         
-        currentValue = newValue
+        guard animated else {
+            self.label.text = value.stringFormattedWithSpaces()
+            self.setForegroundLayerColor(value: value, readsGoal: goal)
+            let fontSize = self.labelFontSize(for: value)
+            self.setLabel(withSize: fontSize)
+            return
+        }
         
+        currentValue = newValue
         var currentTime: Double = 0
-        let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] timer in
+        labelTimer = Timer.scheduledTimer(withTimeInterval: Constants.progressAnimationDuration*0.01, repeats: true) { [weak self] timer in
             guard let self = self else { return }
-            if currentTime >= (animated ? Constants.progressAnimationDuration : 0) + 0.01 {
+            if currentTime >= Constants.progressAnimationDuration*1.01 {
                 timer.invalidate()
+                self.labelTimer = nil
                 self.value = newValue
             } else {
-                var momentValue = Double(self.value) + Double(newValue - self.value) * currentTime
-                currentTime += 0.01
+                var momentValue = Double(self.value) + Double(newValue - self.value) * (currentTime / Constants.progressAnimationDuration)
+                currentTime += Constants.progressAnimationDuration*0.01
                 momentValue.round(.toNearestOrAwayFromZero)
                 self.label.text = Int(momentValue).stringFormattedWithSpaces()
                 self.setForegroundLayerColor(value: Int(momentValue), readsGoal: self.goal)
@@ -143,7 +166,7 @@ final class CircularProgressView: UIView {
                 self.setLabel(withSize: fontSize)
             }
         }
-        timer.fire()
+        labelTimer?.fire()
     }
     
     private func setupView() {

@@ -14,10 +14,6 @@ final class ReadsCountViewController: UIViewController {
     
     private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     private var dataProvider = MantraProvider()
-    private var previousReadsCount: Int32? = nil {
-        didSet { setupNavButtons() }
-    }
-    private let defaults = UserDefaults.standard
     
     var mantra: Mantra? {
         didSet {
@@ -27,11 +23,6 @@ final class ReadsCountViewController: UIViewController {
                 mainStackView.isHidden = true
                 return
             }
-            navigationItem.largeTitleDisplayMode = .never
-            mainStackView.isHidden = false
-            circularProgressView.goal = Int(mantra.readsGoal)
-            circularProgressView.value = Int(mantra.reads)
-            setupUI()
             if currentMantra == nil {
                 currentMantra = mantra
                 previousReadsCount = nil
@@ -39,10 +30,22 @@ final class ReadsCountViewController: UIViewController {
             if let currentMantra = currentMantra, mantra !== currentMantra {
                 self.currentMantra = mantra
                 previousReadsCount = nil
+                invalidatePreviousState()
             }
+            navigationItem.largeTitleDisplayMode = .never
+            mainStackView.isHidden = false
+            circularProgressView.goal = Int(mantra.readsGoal)
+            circularProgressView.value = Int(mantra.reads)
+            setupUI()
         }
     }
+    
     private var currentMantra: Mantra? = nil
+    private var previousReadsCount: Int32? = nil {
+        didSet { setupNavButtons() }
+    }
+    private var shouldInvalidatePreviousState = false
+    private let defaults = UserDefaults.standard
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -164,6 +167,13 @@ final class ReadsCountViewController: UIViewController {
         circularProgressView.setValueAnimation(to: Int(mantra.reads), animated: animated)
     }
     
+    //MARK: - Invalidate Previous State
+    
+    private func invalidatePreviousState() {
+        circularProgressView.stopAnimationIfNeeded()
+        shouldInvalidatePreviousState = true
+    }
+    
     //MARK: - Updating ReadsCount and ReadsGoal
     
     @IBAction private func setGoalButtonPressed(_ sender: UIButton) {
@@ -193,13 +203,15 @@ final class ReadsCountViewController: UIViewController {
     
     private func handleAlertPositiveAction(forValue value: Int32, updatingType: UpdatingType) {
         guard let mantra = mantra else { return }
-        previousReadsCount = mantra.reads
+        if updatingType != .goal {
+            previousReadsCount = mantra.reads
+            readsCongratulationsCheck(oldReads: previousReadsCount, newReads: value)
+        }
         dataProvider.updateValues(for: mantra, with: value, updatingType: updatingType)
         updateProrgessView(for: updatingType)
         readsGoalButton.setTitle(NSLocalizedString("Goal: ",
                                                    comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(),
                                  for: .normal)
-        readsCongratulationsCheck(oldReads: previousReadsCount, newReads: mantra.reads)
     }
     
     private func updateProrgessView(for updatingType: UpdatingType) {
@@ -214,9 +226,12 @@ final class ReadsCountViewController: UIViewController {
     
     private func readsCongratulationsCheck(oldReads: Int32?, newReads: Int32) {
         guard let mantra = mantra, let oldReads = oldReads else { return }
+        shouldInvalidatePreviousState = false
         if (oldReads < mantra.readsGoal/2 && mantra.readsGoal/2..<mantra.readsGoal ~= newReads) {
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Constants.progressAnimationDuration + 0.3) {
-                self.showReadsCongratulationsAlert(level: .halfGoal)
+                if !self.shouldInvalidatePreviousState {
+                    self.showReadsCongratulationsAlert(level: .halfGoal)
+                }
             }
         }
         
@@ -226,7 +241,9 @@ final class ReadsCountViewController: UIViewController {
             confettiView.startConfetti()
             
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Constants.progressAnimationDuration + 1.8) {
-                self.showReadsCongratulationsAlert(level: .fullGoal)
+                if !self.shouldInvalidatePreviousState {
+                    self.showReadsCongratulationsAlert(level: .fullGoal)
+                }
             }
         }
     }
