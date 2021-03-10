@@ -33,23 +33,23 @@ final class OnboardingViewController: UIViewController {
     
     private func setupUI() {
         titleLabel.font = UIFont.preferredFont(for: .title1, weight: .heavy)
+        titleLabel.text = NSLocalizedString("Welcome to the path of Enlightenment!", comment: "Onboarding Alert Title")
         dismissButton.titleLabel?.font = UIFont.preferredFont(for: .callout, weight: .bold)
         dismissButton.layer.cornerRadius = dismissButton.frame.height / 4
-        titleLabel.text = NSLocalizedString("Welcome to the path of Enlightenment!", comment: "Onboarding Alert Title")
-        
-        if UIDevice.modelName == "iPhone SE" || UIDevice.modelName == "iPod touch (7th generation)" {
-            textLabel.font = .preferredFont(for: .subheadline, weight: .regular)
-            image.isHidden = true
-        }
-        
+        dismissButton.setTitle(NSLocalizedString("UNDERSTAND!", comment: "Onboarding Alert Button"), for: .normal)
         textLabel.text = NSLocalizedString("""
                                     Recitation of mantras - is a sacrament.
                                     Approach this issue with all your awareness.
                                     In order for the practice of reciting the mantra to be correct, one must receive the transmission of the mantra from the teacher. Transmission is essential to maintain the strength of the original source of the mantra. It is not enough just to read it in a book or on the Internet.
-                                    For this reason, application doesn't include the mantra texts themselves. They must be given to you by your spiritual mentor.
+                                    For this reason, application doesn't include the mantra texts themselves (except Vajrasattva). They must be given to you by your spiritual mentor.
                                     We wish you deep awarenesses and spiritual growth!
                                     """, comment: "Onboarding Alert Message")
-        dismissButton.setTitle(NSLocalizedString("UNDERSTAND!", comment: "Onboarding Alert Button"), for: .normal)
+        
+        if UIDevice.modelName == "iPhone SE" || UIDevice.modelName == "iPod touch (7th generation)" {
+            titleLabel.font = UIFont.preferredFont(for: .title2, weight: .heavy)
+            textLabel.font = .preferredFont(for: .subheadline, weight: .regular)
+            image.isHidden = true
+        }
     }
     
     @IBAction private func dismissButtonPressed(_ sender: UIButton) {
@@ -63,6 +63,7 @@ final class OnboardingViewController: UIViewController {
             guard let self = self else { return }
             DispatchQueue.main.async {
                 if UIDevice.modelName == "iPhone SE" || UIDevice.modelName == "iPod touch (7th generation)" {
+                    self.titleLabel.font = UIFont.preferredFont(for: .title2, weight: .heavy)
                     self.textLabel.font = .preferredFont(for: .subheadline, weight: .regular)
                     self.image.isHidden = true
                 }
