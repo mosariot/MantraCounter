@@ -46,7 +46,9 @@ final class MantraViewController: UICollectionViewController {
         displayedMantras.filter{ !$0.isFavorite }
     }
     private var selectedMantra: Mantra? {
-        didSet { delegate?.mantraSelected(selectedMantra) }
+        didSet {
+            delegate?.mantraSelected(selectedMantra)
+        }
     }
     
     private var isColdStart = true
@@ -108,6 +110,10 @@ final class MantraViewController: UICollectionViewController {
             applySnapshot(animatingDifferences: false, withReloading: false)
             isColdStart.toggle()
         }
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Mantra List", comment: "Back button of MantraViewController"),
+                                                           style: .plain,
+                                                           target: nil,
+                                                           action: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -383,13 +389,8 @@ extension MantraViewController {
         guard let mantra = dataSource.itemIdentifier(for: indexPath) else { return }
         selectedMantra = mantra
         defaults.set(false, forKey: "collapseSecondaryViewController")
-        if
-            let readsCountViewController = delegate as? ReadsCountViewController,
-            let readsCountNavigationController = readsCountViewController.navigationController {
-            navigationItem.backBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Mantra List", comment: "Back button of MantraViewController"),
-                                                               style: .plain,
-                                                               target: nil,
-                                                               action: nil)
+        if let readsCountViewController = delegate as? ReadsCountViewController,
+           let readsCountNavigationController = readsCountViewController.navigationController {
             splitViewController?.showDetailViewController(readsCountNavigationController, sender: nil)
         }
     }
@@ -432,7 +433,7 @@ extension MantraViewController {
                     return DetailsViewController(mantra: mantra,
                                                  mode: .add,
                                                  mantraTitles: self.dataProvider.fetchedMantras.compactMap({ $0.title }),
-                                                 delegate: self,
+                                                 callerController: self,
                                                  coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
@@ -642,15 +643,6 @@ extension MantraViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         sortedInitialMantraData[row][.title]
-    }
-}
-
-//MARK: - DetailsViewController Delegate
-
-extension MantraViewController: DetailsViewControllerDelegate {
-    
-    func updateView() {
-        // UI updates automactically
     }
 }
 

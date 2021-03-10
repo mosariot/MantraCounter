@@ -107,11 +107,10 @@ final class ReadsCountViewController: UIViewController {
         guard let mantra = mantra else { return }
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
-                creator: { [weak self] coder in
-                    guard let self = self else { fatalError() }
+                creator: { coder in
                     return DetailsViewController(mantra: mantra,
                                                  mode: .view,
-                                                 delegate: self, coder: coder)
+                                                 coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
         present(navigationController, animated: true)
@@ -203,15 +202,16 @@ final class ReadsCountViewController: UIViewController {
     
     private func handleAlertPositiveAction(forValue value: Int32, updatingType: UpdatingType) {
         guard let mantra = mantra else { return }
-        if updatingType != .goal {
-            previousReadsCount = mantra.reads
-            readsCongratulationsCheck(oldReads: previousReadsCount, newReads: value)
-        }
+        let oldReads = mantra.reads
         dataProvider.updateValues(for: mantra, with: value, updatingType: updatingType)
         updateProrgessView(for: updatingType)
         readsGoalButton.setTitle(NSLocalizedString("Goal: ",
                                                    comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(),
                                  for: .normal)
+        if updatingType != .goal {
+            previousReadsCount = oldReads
+            readsCongratulationsCheck(oldReads: previousReadsCount, newReads: mantra.reads)
+        }
     }
     
     private func updateProrgessView(for updatingType: UpdatingType) {
@@ -267,15 +267,6 @@ final class ReadsCountViewController: UIViewController {
         circularProgressView.value = Int(previousReadsCount)
         setupUI()
         self.previousReadsCount = nil
-    }
-}
-
-//MARK: - DetailsViewController Delegate (Updating View)
-
-extension ReadsCountViewController: DetailsViewControllerDelegate {
-    
-    func updateView() {
-        setupUI()
     }
 }
 

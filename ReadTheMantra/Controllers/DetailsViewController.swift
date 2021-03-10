@@ -10,10 +10,6 @@ import UIKit
 import PhotosUI
 import SafariServices
 
-protocol DetailsViewControllerDelegate: class {
-    func updateView()
-}
-
 final class DetailsViewController: UIViewController {
     
     //MARK: - Properties
@@ -31,7 +27,7 @@ final class DetailsViewController: UIViewController {
     }
     private var mantraImageData: Data?
     private var mantraImageForTableViewData: Data?
-    private weak var delegate: DetailsViewControllerDelegate?
+    private weak var callerController: UIViewController?
     
     //MARK: - IBOutlets
     
@@ -56,12 +52,12 @@ final class DetailsViewController: UIViewController {
     init?(mantra: Mantra,
           mode: DetailsMode,
           mantraTitles: [String]? = nil,
-          delegate: DetailsViewControllerDelegate?,
+          callerController: UIViewController? = nil,
           coder: NSCoder) {
         self.mantra = mantra
         self.mantraTitles = mantraTitles
         self.mode = mode
-        self.delegate = delegate
+        self.callerController = callerController
         
         super.init(coder: coder)
     }
@@ -292,7 +288,6 @@ extension DetailsViewController {
                                    details: detailsTextView.text,
                                    imageData: mantraImageData,
                                    imageForTableViewData: mantraImageForTableViewData)
-        delegate?.updateView()
         mode = .view
     }
     
@@ -494,7 +489,8 @@ extension DetailsViewController: SFSafariViewControllerDelegate {
 extension DetailsViewController: UIAdaptivePresentationControllerDelegate {
     
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        if delegate is MantraViewController {
+        if callerController is MantraViewController {
+            print("contex.delete")
             context.delete(mantra)
         }
     }
