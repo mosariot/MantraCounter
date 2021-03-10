@@ -199,7 +199,7 @@ final class MantraViewController: UICollectionViewController {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        navigationItem.title = NSLocalizedString("Mantra Counter", comment: "App name")
+        navigationItem.title = NSLocalizedString("Mantra Reader", comment: "App name")
         navigationItem.searchController = searchController
         navigationItem.leftBarButtonItem = editButtonItem
         

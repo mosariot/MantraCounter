@@ -1,5 +1,5 @@
 /* App name */
-"Mantra Counter" = "Начитай!";
+"Mantra Reader" = "Начитай!";
 
 /* Onboarding Alert Title */
 "Welcome to the path of Enlightenment!" = "Добро пожаловать на путь Просветления!";
@@ -187,7 +187,7 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 "Mantras" = "Мантры";
 
 /* Widget Title */
-"Mantra Counter" = "Начитай!";
+"Mantra Reader" = "Начитай!";
 
 /* Widget Description */
 "Favorites and Your Other Mantras" = "Избранные и другие Ваши мантры";

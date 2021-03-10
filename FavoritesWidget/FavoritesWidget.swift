@@ -297,7 +297,7 @@ struct FavoritesWidget: Widget {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             FavoritesWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Mantra Counter")
+        .configurationDisplayName("Mantra Reader")
         .description("Favorites and Your Other Mantras")
     }
 }
