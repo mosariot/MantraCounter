@@ -272,8 +272,18 @@ extension DetailsViewController {
     }
     
     private func cancelButtonPressed() {
-        context.delete(mantra)
-        dismiss(animated: true, completion: nil)
+        guard let title = titleTextField.text else { return }
+        let alert = UIAlertController.cancelNewMantraAlert(idiom: traitCollection.userInterfaceIdiom,
+                                                           addPreloadedMantraHandler: { [weak self] in
+            guard let self = self else { return }
+            self.handleAddNewMantra(for: title)
+        }, cancelActionHandler: { [weak self] in
+            guard let self = self else { return }
+            self.context.delete(self.mantra)
+            self.dismiss(animated: true, completion: nil)
+        })
+        present(alert, animated: true, completion: nil)
+        
     }
     
     private func editButtonPressed() {
@@ -301,7 +311,7 @@ extension DetailsViewController {
     }
     
     private func showDuplicatingAlert(for title: String) {
-        let alert = UIAlertController.duplicatingAlert { [weak self] in
+        let alert = UIAlertController.duplicatingAlert(idiom: traitCollection.userInterfaceIdiom) { [weak self] in
             guard let self = self else { return }
             self.handleAddNewMantra(for: title)
         } cancelActionHandler: { return }
@@ -309,6 +319,11 @@ extension DetailsViewController {
     }
     
     private func handleAddNewMantra(for title: String) {
+        guard titleTextField.text != "" else {
+            let alert = UIAlertController.addTitleAlert()
+            present(alert, animated: true, completion: nil)
+            return
+        }
         dataProvider.processMantra(mantra: mantra,
                                    title: title,
                                    text: mantraTextTextView.text,
@@ -490,7 +505,6 @@ extension DetailsViewController: UIAdaptivePresentationControllerDelegate {
     
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         if callerController is MantraViewController {
-            print("contex.delete")
             context.delete(mantra)
         }
     }

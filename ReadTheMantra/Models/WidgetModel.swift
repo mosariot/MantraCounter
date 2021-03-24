@@ -14,8 +14,8 @@ struct WidgetModel: Identifiable, Codable {
     let favorites: [Item]
     let mantras: [Item]
     
-    struct Item: Identifiable, Codable {
-        var id = UUID()
+    struct Item: Identifiable, Codable, Hashable {
+        let id: UUID
         let title: String
         let reads: Int32
     }

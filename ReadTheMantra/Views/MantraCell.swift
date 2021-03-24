@@ -20,7 +20,7 @@ class MantraCell: UICollectionViewListCell {
         }
     }
     weak var delegate: DeleteMantraDelegate?
-    private var isPadOrMac: Bool {
+    private var isPadOrMacIdiom: Bool {
         traitCollection.userInterfaceIdiom == .pad || traitCollection.userInterfaceIdiom == .mac
     }
     
@@ -46,7 +46,7 @@ class MantraCell: UICollectionViewListCell {
         backgroundConfig.cornerRadius = 15
         
         // Selecting and Highlighting
-        if isPadOrMac {
+        if isPadOrMacIdiom {
             if state.isSelected {
                 configuration.textProperties.color = .white
                 configuration.secondaryTextProperties.color = .white

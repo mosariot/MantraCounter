@@ -94,7 +94,7 @@ final class ReadsCountViewController: UIViewController {
         buttonStackView.distribution = .equalSpacing
         buttonStackView.axis = .horizontal
         buttonStackView.alignment = .center
-        buttonStackView.spacing = 20
+        buttonStackView.spacing = 25
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonStackView)
     }

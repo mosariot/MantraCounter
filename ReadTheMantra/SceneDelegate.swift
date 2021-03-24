@@ -30,6 +30,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         splitViewController.maximumPrimaryColumnWidth = 400
         primaryViewController.delegate = secondaryViewController
         
+        if let url = connectionOptions.urlContexts.first?.url {
+            let uuid = UUID(uuidString: "\(url)")
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+                self.deepLinkToSpecificMantra(uuid: uuid)
+            }
+        }
+        
         if let shortcutItem = connectionOptions.shortcutItem {
             splitViewController.show(.primary)
             splitViewController.dismiss(animated: false, completion: nil)
@@ -64,6 +71,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         default:
             break
         }
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let url = URLContexts.first?.url {
+            let uuid = UUID(uuidString: "\(url)")
+            deepLinkToSpecificMantra(uuid: uuid)
+        }
+    }
+    
+    private func deepLinkToSpecificMantra(uuid: UUID?) {
+        guard
+            let uuid = uuid,
+            let splitViewController = window?.rootViewController as? UISplitViewController,
+            let leftNavController = splitViewController.viewControllers.first as? UINavigationController,
+            let primaryViewController = leftNavController.viewControllers.first as? MantraViewController
+        else { return }
+        
+        splitViewController.dismiss(animated: false, completion: nil)
+        leftNavController.popToRootViewController(animated: false)
+        
+        primaryViewController.goToMantraWith(uuid: uuid)
     }
 }
 

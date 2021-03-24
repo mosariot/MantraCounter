@@ -18,6 +18,9 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 /* Onboarding Alert Button */
 "UNDERSTAND!" = "ПОНЯТНО!";
 
+/* Loading from iCloud */
+"LOADING" = "ЗАГРУЗКА";
+
 /* Favorites section title */
 "Favorites" = "Избранное";
 
@@ -46,7 +49,7 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 "Alphabetically" = "По алфавиту";
 
 /* Menu Item on MantraViewController */
-"Readings count" = "По числу начиток";
+"By readings count" = "По числу начиток";
 
 /* Alert Title for Duplication */
 "Duplicating Mantra" = "Повторяющаяся мантра";
@@ -149,6 +152,18 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 
 /* Menu Item on DetailsViewController */
 "Search on the Internet" = "Искать в Интернете";
+
+/* Alert Title for Cancel New Mantra */
+"Save changes" = "Сохранение изменений";
+
+/* Alert Message for Cancel New Mantra */
+"Do you want to save this mantra?" = "Вы хотите сохранить эту мантру?";
+
+/* Alert button */
+"Save" = "Сохранить";
+
+/* Alert Title for add missing title */
+"Please add some title to mantra" = "Пожалуйста, добавьте название мантры";
 
 /* Alert Title for first search on the Internet */
 "Pick Photo" = "Выберите фото";

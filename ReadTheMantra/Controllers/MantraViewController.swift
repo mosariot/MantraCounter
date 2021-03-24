@@ -52,7 +52,7 @@ final class MantraViewController: UICollectionViewController {
     }
     
     private var isColdStart = true
-    private var isPadOrMac: Bool {
+    private var isPadOrMacIdiom: Bool {
         traitCollection.userInterfaceIdiom == .pad || traitCollection.userInterfaceIdiom == .mac
     }
     private var isPhone: Bool {
@@ -80,7 +80,8 @@ final class MantraViewController: UICollectionViewController {
         get { defaults.bool(forKey: "isInitalDataLoading") }
         set { defaults.set(newValue, forKey: "isInitalDataLoading") }
     }
-    private let activityIndicatorView = UIActivityIndicatorView(style: .large)
+    private lazy var activityIndicator = ActivityIndicator(view: view)
+    private lazy var blurEffectView = BlurEffectView()
     
     private let searchController = UISearchController(searchResultsController: nil)
     
@@ -89,7 +90,6 @@ final class MantraViewController: UICollectionViewController {
     private lazy var sortedInitialMantraData = InitialMantra.sortedData()
     private var coverView: UIView?
     
-    private lazy var blurEffectView = BlurEffectView()
     
     //MARK: - ViewController Lifecycle
     
@@ -133,8 +133,8 @@ final class MantraViewController: UICollectionViewController {
                     self.blurEffectView.updateFrame()
                 }
                 if self.isInitalDataLoading {
-                    guard let splitViewController = self.splitViewController else { return }
-                    self.activityIndicatorView.center = splitViewController.view.center
+                    self.activityIndicator.stopActivityIndicator()
+                    self.activityIndicator.showActivityIndicator()
                 }
             }
         })
@@ -151,7 +151,7 @@ final class MantraViewController: UICollectionViewController {
     }
     
     private func reselectSelectedMantraIfNeeded() {
-        if isPadOrMac {
+        if isPadOrMacIdiom {
             if let selectedMantra = selectedMantra {
                 collectionView.indexPathsForSelectedItems?
                     .forEach { collectionView.deselectItem(at: $0, animated: false) }
@@ -173,7 +173,7 @@ final class MantraViewController: UICollectionViewController {
                 onboardingViewController.delegate = self
                 if isPhone {
                     onboardingViewController.modalPresentationStyle = .fullScreen
-                } else if isPadOrMac {
+                } else if isPadOrMacIdiom {
                     onboardingViewController.modalTransitionStyle = .crossDissolve
                 }
                 present(onboardingViewController, animated: true)
@@ -184,11 +184,7 @@ final class MantraViewController: UICollectionViewController {
     private func checkForInitialDataLoading() {
         if isInitalDataLoading {
             if dataProvider.fetchedMantras.isEmpty {
-                guard let splitViewController = splitViewController else { return }
-                activityIndicatorView.center = splitViewController.view.center
-                activityIndicatorView.hidesWhenStopped = true
-                splitViewController.view.addSubview(activityIndicatorView)
-                activityIndicatorView.startAnimating()
+                activityIndicator.showActivityIndicator()
             }
         }
     }
@@ -230,7 +226,7 @@ final class MantraViewController: UICollectionViewController {
                 barButtonItem.menu = self.createSortingMenu()
             }
         }
-        let readsCountSortingAction = UIAction(title: NSLocalizedString("Readings count", comment: "Menu Item on MantraViewController"),
+        let readsCountSortingAction = UIAction(title: NSLocalizedString("By readings count", comment: "Menu Item on MantraViewController"),
                                                image: UIImage(systemName: "text.book.closed")) { [weak self] action in
             guard let self = self else { return }
             self.isAlphabeticalSorting = false
@@ -259,7 +255,7 @@ final class MantraViewController: UICollectionViewController {
         createLayout()
         collectionView.backgroundColor = .systemGroupedBackground
         collectionView.showsVerticalScrollIndicator = false
-        if isPadOrMac {
+        if isPadOrMacIdiom {
             clearsSelectionOnViewWillAppear = false
         }
     }
@@ -378,6 +374,21 @@ extension MantraViewController {
             return section
         }
         collectionView.collectionViewLayout = layout
+    }
+}
+
+//MARK: - DeepLink from Widget
+
+extension MantraViewController {
+    func goToMantraWith(uuid: UUID) {
+        guard let mantra = displayedMantras.filter({ $0.uuid == uuid }).first else { return }
+        selectedMantra = mantra
+        reselectSelectedMantraIfNeeded()
+        defaults.set(false, forKey: "collapseSecondaryViewController")
+        if let readsCountViewController = delegate as? ReadsCountViewController,
+           let readsCountNavigationController = readsCountViewController.navigationController {
+            splitViewController?.showDetailViewController(readsCountNavigationController, sender: nil)
+        }
     }
 }
 
@@ -513,7 +524,7 @@ extension MantraViewController {
     }
     
     private func showDuplicatingAlert() {
-        let alert = UIAlertController.duplicatingAlert { [weak self] in
+        let alert = UIAlertController.duplicatingAlert(idiom: traitCollection.userInterfaceIdiom) { [weak self] in
             guard let self = self else { return }
             self.handleAddPreloadedMantra()
         } cancelActionHandler: { [weak self] in
@@ -541,7 +552,7 @@ extension MantraViewController {
 extension MantraViewController: DeleteMantraDelegate {
     
     func showDeleteConfirmationAlert(for mantra: Mantra) {
-        let alert = UIAlertController.deleteConfirmationAlert(for: mantra) { [weak self] (mantra) in
+        let alert = UIAlertController.deleteConfirmationAlert(for: mantra, idiom: traitCollection.userInterfaceIdiom) { [weak self] (mantra) in
             guard let self = self else { return }
             if self.selectedMantra == mantra {
                 self.selectedMantra = nil
@@ -585,8 +596,7 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
     private func stopActivityIndicatorForInitialDataLoadingIfNeeded() {
         if isInitalDataLoading {
             if !dataProvider.fetchedMantras.isEmpty {
-                activityIndicatorView.stopAnimating()
-                activityIndicatorView.removeFromSuperview()
+                activityIndicator.stopActivityIndicator()
                 loadFirstMantraForSecondaryView()
                 reselectSelectedMantraIfNeeded()
                 isInitalDataLoading.toggle()
