@@ -14,52 +14,36 @@ struct SmallWidget: View {
     
     @ViewBuilder
     var body: some View {
-        let favoriteArray = Array(entry.widgetModel.favorites.prefix(3))
-        let mantraArray = Array(entry.widgetModel.mantras.prefix(favoriteArray.count == 0 ? 3 : 0))
         
-        ZStack {
-            Color.init(UIColor.systemGroupedBackground)
-                .ignoresSafeArea()
-            
-            if mantraArray.count == 0 && favoriteArray.count == 0 {
-                Image("DefaultImage")
-                    .resizable()
-                    .frame(width: 100, height: 100, alignment: .center)
-            } else {
-                if favoriteArray.count > 0 {
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("FAVORITES")
-                            .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                            .foregroundColor(.green)
-                        VStack(alignment: .leading) {
-                            ForEach(favoriteArray, id: \.self) { favorite in
-                                Text(favorite.title)
-                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                                    .lineLimit(1)
-                                Text(Int(favorite.reads).stringFormattedWithSpaces())
-                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                    .padding()
+        let mantraArray = Array(entry.widgetModel.mantras.prefix(4))
+        let columns: [GridItem] = [GridItem(.flexible()),
+                                   GridItem(.flexible())]
+        
+        GeometryReader { gp in
+            ZStack {
+                Color.init(UIColor.systemGroupedBackground)
+                    .ignoresSafeArea()
+                
+                if mantraArray.count == 0 {
+                    Image(Constants.defaultImage)
+                        .resizable()
+                        .frame(width: 100, height: 100, alignment: .center)
                 } else {
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("MANTRAS")
-                            .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                            .foregroundColor(.blue)
-                        VStack(alignment: .leading) {
-                            ForEach(mantraArray, id: \.self) { mantra in
-                                Text(mantra.title)
-                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                                    .lineLimit(1)
+                    LazyVGrid(columns: columns, alignment: .center, spacing: 7, content: {
+                        ForEach(mantraArray, id: \.self) { mantra in
+                            VStack {
+                                Image(uiImage: ((mantra.image != nil) ?
+                                                    UIImage(data: mantra.image!) :
+                                                    UIImage(named: Constants.defaultImage))!)
+                                    .resizable()
+                                    .frame(width: gp.size.width/3.8, height: gp.size.height/3.8, alignment: .center)
                                 Text(Int(mantra.reads).stringFormattedWithSpaces())
                                     .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
                                     .foregroundColor(.secondary)
                             }
                         }
-                    }
-                    .padding()
+                    })
+                    .padding(.horizontal)
                 }
             }
         }

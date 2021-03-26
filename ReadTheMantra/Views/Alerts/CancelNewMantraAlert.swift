@@ -21,7 +21,7 @@ extension UIAlertController {
                                       style: .default) { _ in
             addPreloadedMantraHandler()
         }
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button"),
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Delete", comment: "Alert Button"),
                                          style: .cancel) { _ in
             cancelActionHandler()
         }

@@ -14,79 +14,38 @@ struct MediumWidget: View {
     
     @ViewBuilder
     var body: some View {
-        let favoriteArray = Array(entry.widgetModel.favorites.prefix(4))
-        let mantraArray = Array(entry.widgetModel.mantras
-                                    .prefix(favoriteArray.count == 0 ? 4
-                                                : ((2-favoriteArray.count) >= 0 ? (2-favoriteArray.count) : 0)))
+        let mantraArray = Array(entry.widgetModel.mantras.prefix(4))
         
         ZStack {
             Color.init(UIColor.systemGroupedBackground)
                 .ignoresSafeArea()
             
-            if mantraArray.count == 0 && favoriteArray.count == 0 {
+            if mantraArray.count == 0 {
                 Image("DefaultImage")
                     .resizable()
                     .frame(width: 100, height: 100, alignment: .center)
             } else {
-                VStack(alignment: .leading, spacing: 9) {
-                    if favoriteArray.count > 0 {
-                        VStack(alignment: .leading, spacing: 9) {
-                            Text("FAVORITES")
-                                .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                                .foregroundColor(.green)
-                            VStack(spacing: 4) {
-                                ForEach(favoriteArray, id: \.self) { favorite in
-                                    Link(destination: URL(string: "\(favorite.id)")!) {
-                                        VStack {
-                                            HStack {
-                                                Text(favorite.title)
-                                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                                                    .lineLimit(1)
-                                                Spacer()
-                                                Text(Int(favorite.reads).stringFormattedWithSpaces())
-                                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                                                    .foregroundColor(.secondary)
-                                            }
-                                            Divider()
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if mantraArray.count > 0 {
-                        VStack(alignment: .leading, spacing: 9) {
-                            if favoriteArray.count > 0 {
-                                Text("OTHER MANTRAS")
+                HStack(spacing: 12) {
+                    ForEach(mantraArray, id: \.self) { mantra in
+                        Link(destination: URL(string: "\(mantra.id)")!) {
+                            VStack {
+                                Image(uiImage: ((mantra.image != nil) ?
+                                                    UIImage(data: mantra.image!) :
+                                                    UIImage(named: Constants.defaultImage))!)
+                                    .resizable()
+                                    .frame(width: 55, height: 55, alignment: .center)
+                                Text(mantra.title)
+                                    .multilineTextAlignment(.center)
                                     .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                                    .foregroundColor(.blue)
-                            } else {
-                                Text("MANTRAS")
-                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                                    .foregroundColor(.blue)
-                            }
-                            VStack(spacing: 4) {
-                                ForEach(mantraArray, id: \.self) { mantra in
-                                    Link(destination: URL(string: "\(mantra.id)")!) {
-                                        VStack {
-                                            HStack {
-                                                Text(mantra.title)
-                                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
-                                                    .lineLimit(1)
-                                                Spacer()
-                                                Text(Int(mantra.reads).stringFormattedWithSpaces())
-                                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
-                                                    .foregroundColor(.secondary)
-                                            }
-                                            Divider()
-                                        }
-                                    }
-                                }
+                                    .lineLimit(2)
+                                Text(Int(mantra.reads).stringFormattedWithSpaces())
+                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
+                                    .foregroundColor(.secondary)
                             }
                         }
                     }
                 }
-                .padding(EdgeInsets(top: 10, leading: 20, bottom: 0, trailing: 20))
+                .padding()
             }
         }
     }

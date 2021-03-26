@@ -21,10 +21,9 @@ struct Provider: TimelineProvider {
     private var widgetItemData: Data = Data()
     
     func placeholder(in context: Context) -> WidgetEntry {
-        let favoritesItem = WidgetModel(overallReads: 100000,
-                                        favorites: [WidgetModel.Item(id: UUID(), title: "Mantra", reads: 40000)],
-                                        mantras: [WidgetModel.Item(id: UUID(), title: "Mantra", reads: 40000)])
-        return WidgetEntry(widgetModel: favoritesItem)
+        let placeholderMantras = Array(repeating: WidgetModel.Item(id: UUID(), title: "Mantra", reads: 40000, image: nil), count: 4)
+        let widgetItem = WidgetModel(mantras: placeholderMantras)
+        return WidgetEntry(widgetModel: widgetItem)
     }
     
     func getSnapshot(in context: Context, completion: @escaping (WidgetEntry) -> ()) {

@@ -1,23 +1,8 @@
-/* Widget Subtitle */
-"OVERALL READINGS" = "ОБЩАЯ НАЧИТКА";
-
-/* Widget Subtitle */
-"FAVORITES" = "ИЗБРАННОЕ";
-
-/* Widget Subtitle */
-"OTHER MANTRAS" = "ОСТАЛЬНЫЕ МАНТРЫ";
-
-/* Widget Subtitle */
-"ADD" = "ДОБАВЬТЕ";
-
-/* Widget Subtitle */
-"YOUR" = "ВАШИ";
-
-/* Widget Subtitle */
-"MANTRAS" = "МАНТРЫ";
-
 /* Widget Title */
 "Mantra Reader" = "Начитай!";
 
 /* Widget Description */
 "Favorites and Your Other Mantras" = "Избранные и другие Ваши мантры";
+
+/* Widget Substring */
+"Current reads: " = "Текущая начитка: ";

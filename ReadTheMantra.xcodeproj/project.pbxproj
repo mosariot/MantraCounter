@@ -62,6 +62,7 @@
 		9FCA5CBF25936F16002E1D25 /* CongratulationsAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CBE25936F16002E1D25 /* CongratulationsAlert.swift */; };
 		9FCA5CCB2593BEC6002E1D25 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9FCA5CC92593BEAC002E1D25 /* Localizable.strings */; };
 		9FCA5CD5259F6938002E1D25 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CD4259F6936002E1D25 /* CoreDataManager.swift */; };
+		9FE827C0260E747600CBDFF2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* Constants.swift */; };
 		9FE855A5258E2B8000771BA1 /* WidgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855A4258E2B8000771BA1 /* WidgetModel.swift */; };
 		9FE855B2258E4F9A00771BA1 /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */; };
 		9FE855BB258E51BF00771BA1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE855BA258E51BF00771BA1 /* WidgetKit.framework */; };
@@ -507,6 +508,7 @@
 				9F2B1EEE26079D3B00D999CB /* MediumWidgetView.swift in Sources */,
 				9F2B1EEA26079CF100D999CB /* SmallWidgetView.swift in Sources */,
 				9FCA5C6625907124002E1D25 /* CustomDynamicFontWeight.swift in Sources */,
+				9FE827C0260E747600CBDFF2 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

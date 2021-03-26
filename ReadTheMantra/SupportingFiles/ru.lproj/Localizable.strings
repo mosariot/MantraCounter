@@ -162,6 +162,9 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 /* Alert button */
 "Save" = "Сохранить";
 
+/* Alert button */
+"Delete" = "Удалить";
+
 /* Alert Title for add missing title */
 "Please add some title to mantra" = "Пожалуйста, добавьте название мантры";
 

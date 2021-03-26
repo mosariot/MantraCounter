@@ -1,20 +1,8 @@
-/* Widget Subtitle */
-"OVERALL READINGS" = "OVERALL READINGS";
-
-/* Widget Subtitle */
-"FAVORITES" = "FAVORITES";
-
-/* Widget Subtitle */
-"ADD" = "ADD";
-
-/* Widget Subtitle */
-"YOUR" = "YOUR";
-
-/* Widget Subtitle */
-"MANTRAS" = "MANTRAS";
-
 /* Widget Title */
 "Mantra Reader" = "Mantra Reader";
 
 /* Widget Description */
 "Favorites and Your Other Mantras" = "Favorites and Your Other Mantras";
+
+/* Widget Substring */
+"Current reads: " = "Current reads: ";

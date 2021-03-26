@@ -20,15 +20,10 @@ struct WidgetManager {
     }
     
     private func getWidgetModel(for allMantras: [Mantra]) -> WidgetModel {
-        let overallReads = allMantras.map({ $0.reads }).reduce(0, +)
+        let mantras = Array(allMantras.sorted{ $0.isFavorite && !$1.isFavorite })
+        let mantrasItems = mantras.map({ WidgetModel.Item(id: $0.uuid ?? UUID(), title: $0.title ?? "", reads: $0.reads, image: $0.imageForTableView) })
         
-        let mantras = Array(allMantras.filter{ !$0.isFavorite })
-        let favoritesMantras = Array(allMantras.filter{ $0.isFavorite })
-        
-        let mantrasItems = mantras.map({ WidgetModel.Item(id: $0.uuid ?? UUID(), title: $0.title ?? "", reads: $0.reads) })
-        let favoritesMantrasItems = favoritesMantras.map({ WidgetModel.Item(id: $0.uuid ?? UUID(), title: $0.title ?? "", reads: $0.reads) })
-        
-        let widgetModel = WidgetModel(overallReads: overallReads, favorites: favoritesMantrasItems, mantras: mantrasItems)
+        let widgetModel = WidgetModel(mantras: mantrasItems)
         return widgetModel
     }
     

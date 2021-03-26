@@ -10,13 +10,12 @@ import Foundation
 
 struct WidgetModel: Identifiable, Codable {
     var id = UUID()
-    let overallReads: Int32
-    let favorites: [Item]
     let mantras: [Item]
     
     struct Item: Identifiable, Codable, Hashable {
         let id: UUID
         let title: String
         let reads: Int32
+        let image: Data?
     }
 }

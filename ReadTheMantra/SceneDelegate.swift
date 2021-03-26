@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         else { fatalError() }
         
         defaults.set(true, forKey: "collapseSecondaryViewController")
-                
+        
         splitViewController.delegate = self
         splitViewController.view.tintColor = Constants.accentColor
         splitViewController.preferredDisplayMode = .oneBesideSecondary
