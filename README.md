@@ -18,6 +18,7 @@ For this reason, application doesn't include the mantra texts themselves (except
 We wish you deep awarenesses and spiritual growth!
 
 / RUS /
+
 Повторение мантр оказывает благоприятное влияние на человека во многих сферах его жизни. Этот процесс способен убирать страдания на ментальном и физическом уровне и прояснять сознание.
 Начитывайте мантры и ведите учет достигнутого уровня.
 

@@ -31,12 +31,12 @@ struct SmallWidget: View {
                 } else {
                     LazyVGrid(columns: columns, alignment: .center, spacing: 7, content: {
                         ForEach(mantraArray, id: \.self) { mantra in
-                            VStack {
+                            VStack(spacing: 2) {
                                 Image(uiImage: ((mantra.image != nil) ?
                                                     UIImage(data: mantra.image!) :
                                                     UIImage(named: Constants.defaultImage))!)
                                     .resizable()
-                                    .frame(width: gp.size.width/3.8, height: gp.size.height/3.8, alignment: .center)
+                                    .frame(width: gp.size.width/3.4, height: gp.size.height/3.4, alignment: .center)
                                 Text(Int(mantra.reads).stringFormattedWithSpaces())
                                     .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
                                     .foregroundColor(.secondary)

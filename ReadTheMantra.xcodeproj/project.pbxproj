@@ -28,7 +28,6 @@
 		9F5FE68B24E7141400D0475E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F5FE68924E7141400D0475E /* Main.storyboard */; };
 		9F5FE68E24E7141400D0475E /* ReadTheMantra.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE68C24E7141400D0475E /* ReadTheMantra.xcdatamodeld */; };
 		9F5FE69024E7141700D0475E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F5FE68F24E7141700D0475E /* Assets.xcassets */; };
-		9F5FE69324E7141700D0475E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F5FE69124E7141700D0475E /* LaunchScreen.storyboard */; };
 		9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE69A24E717A200D0475E /* DetailsViewController.swift */; };
 		9F5FE6A524E7183E00D0475E /* InitialMantraData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */; };
 		9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6A424E7183E00D0475E /* DetailsMode.swift */; };
@@ -120,7 +119,6 @@
 		9F5FE68A24E7141400D0475E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9F5FE68D24E7141400D0475E /* ReadTheMantra.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ReadTheMantra.xcdatamodel; sourceTree = "<group>"; };
 		9F5FE68F24E7141700D0475E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		9F5FE69224E7141700D0475E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9F5FE69424E7141700D0475E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F5FE69A24E717A200D0475E /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialMantraData.swift; sourceTree = "<group>"; };
@@ -253,7 +251,6 @@
 			isa = PBXGroup;
 			children = (
 				9F5FE68924E7141400D0475E /* Main.storyboard */,
-				9F5FE69124E7141700D0475E /* LaunchScreen.storyboard */,
 				9F0ABF3725EA22E400742A36 /* MantraCell.swift */,
 				9FC9F49325CD1FF400B4D2B5 /* HeaderSupplementaryView.swift */,
 				9F6503D7256651670055ED8F /* ConfettiView.swift */,
@@ -426,7 +423,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F5FE69324E7141700D0475E /* LaunchScreen.storyboard in Resources */,
 				9F5FE6AB24E78EE400D0475E /* Localizable.strings in Resources */,
 				9F5FE69024E7141700D0475E /* Assets.xcassets in Resources */,
 				9F5FE68B24E7141400D0475E /* Main.storyboard in Resources */,
@@ -529,14 +525,6 @@
 				9F5FE68A24E7141400D0475E /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		9F5FE69124E7141700D0475E /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9F5FE69224E7141700D0475E /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 		9F5FE6AD24E78EE400D0475E /* Localizable.strings */ = {
@@ -693,7 +681,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -715,7 +703,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -737,7 +725,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = FavoritesWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -762,7 +750,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = FavoritesWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

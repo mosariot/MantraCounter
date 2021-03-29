@@ -33,7 +33,7 @@ struct LargeWidget: View {
                                             .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                             .lineLimit(1)
                                         HStack(spacing: 0) {
-                                            Text("Current reads: ")
+                                            Text("Current readings: ")
                                                 .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                                 .foregroundColor(.secondary)
                                             Text(Int(mantra.reads).stringFormattedWithSpaces())

@@ -66,8 +66,18 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>Main</string>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIImageName</key>
+		<string></string>
+		<key>UIColorName</key>
+		<string></string>
+		<key>UINavigationBar</key>
+		<dict>
+			<key>UIImageName</key>
+			<string>LaunchNavBar</string>
+		</dict>
+	</dict>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
