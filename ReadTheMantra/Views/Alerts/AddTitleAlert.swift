@@ -15,7 +15,7 @@ extension UIAlertController {
                                                                comment: "Alert Title for add missing title"),
                                       message: nil,
                                       preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let okAction = UIAlertAction(title: "OK", style: .default)
         alert.addAction(okAction)
         alert.view.tintColor = Constants.accentColor ?? .systemOrange
         return alert

@@ -147,17 +147,17 @@ We wish you deep awarenesses and spiritual growth!</string>
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="k9h-cR-IWt" userLabel="Main Stack View">
-                                        <rect key="frame" x="0.0" y="20" width="390" height="472"/>
+                                        <rect key="frame" x="0.0" y="20" width="390" height="512"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KXK-gN-mOv" customClass="SetPhotoButton" customModule="MantraReader" customModuleProvider="target">
-                                                <rect key="frame" x="115" y="0.0" width="160" height="160"/>
+                                                <rect key="frame" x="95" y="0.0" width="200" height="200"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="KXK-gN-mOv" secondAttribute="height" id="BA3-i3-E3E"/>
-                                                    <constraint firstAttribute="height" constant="160" id="kZH-dg-36F"/>
+                                                    <constraint firstAttribute="height" constant="200" id="kZH-dg-36F"/>
                                                 </constraints>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="a1H-9L-kHe" userLabel="Title Stack View">
-                                                <rect key="frame" x="15" y="175" width="360" height="88.333333333333314"/>
+                                                <rect key="frame" x="15" y="215.00000000000003" width="360" height="88.333333333333343"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGu-qb-SNX" userLabel="Title Label">
                                                         <rect key="frame" x="20" y="14.999999999999998" width="320" height="20.333333333333329"/>
@@ -166,7 +166,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Title" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YbO-xG-hna">
-                                                        <rect key="frame" x="20" y="35.333333333333343" width="320" height="43"/>
+                                                        <rect key="frame" x="20" y="35.333333333333314" width="320" height="43"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="43" id="klb-EA-vbT"/>
                                                         </constraints>
@@ -183,7 +183,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                 <edgeInsets key="layoutMargins" top="15" left="0.0" bottom="10" right="0.0"/>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xuB-nR-Oiy" userLabel="Mantra Text Stack View">
-                                                <rect key="frame" x="15" y="278.33333333333331" width="360" height="89.333333333333314"/>
+                                                <rect key="frame" x="15" y="318.33333333333331" width="360" height="89.333333333333314"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mantra text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxE-9v-7MR">
                                                         <rect key="frame" x="20" y="14.999999999999998" width="320" height="20.333333333333329"/>
@@ -208,7 +208,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                 <edgeInsets key="layoutMargins" top="15" left="0.0" bottom="10" right="0.0"/>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="MIL-18-J7h" userLabel="Description Stack View">
-                                                <rect key="frame" x="15" y="382.66666666666669" width="360" height="89.333333333333314"/>
+                                                <rect key="frame" x="15" y="422.66666666666669" width="360" height="89.333333333333314"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oer-C2-YaE" userLabel="Description Label">
                                                         <rect key="frame" x="20" y="14.999999999999998" width="320" height="20.333333333333329"/>

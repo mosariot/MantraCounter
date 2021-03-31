@@ -27,20 +27,20 @@ struct Provider: TimelineProvider {
     }
     
     func getSnapshot(in context: Context, completion: @escaping (WidgetEntry) -> ()) {
-        guard let favoritesItem = try? JSONDecoder().decode(WidgetModel.self, from: widgetItemData) else {
+        guard let widgetItem = try? JSONDecoder().decode(WidgetModel.self, from: widgetItemData) else {
             print("Could not decode data")
             return
         }
-        let entry = WidgetEntry(widgetModel: favoritesItem)
+        let entry = WidgetEntry(widgetModel: widgetItem)
         completion(entry)
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetEntry>) -> ()) {
-        guard let favoritesItem = try? JSONDecoder().decode(WidgetModel.self, from: widgetItemData) else {
+        guard let widgetItem = try? JSONDecoder().decode(WidgetModel.self, from: widgetItemData) else {
             print("Could not decode data")
             return
         }
-        let entry = WidgetEntry(widgetModel: favoritesItem)
+        let entry = WidgetEntry(widgetModel: widgetItem)
         let timeline = Timeline(entries: [entry], policy: .never)
         completion(timeline)
     }

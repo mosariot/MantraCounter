@@ -273,15 +273,21 @@ extension DetailsViewController {
     
     private func cancelButtonPressed() {
         guard let title = titleTextField.text else { return }
-        let alert = UIAlertController.cancelNewMantraAlert(idiom: traitCollection.userInterfaceIdiom,
-                                                           addPreloadedMantraHandler: { [weak self] in
-            guard let self = self else { return }
-            self.handleAddNewMantra(for: title)
-        }, cancelActionHandler: { [weak self] in
-            guard let self = self else { return }
+        if titleTextField.text == "" && mantraTextTextView.text == "" && detailsTextView.text == "" && mantraImageData == nil {
             self.context.delete(self.mantra)
             self.dismiss(animated: true, completion: nil)
-        })
+            return
+        }
+        let alert = UIAlertController.cancelOrCloseMantraAlert(
+            idiom: traitCollection.userInterfaceIdiom,
+            saveMantraHandler: { [weak self] in
+                guard let self = self else { return }
+                self.handleAddNewMantra(for: title)
+            }, dontSaveActionHandler: { [weak self] in
+                guard let self = self else { return }
+                self.context.delete(self.mantra)
+                self.dismiss(animated: true, completion: nil)
+            })
         present(alert, animated: true, completion: nil)
         
     }
@@ -302,7 +308,30 @@ extension DetailsViewController {
     }
     
     private func closeButtonPressed() {
-        dismiss(animated: true, completion: nil)
+        if titleTextField.text != mantra.title
+            || mantraTextTextView.text != mantra.text ?? ""
+            || detailsTextView.text != mantra.details
+            || mantraImageData != mantra.image {
+            guard let title = titleTextField.text else { return }
+            let alert = UIAlertController.cancelOrCloseMantraAlert(
+                idiom: traitCollection.userInterfaceIdiom,
+                saveMantraHandler: { [weak self] in
+                    guard let self = self else { return }
+                    self.dataProvider.processMantra(mantra: self.mantra,
+                                                    title: title,
+                                                    text: self.mantraTextTextView.text,
+                                                    details: self.detailsTextView.text,
+                                                    imageData: self.mantraImageData,
+                                                    imageForTableViewData: self.mantraImageForTableViewData)
+                    self.dismiss(animated: true, completion: nil)
+                }, dontSaveActionHandler: { [weak self] in
+                    guard let self = self else { return }
+                    self.dismiss(animated: true, completion: nil)
+                })
+            present(alert, animated: true, completion: nil)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
     }
     
     private func isMantraDuplicating(for title: String) -> Bool {

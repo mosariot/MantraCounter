@@ -37,7 +37,7 @@ struct MediumWidget: View {
                                 Text(mantra.title)
                                     .multilineTextAlignment(.center)
                                     .lineLimit(2)
-                                    .frame(height: 35)
+                                    .frame(height: 33)
                                     .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                 Text(Int(mantra.reads).stringFormattedWithSpaces())
                                     .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))

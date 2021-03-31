@@ -29,9 +29,9 @@ struct SmallWidget: View {
                         .resizable()
                         .frame(width: 100, height: 100, alignment: .center)
                 } else {
-                    LazyVGrid(columns: columns, alignment: .center, spacing: 7, content: {
+                    LazyVGrid(columns: columns, alignment: .center, spacing: 6, content: {
                         ForEach(mantraArray, id: \.self) { mantra in
-                            VStack(spacing: 2) {
+                            VStack(spacing: 4) {
                                 Image(uiImage: ((mantra.image != nil) ?
                                                     UIImage(data: mantra.image!) :
                                                     UIImage(named: Constants.defaultImage))!)

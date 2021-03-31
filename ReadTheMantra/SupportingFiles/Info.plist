@@ -68,15 +68,13 @@
 	</array>
 	<key>UILaunchScreen</key>
 	<dict>
-		<key>UIImageName</key>
-		<string></string>
-		<key>UIColorName</key>
-		<string></string>
 		<key>UINavigationBar</key>
 		<dict>
 			<key>UIImageName</key>
-			<string>LaunchNavBar</string>
+			<string></string>
 		</dict>
+		<key>UIColorName</key>
+		<string></string>
 	</dict>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>

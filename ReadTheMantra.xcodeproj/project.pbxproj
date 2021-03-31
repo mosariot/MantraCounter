@@ -11,7 +11,6 @@
 		9F12CD19258112EE0089AFD8 /* MantraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F12CD18258112EE0089AFD8 /* MantraViewController.swift */; };
 		9F2715B025B83D92002A98FD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F2715AF25B83D92002A98FD /* CloudKit.framework */; };
 		9F293E3B2575503000B7B1C7 /* SetPhotoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */; };
-		9F2B1EBB2607784500D999CB /* CancelNewMantraAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1EBA2607784500D999CB /* CancelNewMantraAlert.swift */; };
 		9F2B1EC126077AF200D999CB /* NoImageAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1EC026077AF200D999CB /* NoImageAlert.swift */; };
 		9F2B1EC826077CC300D999CB /* AddTitleAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CAA259363E2002E1D25 /* AddTitleAlert.swift */; };
 		9F2B1EDD260791A000D999CB /* AcitivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1ED7260790F500D999CB /* AcitivityIndicator.swift */; };
@@ -62,6 +61,7 @@
 		9FCA5CCB2593BEC6002E1D25 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9FCA5CC92593BEAC002E1D25 /* Localizable.strings */; };
 		9FCA5CD5259F6938002E1D25 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CD4259F6936002E1D25 /* CoreDataManager.swift */; };
 		9FE827C0260E747600CBDFF2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* Constants.swift */; };
+		9FE827D72613C0AC00CBDFF2 /* CancelOrCloseMantraAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1EBA2607784500D999CB /* CancelOrCloseMantraAlert.swift */; };
 		9FE855A5258E2B8000771BA1 /* WidgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855A4258E2B8000771BA1 /* WidgetModel.swift */; };
 		9FE855B2258E4F9A00771BA1 /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */; };
 		9FE855BB258E51BF00771BA1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE855BA258E51BF00771BA1 /* WidgetKit.framework */; };
@@ -101,7 +101,7 @@
 		9F12CD18258112EE0089AFD8 /* MantraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraViewController.swift; sourceTree = "<group>"; };
 		9F2715AF25B83D92002A98FD /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPhotoButton.swift; sourceTree = "<group>"; };
-		9F2B1EBA2607784500D999CB /* CancelNewMantraAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelNewMantraAlert.swift; sourceTree = "<group>"; };
+		9F2B1EBA2607784500D999CB /* CancelOrCloseMantraAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOrCloseMantraAlert.swift; sourceTree = "<group>"; };
 		9F2B1EC026077AF200D999CB /* NoImageAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoImageAlert.swift; sourceTree = "<group>"; };
 		9F2B1ED7260790F500D999CB /* AcitivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcitivityIndicator.swift; sourceTree = "<group>"; };
 		9F2B1EE226079C4300D999CB /* SmallWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetView.swift; sourceTree = "<group>"; };
@@ -260,6 +260,7 @@
 				9F3B627425781A6F00B4F5E4 /* AdjustReadsButton.swift */,
 				9F3B62952578DAD200B4F5E4 /* TextViewWithPlaceholder.swift */,
 				9FC0B81425D9828100EDA40E /* BlurEffectView.swift */,
+				9F2B1ED7260790F500D999CB /* AcitivityIndicator.swift */,
 				9FCA5C8F2593496B002E1D25 /* Alerts */,
 			);
 			path = Views;
@@ -299,14 +300,13 @@
 			children = (
 				9FCA5C8B259347A5002E1D25 /* DeleteConfirmationAlert.swift */,
 				9FCA5C92259349EC002E1D25 /* DuplicatingAlert.swift */,
-				9F2B1EBA2607784500D999CB /* CancelNewMantraAlert.swift */,
+				9F2B1EBA2607784500D999CB /* CancelOrCloseMantraAlert.swift */,
 				9FCA5CAA259363E2002E1D25 /* AddTitleAlert.swift */,
 				9F2B1EC026077AF200D999CB /* NoImageAlert.swift */,
 				9FCA5CB82593672D002E1D25 /* UpdatingAlert.swift */,
 				9FFF85AF25EEAEB200131AA7 /* UndoAlert.swift */,
 				9FCA5CBE25936F16002E1D25 /* CongratulationsAlert.swift */,
 				9FC3971325B143C8002B1EE0 /* FirstSearchOnTheInternetAlert.swift */,
-				9F2B1ED7260790F500D999CB /* AcitivityIndicator.swift */,
 			);
 			path = Alerts;
 			sourceTree = "<group>";
@@ -483,11 +483,11 @@
 				9F0ABF3825EA22E400742A36 /* MantraCell.swift in Sources */,
 				9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */,
 				9F12CD19258112EE0089AFD8 /* MantraViewController.swift in Sources */,
-				9F2B1EBB2607784500D999CB /* CancelNewMantraAlert.swift in Sources */,
 				9F75828525821EED00695ED7 /* RoundedStackView.swift in Sources */,
 				9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */,
 				9FC0B81525D9828100EDA40E /* BlurEffectView.swift in Sources */,
 				9F3B1C032538F50200BEE838 /* RoundedSystemFont.swift in Sources */,
+				9FE827D72613C0AC00CBDFF2 /* CancelOrCloseMantraAlert.swift in Sources */,
 				9F7EAC1C25B9360400AEC901 /* NetworkMonitor.swift in Sources */,
 				9F91804725BB48F20016FEB6 /* ModelDetection.swift in Sources */,
 			);
@@ -681,7 +681,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -703,7 +703,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -725,7 +725,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = FavoritesWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -750,7 +750,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = FavoritesWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

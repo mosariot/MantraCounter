@@ -21,7 +21,7 @@ extension UIAlertController {
             okActionHandler()
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("No", comment: "Alert Button on ReadsCountViewController"),
-                                         style: .cancel, handler: nil)
+                                         style: .cancel)
         alert.addAction(cancelAction)
         alert.addAction(okAction)
         alert.view.tintColor = Constants.accentColor ?? .systemOrange
