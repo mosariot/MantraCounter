@@ -2,8 +2,8 @@
 //  AcitivityIndicatorView.swift
 //  ReadTheMantra
 //
-//  Created by Александр Воробьев on 21.03.2021.
-//  Copyright © 2021 Александр Воробьев. All rights reserved.
+//  Created by Alex Vorobiev on 21.03.2021.
+//  Copyright © 2021 Alex Vorobiev. All rights reserved.
 //
 
 import UIKit
@@ -21,9 +21,9 @@ struct ActivityIndicator {
         activityIndicatorView.center = CGPoint(x: self.view.frame.size.width / 2.0, y: (self.view.frame.size.height) / 2.0)
         loadingTextLabel.textColor = .secondaryLabel
         loadingTextLabel.text = NSLocalizedString("LOADING", comment: "Loading from iCloud")
-        loadingTextLabel.font = UIFont.preferredFont(forTextStyle: .callout)
+        loadingTextLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
         loadingTextLabel.sizeToFit()
-        loadingTextLabel.center = CGPoint(x: activityIndicatorView.center.x, y: activityIndicatorView.center.y + 30)
+        loadingTextLabel.center = CGPoint(x: activityIndicatorView.center.x, y: activityIndicatorView.center.y + 35)
         viewForActivityIndicator.addSubview(loadingTextLabel)
         activityIndicatorView.hidesWhenStopped = true
         activityIndicatorView.style = .large
