@@ -193,7 +193,7 @@ final class ReadsCountViewController: UIViewController {
     
     private func showUpdatingAlert(updatingType: UpdatingType) {
         guard let mantra = mantra else { return }
-        let alert = UIAlertController.updatingAlert(mantra: mantra, updatingType: updatingType) { [weak self] (value) in
+        let alert = UIAlertController.updatingAlert(mantra: mantra, updatingType: updatingType, delegate: self) { [weak self] (value) in
             guard let self = self else { return }
             self.handleAlertPositiveAction(forValue: value, updatingType: updatingType)
         }
@@ -270,10 +270,21 @@ final class ReadsCountViewController: UIViewController {
     }
 }
 
-//MARK: - MantraSelectionDelegate Delegate
+//MARK: - MantraSelection Delegate
 
 extension ReadsCountViewController: MantraSelectionDelegate {
     func mantraSelected(_ newMantra: Mantra?) {
         mantra = newMantra
+    }
+}
+
+//MARK: - TextField Delegate
+
+extension ReadsCountViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) else {
+            return false
+        }
+        return true
     }
 }

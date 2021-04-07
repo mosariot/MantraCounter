@@ -273,7 +273,10 @@ extension DetailsViewController {
     
     private func cancelButtonPressed() {
         guard let title = titleTextField.text else { return }
-        if titleTextField.text == "" && mantraTextTextView.text == "" && detailsTextView.text == "" && mantraImageData == nil {
+        if titleTextField.text?.trimmingCharacters(in: .whitespaces) == ""
+            && mantraTextTextView.text == ""
+            && detailsTextView.text == ""
+            && mantraImageData == nil {
             self.context.delete(self.mantra)
             self.dismiss(animated: true, completion: nil)
             return
@@ -317,6 +320,11 @@ extension DetailsViewController {
                 idiom: traitCollection.userInterfaceIdiom,
                 saveMantraHandler: { [weak self] in
                     guard let self = self else { return }
+                    guard self.titleTextField.text?.trimmingCharacters(in: .whitespaces) != "" else {
+                        let alert = UIAlertController.addTitleAlert()
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    }
                     self.dataProvider.processMantra(mantra: self.mantra,
                                                     title: title,
                                                     text: self.mantraTextTextView.text,
@@ -348,7 +356,7 @@ extension DetailsViewController {
     }
     
     private func handleAddNewMantra(for title: String) {
-        guard titleTextField.text != "" else {
+        guard titleTextField.text?.trimmingCharacters(in: .whitespaces) != "" else {
             let alert = UIAlertController.addTitleAlert()
             present(alert, animated: true, completion: nil)
             return
@@ -436,7 +444,7 @@ extension DetailsViewController {
 extension DetailsViewController: UITextFieldDelegate {
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        navigationItem.rightBarButtonItem?.isEnabled = (textField.text != "")
+        navigationItem.rightBarButtonItem?.isEnabled = (textField.text?.trimmingCharacters(in: .whitespaces) != "")
     }
 }
 

@@ -12,6 +12,7 @@ extension UIAlertController {
     
     static func updatingAlert(mantra: Mantra,
                               updatingType: UpdatingType,
+                              delegate: UITextFieldDelegate,
                               positiveActionHanlder: @escaping (Int32) -> ()) -> UIAlertController {
         
         func isValidUpdatingNumber(text: String?, updatingType: UpdatingType) -> Bool {
@@ -58,6 +59,7 @@ extension UIAlertController {
             alertTextField.placeholder = NSLocalizedString("Enter number", comment: "Alert Placehonder on ReadsCountViewController")
             alertTextField.keyboardType = .numberPad
             alertTextField.clearButtonMode = .always
+            alertTextField.delegate = delegate
             positiveAction.isEnabled = false
             NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: alertTextField, queue: .main) { _ in
                 if isValidUpdatingNumber(text: alertTextField.text, updatingType: updatingType) {
