@@ -41,6 +41,7 @@ class MantraCell: UICollectionViewListCell {
             UIImage(named: Constants.defaultImage)?.resize(
                 to: CGSize(width: Constants.rowHeight,
                            height: Constants.rowHeight))
+        configuration.imageProperties.maximumSize = CGSize(width: Constants.rowHeight, height: Constants.rowHeight)
         
         // Background Configuration
         var backgroundConfig = UIBackgroundConfiguration.listGroupedCell().updated(for: state)

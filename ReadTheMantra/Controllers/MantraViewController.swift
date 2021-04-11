@@ -102,7 +102,7 @@ final class MantraViewController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if isColdStart {
-            applySnapshot(animatingDifferences: false, withReloading: false)
+            applySnapshot(animatingDifferences: false)
             isColdStart.toggle()
         }
         navigationItem.backBarButtonItem = UIBarButtonItem(
@@ -260,20 +260,6 @@ final class MantraViewController: UICollectionViewController {
         collectionView.isEditing = editing
         reselectSelectedMantraIfNeeded()
     }
-    
-    
-    //MARK: - showPreloadedMantraVC
-    
-    private func showPreloadedMantraVC() {
-        let preloadedMantraController = PreloadedMantraController()
-        preloadedMantraController.mantraTitles = dataProvider.fetchedMantras.compactMap({ $0.title })
-        let navigationController = UINavigationController(rootViewController: preloadedMantraController)
-        present(navigationController, animated: true)
-    }
-    
-    
-    
-    
 }
 
 //MARK: - Home Screen Quick Actions Handling
@@ -327,7 +313,7 @@ extension MantraViewController {
         return dataSource
     }
     
-    private func applySnapshot(animatingDifferences: Bool = true, withReloading: Bool = false) {
+    private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         if !favoritesSectionMantras.isEmpty {
             snapshot.appendSections([.favorites])
@@ -342,10 +328,6 @@ extension MantraViewController {
             snapshot.appendSections([.other])
             snapshot.appendItems(mainSectionMantras, toSection: .other)
         }
-        
-        if withReloading {
-            snapshot.reloadItems(snapshot.itemIdentifiers)
-        }
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
@@ -356,32 +338,53 @@ extension MantraViewController {
     
     private func createLayout() {
         
-        let layout = UICollectionViewCompositionalLayout { (_, layoutEnvironment) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .fractionalHeight(1.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            let spacing: CGFloat = 5
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(CGFloat(Constants.rowHeight)))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                           subitem: item,
-                                                           count: 1)
-            group.interItemSpacing = .fixed(spacing)
-            let sideSpacing: CGFloat = 10
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0,
-                                                            leading: sideSpacing,
-                                                            bottom: 10,
-                                                            trailing: sideSpacing)
-            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                    heightDimension: .absolute(44))
-            let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
-                                                                     elementKind: "Header",
-                                                                     alignment: .top)
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+            configuration.headerMode = .supplementary
+            
+            // Swipe Actions
+            configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
+                guard let self = self else { return nil }
+                guard let mantra = self.dataSource.itemIdentifier(for: indexPath) else { return nil }
+                
+                let title = mantra.isFavorite ?
+                    NSLocalizedString("Unfavorite", comment: "Menu Action on MantraViewController") :
+                    NSLocalizedString("Favorite", comment: "Menu Action on MantraViewController")
+                let image = mantra.isFavorite ? UIImage(systemName: "star.slash") : UIImage(systemName: "star")
+                
+                let favorite = UIContextualAction(style: .normal, title: title) { (action, view, completion) in
+                    mantra.isFavorite.toggle()
+                    completion(true)
+                }
+                favorite.image = image
+                favorite.backgroundColor = .systemYellow
+                
+                let delete = UIContextualAction(
+                    style: .destructive,
+                    title: NSLocalizedString("Delete", comment: "Menu Action on MantraViewController")) { (action, view, completion) in
+                    self.showDeleteConfirmationAlert(for: mantra)
+                    completion(true)
+                }
+                delete.image = UIImage(systemName: "trash")
+                return UISwipeActionsConfiguration(actions: [delete, favorite])
+            }
+            
+            // Header
+            let headerSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(50))
+            let header = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: "Header",
+                alignment: .top)
+            
+            // Section
+            let section = NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
             section.boundarySupplementaryItems = [header]
-            section.interGroupSpacing = spacing
+            
             return section
         }
+        
         collectionView.collectionViewLayout = layout
     }
 }
@@ -423,7 +426,9 @@ extension MantraViewController {
         let image = mantra.isFavorite ? UIImage(systemName: "star.slash") : UIImage(systemName: "star")
         
         let favorite = UIAction(title: title, image: image) { _ in
-            mantra.isFavorite.toggle()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.7) {
+                mantra.isFavorite.toggle()
+            }
         }
         
         let delete = UIAction(title: NSLocalizedString("Delete", comment: "Menu Action on MantraViewController"),
@@ -442,6 +447,13 @@ extension MantraViewController {
 //MARK: - Add New Mantra Stack
 
 extension MantraViewController {
+    
+    private func showPreloadedMantraVC() {
+        let preloadedMantraController = PreloadedMantraController()
+        preloadedMantraController.mantraTitles = dataProvider.fetchedMantras.compactMap({ $0.title })
+        let navigationController = UINavigationController(rootViewController: preloadedMantraController)
+        present(navigationController, animated: true)
+    }
     
     private func showNewMantraVC() {
         let mantra = Mantra(context: context)
@@ -484,7 +496,8 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         handleSearchControllerResultsIfNeeded()
-        applySnapshot(withReloading: true)
+        
+        applySnapshot()
         reselectSelectedMantraIfNeeded()
         updateSecondaryView()
         
