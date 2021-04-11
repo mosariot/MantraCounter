@@ -449,8 +449,7 @@ extension MantraViewController {
 extension MantraViewController {
     
     private func showPreloadedMantraVC() {
-        let preloadedMantraController = PreloadedMantraController()
-        preloadedMantraController.mantraTitles = dataProvider.fetchedMantras.compactMap({ $0.title })
+        let preloadedMantraController = PreloadedMantraController(mantraTitles: dataProvider.fetchedMantras.compactMap({ $0.title }))
         let navigationController = UINavigationController(rootViewController: preloadedMantraController)
         present(navigationController, animated: true)
     }

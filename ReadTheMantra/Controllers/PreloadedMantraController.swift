@@ -10,8 +10,6 @@ import UIKit
 
 final class PreloadedMantraController: UIViewController {
     
-    var mantraTitles: [String] = []
-    
     private enum Section {
         case main
     }
@@ -35,11 +33,25 @@ final class PreloadedMantraController: UIViewController {
     
     private let dataProvider = MantraProvider()
     
+    private var mantraTitles: [String] = []
     private var preloadedMantras: [PreloadedMantra] = []
     
     private lazy var sortedInitialMantraData = InitialMantra.sortedData()
     private var selectedMantrasTitles: [String] {
         preloadedMantras.filter{ $0.isSelected }.map{ $0.title }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    convenience init(mantraTitles: [String]) {
+        self.init()
+        self.mantraTitles = mantraTitles
     }
     
     override func viewDidLoad() {
