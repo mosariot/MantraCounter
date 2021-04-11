@@ -21,9 +21,10 @@ extension UIAlertController {
             }
         }
         
-        let alert = UIAlertController(title: NSLocalizedString("Congratulations!", comment: "Alert Title on ReadsCountViewController"),
-                                      message: congratulationsAlertMessage(for: level),
-                                      preferredStyle: .alert)
+        let alert = UIAlertController(
+            title: NSLocalizedString("Congratulations!", comment: "Alert Title on ReadsCountViewController"),
+            message: congratulationsAlertMessage(for: level),
+            preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
         alert.addAction(okAction)
         alert.view.tintColor = Constants.accentColor ?? .systemOrange

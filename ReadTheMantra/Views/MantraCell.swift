@@ -38,8 +38,9 @@ class MantraCell: UICollectionViewListCell {
         configuration.textToSecondaryTextVerticalPadding = 4
         configuration.image = (mantra.imageForTableView != nil) ?
             UIImage(data: mantra.imageForTableView!) :
-            UIImage(named: Constants.defaultImage)?.resize(to: CGSize(width: Constants.rowHeight,
-                                                                      height: Constants.rowHeight))
+            UIImage(named: Constants.defaultImage)?.resize(
+                to: CGSize(width: Constants.rowHeight,
+                           height: Constants.rowHeight))
         
         // Background Configuration
         var backgroundConfig = UIBackgroundConfiguration.listGroupedCell().updated(for: state)
@@ -67,11 +68,12 @@ class MantraCell: UICollectionViewListCell {
         let disclosureIndicatorAccessory = UICellAccessory.disclosureIndicator()
         
         if state.isEditing {
-            let favoriteAction = UIAction(image: UIImage(systemName: mantra.isFavorite ? "star.slash" : "star")?
-                                            .withTintColor((state.isHighlighted || state.isSelected) ? .white : Constants.accentColor ?? .systemOrange,
-                                                           renderingMode: .alwaysOriginal),
-                                          handler: { _ in
-                                            mantra.isFavorite.toggle()})
+            let favoriteAction = UIAction(
+                image: UIImage(systemName: mantra.isFavorite ? "star.slash" : "star")?
+                    .withTintColor((state.isHighlighted || state.isSelected) ? .white : Constants.accentColor ?? .systemOrange,
+                                   renderingMode: .alwaysOriginal),
+                handler: { _ in
+                    mantra.isFavorite.toggle()})
             let favoriteButton = UIButton(primaryAction: favoriteAction)
             let favoriteAccessoryConfiguration = UICellAccessory.CustomViewConfiguration(customView: favoriteButton,
                                                                                          placement: .leading(displayed: .whenEditing))

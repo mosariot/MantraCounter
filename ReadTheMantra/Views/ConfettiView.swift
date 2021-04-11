@@ -30,15 +30,17 @@ final class ConfettiView: UIView {
         
         var cells = [CAEmitterCell]()
         
-        let colors = [UIColor(red: 149/255, green: 58/255, blue: 255/255, alpha: 1),
-                      UIColor(red: 255/255, green: 195/255, blue: 41/255, alpha: 1),
-                      UIColor(red: 255/255, green: 101/255, blue: 26/255, alpha: 1),
-                      UIColor(red: 123/255, green: 92/255, blue: 255/255, alpha: 1),
-                      UIColor(red: 76/255, green: 126/255, blue: 255/255, alpha: 1),
-                      UIColor(red: 71/255, green: 192/255, blue: 255/255, alpha: 1),
-                      UIColor(red: 255/255, green: 47/255, blue: 39/255, alpha: 1),
-                      UIColor(red: 255/255, green: 91/255, blue: 134/255, alpha: 1),
-                      UIColor(red: 233/255, green: 122/255, blue: 208/255, alpha: 1)]
+        let colors = [
+            UIColor(red: 149/255, green: 58/255, blue: 255/255, alpha: 1),
+            UIColor(red: 255/255, green: 195/255, blue: 41/255, alpha: 1),
+            UIColor(red: 255/255, green: 101/255, blue: 26/255, alpha: 1),
+            UIColor(red: 123/255, green: 92/255, blue: 255/255, alpha: 1),
+            UIColor(red: 76/255, green: 126/255, blue: 255/255, alpha: 1),
+            UIColor(red: 71/255, green: 192/255, blue: 255/255, alpha: 1),
+            UIColor(red: 255/255, green: 47/255, blue: 39/255, alpha: 1),
+            UIColor(red: 255/255, green: 91/255, blue: 134/255, alpha: 1),
+            UIColor(red: 233/255, green: 122/255, blue: 208/255, alpha: 1)
+        ]
         
         for color in colors {
             cells.append(confettiWithColor(color: color))

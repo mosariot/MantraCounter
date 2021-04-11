@@ -42,18 +42,33 @@ class MantraProvider {
             print("Error fetching data \(error)")
         }
     }
+//    
+//    func addPreloadedMantra(with selectedMantraNumber: Int) {
+//        let preloadedMantra = sortedInitialMantraData[selectedMantraNumber]
+//        let mantra = Mantra(context: context)
+//        mantra.uuid = UUID()
+//        mantra.title = preloadedMantra[.title]
+//        mantra.text = preloadedMantra[.text]
+//        mantra.details = preloadedMantra[.details]
+//        mantra.image = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?.pngData()
+//        mantra.imageForTableView = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?
+//            .resize(to: CGSize(width: Constants.rowHeight,
+//                               height: Constants.rowHeight)).pngData()
+//    }
     
-    func addPreloadedMantra(with selectedMantraNumber: Int) {
-        let preloadedMantra = sortedInitialMantraData[selectedMantraNumber]
-        let mantra = Mantra(context: context)
-        mantra.uuid = UUID()
-        mantra.title = preloadedMantra[.title]
-        mantra.text = preloadedMantra[.text]
-        mantra.details = preloadedMantra[.details]
-        mantra.image = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?.pngData()
-        mantra.imageForTableView = UIImage(named: preloadedMantra[.image] ?? Constants.defaultImage)?
-            .resize(to: CGSize(width: Constants.rowHeight,
-                               height: Constants.rowHeight)).pngData()
+    func addPreloadedMantra(with selectedMantrasTitles: [String]) {
+        let selectedMantras = sortedInitialMantraData.filter { selectedMantrasTitles.contains($0[.title]!) }
+        selectedMantras.forEach { (selectedMantra) in
+            let mantra = Mantra(context: context)
+            mantra.uuid = UUID()
+            mantra.title = selectedMantra[.title]
+            mantra.text = selectedMantra[.text]
+            mantra.details = selectedMantra[.details]
+            mantra.image = UIImage(named: selectedMantra[.image] ?? Constants.defaultImage)?.pngData()
+            mantra.imageForTableView = UIImage(named: selectedMantra[.image] ?? Constants.defaultImage)?
+                .resize(to: CGSize(width: Constants.rowHeight,
+                                   height: Constants.rowHeight)).pngData()
+        }
     }
     
     func updateValues(for mantra: Mantra, with value: Int32, updatingType: UpdatingType) {

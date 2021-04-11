@@ -76,11 +76,12 @@ final class ReadsCountViewController: UIViewController {
         undoButton.setImage(UIImage(systemName: "arrow.uturn.backward.circle"), for: .normal)
         undoButton.isEnabled = previousReadsCount != nil
         
-        let infoButton = UIButton(type: .infoLight,
-                                  primaryAction: UIAction(handler: { [weak self] _ in
-                                    guard let self = self else { return }
-                                    self.infoButtonPressed()
-                                  }))
+        let infoButton = UIButton(
+            type: .infoLight,
+            primaryAction: UIAction(handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.infoButtonPressed()
+            }))
         
         let star = mantra.isFavorite ? "star.fill" : "star"
         
@@ -108,9 +109,10 @@ final class ReadsCountViewController: UIViewController {
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
                 creator: { coder in
-                    return DetailsViewController(mantra: mantra,
-                                                 mode: .view,
-                                                 coder: coder)
+                    return DetailsViewController(
+                        mantra: mantra,
+                        mode: .view,
+                        coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
         present(navigationController, animated: true)
@@ -152,10 +154,12 @@ final class ReadsCountViewController: UIViewController {
     private func getMantraImages() {
         guard let mantra = mantra else { return }
         let image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
-        let downsampledPortraitMantraImage = image?.resize(to: CGSize(width: portraitMantraImageView.bounds.width == 0 ? landscapeMantraImageView.bounds.width/1.5 : portraitMantraImageView.bounds.width,
-                                                                      height: portraitMantraImageView.bounds.height == 0 ?  landscapeMantraImageView.bounds.height/1.5 : portraitMantraImageView.bounds.height))
-        let downsampledLandscapeMantraImage = image?.resize(to: CGSize(width: landscapeMantraImageView.bounds.width == 0 ? portraitMantraImageView.bounds.width*1.5 : landscapeMantraImageView.bounds.width,
-                                                                       height: landscapeMantraImageView.bounds.height == 0 ?  portraitMantraImageView.bounds.height*1.5 : landscapeMantraImageView.bounds.height))
+        let downsampledPortraitMantraImage = image?.resize(
+            to: CGSize(width: portraitMantraImageView.bounds.width == 0 ? landscapeMantraImageView.bounds.width/1.5 : portraitMantraImageView.bounds.width,
+                       height: portraitMantraImageView.bounds.height == 0 ?  landscapeMantraImageView.bounds.height/1.5 : portraitMantraImageView.bounds.height))
+        let downsampledLandscapeMantraImage = image?.resize(
+            to: CGSize(width: landscapeMantraImageView.bounds.width == 0 ? portraitMantraImageView.bounds.width*1.5 : landscapeMantraImageView.bounds.width,
+                       height: landscapeMantraImageView.bounds.height == 0 ?  portraitMantraImageView.bounds.height*1.5 : landscapeMantraImageView.bounds.height))
         portraitMantraImageView.image = downsampledPortraitMantraImage
         landscapeMantraImageView.image = downsampledLandscapeMantraImage
     }

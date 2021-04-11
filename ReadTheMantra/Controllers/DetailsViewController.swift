@@ -16,7 +16,7 @@ final class DetailsViewController: UIViewController {
     
     private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
-    private var dataProvider = MantraProvider()
+    private let dataProvider = MantraProvider()
     
     private let pasteboard = UIPasteboard.general
     
@@ -100,7 +100,6 @@ final class DetailsViewController: UIViewController {
     
     private func setupUI() {
         
-        navigationController?.navigationBar.tintColor = Constants.accentColor ?? .systemOrange
         titleStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
         mantraTextStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
         descriptionStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
@@ -115,18 +114,21 @@ final class DetailsViewController: UIViewController {
         detailsTextView.placeHolderText = NSLocalizedString("Enter mantra description", comment: "Mantra description placeholder")
         
         setPhotoButton.showsMenuAsPrimaryAction = true
-        let photoLibraryAction = UIAction(title: NSLocalizedString("Photo Library", comment: "Menu Item on DetailsViewController"),
-                                          image: UIImage(systemName: "photo.on.rectangle.angled")) { [weak self] _ in
+        let photoLibraryAction = UIAction(
+            title: NSLocalizedString("Photo Library", comment: "Menu Item on DetailsViewController"),
+            image: UIImage(systemName: "photo.on.rectangle.angled")) { [weak self] _ in
             guard let self = self else { return }
             self.showImagePicker()
         }
-        let standardImageAction = UIAction(title: NSLocalizedString("Standard Image", comment: "Menu Item on DetailsViewController"),
-                                           image: UIImage(systemName: "photo")) { [weak self] _ in
+        let standardImageAction = UIAction(
+            title: NSLocalizedString("Standard Image", comment: "Menu Item on DetailsViewController"),
+            image: UIImage(systemName: "photo")) { [weak self] _ in
             guard let self = self else { return }
             self.setDefaultImage()
         }
-        let searchAction = UIAction(title: NSLocalizedString("Search on the Internet", comment: "Menu Item on DetailsViewController"),
-                                    image: UIImage(systemName: "globe")) { [weak self] _ in
+        let searchAction = UIAction(
+            title: NSLocalizedString("Search on the Internet", comment: "Menu Item on DetailsViewController"),
+            image: UIImage(systemName: "globe")) { [weak self] _ in
             guard let self = self else { return }
             self.searchOnTheInternet()
         }
@@ -150,17 +152,19 @@ final class DetailsViewController: UIViewController {
     
     private func setAddMode() {
         title = NSLocalizedString("New Mantra", comment: "Add new mantra bar title")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: "Button on MantraTableViewController"),
-                                                            primaryAction: UIAction(handler: { [weak self] _ in
-                                                                guard let self = self else { return }
-                                                                self.addButtonPressed()
-                                                            }))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: NSLocalizedString("Add", comment: "Button on MantraTableViewController"),
+            primaryAction: UIAction(handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.addButtonPressed()
+            }))
         navigationItem.rightBarButtonItem?.style = .done
-        navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .cancel,
-                                                           primaryAction: UIAction(handler: { [weak self] _ in
-                                                            guard let self = self else { return }
-                                                            self.cancelButtonPressed()
-                                                           }))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            systemItem: .cancel,
+            primaryAction: UIAction(handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.cancelButtonPressed()
+            }))
         navigationItem.rightBarButtonItem?.isEnabled = (titleTextField.text != "")
         setPhotoButton.setEditMode()
         titleTextField.isUserInteractionEnabled = true
@@ -173,16 +177,18 @@ final class DetailsViewController: UIViewController {
     
     private func setEditMode() {
         title = NSLocalizedString("Information", comment: "Information bar title")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .done,
-                                                            primaryAction: UIAction(handler: { [weak self] _ in
-                                                                guard let self = self else { return }
-                                                                self.doneButtonPressed()
-                                                            }))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .close,
-                                                           primaryAction: UIAction(handler: { [weak self] _ in
-                                                            guard let self = self else { return }
-                                                            self.closeButtonPressed()
-                                                           }))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            systemItem: .done,
+            primaryAction: UIAction(handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.doneButtonPressed()
+            }))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            systemItem: .close,
+            primaryAction: UIAction(handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.closeButtonPressed()
+            }))
         setPhotoButton.setEditMode()
         titleTextField.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
@@ -194,16 +200,18 @@ final class DetailsViewController: UIViewController {
     
     private func setViewMode() {
         navigationItem.title = NSLocalizedString("Information", comment: "Information bar title")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .edit,
-                                                            primaryAction: UIAction(handler: { [weak self] _ in
-                                                                guard let self = self else { return }
-                                                                self.editButtonPressed()
-                                                            }))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .close,
-                                                           primaryAction: UIAction(handler: { [weak self] _ in
-                                                            guard let self = self else { return }
-                                                            self.closeButtonPressed()
-                                                           }))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            systemItem: .edit,
+            primaryAction: UIAction(handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.editButtonPressed()
+            }))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            systemItem: .close,
+            primaryAction: UIAction(handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.closeButtonPressed()
+            }))
         setPhotoButton.setViewMode()
         titleTextField.isUserInteractionEnabled = false
         mantraTextTextView.isEditable = false
@@ -218,7 +226,6 @@ final class DetailsViewController: UIViewController {
     func setKeyboardToolBars() {
         let titleToolBar = UIToolbar()
         titleToolBar.barStyle = .default
-        titleToolBar.tintColor = Constants.accentColor ?? .systemOrange
         titleToolBar.isTranslucent = true
         titleToolBar.sizeToFit()
         let titleDoneButton = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] _ in
@@ -232,7 +239,6 @@ final class DetailsViewController: UIViewController {
         
         let textToolBar = UIToolbar()
         textToolBar.barStyle = .default
-        textToolBar.tintColor = Constants.accentColor ?? .systemOrange
         textToolBar.isTranslucent = true
         textToolBar.sizeToFit()
         let textDoneButton = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] _ in
@@ -245,7 +251,6 @@ final class DetailsViewController: UIViewController {
         
         let detailsToolBar = UIToolbar()
         detailsToolBar.barStyle = .default
-        detailsToolBar.tintColor = Constants.accentColor ?? .systemOrange
         detailsToolBar.isTranslucent = true
         detailsToolBar.sizeToFit()
         let detailsDoneButton = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] _ in
@@ -301,12 +306,13 @@ extension DetailsViewController {
     
     private func doneButtonPressed() {
         guard let title = titleTextField.text else { return }
-        dataProvider.processMantra(mantra: mantra,
-                                   title: title,
-                                   text: mantraTextTextView.text,
-                                   details: detailsTextView.text,
-                                   imageData: mantraImageData,
-                                   imageForTableViewData: mantraImageForTableViewData)
+        dataProvider.processMantra(
+            mantra: mantra,
+            title: title,
+            text: mantraTextTextView.text,
+            details: detailsTextView.text,
+            imageData: mantraImageData,
+            imageForTableViewData: mantraImageForTableViewData)
         mode = .view
     }
     
@@ -325,12 +331,13 @@ extension DetailsViewController {
                         self.present(alert, animated: true, completion: nil)
                         return
                     }
-                    self.dataProvider.processMantra(mantra: self.mantra,
-                                                    title: title,
-                                                    text: self.mantraTextTextView.text,
-                                                    details: self.detailsTextView.text,
-                                                    imageData: self.mantraImageData,
-                                                    imageForTableViewData: self.mantraImageForTableViewData)
+                    self.dataProvider.processMantra(
+                        mantra: self.mantra,
+                        title: title,
+                        text: self.mantraTextTextView.text,
+                        details: self.detailsTextView.text,
+                        imageData: self.mantraImageData,
+                        imageForTableViewData: self.mantraImageForTableViewData)
                     self.dismiss(animated: true, completion: nil)
                 }, dontSaveActionHandler: { [weak self] in
                     guard let self = self else { return }
@@ -361,12 +368,13 @@ extension DetailsViewController {
             present(alert, animated: true, completion: nil)
             return
         }
-        dataProvider.processMantra(mantra: mantra,
-                                   title: title,
-                                   text: mantraTextTextView.text,
-                                   details: detailsTextView.text,
-                                   imageData: mantraImageData,
-                                   imageForTableViewData: mantraImageForTableViewData)
+        dataProvider.processMantra(
+            mantra: mantra,
+            title: title,
+            text: mantraTextTextView.text,
+            details: detailsTextView.text,
+            imageData: mantraImageData,
+            imageForTableViewData: mantraImageForTableViewData)
         dismiss(animated: true, completion: nil)
     }
 }

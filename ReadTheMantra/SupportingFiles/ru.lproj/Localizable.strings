@@ -195,6 +195,18 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 /* Button on MantraViewController */
 "Add" = "Добавить";
 
+/* Title of PreloadedMantraController */
+"Mantras choice" = "Выбор мантр";
+
+/* Button on PreloadedMantraController */
+"Add" = "Добавить";
+
+/* Alert Title for Duplication */
+"Duplicating Mantras" = "Повторяющиеся мантры";
+
+/* Alert Title for Duplication */
+"One of selected mantras is already in your mantra list. Add anyway?" = "Одна из выбранных мантр уже есть в вашем списке. Все равно добавить?";
+
 /* Widget Subtitle */
 "Overall readings" = "Общая начитка";
 

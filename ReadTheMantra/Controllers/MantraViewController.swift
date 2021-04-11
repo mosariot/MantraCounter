@@ -55,7 +55,7 @@ final class MantraViewController: UICollectionViewController {
     private var isPadOrMacIdiom: Bool {
         traitCollection.userInterfaceIdiom == .pad || traitCollection.userInterfaceIdiom == .mac
     }
-    private var isPhone: Bool {
+    private var isPhoneIdiom: Bool {
         traitCollection.userInterfaceIdiom == .phone
     }
     
@@ -85,11 +85,6 @@ final class MantraViewController: UICollectionViewController {
     
     private let searchController = UISearchController(searchResultsController: nil)
     
-    private lazy var mantraPicker = UIPickerView()
-    private lazy var mantraPickerTextField = UITextField(frame: .zero)
-    private lazy var sortedInitialMantraData = InitialMantra.sortedData()
-    private var coverView: UIView?
-    
     
     //MARK: - ViewController Lifecycle
     
@@ -110,10 +105,11 @@ final class MantraViewController: UICollectionViewController {
             applySnapshot(animatingDifferences: false, withReloading: false)
             isColdStart.toggle()
         }
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Mantra List", comment: "Back button of MantraViewController"),
-                                                           style: .plain,
-                                                           target: nil,
-                                                           action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(
+            title: NSLocalizedString("Mantra List", comment: "Back button of MantraViewController"),
+            style: .plain,
+            target: nil,
+            action: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -128,7 +124,6 @@ final class MantraViewController: UICollectionViewController {
         coordinator.animate(alongsideTransition: { [weak self] context in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                self.coverView?.frame = UIScreen.main.bounds
                 if self.isOnboarding {
                     self.blurEffectView.updateFrame()
                 }
@@ -161,17 +156,13 @@ final class MantraViewController: UICollectionViewController {
         }
     }
     
-    @objc private func handleCoverTap(_ sender: UITapGestureRecognizer? = nil) {
-        dismissPreloadedMantraPickerState()
-    }
-    
     private func checkForOnboardingAlert() {
         if isOnboarding {
             splitViewController?.view.addSubview(blurEffectView)
             if let onboardingViewController = storyboard?.instantiateViewController(
                 identifier: Constants.onboardingViewController) as? OnboardingViewController {
                 onboardingViewController.delegate = self
-                if isPhone {
+                if isPhoneIdiom {
                     onboardingViewController.modalPresentationStyle = .fullScreen
                 } else if isPadOrMacIdiom {
                     onboardingViewController.modalTransitionStyle = .crossDissolve
@@ -199,15 +190,17 @@ final class MantraViewController: UICollectionViewController {
         navigationItem.searchController = searchController
         navigationItem.leftBarButtonItem = editButtonItem
         
-        let newMantraAction = UIAction(title: NSLocalizedString("New Mantra", comment: "Menu Item on MantraViewController"),
-                                       image: UIImage(systemName: "square.and.pencil")) { [weak self] action in
+        let newMantraAction = UIAction(
+            title: NSLocalizedString("New Mantra", comment: "Menu Item on MantraViewController"),
+            image: UIImage(systemName: "square.and.pencil")) { [weak self] action in
             guard let self = self else { return }
             self.showNewMantraVC()
         }
-        let preloadedMantraAction = UIAction(title: NSLocalizedString("Preloaded Mantra", comment: "Menu Item on MantraViewController"),
-                                             image: UIImage(systemName: "books.vertical")) { [weak self] action in
+        let preloadedMantraAction = UIAction(
+            title: NSLocalizedString("Preloaded Mantra", comment: "Menu Item on MantraViewController"),
+            image: UIImage(systemName: "books.vertical")) { [weak self] action in
             guard let self = self else { return }
-            self.setPreloadedMantraPickerState()
+            self.showPreloadedMantraVC()
         }
         let addMenu = UIMenu(children: [newMantraAction, preloadedMantraAction])
         let addBarItem = UIBarButtonItem(systemItem: .add, menu: addMenu)
@@ -218,16 +211,18 @@ final class MantraViewController: UICollectionViewController {
     }
     
     private func createSortingMenu() -> UIMenu{
-        let alphabetSortingAction = UIAction(title: NSLocalizedString("Alphabetically", comment: "Menu Item on MantraViewController"),
-                                             image: UIImage(systemName: "textformat")) { [weak self] action in
+        let alphabetSortingAction = UIAction(
+            title: NSLocalizedString("Alphabetically", comment: "Menu Item on MantraViewController"),
+            image: UIImage(systemName: "textformat")) { [weak self] action in
             guard let self = self else { return }
             self.isAlphabeticalSorting = true
             if let barButtonItem = action.sender as? UIBarButtonItem {
                 barButtonItem.menu = self.createSortingMenu()
             }
         }
-        let readsCountSortingAction = UIAction(title: NSLocalizedString("By readings count", comment: "Menu Item on MantraViewController"),
-                                               image: UIImage(systemName: "text.book.closed")) { [weak self] action in
+        let readsCountSortingAction = UIAction(
+            title: NSLocalizedString("By readings count", comment: "Menu Item on MantraViewController"),
+            image: UIImage(systemName: "text.book.closed")) { [weak self] action in
             guard let self = self else { return }
             self.isAlphabeticalSorting = false
             if let barButtonItem = action.sender as? UIBarButtonItem {
@@ -265,6 +260,20 @@ final class MantraViewController: UICollectionViewController {
         collectionView.isEditing = editing
         reselectSelectedMantraIfNeeded()
     }
+    
+    
+    //MARK: - showPreloadedMantraVC
+    
+    private func showPreloadedMantraVC() {
+        let preloadedMantraController = PreloadedMantraController()
+        preloadedMantraController.mantraTitles = dataProvider.fetchedMantras.compactMap({ $0.title })
+        let navigationController = UINavigationController(rootViewController: preloadedMantraController)
+        present(navigationController, animated: true)
+    }
+    
+    
+    
+    
 }
 
 //MARK: - Home Screen Quick Actions Handling
@@ -441,109 +450,15 @@ extension MantraViewController {
                 identifier: Constants.detailsViewControllerID,
                 creator: { [weak self] coder in
                     guard let self = self else { fatalError() }
-                    return DetailsViewController(mantra: mantra,
-                                                 mode: .add,
-                                                 mantraTitles: self.dataProvider.fetchedMantras.compactMap({ $0.title }),
-                                                 callerController: self,
-                                                 coder: coder)
+                    return DetailsViewController(
+                        mantra: mantra,
+                        mode: .add,
+                        mantraTitles: self.dataProvider.fetchedMantras.compactMap({ $0.title }),
+                        callerController: self,
+                        coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
         present(navigationController, animated: true)
-    }
-    
-    private func setPreloadedMantraPickerState() {
-        setDimmedBackground()
-        makeAndShowMantraPickerView()
-        navigationController?.navigationBar.tintColor = traitCollection.userInterfaceStyle == .light ? .systemGray : .systemGray2
-    }
-    
-    private func setDimmedBackground() {
-        let dimmedBackgroundView = UIView(frame: UIScreen.main.bounds)
-        dimmedBackgroundView.backgroundColor = .black
-        dimmedBackgroundView.alpha = 0
-        coverView = dimmedBackgroundView
-        let dimmedAlpha = traitCollection.userInterfaceStyle == .light ? 0.2 : 0.5
-        if let coverView = coverView {
-            coverView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCoverTap(_:))))
-            splitViewController?.view.addSubview(coverView)
-            UIView.animate(withDuration: 0.15) {
-                coverView.alpha = CGFloat(dimmedAlpha)
-            }
-        }
-    }
-    
-    private func makeAndShowMantraPickerView() {
-        
-        mantraPicker.dataSource = self
-        mantraPicker.delegate = self
-        
-        // custom toolbar
-        let toolBar = UIToolbar()
-        toolBar.barStyle = .default
-        toolBar.tintColor = Constants.accentColor ?? .systemOrange
-        toolBar.isTranslucent = true
-        toolBar.sizeToFit()
-        let doneButton = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.donePreloadedMantraButtonPressed()
-        }))
-        let cancelButton = UIBarButtonItem(systemItem: .cancel, primaryAction: UIAction(handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.cancelPreloadedMantraButtonPressed()
-        }))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        
-        splitViewController?.view.addSubview(mantraPickerTextField)
-        
-        mantraPickerTextField.inputView = mantraPicker
-        mantraPickerTextField.inputAccessoryView = toolBar
-        mantraPicker.selectRow(0, inComponent: 0, animated: false)
-        mantraPickerTextField.becomeFirstResponder()
-    }
-    
-    private func cancelPreloadedMantraButtonPressed() {
-        dismissPreloadedMantraPickerState()
-    }
-    
-    private func donePreloadedMantraButtonPressed() {
-        mantraPickerTextField.resignFirstResponder()
-        if isMantraDuplicating() {
-            dismissPreloadedMantraPickerState()
-            showDuplicatingAlert()
-        } else {
-            handleAddPreloadedMantra()
-        }
-    }
-    
-    private func isMantraDuplicating() -> Bool {
-        let selectedMantraNumber = mantraPicker.selectedRow(inComponent: 0)
-        guard let title = sortedInitialMantraData[selectedMantraNumber][.title] else { return false }
-        return dataProvider.fetchedMantras.compactMap({ $0.title }).contains(title)
-    }
-    
-    private func showDuplicatingAlert() {
-        let alert = UIAlertController.duplicatingAlert(idiom: traitCollection.userInterfaceIdiom) { [weak self] in
-            guard let self = self else { return }
-            self.handleAddPreloadedMantra()
-        } cancelActionHandler: { [weak self] in
-            guard let self = self else { return }
-            self.dismissPreloadedMantraPickerState()
-        }
-        present(alert, animated: true, completion: nil)
-    }
-    
-    private func handleAddPreloadedMantra() {
-        dataProvider.addPreloadedMantra(with: mantraPicker.selectedRow(inComponent: 0))
-        dismissPreloadedMantraPickerState()
-    }
-    
-    private func dismissPreloadedMantraPickerState() {
-        coverView?.removeFromSuperview()
-        coverView = nil
-        mantraPickerTextField.resignFirstResponder()
-        navigationController?.navigationBar.tintColor = nil
     }
 }
 
@@ -638,21 +553,6 @@ extension MantraViewController: UISearchResultsUpdating {
             }
         }
         applySnapshot()
-    }
-}
-
-//MARK: - PickerView DataSource
-
-extension MantraViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        sortedInitialMantraData.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        sortedInitialMantraData[row][.title]
     }
 }
 
