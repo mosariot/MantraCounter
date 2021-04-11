@@ -197,7 +197,7 @@ final class MantraViewController: UICollectionViewController {
             self.showNewMantraVC()
         }
         let preloadedMantraAction = UIAction(
-            title: NSLocalizedString("Preloaded Mantra", comment: "Menu Item on MantraViewController"),
+            title: NSLocalizedString("Preset Mantra", comment: "Menu Item on MantraViewController"),
             image: UIImage(systemName: "books.vertical")) { [weak self] action in
             guard let self = self else { return }
             self.showPreloadedMantraVC()

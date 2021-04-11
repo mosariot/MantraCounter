@@ -43,7 +43,7 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 "New Mantra" = "Новая мантра";
 
 /* Menu Item on MantraViewController */
-"Preloaded Mantra" = "Из предустановленных";
+"Preset Mantra" = "Из предустановленных";
 
 /* Menu Item on MantraViewController */
 "Alphabetically" = "По алфавиту";
@@ -314,3 +314,9 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 
 /* Prajnaparamita Description */
 "Prajnaparamita mantra means complete deliverance from illusion and welcomes complete and final awakening, perfect wisdom." = "Мантра Праджняпарамиты означает полное избавление от иллюзий и приветствует полное и окончательное пробуждение, совершенную мудрость.";
+
+/* Maytreya */
+"Maytreya" = "Майтрейя";
+
+/* Maytreya Description */
+"Maitreya symbolizes the loving kindness of the Buddha, as well as the aspect of vision, the sense of sight. He embodies the future Buddha, who will be reborn and appear before people. If the practitioner does not succeed in achieving full enlightenment in this incarnation, the Maitreya mantra will bring him closer to the highest good in subsequent reincarnations." = "Майтрейя символизирует любящую доброту Будды, а также аспект видения, чувство зрения. Он воплощает собой будущего Будду, который возродится и предстанет перед людьми. Если у практикующего не получается достигнуть полного просвещения в этой инкарнации, мантра Майтрейи приблизит к высшему благу в последующих перевоплощениях.";

@@ -93,6 +93,11 @@ enum InitialMantra {
             .title: NSLocalizedString("Prajnaparamita", comment: "Prajnaparamita"),
             .details: NSLocalizedString("Prajnaparamita mantra means complete deliverance from illusion and welcomes complete and final awakening, perfect wisdom.", comment: "Prajnaparamita Description"),
             .image: "Prajnaparamita"
+        ],
+        [
+            .title: NSLocalizedString("Maytreya", comment: "Maytreya"),
+            .details: NSLocalizedString("Maitreya symbolizes the loving kindness of the Buddha, as well as the aspect of vision, the sense of sight. He embodies the future Buddha, who will be reborn and appear before people. If the practitioner does not succeed in achieving full enlightenment in this incarnation, the Maitreya mantra will bring him closer to the highest good in subsequent reincarnations.", comment: "Maytreya Description"),
+            .image: "Maytreya"
         ]
     ]
     
