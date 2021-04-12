@@ -356,7 +356,7 @@ extension MantraViewController {
                     completion(true)
                 }
                 favorite.image = image
-                favorite.backgroundColor = .systemYellow
+                favorite.backgroundColor = .systemBlue
                 
                 let delete = UIContextualAction(
                     style: .destructive,

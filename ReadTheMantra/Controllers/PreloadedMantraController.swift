@@ -41,17 +41,13 @@ final class PreloadedMantraController: UIViewController {
         preloadedMantras.filter{ $0.isSelected }.map{ $0.title }
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    init(mantraTitles: [String]) {
+        self.mantraTitles = mantraTitles
         super.init(nibName: nil, bundle: nil)
     }
     
-    convenience init(mantraTitles: [String]) {
-        self.init()
-        self.mantraTitles = mantraTitles
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -120,7 +116,7 @@ extension PreloadedMantraController {
     
     private func setupNavigationBar() {
         navigationItem.largeTitleDisplayMode = .never
-        title = NSLocalizedString("Mantras choice", comment: "Title of PreloadedMantraController")
+        title = NSLocalizedString("Mantras Choice", comment: "Title of PreloadedMantraController")
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             systemItem: .close,
             primaryAction: UIAction(handler: { [weak self] _ in

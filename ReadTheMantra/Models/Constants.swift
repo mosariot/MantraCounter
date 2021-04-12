@@ -13,7 +13,7 @@ enum Constants {
     static let onboardingViewController = "OnboardingViewController"
     static let defaultImage = "DefaultImage"
     static let accentColor = UIColor(named: "AccentColor")
-    static let rowHeight = 50
+    static let rowHeight = 55
     static let initialReadsGoal = 100_000
     static let progressAnimationDuration = 1.0
 }
