@@ -344,8 +344,7 @@ extension MantraViewController {
             
             // Swipe Actions
             configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
-                guard let self = self else { return nil }
-                guard let mantra = self.dataSource.itemIdentifier(for: indexPath) else { return nil }
+                guard let self = self, let mantra = self.dataSource.itemIdentifier(for: indexPath) else { return nil }
                 
                 let title = mantra.isFavorite ?
                     NSLocalizedString("Unfavorite", comment: "Menu Action on MantraViewController") :
