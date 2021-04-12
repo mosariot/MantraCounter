@@ -450,6 +450,7 @@ extension MantraViewController {
     private func showPreloadedMantraVC() {
         let preloadedMantraController = PreloadedMantraController(mantraTitles: dataProvider.fetchedMantras.compactMap({ $0.title }))
         let navigationController = UINavigationController(rootViewController: preloadedMantraController)
+        navigationController.modalPresentationStyle = .formSheet
         present(navigationController, animated: true)
     }
     
