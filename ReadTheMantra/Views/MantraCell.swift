@@ -36,16 +36,17 @@ class MantraCell: UICollectionViewListCell {
                                                         comment: "Current readings count") + " \(mantra.reads)"
         configuration.secondaryTextProperties.color = .secondaryLabel
         configuration.textToSecondaryTextVerticalPadding = 4
-        configuration.image = (mantra.imageForTableView != nil) ?
-            UIImage(data: mantra.imageForTableView!) :
-            UIImage(named: Constants.defaultImage)?.resize(
+        if let imageData = mantra.imageForTableView {
+            configuration.image = UIImage(data: imageData)
+        } else {
+            configuration.image = UIImage(named: Constants.defaultImage)?.resize(
                 to: CGSize(width: Constants.rowHeight,
                            height: Constants.rowHeight))
+        }
         configuration.imageProperties.maximumSize = CGSize(width: Constants.rowHeight, height: Constants.rowHeight)
         
         // Background Configuration
         var backgroundConfig = UIBackgroundConfiguration.listGroupedCell().updated(for: state)
-        backgroundConfig.cornerRadius = 15
         
         // Selecting and Highlighting
         if isPadOrMacIdiom {
@@ -99,7 +100,7 @@ class MantraCell: UICollectionViewListCell {
                                                                              placement: .trailing(displayed: .always),
                                                                              isHidden: mantra.readsGoal > mantra.reads)
             let badgeAccessory = UICellAccessory.customView(configuration: badgeConfiguration)
-            accessories = [disclosureIndicatorAccessory, badgeAccessory]
+            accessories = isPadOrMacIdiom ? [badgeAccessory] : [disclosureIndicatorAccessory, badgeAccessory]
         }
     }
 }
