@@ -57,7 +57,10 @@ class MantraProvider {
 //    }
     
     func addPreloadedMantra(with selectedMantrasTitles: [String]) {
-        let selectedMantras = sortedInitialMantraData.filter { selectedMantrasTitles.contains($0[.title]!) }
+        let selectedMantras = sortedInitialMantraData.filter { 
+            guard let title = $0[.title] else { return false }
+            return selectedMantrasTitles.contains(title)
+        }
         selectedMantras.forEach { (selectedMantra) in
             let mantra = Mantra(context: context)
             mantra.uuid = UUID()
