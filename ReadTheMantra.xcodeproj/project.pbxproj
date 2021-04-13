@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		9F0ABF3825EA22E400742A36 /* MantraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0ABF3725EA22E400742A36 /* MantraCell.swift */; };
-		9F12CD19258112EE0089AFD8 /* MantraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F12CD18258112EE0089AFD8 /* MantraViewController.swift */; };
 		9F2715B025B83D92002A98FD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F2715AF25B83D92002A98FD /* CloudKit.framework */; };
 		9F293E3B2575503000B7B1C7 /* SetPhotoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */; };
 		9F2B1EC126077AF200D999CB /* NoImageAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1EC026077AF200D999CB /* NoImageAlert.swift */; };
@@ -64,6 +63,7 @@
 		9FE827E0261868FB00CBDFF2 /* AcitivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1ED7260790F500D999CB /* AcitivityIndicator.swift */; };
 		9FE827F0261E36B100CBDFF2 /* PreloadedMantraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE827EF261E36B100CBDFF2 /* PreloadedMantraController.swift */; };
 		9FE827FD261F960100CBDFF2 /* DuplicatingAlertForPreloadedMantras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE827F7261F953900CBDFF2 /* DuplicatingAlertForPreloadedMantras.swift */; };
+		9FE828092626227B00CBDFF2 /* MantraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F12CD18258112EE0089AFD8 /* MantraViewController.swift */; };
 		9FE855A5258E2B8000771BA1 /* WidgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855A4258E2B8000771BA1 /* WidgetModel.swift */; };
 		9FE855B2258E4F9A00771BA1 /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */; };
 		9FE855BB258E51BF00771BA1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE855BA258E51BF00771BA1 /* WidgetKit.framework */; };
@@ -465,6 +465,7 @@
 				9F5FE6BB24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift in Sources */,
 				9F5FE68424E7141400D0475E /* AppDelegate.swift in Sources */,
 				9F5FE68E24E7141400D0475E /* ReadTheMantra.xcdatamodeld in Sources */,
+				9FE828092626227B00CBDFF2 /* MantraViewController.swift in Sources */,
 				9F5FE68624E7141400D0475E /* SceneDelegate.swift in Sources */,
 				9FE827F0261E36B100CBDFF2 /* PreloadedMantraController.swift in Sources */,
 				9F2B1EC826077CC300D999CB /* AddTitleAlert.swift in Sources */,
@@ -490,7 +491,6 @@
 				9F6503D8256651680055ED8F /* ConfettiView.swift in Sources */,
 				9F0ABF3825EA22E400742A36 /* MantraCell.swift in Sources */,
 				9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */,
-				9F12CD19258112EE0089AFD8 /* MantraViewController.swift in Sources */,
 				9F75828525821EED00695ED7 /* RoundedStackView.swift in Sources */,
 				9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */,
 				9FC0B81525D9828100EDA40E /* BlurEffectView.swift in Sources */,
@@ -690,7 +690,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -713,7 +713,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -735,7 +735,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = FavoritesWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -760,7 +760,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = FavoritesWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

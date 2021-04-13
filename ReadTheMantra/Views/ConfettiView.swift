@@ -11,7 +11,7 @@ final class ConfettiView: UIView {
     
     private var confettiEmitter = CAEmitterLayer()
     
-    public func startConfetti() {
+    func startConfetti() {
         makeConfettiEmitter()
         layer.addSublayer(confettiEmitter)
         

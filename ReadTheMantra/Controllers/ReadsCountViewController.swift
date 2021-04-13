@@ -15,6 +15,8 @@ final class ReadsCountViewController: UIViewController {
     private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     private var dataProvider = MantraProvider()
     
+    private lazy var confettiView = ConfettiView(frame: view.frame)
+    
     var mantra: Mantra? {
         didSet {
             loadViewIfNeeded()
@@ -174,6 +176,7 @@ final class ReadsCountViewController: UIViewController {
     
     private func invalidatePreviousState() {
         circularProgressView.stopAnimationIfNeeded()
+        confettiView.removeFromSuperview()
         shouldInvalidatePreviousState = true
     }
     
@@ -240,7 +243,7 @@ final class ReadsCountViewController: UIViewController {
         }
         
         if oldReads < mantra.readsGoal && newReads >= mantra.readsGoal {
-            let confettiView = ConfettiView(frame: view.bounds)
+            confettiView = ConfettiView(frame: view.frame)
             view.addSubview(confettiView)
             confettiView.startConfetti()
             
