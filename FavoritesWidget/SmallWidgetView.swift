@@ -38,7 +38,7 @@ struct SmallWidget: View {
                                     .resizable()
                                     .frame(width: gp.size.width/3.4, height: gp.size.height/3.4, alignment: .center)
                                 Text(Int(mantra.reads).stringFormattedWithSpaces())
-                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
+                                    .font(Font(UIFont.preferredFont(for: .caption2, weight: .bold)))
                                     .foregroundColor(.secondary)
                             }
                         }

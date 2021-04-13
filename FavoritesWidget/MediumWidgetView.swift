@@ -40,7 +40,7 @@ struct MediumWidget: View {
                                     .frame(height: 33)
                                     .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                 Text(Int(mantra.reads).stringFormattedWithSpaces())
-                                    .font(Font(UIFont.preferredFont(for: .footnote, weight: .bold)))
+                                    .font(Font(UIFont.preferredFont(for: .caption1, weight: .bold)))
                                     .foregroundColor(.secondary)
                             }
                         }
