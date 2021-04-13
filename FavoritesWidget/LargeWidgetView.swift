@@ -23,7 +23,7 @@ struct LargeWidget: View {
             if mantraArray.count == 0 {
                 Image("DefaultImage")
             } else {
-                VStack(spacing: 10) {
+                VStack {
                     ForEach(mantraArray, id: \.self) { mantra in
                         Link(destination: URL(string: "\(mantra.id)")!) {
                             VStack() {
@@ -48,11 +48,12 @@ struct LargeWidget: View {
                                         .resizable()
                                         .frame(width: 41, height: 41, alignment: .center)
                                 }
+                                .frame(maxHeight: .infinity)
                             }
                         }
                     }
                 }
-                .padding(.horizontal)
+                .padding()
             }
         }
     }

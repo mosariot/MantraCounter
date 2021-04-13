@@ -25,7 +25,7 @@ struct MediumWidget: View {
                     .resizable()
                     .frame(width: 100, height: 100, alignment: .center)
             } else {
-                HStack(spacing: 12) {
+                HStack {
                     ForEach(mantraArray, id: \.self) { mantra in
                         Link(destination: URL(string: "\(mantra.id)")!) {
                             VStack {
@@ -43,6 +43,7 @@ struct MediumWidget: View {
                                     .font(Font(UIFont.preferredFont(for: .caption1, weight: .bold)))
                                     .foregroundColor(.secondary)
                             }
+                            .frame(maxWidth: .infinity)
                         }
                     }
                 }

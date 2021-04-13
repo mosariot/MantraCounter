@@ -19,32 +19,31 @@ struct SmallWidget: View {
         let columns: [GridItem] = [GridItem(.flexible()),
                                    GridItem(.flexible())]
         
-        GeometryReader { gp in
-            ZStack {
-                Color.init(UIColor.systemGroupedBackground)
-                    .ignoresSafeArea()
-                
-                if mantraArray.count == 0 {
-                    Image(Constants.defaultImage)
-                        .resizable()
-                        .frame(width: 100, height: 100, alignment: .center)
-                } else {
-                    LazyVGrid(columns: columns, alignment: .center, spacing: 6, content: {
-                        ForEach(mantraArray, id: \.self) { mantra in
-                            VStack(spacing: 4) {
-                                Image(uiImage: ((mantra.image != nil) ?
-                                                    UIImage(data: mantra.image!) :
-                                                    UIImage(named: Constants.defaultImage))!)
-                                    .resizable()
-                                    .frame(width: gp.size.width/3.4, height: gp.size.height/3.4, alignment: .center)
-                                Text(Int(mantra.reads).stringFormattedWithSpaces())
-                                    .font(Font(UIFont.preferredFont(for: .caption2, weight: .bold)))
-                                    .foregroundColor(.secondary)
-                            }
+        ZStack {
+            Color.init(UIColor.systemGroupedBackground)
+                .ignoresSafeArea()
+            
+            if mantraArray.count == 0 {
+                Image(Constants.defaultImage)
+                    .resizable()
+                    .frame(width: 100, height: 100, alignment: .center)
+            } else {
+                LazyVGrid(columns: columns, alignment: .center, content: {
+                    ForEach(mantraArray, id: \.self) { mantra in
+                        VStack {
+                            Image(uiImage: ((mantra.image != nil) ?
+                                                UIImage(data: mantra.image!) :
+                                                UIImage(named: Constants.defaultImage))!)
+                                .resizable()
+                                .frame(width: 43, height: 43, alignment: .center)
+                            Text(Int(mantra.reads).stringFormattedWithSpaces())
+                                .font(Font(UIFont.preferredFont(for: .caption2, weight: .bold)))
+                                .foregroundColor(.secondary)
                         }
-                    })
-                    .padding(.horizontal)
-                }
+                        .frame(maxHeight: .infinity)
+                    }
+                })
+                .padding(.horizontal)
             }
         }
     }
