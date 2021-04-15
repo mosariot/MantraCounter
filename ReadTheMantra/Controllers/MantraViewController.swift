@@ -391,6 +391,7 @@ extension MantraViewController {
 //MARK: - DeepLink from Widget
 
 extension MantraViewController {
+    
     func goToMantraWith(uuid: UUID) {
         guard let mantra = displayedMantras.filter({ $0.uuid == uuid }).first else { return }
         selectedMantra = mantra

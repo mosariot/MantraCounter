@@ -280,6 +280,7 @@ final class ReadsCountViewController: UIViewController {
 //MARK: - MantraSelection Delegate
 
 extension ReadsCountViewController: MantraSelectionDelegate {
+    
     func mantraSelected(_ newMantra: Mantra?) {
         mantra = newMantra
     }
@@ -288,6 +289,7 @@ extension ReadsCountViewController: MantraSelectionDelegate {
 //MARK: - TextField Delegate
 
 extension ReadsCountViewController: UITextFieldDelegate {
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) else {
             return false

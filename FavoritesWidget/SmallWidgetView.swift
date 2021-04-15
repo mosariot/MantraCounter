@@ -43,7 +43,7 @@ struct SmallWidget: View {
                         .frame(maxHeight: .infinity)
                     }
                 })
-                .padding(.horizontal)
+                .padding()
             }
         }
     }

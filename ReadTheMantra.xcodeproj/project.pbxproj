@@ -68,7 +68,7 @@
 		9FE855B2258E4F9A00771BA1 /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */; };
 		9FE855BB258E51BF00771BA1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE855BA258E51BF00771BA1 /* WidgetKit.framework */; };
 		9FE855BD258E51BF00771BA1 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE855BC258E51BF00771BA1 /* SwiftUI.framework */; };
-		9FE855C0258E51BF00771BA1 /* FavoritesWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855BF258E51BF00771BA1 /* FavoritesWidget.swift */; };
+		9FE855C0258E51BF00771BA1 /* MantraWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855BF258E51BF00771BA1 /* MantraWidget.swift */; };
 		9FE855C2258E51C300771BA1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FE855C1258E51C300771BA1 /* Assets.xcassets */; };
 		9FE855C6258E51C300771BA1 /* FavoritesWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9FE855B8258E51BF00771BA1 /* FavoritesWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9FFF85B725EEAF7F00131AA7 /* UndoAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF85AF25EEAEB200131AA7 /* UndoAlert.swift */; };
@@ -161,7 +161,7 @@
 		9FE855B8258E51BF00771BA1 /* FavoritesWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FavoritesWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FE855BA258E51BF00771BA1 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		9FE855BC258E51BF00771BA1 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		9FE855BF258E51BF00771BA1 /* FavoritesWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesWidget.swift; sourceTree = "<group>"; };
+		9FE855BF258E51BF00771BA1 /* MantraWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraWidget.swift; sourceTree = "<group>"; };
 		9FE855C1258E51C300771BA1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9FE855C3258E51C300771BA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9FE855D0258E521D00771BA1 /* FavoritesWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FavoritesWidgetExtension.entitlements; sourceTree = "<group>"; };
@@ -193,14 +193,14 @@
 		9F4B47F22530C31700E7FF4B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift */,
 				9F5FE6B824E9B6E500D0475E /* CircleAndResizeUIImage.swift */,
-				9F3766102513C5B9007E6BED /* StringFormattedWithSpaces.swift */,
-				9F3B1C022538F50200BEE838 /* RoundedSystemFont.swift */,
 				9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */,
-				9F75828125821EC600695ED7 /* RoundedStackView.swift */,
-				9F91804625BB48F20016FEB6 /* ModelDetection.swift */,
 				9F65C45F25AB5BBE0037A8F7 /* FixInputAssistant.swift */,
+				9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift */,
+				9F91804625BB48F20016FEB6 /* ModelDetection.swift */,
+				9F75828125821EC600695ED7 /* RoundedStackView.swift */,
+				9F3B1C022538F50200BEE838 /* RoundedSystemFont.swift */,
+				9F3766102513C5B9007E6BED /* StringFormattedWithSpaces.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -243,11 +243,11 @@
 		9F5FE6A024E717FE00D0475E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9F12CD18258112EE0089AFD8 /* MantraViewController.swift */,
 				9F5FE69A24E717A200D0475E /* DetailsViewController.swift */,
-				9FA97A382570177B005C9078 /* ReadsCountViewController.swift */,
-				9FE827EF261E36B100CBDFF2 /* PreloadedMantraController.swift */,
+				9F12CD18258112EE0089AFD8 /* MantraViewController.swift */,
 				9F3B62D1257CFFF800B4F5E4 /* OnboardingViewController.swift */,
+				9FE827EF261E36B100CBDFF2 /* PreloadedMantraController.swift */,
+				9FA97A382570177B005C9078 /* ReadsCountViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -255,18 +255,18 @@
 		9F5FE6A124E7181000D0475E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9FCA5C8F2593496B002E1D25 /* Alerts */,
+				9F2B1ED7260790F500D999CB /* AcitivityIndicator.swift */,
+				9F3B627425781A6F00B4F5E4 /* AdjustReadsButton.swift */,
+				9FC0B81425D9828100EDA40E /* BlurEffectView.swift */,
+				9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */,
+				9F6503D7256651670055ED8F /* ConfettiView.swift */,
+				9F7A5095253DD438008BFD6F /* CopyableLabel.swift */,
+				9FC9F49325CD1FF400B4D2B5 /* HeaderSupplementaryView.swift */,
 				9F5FE68924E7141400D0475E /* Main.storyboard */,
 				9F0ABF3725EA22E400742A36 /* MantraCell.swift */,
-				9FC9F49325CD1FF400B4D2B5 /* HeaderSupplementaryView.swift */,
-				9F6503D7256651670055ED8F /* ConfettiView.swift */,
-				9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */,
 				9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */,
-				9F3B627425781A6F00B4F5E4 /* AdjustReadsButton.swift */,
 				9F3B62952578DAD200B4F5E4 /* TextViewWithPlaceholder.swift */,
-				9F7A5095253DD438008BFD6F /* CopyableLabel.swift */,
-				9FC0B81425D9828100EDA40E /* BlurEffectView.swift */,
-				9F2B1ED7260790F500D999CB /* AcitivityIndicator.swift */,
-				9FCA5C8F2593496B002E1D25 /* Alerts */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -274,17 +274,17 @@
 		9F5FE6A224E7181B00D0475E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				9F5FE68C24E7141400D0475E /* ReadTheMantra.xcdatamodeld */,
+				9F9299AE250818B6003D5029 /* Constants.swift */,
 				9FCA5CD4259F6936002E1D25 /* CoreDataManager.swift */,
+				9F5FE6A424E7183E00D0475E /* DetailsMode.swift */,
+				9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */,
+				9FCA5CB425936692002E1D25 /* Level.swift */,
 				9FC558AF25D158D20015C3C4 /* MantraProvider.swift */,
 				9F7EAC1B25B9360400AEC901 /* NetworkMonitor.swift */,
+				9F5FE68C24E7141400D0475E /* ReadTheMantra.xcdatamodeld */,
+				9FCA5CB025936668002E1D25 /* UpdatingType.swift */,
 				9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */,
 				9FE855A4258E2B8000771BA1 /* WidgetModel.swift */,
-				9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */,
-				9F5FE6A424E7183E00D0475E /* DetailsMode.swift */,
-				9FCA5CB025936668002E1D25 /* UpdatingType.swift */,
-				9FCA5CB425936692002E1D25 /* Level.swift */,
-				9F9299AE250818B6003D5029 /* Constants.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -330,7 +330,7 @@
 		9FE855BE258E51BF00771BA1 /* FavoritesWidget */ = {
 			isa = PBXGroup;
 			children = (
-				9FE855BF258E51BF00771BA1 /* FavoritesWidget.swift */,
+				9FE855BF258E51BF00771BA1 /* MantraWidget.swift */,
 				9F2B1EE226079C4300D999CB /* SmallWidgetView.swift */,
 				9F2B1EED26079D3B00D999CB /* MediumWidgetView.swift */,
 				9F2B1EF126079D7900D999CB /* LargeWidgetView.swift */,
@@ -506,7 +506,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FCA5C52258E52D4002E1D25 /* WidgetModel.swift in Sources */,
-				9FE855C0258E51BF00771BA1 /* FavoritesWidget.swift in Sources */,
+				9FE855C0258E51BF00771BA1 /* MantraWidget.swift in Sources */,
 				9FCA5C7A2591C0EE002E1D25 /* StringFormattedWithSpaces.swift in Sources */,
 				9F2B1EF226079D7900D999CB /* LargeWidgetView.swift in Sources */,
 				9F2B1EEE26079D3B00D999CB /* MediumWidgetView.swift in Sources */,
@@ -690,14 +690,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -713,14 +713,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -735,7 +735,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = FavoritesWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -744,7 +744,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -760,7 +760,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = FavoritesWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -769,7 +769,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

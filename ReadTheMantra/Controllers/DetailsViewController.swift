@@ -86,6 +86,7 @@ final class DetailsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupUI()
+        addGesturesRecongizers()
     }
     
     private func setupData() {
@@ -135,9 +136,47 @@ final class DetailsViewController: UIViewController {
         let photoMenu = UIMenu(children: [photoLibraryAction, standardImageAction, searchAction])
         setPhotoButton.menu = photoMenu
         
-        setKeyboardToolBars()
+        setKeyboardToolbars()
         setMode()
     }
+    
+    private func addGesturesRecongizers() {
+        
+        let titleGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showTitleKeyboard))
+        titleStackView.addGestureRecognizer(titleGestureRecognizer)
+        
+        let textGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showTextKeyboard))
+        mantraTextStackView.addGestureRecognizer(textGestureRecognizer)
+        
+        let descriptionGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showDescriptionKeyboard))
+        descriptionStackView.addGestureRecognizer(descriptionGestureRecognizer)
+        
+    }
+    
+    @objc private func showTitleKeyboard(_ recognizer: UIGestureRecognizer) {
+        if mode != .view && !titleTextField.isFirstResponder {
+            titleTextField.becomeFirstResponder()
+            let newPosition = titleTextField.endOfDocument
+            titleTextField.selectedTextRange = titleTextField.textRange(from: newPosition, to: newPosition)
+        }
+    }
+    
+    @objc private func showTextKeyboard(_ recognizer: UIGestureRecognizer) {
+        if mode != .view && !mantraTextTextView.isFirstResponder {
+            mantraTextTextView.becomeFirstResponder()
+            let newPosition = mantraTextTextView.endOfDocument
+            mantraTextTextView.selectedTextRange = mantraTextTextView.textRange(from: newPosition, to: newPosition)
+        }
+    }
+    
+    @objc private func showDescriptionKeyboard(_ recognizer: UIGestureRecognizer) {
+        if mode != .view && !detailsTextView.isFirstResponder {
+            detailsTextView.becomeFirstResponder()
+            let newPosition = detailsTextView.endOfDocument
+            detailsTextView.selectedTextRange = detailsTextView.textRange(from: newPosition, to: newPosition)
+        }
+    }
+    
     
     private func setMode() {
         switch mode {
@@ -168,7 +207,9 @@ final class DetailsViewController: UIViewController {
         navigationItem.rightBarButtonItem?.isEnabled = (titleTextField.text != "")
         setPhotoButton.setEditMode()
         titleTextField.isUserInteractionEnabled = true
+        mantraTextTextView.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
+        detailsTextView.isUserInteractionEnabled = true
         detailsTextView.isEditable = true
         titleTextField.becomeFirstResponder()
         mantraTextTextView.placeHolder.isHidden = !mantraTextTextView.text.isEmpty
@@ -191,7 +232,9 @@ final class DetailsViewController: UIViewController {
             }))
         setPhotoButton.setEditMode()
         titleTextField.isUserInteractionEnabled = true
+        mantraTextTextView.isUserInteractionEnabled = true
         mantraTextTextView.isEditable = true
+        detailsTextView.isUserInteractionEnabled = true
         detailsTextView.isEditable = true
         titleTextField.becomeFirstResponder()
         mantraTextTextView.placeHolder.isHidden = !mantraTextTextView.text.isEmpty
@@ -214,7 +257,9 @@ final class DetailsViewController: UIViewController {
             }))
         setPhotoButton.setViewMode()
         titleTextField.isUserInteractionEnabled = false
+        mantraTextTextView.isUserInteractionEnabled = false
         mantraTextTextView.isEditable = false
+        detailsTextView.isUserInteractionEnabled = false
         detailsTextView.isEditable = false
         titleTextField.resignFirstResponder()
         mantraTextTextView.resignFirstResponder()
@@ -223,7 +268,7 @@ final class DetailsViewController: UIViewController {
         detailsTextView.placeHolder.isHidden = true
     }
     
-    func setKeyboardToolBars() {
+    func setKeyboardToolbars() {
         let titleToolBar = UIToolbar()
         titleToolBar.barStyle = .default
         titleToolBar.isTranslucent = true

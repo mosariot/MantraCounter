@@ -1,6 +1,6 @@
 //
-//  FavoritesWidget.swift
-//  FavoritesWidget
+//  MantraWidget.swift
+//  FavoritessWidget
 //
 //  Created by Alex Vorobiev on 19.12.2020.
 //  Copyright © 2020 Alex Vorobiev. All rights reserved.
@@ -48,7 +48,7 @@ struct Provider: TimelineProvider {
 
 //MARK: - Widget View
 
-struct FavoritesWidgetEntryView: View {
+struct MantraWidgetEntryView: View {
     var entry: Provider.Entry
     @Environment(\.widgetFamily) var family
     
@@ -70,12 +70,12 @@ struct FavoritesWidgetEntryView: View {
 //MARK: - Widget Execution
 
 @main
-struct FavoritesWidget: Widget {
-    let kind: String = "FavoritesWidget"
+struct MantraWidget: Widget {
+    let kind: String = "MantraWidget"
     
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            FavoritesWidgetEntryView(entry: entry)
+            MantraWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("Mantra Reader")
         .description("Favorites and Your Other Mantras")
