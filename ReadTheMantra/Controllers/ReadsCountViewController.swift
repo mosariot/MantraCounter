@@ -235,7 +235,7 @@ final class ReadsCountViewController: UIViewController {
         guard let mantra = mantra, let oldReads = oldReads else { return }
         shouldInvalidatePreviousState = false
         if (oldReads < mantra.readsGoal/2 && mantra.readsGoal/2..<mantra.readsGoal ~= newReads) {
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Constants.progressAnimationDuration + 0.3) {
+            afterDelay(Constants.progressAnimationDuration + 0.3) {
                 if !self.shouldInvalidatePreviousState {
                     self.showReadsCongratulationsAlert(level: .halfGoal)
                 }
@@ -247,7 +247,7 @@ final class ReadsCountViewController: UIViewController {
             view.addSubview(confettiView)
             confettiView.startConfetti()
             
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Constants.progressAnimationDuration + 1.8) {
+            afterDelay(Constants.progressAnimationDuration + 1.8) {
                 if !self.shouldInvalidatePreviousState {
                     self.showReadsCongratulationsAlert(level: .fullGoal)
                 }

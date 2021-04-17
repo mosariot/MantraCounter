@@ -16,9 +16,9 @@ struct ActivityIndicator {
     let loadingTextLabel = UILabel()
     
     func showActivityIndicator() {
-        viewForActivityIndicator.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        viewForActivityIndicator.frame = view.bounds
         view.addSubview(viewForActivityIndicator)
-        activityIndicatorView.center = CGPoint(x: self.view.frame.size.width / 2.0, y: (self.view.frame.size.height) / 2.0)
+        activityIndicatorView.center = CGPoint(x: view.bounds.size.width / 2.0, y: (view.bounds.size.height) / 2.0)
         loadingTextLabel.textColor = .secondaryLabel
         loadingTextLabel.text = NSLocalizedString("LOADING", comment: "Loading from iCloud")
         loadingTextLabel.font = UIFont.preferredFont(forTextStyle: .footnote)

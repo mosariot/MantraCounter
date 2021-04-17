@@ -75,7 +75,6 @@ final class DetailsViewController: UIViewController {
         mantraImageData = mantra.image ?? nil
         mantraImageForTableViewData = mantra.imageForTableView ?? nil
         
-        navigationController?.presentationController?.delegate = self
         titleTextField.delegate = self
         mantraTextTextView.delegate = self
         detailsTextView.delegate = self
@@ -136,7 +135,6 @@ final class DetailsViewController: UIViewController {
         let photoMenu = UIMenu(children: [photoLibraryAction, standardImageAction, searchAction])
         setPhotoButton.menu = photoMenu
         
-        setKeyboardToolbars()
         setMode()
     }
     
@@ -267,45 +265,6 @@ final class DetailsViewController: UIViewController {
         mantraTextTextView.placeHolder.isHidden = true
         detailsTextView.placeHolder.isHidden = true
     }
-    
-    func setKeyboardToolbars() {
-        let titleToolBar = UIToolbar()
-        titleToolBar.barStyle = .default
-        titleToolBar.isTranslucent = true
-        titleToolBar.sizeToFit()
-        let titleDoneButton = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.titleTextField.resignFirstResponder()
-        }))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        titleToolBar.setItems([spaceButton, titleDoneButton], animated: false)
-        titleToolBar.isUserInteractionEnabled = true
-        titleTextField.inputAccessoryView = titleToolBar
-        
-        let textToolBar = UIToolbar()
-        textToolBar.barStyle = .default
-        textToolBar.isTranslucent = true
-        textToolBar.sizeToFit()
-        let textDoneButton = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.mantraTextTextView.resignFirstResponder()
-        }))
-        textToolBar.setItems([spaceButton, textDoneButton], animated: false)
-        textToolBar.isUserInteractionEnabled = true
-        mantraTextTextView.inputAccessoryView = textToolBar
-        
-        let detailsToolBar = UIToolbar()
-        detailsToolBar.barStyle = .default
-        detailsToolBar.isTranslucent = true
-        detailsToolBar.sizeToFit()
-        let detailsDoneButton = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.detailsTextView.resignFirstResponder()
-        }))
-        detailsToolBar.setItems([spaceButton, detailsDoneButton], animated: false)
-        detailsToolBar.isUserInteractionEnabled = true
-        detailsTextView.inputAccessoryView = detailsToolBar
-    }
 }
 
 //MARK: - Navigation Bar Buttons Methods
@@ -413,6 +372,7 @@ extension DetailsViewController {
             present(alert, animated: true, completion: nil)
             return
         }
+        
         dataProvider.processMantra(
             mantra: mantra,
             title: title,
@@ -420,7 +380,13 @@ extension DetailsViewController {
             details: detailsTextView.text,
             imageData: mantraImageData,
             imageForTableViewData: mantraImageForTableViewData)
-        dismiss(animated: true, completion: nil)
+        
+        guard let mainView = navigationController?.view else { return }
+        let hudView = HudView.hud(inView: mainView, animated: true)
+        hudView.text = NSLocalizedString("Added", comment: "HUD title")
+        afterDelay(0.8) {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }
 
@@ -586,16 +552,5 @@ extension DetailsViewController: SFSafariViewControllerDelegate {
         let resultImage = processImage(image: image)
         let downsampledImage = resultImage?.resize(to: setPhotoButton.bounds.size)
         setPhotoButton.setImage(downsampledImage, for: .normal)
-    }
-}
-
-//MARK: - UIAdaptivePresentationController Delegate (Handling dismisson of modal view)
-
-extension DetailsViewController: UIAdaptivePresentationControllerDelegate {
-    
-    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        if callerController is MantraViewController {
-            context.delete(mantra)
-        }
     }
 }

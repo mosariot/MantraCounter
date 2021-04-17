@@ -426,7 +426,7 @@ extension MantraViewController {
         let image = mantra.isFavorite ? UIImage(systemName: "star.slash") : UIImage(systemName: "star")
         
         let favorite = UIAction(title: title, image: image) { _ in
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.7) {
+            afterDelay(0.7) {
                 mantra.isFavorite.toggle()
             }
         }
@@ -470,6 +470,7 @@ extension MantraViewController {
                         coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
+        navigationController.isModalInPresentation = true
         present(navigationController, animated: true)
     }
 }
@@ -496,20 +497,18 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         handleSearchControllerResultsIfNeeded()
-        
         applySnapshot()
         reselectSelectedMantraIfNeeded()
         updateSecondaryView()
+        stopActivityIndicatorForInitialDataLoadingIfNeeded()
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+        afterDelay(0.1) {
             self.coreDataManager.saveContext()
         }
-        
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.2) {
+        afterDelay(0.2) {
             self.widgetManager.updateWidgetData(for: self.dataProvider.fetchedMantras)
         }
         
-        stopActivityIndicatorForInitialDataLoadingIfNeeded()
     }
     
     private func handleSearchControllerResultsIfNeeded() {
@@ -533,7 +532,7 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
     }
     
     private func updateSecondaryView() {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Constants.progressAnimationDuration) {
+        afterDelay(Constants.progressAnimationDuration) {
             guard let selectedMantra = self.selectedMantra else { return }
             if !self.dataProvider.fetchedMantras.contains(selectedMantra) {
                 self.selectedMantra = nil

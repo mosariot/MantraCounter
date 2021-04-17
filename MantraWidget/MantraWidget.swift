@@ -1,6 +1,6 @@
 //
 //  MantraWidget.swift
-//  FavoritessWidget
+//  FavoritesWidgetExtension
 //
 //  Created by Alex Vorobiev on 19.12.2020.
 //  Copyright © 2020 Alex Vorobiev. All rights reserved.

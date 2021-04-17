@@ -144,6 +144,9 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 /* Information bar title */
 "Information" = "Информация";
 
+/* HUD Title */
+"Added" = "Добавлено";
+
 /* Menu Item on DetailsViewController */
 "Photo Library" = "Фототека";
 

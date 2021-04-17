@@ -32,7 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if let url = connectionOptions.urlContexts.first?.url {
             let uuid = UUID(uuidString: "\(url)")
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+            afterDelay(0.1) {
                 self.deepLinkToSpecificMantra(uuid: uuid)
             }
         }
@@ -63,7 +63,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func handleShortcutAction(for shortcutItem: UIApplicationShortcutItem, controller: MantraViewController) {
         switch shortcutItem.type {
         case "com.mosariot.MantraCounter.addNewMantra":
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+            afterDelay(0.1) {
                 controller.setAddNewMantraMode()
             }
         case "com.mosariot.MantraCounter.search":

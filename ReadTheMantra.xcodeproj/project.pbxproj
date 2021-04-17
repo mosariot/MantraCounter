@@ -42,6 +42,8 @@
 		9F91804725BB48F20016FEB6 /* ModelDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91804625BB48F20016FEB6 /* ModelDetection.swift */; };
 		9F9299AF250818B6003D5029 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* Constants.swift */; };
 		9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA97A382570177B005C9078 /* ReadsCountViewController.swift */; };
+		9FA9E0F1262A2A2B000A408A /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA9E0F0262A2A2B000A408A /* Functions.swift */; };
+		9FA9E0F7262A2FF4000A408A /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA9E0F6262A2FF4000A408A /* HudView.swift */; };
 		9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */; };
 		9FC0B81525D9828100EDA40E /* BlurEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC0B81425D9828100EDA40E /* BlurEffectView.swift */; };
 		9FC3971925B14611002B1EE0 /* FirstSearchOnTheInternetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3971325B143C8002B1EE0 /* FirstSearchOnTheInternetAlert.swift */; };
@@ -139,6 +141,8 @@
 		9F91804625BB48F20016FEB6 /* ModelDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDetection.swift; sourceTree = "<group>"; };
 		9F9299AE250818B6003D5029 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9FA97A382570177B005C9078 /* ReadsCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadsCountViewController.swift; sourceTree = "<group>"; };
+		9FA9E0F0262A2A2B000A408A /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		9FA9E0F6262A2FF4000A408A /* HudView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
 		9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		9FC0B81425D9828100EDA40E /* BlurEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurEffectView.swift; sourceTree = "<group>"; };
 		9FC3971325B143C8002B1EE0 /* FirstSearchOnTheInternetAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstSearchOnTheInternetAlert.swift; sourceTree = "<group>"; };
@@ -210,7 +214,7 @@
 			children = (
 				9FE855D0258E521D00771BA1 /* FavoritesWidgetExtension.entitlements */,
 				9F5FE68224E7141400D0475E /* ReadTheMantra */,
-				9FE855BE258E51BF00771BA1 /* FavoritesWidget */,
+				9FE855BE258E51BF00771BA1 /* MantraWidget */,
 				9FE855B9258E51BF00771BA1 /* Frameworks */,
 				9F5FE68124E7141400D0475E /* Products */,
 			);
@@ -263,6 +267,7 @@
 				9F6503D7256651670055ED8F /* ConfettiView.swift */,
 				9F7A5095253DD438008BFD6F /* CopyableLabel.swift */,
 				9FC9F49325CD1FF400B4D2B5 /* HeaderSupplementaryView.swift */,
+				9FA9E0F6262A2FF4000A408A /* HudView.swift */,
 				9F5FE68924E7141400D0475E /* Main.storyboard */,
 				9F0ABF3725EA22E400742A36 /* MantraCell.swift */,
 				9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */,
@@ -293,6 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				9F5FE68F24E7141700D0475E /* Assets.xcassets */,
+				9FA9E0F0262A2A2B000A408A /* Functions.swift */,
 				9F5FE6AD24E78EE400D0475E /* Localizable.strings */,
 				9F5FE69424E7141700D0475E /* Info.plist */,
 				9F5FE6B624E9262B00D0475E /* InfoPlist.strings */,
@@ -327,7 +333,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		9FE855BE258E51BF00771BA1 /* FavoritesWidget */ = {
+		9FE855BE258E51BF00771BA1 /* MantraWidget */ = {
 			isa = PBXGroup;
 			children = (
 				9FE855BF258E51BF00771BA1 /* MantraWidget.swift */,
@@ -338,7 +344,7 @@
 				9FE855C1258E51C300771BA1 /* Assets.xcassets */,
 				9FE855C3258E51C300771BA1 /* Info.plist */,
 			);
-			path = FavoritesWidget;
+			path = MantraWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -464,6 +470,7 @@
 				9FCA5CB125936668002E1D25 /* UpdatingType.swift in Sources */,
 				9F5FE6BB24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift in Sources */,
 				9F5FE68424E7141400D0475E /* AppDelegate.swift in Sources */,
+				9FA9E0F1262A2A2B000A408A /* Functions.swift in Sources */,
 				9F5FE68E24E7141400D0475E /* ReadTheMantra.xcdatamodeld in Sources */,
 				9FE828092626227B00CBDFF2 /* MantraViewController.swift in Sources */,
 				9F5FE68624E7141400D0475E /* SceneDelegate.swift in Sources */,
@@ -471,6 +478,7 @@
 				9F2B1EC826077CC300D999CB /* AddTitleAlert.swift in Sources */,
 				9FCA5CB92593672D002E1D25 /* UpdatingAlert.swift in Sources */,
 				9F65C46025AB5BBE0037A8F7 /* FixInputAssistant.swift in Sources */,
+				9FA9E0F7262A2FF4000A408A /* HudView.swift in Sources */,
 				9F3B62A72578E51E00B4F5E4 /* AdjustReadsButton.swift in Sources */,
 				9FE855A5258E2B8000771BA1 /* WidgetModel.swift in Sources */,
 				9FE827E0261868FB00CBDFF2 /* AcitivityIndicator.swift in Sources */,
@@ -737,7 +745,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
-				INFOPLIST_FILE = FavoritesWidget/Info.plist;
+				INFOPLIST_FILE = MantraWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -762,7 +770,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
-				INFOPLIST_FILE = FavoritesWidget/Info.plist;
+				INFOPLIST_FILE = MantraWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
