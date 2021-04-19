@@ -24,6 +24,7 @@ final class BlurEffectView: UIView {
     
     private func setupView() {
         addSubview(blurEffectView)
+        
         blurEffectView.translatesAutoresizingMaskIntoConstraints = false
         blurEffectView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         blurEffectView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true

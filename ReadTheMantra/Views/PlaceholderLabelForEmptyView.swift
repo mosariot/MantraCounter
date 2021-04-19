@@ -22,9 +22,11 @@ final class PlaceholderLabelForEmptyView: UILabel {
         label.textAlignment = .center
         view.addSubview(label)
         label.isHidden = true
+        
         label.translatesAutoresizingMaskIntoConstraints = false
         label.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
         label.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -view.frame.size.height/5).isActive = true
+        
         return label
     }
 }

@@ -18,21 +18,24 @@ final class SetPhotoButton: UIButton {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        setupActivityIndicatorView()
-        setupEditLabel()
         addSubview(activityIndicatorView)
         addSubview(editLabel)
+        setupActivityIndicatorView()
+        setupEditLabel()
     }
     
     private func setupActivityIndicatorView() {
-        activityIndicatorView.center = CGPoint(x: frame.width/2, y: frame.width/2)
         activityIndicatorView.hidesWhenStopped = true
         activityIndicatorView.color = .black
+        
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicatorView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        activityIndicatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        activityIndicatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        activityIndicatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
     }
     
     private func setupEditLabel() {
-        let height = frame.height/6
-        editLabel = UILabel(frame: CGRect(x: 0, y: frame.height-height, width: frame.width, height: height))
         editLabel.font = .preferredFont(for: .body, weight: .semibold)
         editLabel.text = NSLocalizedString("EDIT", comment: "Edit mark label")
         editLabel.textColor = .systemBackground
@@ -41,6 +44,12 @@ final class SetPhotoButton: UIButton {
         editLabel.layer.masksToBounds = true
         editLabel.textAlignment = .center
         editLabel.alpha = 0
+        
+        editLabel.translatesAutoresizingMaskIntoConstraints = false
+        editLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: frame.height*5/6).isActive = true
+        editLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        editLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        editLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
     }
     
     //MARK: - Public

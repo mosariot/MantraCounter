@@ -29,6 +29,7 @@ struct ActivityIndicatorWithText {
         activityIndicatorView.style = .medium
         viewForActivityIndicator.addSubview(activityIndicatorView)
         activityIndicatorView.startAnimating()
+        
         viewForActivityIndicator.translatesAutoresizingMaskIntoConstraints = false
         viewForActivityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
         viewForActivityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
