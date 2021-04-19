@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BlurEffectView: UIView {
+final class BlurEffectView: UIView {
     
     let blurEffect = UIBlurEffect(style: .light)
     lazy var blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -23,9 +23,13 @@ class BlurEffectView: UIView {
     }
     
     private func setupView() {
-        frame = UIScreen.main.bounds
-        blurEffectView.frame = frame
         addSubview(blurEffectView)
+        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
+        blurEffectView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        blurEffectView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        blurEffectView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        blurEffectView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        
         UIView.animate(withDuration: 0.5) {
             self.alpha =  1
         }
@@ -37,9 +41,5 @@ class BlurEffectView: UIView {
         } completion: { _ in
             self.removeFromSuperview()
         }
-    }
-    
-    func updateFrame() {
-        blurEffectView.frame = UIScreen.main.bounds
     }
 }

@@ -16,6 +16,10 @@ final class ReadsCountViewController: UIViewController {
     private var dataProvider = MantraProvider()
     
     private lazy var confettiView = ConfettiView(frame: view.frame)
+    private lazy var noMantraLabel = PlaceholderLabelForEmptyView.label(
+        inView: view,
+        withText: NSLocalizedString("No mantra selected", comment: "No mantra selected"),
+        textStyle: .title1)
     
     var mantra: Mantra? {
         didSet {
@@ -23,6 +27,7 @@ final class ReadsCountViewController: UIViewController {
             guard let mantra = mantra else {
                 navigationItem.rightBarButtonItem = nil
                 mainStackView.isHidden = true
+                noMantraLabel.isHidden = false
                 return
             }
             if currentMantra == nil {
@@ -36,6 +41,7 @@ final class ReadsCountViewController: UIViewController {
             }
             navigationItem.largeTitleDisplayMode = .never
             mainStackView.isHidden = false
+            noMantraLabel.isHidden = true
             circularProgressView.goal = Int(mantra.readsGoal)
             circularProgressView.value = Int(mantra.reads)
             setupUI()

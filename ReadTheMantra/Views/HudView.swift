@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HudView: UIView {
+final class HudView: UIView {
     
     var text = ""
     
@@ -57,7 +57,7 @@ class HudView: UIView {
         text.draw(at: textPoint, withAttributes: attribs)
     }
     
-    //MARK: - Helper Methods
+    //MARK: - Show HUDView
     
     func show(animated: Bool) {
         if animated {

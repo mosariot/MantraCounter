@@ -60,9 +60,10 @@
 		9FCA5CBF25936F16002E1D25 /* CongratulationsAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CBE25936F16002E1D25 /* CongratulationsAlert.swift */; };
 		9FCA5CCB2593BEC6002E1D25 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9FCA5CC92593BEAC002E1D25 /* Localizable.strings */; };
 		9FCA5CD5259F6938002E1D25 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CD4259F6936002E1D25 /* CoreDataManager.swift */; };
+		9FD06444262C804800F0054F /* PlaceholderLabelForEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD06433262C731500F0054F /* PlaceholderLabelForEmptyView.swift */; };
+		9FD06449262D50BB00F0054F /* AcitivityIndicatorWithText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1ED7260790F500D999CB /* AcitivityIndicatorWithText.swift */; };
 		9FE827C0260E747600CBDFF2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* Constants.swift */; };
 		9FE827D72613C0AC00CBDFF2 /* CancelOrCloseMantraAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1EBA2607784500D999CB /* CancelOrCloseMantraAlert.swift */; };
-		9FE827E0261868FB00CBDFF2 /* AcitivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1ED7260790F500D999CB /* AcitivityIndicator.swift */; };
 		9FE827F0261E36B100CBDFF2 /* PreloadedMantraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE827EF261E36B100CBDFF2 /* PreloadedMantraController.swift */; };
 		9FE827FD261F960100CBDFF2 /* DuplicatingAlertForPreloadedMantras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE827F7261F953900CBDFF2 /* DuplicatingAlertForPreloadedMantras.swift */; };
 		9FE828092626227B00CBDFF2 /* MantraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F12CD18258112EE0089AFD8 /* MantraViewController.swift */; };
@@ -107,7 +108,7 @@
 		9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPhotoButton.swift; sourceTree = "<group>"; };
 		9F2B1EBA2607784500D999CB /* CancelOrCloseMantraAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOrCloseMantraAlert.swift; sourceTree = "<group>"; };
 		9F2B1EC026077AF200D999CB /* NoImageAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoImageAlert.swift; sourceTree = "<group>"; };
-		9F2B1ED7260790F500D999CB /* AcitivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcitivityIndicator.swift; sourceTree = "<group>"; };
+		9F2B1ED7260790F500D999CB /* AcitivityIndicatorWithText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcitivityIndicatorWithText.swift; sourceTree = "<group>"; };
 		9F2B1EE226079C4300D999CB /* SmallWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetView.swift; sourceTree = "<group>"; };
 		9F2B1EED26079D3B00D999CB /* MediumWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumWidgetView.swift; sourceTree = "<group>"; };
 		9F2B1EF126079D7900D999CB /* LargeWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeWidgetView.swift; sourceTree = "<group>"; };
@@ -157,6 +158,7 @@
 		9FCA5CBE25936F16002E1D25 /* CongratulationsAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongratulationsAlert.swift; sourceTree = "<group>"; };
 		9FCA5CCA2593BEAC002E1D25 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9FCA5CD4259F6936002E1D25 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		9FD06433262C731500F0054F /* PlaceholderLabelForEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderLabelForEmptyView.swift; sourceTree = "<group>"; };
 		9FE827EF261E36B100CBDFF2 /* PreloadedMantraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadedMantraController.swift; sourceTree = "<group>"; };
 		9FE827F7261F953900CBDFF2 /* DuplicatingAlertForPreloadedMantras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicatingAlertForPreloadedMantras.swift; sourceTree = "<group>"; };
 		9FE855A4258E2B8000771BA1 /* WidgetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetModel.swift; sourceTree = "<group>"; };
@@ -260,7 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				9FCA5C8F2593496B002E1D25 /* Alerts */,
-				9F2B1ED7260790F500D999CB /* AcitivityIndicator.swift */,
+				9F2B1ED7260790F500D999CB /* AcitivityIndicatorWithText.swift */,
 				9F3B627425781A6F00B4F5E4 /* AdjustReadsButton.swift */,
 				9FC0B81425D9828100EDA40E /* BlurEffectView.swift */,
 				9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */,
@@ -270,6 +272,7 @@
 				9FA9E0F6262A2FF4000A408A /* HudView.swift */,
 				9F5FE68924E7141400D0475E /* Main.storyboard */,
 				9F0ABF3725EA22E400742A36 /* MantraCell.swift */,
+				9FD06433262C731500F0054F /* PlaceholderLabelForEmptyView.swift */,
 				9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */,
 				9F3B62952578DAD200B4F5E4 /* TextViewWithPlaceholder.swift */,
 			);
@@ -474,6 +477,7 @@
 				9F5FE68E24E7141400D0475E /* ReadTheMantra.xcdatamodeld in Sources */,
 				9FE828092626227B00CBDFF2 /* MantraViewController.swift in Sources */,
 				9F5FE68624E7141400D0475E /* SceneDelegate.swift in Sources */,
+				9FD06444262C804800F0054F /* PlaceholderLabelForEmptyView.swift in Sources */,
 				9FE827F0261E36B100CBDFF2 /* PreloadedMantraController.swift in Sources */,
 				9F2B1EC826077CC300D999CB /* AddTitleAlert.swift in Sources */,
 				9FCA5CB92593672D002E1D25 /* UpdatingAlert.swift in Sources */,
@@ -481,7 +485,6 @@
 				9FA9E0F7262A2FF4000A408A /* HudView.swift in Sources */,
 				9F3B62A72578E51E00B4F5E4 /* AdjustReadsButton.swift in Sources */,
 				9FE855A5258E2B8000771BA1 /* WidgetModel.swift in Sources */,
-				9FE827E0261868FB00CBDFF2 /* AcitivityIndicator.swift in Sources */,
 				9F2B1EC126077AF200D999CB /* NoImageAlert.swift in Sources */,
 				9FC3971925B14611002B1EE0 /* FirstSearchOnTheInternetAlert.swift in Sources */,
 				9F3766112513C5B9007E6BED /* StringFormattedWithSpaces.swift in Sources */,
@@ -495,6 +498,7 @@
 				9FCA5C93259349EC002E1D25 /* DuplicatingAlert.swift in Sources */,
 				9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */,
 				9FC558B025D158D30015C3C4 /* MantraProvider.swift in Sources */,
+				9FD06449262D50BB00F0054F /* AcitivityIndicatorWithText.swift in Sources */,
 				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,
 				9F6503D8256651680055ED8F /* ConfettiView.swift in Sources */,
 				9F0ABF3825EA22E400742A36 /* MantraCell.swift in Sources */,

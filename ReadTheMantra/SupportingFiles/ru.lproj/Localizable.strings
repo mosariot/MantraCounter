@@ -78,6 +78,9 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 /* Menu Action on MantraViewController */
 "Delete" = "Удалить";
 
+/* No matches found */
+"No matches found" = "Совпадений не найдено";
+
 /* Button on ReadsCountViewController */
 "Goal: " = "Цель: ";
 
@@ -128,6 +131,9 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 
 /* Alert Button on ReadsCountViewController */
 "No" = "Нет";
+
+/* No mantra selected */
+"No mantra selected" = "Мантра не выбрана";
 
 /* Edit mark label */
 "EDIT" = "ПРАВИТЬ";

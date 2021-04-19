@@ -1,5 +1,5 @@
 //
-//  AcitivityIndicatorView.swift
+//  AcitivityIndicatorWithText.swift
 //  ReadTheMantra
 //
 //  Created by Alex Vorobiev on 21.03.2021.
@@ -8,27 +8,30 @@
 
 import UIKit
 
-struct ActivityIndicator {
+struct ActivityIndicatorWithText {
     
-    let viewForActivityIndicator = UIView()
     let view: UIView
-    let activityIndicatorView = UIActivityIndicatorView()
-    let loadingTextLabel = UILabel()
+    
+    private let viewForActivityIndicator = UIView()
+    private let activityIndicatorView = UIActivityIndicatorView()
+    private let loadingTextLabel = UILabel()
     
     func showActivityIndicator() {
-        viewForActivityIndicator.frame = view.bounds
+        viewForActivityIndicator.frame = view.frame
         view.addSubview(viewForActivityIndicator)
-        activityIndicatorView.center = CGPoint(x: view.bounds.size.width / 2.0, y: (view.bounds.size.height) / 2.0)
         loadingTextLabel.textColor = .secondaryLabel
         loadingTextLabel.text = NSLocalizedString("LOADING", comment: "Loading from iCloud")
-        loadingTextLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
+        loadingTextLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         loadingTextLabel.sizeToFit()
-        loadingTextLabel.center = CGPoint(x: activityIndicatorView.center.x, y: activityIndicatorView.center.y + 35)
+        loadingTextLabel.center = CGPoint(x: activityIndicatorView.center.x, y: activityIndicatorView.center.y + 25)
         viewForActivityIndicator.addSubview(loadingTextLabel)
         activityIndicatorView.hidesWhenStopped = true
-        activityIndicatorView.style = .large
+        activityIndicatorView.style = .medium
         viewForActivityIndicator.addSubview(activityIndicatorView)
         activityIndicatorView.startAnimating()
+        viewForActivityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        viewForActivityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        viewForActivityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
     }
     
     func stopActivityIndicator() {

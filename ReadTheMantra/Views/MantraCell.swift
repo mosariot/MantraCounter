@@ -12,7 +12,7 @@ protocol DeleteMantraDelegate: class {
     func showDeleteConfirmationAlert(for: Mantra)
 }
 
-class MantraCell: UICollectionViewListCell {
+final class MantraCell: UICollectionViewListCell {
     
     var mantra: Mantra? {
         didSet {

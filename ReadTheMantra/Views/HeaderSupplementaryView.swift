@@ -9,6 +9,7 @@
 import UIKit
 
 final class HeaderSupplementaryView: UICollectionReusableView {
+    
     let label = UILabel()
     var section: MantraViewController.Section? {
         didSet {

@@ -51,6 +51,11 @@ final class MantraViewController: UICollectionViewController {
         }
     }
     
+    private lazy var noResultsForSearchLabel = PlaceholderLabelForEmptyView.label(
+        inView: view,
+        withText: NSLocalizedString("No matches found", comment: "No matches found"),
+        textStyle: .title3)
+    
     private var isColdStart = true
     private var isPadOrMacIdiom: Bool {
         traitCollection.userInterfaceIdiom == .pad || traitCollection.userInterfaceIdiom == .mac
@@ -80,8 +85,8 @@ final class MantraViewController: UICollectionViewController {
         get { defaults.bool(forKey: "isInitalDataLoading") }
         set { defaults.set(newValue, forKey: "isInitalDataLoading") }
     }
-    private lazy var activityIndicator = ActivityIndicator(view: view)
-    private lazy var blurEffectView = BlurEffectView()
+    private lazy var activityIndicator = ActivityIndicatorWithText(view: navigationController?.view ?? view)
+    private lazy var blurEffectView = BlurEffectView(frame: splitViewController?.view.frame ?? view.frame)
     
     private let searchController = UISearchController(searchResultsController: nil)
     
@@ -119,22 +124,6 @@ final class MantraViewController: UICollectionViewController {
         reselectSelectedMantraIfNeeded()
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        coordinator.animate(alongsideTransition: { [weak self] context in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                if self.isOnboarding {
-                    self.blurEffectView.updateFrame()
-                }
-                if self.isInitalDataLoading {
-                    self.activityIndicator.stopActivityIndicator()
-                    self.activityIndicator.showActivityIndicator()
-                }
-            }
-        })
-    }
-    
     private func loadFirstMantraForSecondaryView() {
         if let firstFavoriteMantra = favoritesSectionMantras.first {
             selectedMantra = firstFavoriteMantra
@@ -158,7 +147,7 @@ final class MantraViewController: UICollectionViewController {
     
     private func checkForOnboardingAlert() {
         if isOnboarding {
-            splitViewController?.view.addSubview(blurEffectView)
+            addBlurView()
             if let onboardingViewController = storyboard?.instantiateViewController(
                 identifier: Constants.onboardingViewController) as? OnboardingViewController {
                 onboardingViewController.delegate = self
@@ -170,6 +159,15 @@ final class MantraViewController: UICollectionViewController {
                 present(onboardingViewController, animated: true)
             }
         }
+    }
+    
+    private func addBlurView() {
+        splitViewController?.view.addSubview(blurEffectView)
+        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
+        blurEffectView.topAnchor.constraint(equalTo: splitViewController?.view.topAnchor ?? view.topAnchor).isActive = true
+        blurEffectView.bottomAnchor.constraint(equalTo: splitViewController?.view.bottomAnchor ?? view.bottomAnchor).isActive = true
+        blurEffectView.leadingAnchor.constraint(equalTo: splitViewController?.view.leadingAnchor ?? view.leadingAnchor).isActive = true
+        blurEffectView.trailingAnchor.constraint(equalTo: splitViewController?.view.trailingAnchor ?? view.trailingAnchor).isActive = true
     }
     
     private func checkForInitialDataLoading() {
@@ -548,12 +546,18 @@ extension MantraViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         performSearch()
+        if displayedMantras.isEmpty {
+            noResultsForSearchLabel.isHidden = false
+        } else {
+            noResultsForSearchLabel.isHidden = true
+        }
     }
     
     private func performSearch() {
         guard let text = searchController.searchBar.text else { return }
         if text.isEmpty {
             displayedMantras = dataProvider.fetchedMantras
+            noResultsForSearchLabel.isHidden = true
             applySnapshot()
             return
         }
