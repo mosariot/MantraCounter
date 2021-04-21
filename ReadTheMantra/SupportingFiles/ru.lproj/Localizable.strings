@@ -15,6 +15,12 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 По этой причине первоначально в приложении не представлены сами тексты мантр (кроме Стослоговой мантры). Они должны быть даны Вам Вашим духовным наставником и могут быть добавлены вручную.
 Желаем глубоких осознований и духовного роста!";
 
+/* Alert Title for preloading mantras due to no internet connection */
+"No Internet Connection" = "Нет Интернет соединения";
+
+/* Alert Title for preloading mantras due to no internet connection */
+"It seems like there is no internet connection right now. New set of mantras was preloaded. If you were using 'Mantra Reader' previously with enebled iCloud account, your recordings will be added to list automatically, when internet connection will be available." = "Похоже, что сейчас нет подключения к Интернету. Был предварительно загружен новый набор мантр. Если вы ранее использовали 'Начитай!' с подключенной учетной записью iCloud, ваши данные будут добавлены в список автоматически, когда будет доступно подключение к Интернету.";
+
 /* Onboarding Alert Button */
 "UNDERSTAND!" = "ПОНЯТНО!";
 

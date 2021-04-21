@@ -19,7 +19,9 @@ final class MantraCell: UICollectionViewListCell {
             setNeedsUpdateConfiguration()
         }
     }
+    
     weak var delegate: DeleteMantraDelegate?
+    
     private var isPadOrMacIdiom: Bool {
         traitCollection.userInterfaceIdiom == .pad || traitCollection.userInterfaceIdiom == .mac
     }

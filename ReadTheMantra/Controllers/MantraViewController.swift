@@ -51,7 +51,7 @@ final class MantraViewController: UICollectionViewController {
         }
     }
     
-    private lazy var noResultsForSearchLabel = PlaceholderLabelForEmptyView.label(
+    private lazy var noResultsForSearchLabel = PlaceholderLabelForEmptyView.makeLabel(
         inView: view,
         withText: NSLocalizedString("No matches found", comment: "No matches found"),
         textStyle: .title3)
@@ -77,6 +77,10 @@ final class MantraViewController: UICollectionViewController {
             widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
         }
     }
+    private var isPreloadedMantrasDueToNoInternetConnection: Bool {
+        get { defaults.bool(forKey: "isPreloadedMantrasDueToNoInternetConnection") }
+        set { defaults.set(newValue, forKey: "isPreloadedMantrasDueToNoInternetConnection") }
+    }
     private var isOnboarding: Bool {
         get { defaults.bool(forKey: "isOnboarding") }
         set { defaults.set(newValue, forKey: "isOnboarding") }
@@ -85,8 +89,11 @@ final class MantraViewController: UICollectionViewController {
         get { defaults.bool(forKey: "isInitalDataLoading") }
         set { defaults.set(newValue, forKey: "isInitalDataLoading") }
     }
-    private lazy var activityIndicator = ActivityIndicatorWithText(view: navigationController?.view ?? view)
-    private lazy var blurEffectView = BlurEffectView(frame: splitViewController?.view.frame ?? view.frame)
+    private lazy var activityIndicator = ActivityIndicatorViewWithText.makeView(
+        inView: navigationController?.view ?? view,
+        withText: NSLocalizedString("LOADING", comment: "Loading from iCloud"))
+    
+    private lazy var blurEffectView = BlurEffectView.makeView(inView: splitViewController?.view ?? view)
     
     private let searchController = UISearchController(searchResultsController: nil)
     
@@ -95,21 +102,13 @@ final class MantraViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupNavigationBar()
         setupSearchController()
         setupCollectionView()
-        dataProvider.loadMantras()
-        loadFirstMantraForSecondaryView()
-        widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if isColdStart {
-            applySnapshot(animatingDifferences: false)
-            isColdStart.toggle()
-        }
         navigationItem.backBarButtonItem = UIBarButtonItem(
             title: NSLocalizedString("Mantra List", comment: "Back button of MantraViewController"),
             style: .plain,
@@ -119,9 +118,16 @@ final class MantraViewController: UICollectionViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        checkForOnboardingAlert()
-        checkForInitialDataLoading()
-        reselectSelectedMantraIfNeeded()
+        if isColdStart {
+            checkForOnboardingAlert()
+            dataProvider.loadMantras()
+            loadFirstMantraForSecondaryView()
+            applySnapshot()
+            widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
+            checkForInitialDataLoading()
+            reselectSelectedMantraIfNeeded()
+            isColdStart.toggle()
+        }
     }
     
     private func loadFirstMantraForSecondaryView() {
@@ -147,13 +153,13 @@ final class MantraViewController: UICollectionViewController {
     
     private func checkForOnboardingAlert() {
         if isOnboarding {
-            addBlurView()
             if let onboardingViewController = storyboard?.instantiateViewController(
                 identifier: Constants.onboardingViewController) as? OnboardingViewController {
                 onboardingViewController.delegate = self
                 if isPhoneIdiom {
                     onboardingViewController.modalPresentationStyle = .fullScreen
                 } else if isPadOrMacIdiom {
+                    blurEffectView.animateIn()
                     onboardingViewController.modalTransitionStyle = .crossDissolve
                 }
                 present(onboardingViewController, animated: true)
@@ -161,19 +167,10 @@ final class MantraViewController: UICollectionViewController {
         }
     }
     
-    private func addBlurView() {
-        splitViewController?.view.addSubview(blurEffectView)
-        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
-        blurEffectView.topAnchor.constraint(equalTo: splitViewController?.view.topAnchor ?? view.topAnchor).isActive = true
-        blurEffectView.bottomAnchor.constraint(equalTo: splitViewController?.view.bottomAnchor ?? view.bottomAnchor).isActive = true
-        blurEffectView.leadingAnchor.constraint(equalTo: splitViewController?.view.leadingAnchor ?? view.leadingAnchor).isActive = true
-        blurEffectView.trailingAnchor.constraint(equalTo: splitViewController?.view.trailingAnchor ?? view.trailingAnchor).isActive = true
-    }
-    
     private func checkForInitialDataLoading() {
         if isInitalDataLoading {
             if dataProvider.fetchedMantras.isEmpty {
-                activityIndicator.showActivityIndicator()
+                activityIndicator.isHidden = false
             }
         }
     }
@@ -311,7 +308,7 @@ extension MantraViewController {
         return dataSource
     }
     
-    private func applySnapshot(animatingDifferences: Bool = true) {
+    private func applySnapshot() {
         var snapshot = Snapshot()
         if !favoritesSectionMantras.isEmpty {
             snapshot.appendSections([.favorites])
@@ -326,7 +323,7 @@ extension MantraViewController {
             snapshot.appendSections([.other])
             snapshot.appendItems(mainSectionMantras, toSection: .other)
         }
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
@@ -521,7 +518,7 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
     private func stopActivityIndicatorForInitialDataLoadingIfNeeded() {
         if isInitalDataLoading {
             if !dataProvider.fetchedMantras.isEmpty {
-                activityIndicator.stopActivityIndicator()
+                activityIndicator.removeFromSuperview()
                 loadFirstMantraForSecondaryView()
                 reselectSelectedMantraIfNeeded()
                 isInitalDataLoading.toggle()
@@ -579,5 +576,10 @@ extension MantraViewController: OnboardingViewControllerDelegate {
     func dismissButtonPressed() {
         blurEffectView.animateOut()
         isOnboarding.toggle()
+        if isPreloadedMantrasDueToNoInternetConnection {
+            let alert = UIAlertController.preloadedMantrasDueToNoInternetConnection()
+            isPreloadedMantrasDueToNoInternetConnection.toggle()
+            present(alert, animated: true, completion: nil)
+        }
     }
 }

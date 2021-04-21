@@ -12,8 +12,8 @@ final class PlaceholderLabelForEmptyView: UILabel {
     
     //MARK: - Convinient initializer
     
-    class func label(inView view: UIView, withText text: String, textStyle: UIFont.TextStyle) -> PlaceholderLabelForEmptyView {
-        let label = PlaceholderLabelForEmptyView(frame: view.frame)
+    static func makeLabel(inView view: UIView, withText text: String, textStyle: UIFont.TextStyle) -> PlaceholderLabelForEmptyView {
+        let label = PlaceholderLabelForEmptyView(frame: view.bounds)
         label.text = text
         label.font = UIFont.preferredFont(forTextStyle: textStyle)
         label.textColor = .secondaryLabel
@@ -24,8 +24,11 @@ final class PlaceholderLabelForEmptyView: UILabel {
         label.isHidden = true
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -view.frame.size.height/5).isActive = true
+        label.centerXAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        label.centerYAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.centerYAnchor,
+            constant: -view.bounds.height / 5).isActive = true
         
         return label
     }

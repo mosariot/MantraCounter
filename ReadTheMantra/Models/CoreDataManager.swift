@@ -65,7 +65,8 @@ extension CoreDataManager {
                           "isOnboarding": true,
                           "isInitalDataLoading": true,
                           "isFirstSearchOnTheInternet": true,
-                          "isAlphabeticalSorting": true]
+                          "isAlphabeticalSorting": true,
+                          "isPreloadedMantrasDueToNoInternetConnection": false]
         UserDefaults.standard.register(defaults: dictionary)
     }
 }
@@ -82,6 +83,7 @@ extension CoreDataManager {
             DispatchQueue.main.async {
                 if !(networkMonitor.isReachable) {
                     self.preloadData()
+                    UserDefaults.standard.set(true, forKey: "isPreloadedMantrasDueToNoInternetConnection")
                 } else {
                     self.checkForiCloudRecords()
                 }

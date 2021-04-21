@@ -110,10 +110,10 @@ final class CircularProgressView: UIView {
         convert(center, from: superview)
     }
     private var radius: CGFloat {
-        if frame.width < frame.height {
-            return (frame.width - lineWidth)/2
+        if bounds.width < bounds.height {
+            return (bounds.width - lineWidth)/2
         } else {
-            return (frame.height - lineWidth)/2 }
+            return (bounds.height - lineWidth)/2 }
     }
     private var labelTimer: Timer?
     private var goalCircleTimer: Timer?

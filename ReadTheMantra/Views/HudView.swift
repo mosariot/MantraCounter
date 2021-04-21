@@ -14,7 +14,7 @@ final class HudView: UIView {
     
     //MARK: - Convinient initializer
     
-    class func hud(inView view: UIView, animated: Bool) -> HudView {
+    static func makeView(inView view: UIView, animated: Bool) -> HudView {
         let hudView = HudView(frame: view.bounds)
         hudView.isOpaque = false
         view.addSubview(hudView)
@@ -30,8 +30,8 @@ final class HudView: UIView {
         let boxHeight: CGFloat = 96
         
         let boxRect = CGRect(
-            x: round((bounds.size.width - boxWidth)/2),
-            y: round((bounds.size.height - boxHeight)/2),
+            x: round((bounds.width - boxWidth)/2),
+            y: round((bounds.height - boxHeight)/2),
             width: boxWidth,
             height: boxHeight)
         

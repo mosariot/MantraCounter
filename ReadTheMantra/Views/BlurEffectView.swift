@@ -8,29 +8,27 @@
 
 import UIKit
 
-final class BlurEffectView: UIView {
+final class BlurEffectView: UIVisualEffectView {
     
-    let blurEffect = UIBlurEffect(style: .light)
-    lazy var blurEffectView = UIVisualEffectView(effect: blurEffect)
+    //MARK: - Convinient initializer
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupView()
+    static func makeView(inView view: UIView) -> BlurEffectView {
+        let blurView = BlurEffectView(frame: view.bounds)
+        view.addSubview(blurView)
+        blurView.effect = UIBlurEffect(style: .light)
+        
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        blurView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        blurView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        blurView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        blurView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        return blurView
     }
     
-    required init?(coder: NSCoder) {
-        fatalError()
-    }
+    //MARK: - Show Methods
     
-    private func setupView() {
-        addSubview(blurEffectView)
-        
-        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
-        blurEffectView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        blurEffectView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        blurEffectView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        blurEffectView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        
+    func animateIn() {
         UIView.animate(withDuration: 0.5) {
             self.alpha =  1
         }

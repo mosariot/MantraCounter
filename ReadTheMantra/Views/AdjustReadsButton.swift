@@ -10,13 +10,14 @@ import UIKit
 
 final class AdjustReadsButton: UIButton {
     
-    public var imageSystemName = "" {
+    var imageSystemName = "" {
         didSet { setupButtonImage(forSystemName: imageSystemName) }
     }
     
     private func setupButtonImage(forSystemName systemName: String) {
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .light, scale: .large)
-        let buttonImage = UIImage(systemName: systemName, withConfiguration: largeConfig)?.withTintColor(Constants.accentColor ?? .systemOrange, renderingMode: .alwaysOriginal)
+        let buttonImage = UIImage(systemName: systemName, withConfiguration: largeConfig)?
+            .withTintColor(Constants.accentColor ?? .systemOrange, renderingMode: .alwaysOriginal)
         setImage(buttonImage, for: .normal)
     }
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9F0ABF3825EA22E400742A36 /* MantraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0ABF3725EA22E400742A36 /* MantraCell.swift */; };
+		9F1769FA262EECAE00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1769F2262EE13A00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift */; };
 		9F2715B025B83D92002A98FD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F2715AF25B83D92002A98FD /* CloudKit.framework */; };
 		9F293E3B2575503000B7B1C7 /* SetPhotoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */; };
 		9F2B1EC126077AF200D999CB /* NoImageAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1EC026077AF200D999CB /* NoImageAlert.swift */; };
@@ -61,7 +62,7 @@
 		9FCA5CCB2593BEC6002E1D25 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9FCA5CC92593BEAC002E1D25 /* Localizable.strings */; };
 		9FCA5CD5259F6938002E1D25 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CD4259F6936002E1D25 /* CoreDataManager.swift */; };
 		9FD06444262C804800F0054F /* PlaceholderLabelForEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD06433262C731500F0054F /* PlaceholderLabelForEmptyView.swift */; };
-		9FD06449262D50BB00F0054F /* AcitivityIndicatorWithText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1ED7260790F500D999CB /* AcitivityIndicatorWithText.swift */; };
+		9FD06450262E13A500F0054F /* ActivityIndicatorViewWithText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1ED7260790F500D999CB /* ActivityIndicatorViewWithText.swift */; };
 		9FE827C0260E747600CBDFF2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* Constants.swift */; };
 		9FE827D72613C0AC00CBDFF2 /* CancelOrCloseMantraAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1EBA2607784500D999CB /* CancelOrCloseMantraAlert.swift */; };
 		9FE827F0261E36B100CBDFF2 /* PreloadedMantraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE827EF261E36B100CBDFF2 /* PreloadedMantraController.swift */; };
@@ -104,11 +105,12 @@
 /* Begin PBXFileReference section */
 		9F0ABF3725EA22E400742A36 /* MantraCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraCell.swift; sourceTree = "<group>"; };
 		9F12CD18258112EE0089AFD8 /* MantraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraViewController.swift; sourceTree = "<group>"; };
+		9F1769F2262EE13A00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadedMantrasDueToNoInternetConnection.swift; sourceTree = "<group>"; };
 		9F2715AF25B83D92002A98FD /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPhotoButton.swift; sourceTree = "<group>"; };
 		9F2B1EBA2607784500D999CB /* CancelOrCloseMantraAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOrCloseMantraAlert.swift; sourceTree = "<group>"; };
 		9F2B1EC026077AF200D999CB /* NoImageAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoImageAlert.swift; sourceTree = "<group>"; };
-		9F2B1ED7260790F500D999CB /* AcitivityIndicatorWithText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcitivityIndicatorWithText.swift; sourceTree = "<group>"; };
+		9F2B1ED7260790F500D999CB /* ActivityIndicatorViewWithText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorViewWithText.swift; sourceTree = "<group>"; };
 		9F2B1EE226079C4300D999CB /* SmallWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetView.swift; sourceTree = "<group>"; };
 		9F2B1EED26079D3B00D999CB /* MediumWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumWidgetView.swift; sourceTree = "<group>"; };
 		9F2B1EF126079D7900D999CB /* LargeWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeWidgetView.swift; sourceTree = "<group>"; };
@@ -262,7 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				9FCA5C8F2593496B002E1D25 /* Alerts */,
-				9F2B1ED7260790F500D999CB /* AcitivityIndicatorWithText.swift */,
+				9F2B1ED7260790F500D999CB /* ActivityIndicatorViewWithText.swift */,
 				9F3B627425781A6F00B4F5E4 /* AdjustReadsButton.swift */,
 				9FC0B81425D9828100EDA40E /* BlurEffectView.swift */,
 				9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */,
@@ -312,16 +314,17 @@
 		9FCA5C8F2593496B002E1D25 /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
+				9FCA5CAA259363E2002E1D25 /* AddTitleAlert.swift */,
+				9F2B1EBA2607784500D999CB /* CancelOrCloseMantraAlert.swift */,
+				9FCA5CBE25936F16002E1D25 /* CongratulationsAlert.swift */,
 				9FCA5C8B259347A5002E1D25 /* DeleteConfirmationAlert.swift */,
 				9FCA5C92259349EC002E1D25 /* DuplicatingAlert.swift */,
 				9FE827F7261F953900CBDFF2 /* DuplicatingAlertForPreloadedMantras.swift */,
-				9F2B1EBA2607784500D999CB /* CancelOrCloseMantraAlert.swift */,
-				9FCA5CAA259363E2002E1D25 /* AddTitleAlert.swift */,
-				9F2B1EC026077AF200D999CB /* NoImageAlert.swift */,
-				9FCA5CB82593672D002E1D25 /* UpdatingAlert.swift */,
-				9FFF85AF25EEAEB200131AA7 /* UndoAlert.swift */,
-				9FCA5CBE25936F16002E1D25 /* CongratulationsAlert.swift */,
 				9FC3971325B143C8002B1EE0 /* FirstSearchOnTheInternetAlert.swift */,
+				9F2B1EC026077AF200D999CB /* NoImageAlert.swift */,
+				9F1769F2262EE13A00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift */,
+				9FFF85AF25EEAEB200131AA7 /* UndoAlert.swift */,
+				9FCA5CB82593672D002E1D25 /* UpdatingAlert.swift */,
 			);
 			path = Alerts;
 			sourceTree = "<group>";
@@ -482,6 +485,7 @@
 				9F2B1EC826077CC300D999CB /* AddTitleAlert.swift in Sources */,
 				9FCA5CB92593672D002E1D25 /* UpdatingAlert.swift in Sources */,
 				9F65C46025AB5BBE0037A8F7 /* FixInputAssistant.swift in Sources */,
+				9F1769FA262EECAE00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift in Sources */,
 				9FA9E0F7262A2FF4000A408A /* HudView.swift in Sources */,
 				9F3B62A72578E51E00B4F5E4 /* AdjustReadsButton.swift in Sources */,
 				9FE855A5258E2B8000771BA1 /* WidgetModel.swift in Sources */,
@@ -498,7 +502,6 @@
 				9FCA5C93259349EC002E1D25 /* DuplicatingAlert.swift in Sources */,
 				9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */,
 				9FC558B025D158D30015C3C4 /* MantraProvider.swift in Sources */,
-				9FD06449262D50BB00F0054F /* AcitivityIndicatorWithText.swift in Sources */,
 				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,
 				9F6503D8256651680055ED8F /* ConfettiView.swift in Sources */,
 				9F0ABF3825EA22E400742A36 /* MantraCell.swift in Sources */,
@@ -508,6 +511,7 @@
 				9FC0B81525D9828100EDA40E /* BlurEffectView.swift in Sources */,
 				9F3B1C032538F50200BEE838 /* RoundedSystemFont.swift in Sources */,
 				9FE827D72613C0AC00CBDFF2 /* CancelOrCloseMantraAlert.swift in Sources */,
+				9FD06450262E13A500F0054F /* ActivityIndicatorViewWithText.swift in Sources */,
 				9F7EAC1C25B9360400AEC901 /* NetworkMonitor.swift in Sources */,
 				9F91804725BB48F20016FEB6 /* ModelDetection.swift in Sources */,
 			);

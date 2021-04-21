@@ -29,10 +29,10 @@ final class SetPhotoButton: UIButton {
         activityIndicatorView.color = .black
         
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicatorView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        activityIndicatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        activityIndicatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        activityIndicatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        activityIndicatorView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        activityIndicatorView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        activityIndicatorView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        activityIndicatorView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     }
     
     private func setupEditLabel() {
@@ -46,15 +46,15 @@ final class SetPhotoButton: UIButton {
         editLabel.alpha = 0
         
         editLabel.translatesAutoresizingMaskIntoConstraints = false
-        editLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: frame.height*5/6).isActive = true
-        editLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        editLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        editLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        editLabel.topAnchor.constraint(equalTo: topAnchor, constant: bounds.height * 5 / 6).isActive = true
+        editLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        editLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        editLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     }
     
-    //MARK: - Public
+    //MARK: - View Modes
     
-    public func setEditMode() {
+    func setEditMode() {
         isUserInteractionEnabled = true
         activityIndicatorView.stopAnimating()
         UIView.animate(withDuration: 0.2) {
@@ -63,7 +63,7 @@ final class SetPhotoButton: UIButton {
         }
     }
     
-    public func setProcessMode() {
+    func setProcessMode() {
         isUserInteractionEnabled = true
         activityIndicatorView.startAnimating()
         UIView.animate(withDuration: 0.2) {
@@ -72,7 +72,7 @@ final class SetPhotoButton: UIButton {
         }
     }
     
-    public func setViewMode() {
+    func setViewMode() {
         isUserInteractionEnabled = false
         activityIndicatorView.stopAnimating()
         UIView.animate(withDuration: 0.2) {

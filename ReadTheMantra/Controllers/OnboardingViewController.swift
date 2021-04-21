@@ -35,7 +35,7 @@ final class OnboardingViewController: UIViewController {
         titleLabel.font = UIFont.preferredFont(for: .title1, weight: .heavy)
         titleLabel.text = NSLocalizedString("Welcome to the path of Enlightenment!", comment: "Onboarding Alert Title")
         dismissButton.titleLabel?.font = UIFont.preferredFont(for: .callout, weight: .bold)
-        dismissButton.layer.cornerRadius = dismissButton.frame.height / 4
+        dismissButton.layer.cornerRadius = dismissButton.bounds.height / 4
         dismissButton.setTitle(NSLocalizedString("UNDERSTAND!", comment: "Onboarding Alert Button"), for: .normal)
         textLabel.text = NSLocalizedString("""
                                     Recitation of mantras - is a sacrament.

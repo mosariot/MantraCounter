@@ -9,7 +9,26 @@ import UIKit
 
 final class ConfettiView: UIView {
     
+    override var bounds: CGRect {
+        didSet {
+            createPositionAndSizeOfEmitter()
+        }
+    }
+    
     private var confettiEmitter = CAEmitterLayer()
+    
+    static func makeView(inView view: UIView, animated: Bool) -> ConfettiView {
+        let confettiView = ConfettiView(frame: view.bounds)
+        view.addSubview(confettiView)
+        
+        confettiView.translatesAutoresizingMaskIntoConstraints = false
+        confettiView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        confettiView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        confettiView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        confettiView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        return confettiView
+    }
     
     func startConfetti() {
         makeConfettiEmitter()
@@ -24,9 +43,7 @@ final class ConfettiView: UIView {
     }
     
     private func makeConfettiEmitter() {
-        confettiEmitter.emitterPosition = CGPoint(x: frame.size.width / 2.0, y: 0)
-        confettiEmitter.emitterShape = .line
-        confettiEmitter.emitterSize = CGSize(width: frame.size.width, height: 1)
+        createPositionAndSizeOfEmitter()
         
         var cells = [CAEmitterCell]()
         
@@ -47,6 +64,12 @@ final class ConfettiView: UIView {
         }
         
         confettiEmitter.emitterCells = cells
+    }
+    
+    private func createPositionAndSizeOfEmitter() {
+        confettiEmitter.emitterPosition = CGPoint(x: bounds.width / 2, y: 0)
+        confettiEmitter.emitterShape = .line
+        confettiEmitter.emitterSize = CGSize(width: bounds.width, height: 1)
     }
     
     private func confettiWithColor(color: UIColor) -> CAEmitterCell {
@@ -81,7 +104,7 @@ final class ConfettiView: UIView {
             }
         }
         timer.fire()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Constants.progressAnimationDuration + 2.7) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.progressAnimationDuration + 2.7) {
             self.removeFromSuperview()
         }
     }

@@ -15,8 +15,8 @@ final class ReadsCountViewController: UIViewController {
     private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     private var dataProvider = MantraProvider()
     
-    private lazy var confettiView = ConfettiView(frame: view.frame)
-    private lazy var noMantraLabel = PlaceholderLabelForEmptyView.label(
+    private lazy var confettiView = ConfettiView()
+    private lazy var noMantraLabel = PlaceholderLabelForEmptyView.makeLabel(
         inView: view,
         withText: NSLocalizedString("No mantra selected", comment: "No mantra selected"),
         textStyle: .title1)
@@ -249,8 +249,7 @@ final class ReadsCountViewController: UIViewController {
         }
         
         if oldReads < mantra.readsGoal && newReads >= mantra.readsGoal {
-            confettiView = ConfettiView(frame: view.frame)
-            view.addSubview(confettiView)
+            confettiView = ConfettiView.makeView(inView: splitViewController?.view ?? view, animated: true)
             confettiView.startConfetti()
             
             afterDelay(Constants.progressAnimationDuration + 1.8) {
