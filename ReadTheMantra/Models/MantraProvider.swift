@@ -39,7 +39,7 @@ class MantraProvider {
             try fetchedResultsController?.performFetch()
             deleteEmptyMantrasIfNeeded()
         } catch {
-            print("Error fetching data \(error)")
+            // Error fetching data
         }
     }
     

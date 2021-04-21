@@ -171,6 +171,7 @@ final class MantraViewController: UICollectionViewController {
     
     private func checkForInitialDataLoading() {
         if isInitalDataLoading {
+            widgetManager.updateWidgetData(for: [])
             if dataProvider.fetchedMantras.isEmpty {
                 activityIndicator.isHidden = false
             }
@@ -517,14 +518,10 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
         reselectSelectedMantraIfNeeded()
         updateSecondaryView()
         stopActivityIndicatorForInitialDataLoadingIfNeeded()
-        
+        widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
         afterDelay(0.1) {
             self.coreDataManager.saveContext()
         }
-        afterDelay(0.2) {
-            self.widgetManager.updateWidgetData(for: self.dataProvider.fetchedMantras)
-        }
-        
     }
     
     private func handleSearchControllerResultsIfNeeded() {
@@ -542,6 +539,7 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
                 activityIndicator.removeFromSuperview()
                 loadFirstMantraForSecondaryView()
                 reselectSelectedMantraIfNeeded()
+                widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
                 isInitalDataLoading.toggle()
             }
         }

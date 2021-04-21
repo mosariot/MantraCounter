@@ -27,21 +27,15 @@ struct Provider: TimelineProvider {
     }
     
     func getSnapshot(in context: Context, completion: @escaping (WidgetEntry) -> ()) {
-        guard let widgetItem = try? JSONDecoder().decode(WidgetModel.self, from: widgetItemData) else {
-            print("Could not decode data")
-            return
-        }
+        guard let widgetItem = try? JSONDecoder().decode(WidgetModel.self, from: widgetItemData) else { return }
         let entry = WidgetEntry(widgetModel: widgetItem)
         completion(entry)
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetEntry>) -> ()) {
-        guard let widgetItem = try? JSONDecoder().decode(WidgetModel.self, from: widgetItemData) else {
-            print("Could not decode data")
-            return
-        }
+        guard let widgetItem = try? JSONDecoder().decode(WidgetModel.self, from: widgetItemData) else { return }
         let entry = WidgetEntry(widgetModel: widgetItem)
-        let timeline = Timeline(entries: [entry], policy: .never)
+        let timeline = Timeline(entries: [entry], policy: .atEnd)
         completion(timeline)
     }
 }
@@ -56,11 +50,11 @@ struct MantraWidgetEntryView: View {
     var body: some View {
         switch family {
         case .systemSmall:
-            SmallWidget(entry: entry)
+            SmallWidget(widgetModel: entry.widgetModel)
         case .systemMedium:
-            MediumWidget(entry: entry)
+            MediumWidget(widgetModel: entry.widgetModel)
         case .systemLarge:
-            LargeWidget(entry: entry)
+            LargeWidget(widgetModel: entry.widgetModel)
         @unknown default:
             fatalError("Unknown Widget Size")
         }
@@ -79,5 +73,6 @@ struct MantraWidget: Widget {
         }
         .configurationDisplayName("Mantra Reader")
         .description("Favorites and Your Other Mantras")
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }

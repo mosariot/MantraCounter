@@ -84,6 +84,7 @@ extension CoreDataManager {
                 if !(networkMonitor.isReachable) {
                     self.preloadData()
                     UserDefaults.standard.set(true, forKey: "isPreloadedMantrasDueToNoInternetConnection")
+                    UserDefaults.standard.set(false, forKey: "isInitalDataLoading")
                 } else {
                     self.checkForiCloudRecords()
                 }

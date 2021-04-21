@@ -16,10 +16,10 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 Желаем глубоких осознований и духовного роста!";
 
 /* Alert Title for preloading mantras due to no internet connection */
-"No Internet Connection" = "Нет Интернет соединения";
+"No Internet Connection" = "Нет подключения к интернету";
 
 /* Alert Title for preloading mantras due to no internet connection */
-"It seems like there is no internet connection right now. New set of mantras was preloaded. If you were using 'Mantra Reader' previously with enabled iCloud account, your recordings will be added to the list automatically, when internet connection will be available (you may need to relaunch the app)." = "Похоже, что сейчас нет подключения к Интернету. Был предварительно загружен новый набор мантр. Если вы ранее использовали 'Начитай!' с подключенной учетной записью iCloud, ваши данные будут добавлены в список автоматически, когда будет доступно подключение к Интернету (возможно, будет необходимо перезапустить приложение).";
+"It seems like there is no internet connection right now. New set of mantras was preloaded. If you were using 'Mantra Reader' previously with enabled iCloud account, your recordings will be added to the list automatically, when internet connection will be available (you may need to relaunch the app)." = "Похоже, что сейчас нет подключения к Интернету. Был предварительно загружен новый набор мантр. Если вы ранее использовали 'Начитай!' с включенной учетной записью iCloud, ваши данные будут добавлены в список автоматически, когда станет доступно подключение к Интернету (возможно, необходимо будет перезапустить приложение).";
 
 /* Onboarding Alert Button */
 "UNDERSTAND!" = "ПОНЯТНО!";

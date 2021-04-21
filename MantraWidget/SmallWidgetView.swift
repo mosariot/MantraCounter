@@ -10,12 +10,12 @@ import WidgetKit
 import SwiftUI
 
 struct SmallWidget: View {
-    var entry: Provider.Entry
+    var widgetModel: WidgetModel
     
     @ViewBuilder
     var body: some View {
         
-        let mantraArray = Array(entry.widgetModel.mantras.prefix(4))
+        let mantraArray = widgetModel.mantras.prefix(4)
         let columns: [GridItem] = [GridItem(.flexible()),
                                    GridItem(.flexible())]
         

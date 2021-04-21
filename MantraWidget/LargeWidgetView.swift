@@ -10,11 +10,11 @@ import WidgetKit
 import SwiftUI
 
 struct LargeWidget: View {
-    var entry: Provider.Entry
+    var widgetModel: WidgetModel
     
     @ViewBuilder
     var body: some View {
-        let mantraArray = Array(entry.widgetModel.mantras.prefix(6))
+        let mantraArray = widgetModel.mantras.prefix(6)
         
         ZStack {
             Color.init(UIColor.systemGroupedBackground)
