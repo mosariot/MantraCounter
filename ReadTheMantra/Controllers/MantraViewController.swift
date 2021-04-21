@@ -238,6 +238,7 @@ final class MantraViewController: UICollectionViewController {
     
     private func setupSearchController() {
         searchController.searchResultsUpdater = self
+        searchController.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = NSLocalizedString("Search", comment: "Search Placeholder")
         searchController.definesPresentationContext = true
@@ -586,6 +587,12 @@ extension MantraViewController: UISearchResultsUpdating {
             }
         }
         applySnapshot()
+    }
+}
+
+extension MantraViewController: UISearchControllerDelegate {
+    func didDismissSearchController(_ searchController: UISearchController) {
+        noResultsForSearchLabel.isHidden = true
     }
 }
 
