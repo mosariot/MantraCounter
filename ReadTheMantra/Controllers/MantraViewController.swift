@@ -63,6 +63,7 @@ final class MantraViewController: UICollectionViewController {
     private var isPhoneIdiom: Bool {
         traitCollection.userInterfaceIdiom == .phone
     }
+    private var isAppReadyForDeeplinkOrShortcut = false
     
     private let defaults = UserDefaults.standard
     private var isAlphabeticalSorting: Bool {
@@ -126,6 +127,7 @@ final class MantraViewController: UICollectionViewController {
             widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
             checkForInitialDataLoading()
             reselectSelectedMantraIfNeeded()
+            isAppReadyForDeeplinkOrShortcut = true
             isColdStart.toggle()
         }
     }
@@ -257,22 +259,31 @@ final class MantraViewController: UICollectionViewController {
     }
 }
 
-//MARK: - Home Screen Quick Actions Handling
+//MARK: - Home Screen Shortcuts Handling
 
 extension MantraViewController {
     
     func setAddNewMantraMode() {
-        showNewMantraVC()
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
+            guard let self = self else {
+                timer.invalidate()
+                return
+            }
+            if self.isAppReadyForDeeplinkOrShortcut {
+                self.showNewMantraVC()
+                timer.invalidate()
+            }
+        }
     }
     
     func setSearchMode() {
         searchController.isActive = true
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak searchController] timer in
-            guard let searchController = searchController else {
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak searchController, weak self] timer in
+            guard let searchController = searchController, let self = self else {
                 timer.invalidate()
                 return
             }
-            if searchController.searchBar.canBecomeFirstResponder {
+            if self.isAppReadyForDeeplinkOrShortcut && searchController.searchBar.canBecomeFirstResponder {
                 searchController.searchBar.becomeFirstResponder()
                 timer.invalidate()
             }
@@ -388,13 +399,22 @@ extension MantraViewController {
 extension MantraViewController {
     
     func goToMantraWith(uuid: UUID) {
-        guard let mantra = displayedMantras.filter({ $0.uuid == uuid }).first else { return }
-        selectedMantra = mantra
-        reselectSelectedMantraIfNeeded()
-        defaults.set(false, forKey: "collapseSecondaryViewController")
-        if let readsCountViewController = delegate as? ReadsCountViewController,
-           let readsCountNavigationController = readsCountViewController.navigationController {
-            splitViewController?.showDetailViewController(readsCountNavigationController, sender: nil)
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
+            guard let self = self else {
+                timer.invalidate()
+                return
+            }
+            if self.isAppReadyForDeeplinkOrShortcut {
+                guard let mantra = self.displayedMantras.filter({ $0.uuid == uuid }).first else { return }
+                self.selectedMantra = mantra
+                self.reselectSelectedMantraIfNeeded()
+                self.defaults.set(false, forKey: "collapseSecondaryViewController")
+                if let readsCountViewController = self.delegate as? ReadsCountViewController,
+                   let readsCountNavigationController = readsCountViewController.navigationController {
+                    self.splitViewController?.showDetailViewController(readsCountNavigationController, sender: nil)
+                }
+                timer.invalidate()
+            }
         }
     }
 }
