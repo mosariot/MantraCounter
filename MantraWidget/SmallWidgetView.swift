@@ -16,8 +16,6 @@ struct SmallWidget: View {
     var body: some View {
         
         let mantraArray = widgetModel.mantras.prefix(4)
-        let columns: [GridItem] = [GridItem(.flexible()),
-                                   GridItem(.flexible())]
         
         ZStack {
             Color.init(UIColor.systemGroupedBackground)
@@ -28,21 +26,25 @@ struct SmallWidget: View {
                     .resizable()
                     .frame(width: 100, height: 100, alignment: .center)
             } else {
-                LazyVGrid(columns: columns, alignment: .center, content: {
-                    ForEach(mantraArray, id: \.self) { mantra in
-                        VStack {
-                            Image(uiImage: ((mantra.image != nil) ?
-                                                UIImage(data: mantra.image!) :
-                                                UIImage(named: Constants.defaultImage))!)
-                                .resizable()
-                                .frame(width: 43, height: 43, alignment: .center)
-                            Text(Int(mantra.reads).stringFormattedWithSpaces())
-                                .font(Font(UIFont.preferredFont(for: .caption2, weight: .bold)))
-                                .foregroundColor(.secondary)
+                VStack {
+                    ForEach(0 ..< 2, id: \.self) { row in
+                        HStack {
+                            ForEach(0 ..< 2, id: \.self) { column in
+                                VStack {
+                                    Image(uiImage: ((mantraArray[2 * row + column].image != nil) ?
+                                                        UIImage(data: mantraArray[2 * row + column].image!) :
+                                                        UIImage(named: Constants.defaultImage))!)
+                                        .resizable()
+                                        .frame(width: 43, height: 43, alignment: .center)
+                                    Text(Int(mantraArray[2 * row + column].reads).stringFormattedWithSpaces())
+                                        .font(Font(UIFont.preferredFont(for: .caption2, weight: .bold)))
+                                        .foregroundColor(.secondary)
+                                }
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            }
                         }
-                        .frame(maxHeight: .infinity)
                     }
-                })
+                }
                 .padding()
             }
         }

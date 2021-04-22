@@ -128,7 +128,7 @@ final class MantraViewController: UICollectionViewController {
             checkForInitialDataLoading()
             reselectSelectedMantraIfNeeded()
             isAppReadyForDeeplinkOrShortcut = true
-            isColdStart.toggle()
+            isColdStart = false
         }
     }
     
@@ -171,7 +171,6 @@ final class MantraViewController: UICollectionViewController {
     
     private func checkForInitialDataLoading() {
         if isInitalDataLoading {
-            widgetManager.updateWidgetData(for: [])
             if dataProvider.fetchedMantras.isEmpty {
                 activityIndicator.isHidden = false
             }
@@ -540,7 +539,7 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
                 loadFirstMantraForSecondaryView()
                 reselectSelectedMantraIfNeeded()
                 widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
-                isInitalDataLoading.toggle()
+                isInitalDataLoading = false
             }
         }
     }
@@ -600,10 +599,11 @@ extension MantraViewController: OnboardingViewControllerDelegate {
     
     func dismissButtonPressed() {
         blurEffectView.animateOut()
-        isOnboarding.toggle()
+        isOnboarding = false
         if isPreloadedMantrasDueToNoInternetConnection {
             let alert = UIAlertController.preloadedMantrasDueToNoInternetConnection()
-            isPreloadedMantrasDueToNoInternetConnection.toggle()
+            widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
+            isPreloadedMantrasDueToNoInternetConnection = false
             present(alert, animated: true, completion: nil)
         }
     }
