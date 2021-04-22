@@ -38,7 +38,15 @@ final class MantraViewController: UICollectionViewController {
     
     private let widgetManager = WidgetManager()
     
-    private lazy var displayedMantras = dataProvider.fetchedMantras
+    private var overallMantras: [Mantra] {
+        isAlphabeticalSorting ?
+            dataProvider.fetchedMantras.sorted {
+                guard let title1 = $0.title, let title2 = $1.title else { return false }
+                return title1.localizedStandardCompare(title2) == .orderedAscending } :
+            dataProvider.fetchedMantras.sorted {
+                $0.reads > $1.reads }
+    }
+    private lazy var displayedMantras = overallMantras
     private var favoritesSectionMantras: [Mantra] {
         displayedMantras.filter{ $0.isFavorite }
     }
@@ -72,10 +80,9 @@ final class MantraViewController: UICollectionViewController {
         }
         set {
             defaults.set(newValue, forKey: "isAlphabeticalSorting")
-            dataProvider.loadMantras()
-            displayedMantras = dataProvider.fetchedMantras
+            displayedMantras = overallMantras
             applySnapshot()
-            widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
+            widgetManager.updateWidgetData(for: overallMantras)
         }
     }
     private var isPreloadedMantrasDueToNoInternetConnection: Bool {
@@ -124,7 +131,7 @@ final class MantraViewController: UICollectionViewController {
             dataProvider.loadMantras()
             loadFirstMantraForSecondaryView()
             applySnapshot()
-            widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
+            widgetManager.updateWidgetData(for: overallMantras)
             checkForInitialDataLoading()
             reselectSelectedMantraIfNeeded()
             isAppReadyForDeeplinkOrShortcut = true
@@ -171,7 +178,7 @@ final class MantraViewController: UICollectionViewController {
     
     private func checkForInitialDataLoading() {
         if isInitalDataLoading {
-            if dataProvider.fetchedMantras.isEmpty {
+            if overallMantras.isEmpty {
                 activityIndicator.isHidden = false
             }
         }
@@ -465,7 +472,7 @@ extension MantraViewController {
 extension MantraViewController {
     
     private func showPreloadedMantraVC() {
-        let preloadedMantraController = PreloadedMantraController(mantraTitles: dataProvider.fetchedMantras.compactMap({ $0.title }))
+        let preloadedMantraController = PreloadedMantraController(mantraTitles: overallMantras.compactMap({ $0.title }))
         let navigationController = UINavigationController(rootViewController: preloadedMantraController)
         navigationController.modalPresentationStyle = .formSheet
         present(navigationController, animated: true)
@@ -481,7 +488,7 @@ extension MantraViewController {
                     return DetailsViewController(
                         mantra: mantra,
                         mode: .add,
-                        mantraTitles: self.dataProvider.fetchedMantras.compactMap({ $0.title }),
+                        mantraTitles: self.overallMantras.compactMap({ $0.title }),
                         callerController: self,
                         coder: coder)
                 }) else { return }
@@ -517,7 +524,7 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
         reselectSelectedMantraIfNeeded()
         updateSecondaryView()
         stopActivityIndicatorForInitialDataLoadingIfNeeded()
-        widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
+        widgetManager.updateWidgetData(for: overallMantras)
         afterDelay(0.1) {
             self.coreDataManager.saveContext()
         }
@@ -528,17 +535,17 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
             searchController.searchBar.text! += " "
             searchController.searchBar.text! = String(searchController.searchBar.text!.dropLast())
         } else {
-            displayedMantras = dataProvider.fetchedMantras
+            displayedMantras = overallMantras
         }
     }
     
     private func stopActivityIndicatorForInitialDataLoadingIfNeeded() {
         if isInitalDataLoading {
-            if !dataProvider.fetchedMantras.isEmpty {
+            if !overallMantras.isEmpty {
                 activityIndicator.removeFromSuperview()
                 loadFirstMantraForSecondaryView()
                 reselectSelectedMantraIfNeeded()
-                widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
+                widgetManager.updateWidgetData(for: overallMantras)
                 isInitalDataLoading = false
             }
         }
@@ -547,7 +554,7 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
     private func updateSecondaryView() {
         afterDelay(Constants.progressAnimationDuration) {
             guard let selectedMantra = self.selectedMantra else { return }
-            if !self.dataProvider.fetchedMantras.contains(selectedMantra) {
+            if !self.overallMantras.contains(selectedMantra) {
                 self.selectedMantra = nil
             }
             self.delegate?.mantraSelected(self.selectedMantra)
@@ -571,12 +578,12 @@ extension MantraViewController: UISearchResultsUpdating {
     private func performSearch() {
         guard let text = searchController.searchBar.text else { return }
         if text.isEmpty {
-            displayedMantras = dataProvider.fetchedMantras
+            displayedMantras = overallMantras
             noResultsForSearchLabel.isHidden = true
             applySnapshot()
             return
         }
-        displayedMantras = dataProvider.fetchedMantras.filter{
+        displayedMantras = overallMantras.filter{
             if let title = $0.title {
                 return title.localizedCaseInsensitiveContains(text)
             } else {
@@ -602,7 +609,7 @@ extension MantraViewController: OnboardingViewControllerDelegate {
         isOnboarding = false
         if isPreloadedMantrasDueToNoInternetConnection {
             let alert = UIAlertController.preloadedMantrasDueToNoInternetConnection()
-            widgetManager.updateWidgetData(for: dataProvider.fetchedMantras)
+            widgetManager.updateWidgetData(for: overallMantras)
             isPreloadedMantrasDueToNoInternetConnection = false
             present(alert, animated: true, completion: nil)
         }

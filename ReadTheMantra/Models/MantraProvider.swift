@@ -26,10 +26,7 @@ class MantraProvider {
     
     func loadMantras() {
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
-        request.sortDescriptors = UserDefaults.standard.bool(forKey: "isAlphabeticalSorting") ?
-            [NSSortDescriptor(key: "title", ascending: true)] :
-            [NSSortDescriptor(key: "reads", ascending: false), NSSortDescriptor(key: "title", ascending: true)]
-        
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request,
                                                               managedObjectContext: context,
                                                               sectionNameKeyPath: nil, cacheName: nil)
@@ -43,7 +40,7 @@ class MantraProvider {
         }
     }
     
-    func addPreloadedMantra(with selectedMantrasTitles: [String]) {
+    func addPreloadedMantras(with selectedMantrasTitles: [String]) {
         let selectedMantras = sortedInitialMantraData.filter { 
             guard let title = $0[.title] else { return false }
             return selectedMantrasTitles.contains(title)

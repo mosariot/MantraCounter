@@ -381,7 +381,7 @@ extension DetailsViewController {
             imageData: mantraImageData,
             imageForTableViewData: mantraImageForTableViewData)
         
-        let hudView = HudView.makeView(inView: view, animated: true)
+        let hudView = HudView.makeView(inView: navigationController?.view ?? view, animated: true)
         hudView.text = NSLocalizedString("Added", comment: "HUD title")
         afterDelay(0.8) {
             self.dismiss(animated: true, completion: nil)
