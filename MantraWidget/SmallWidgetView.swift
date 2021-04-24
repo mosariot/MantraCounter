@@ -31,14 +31,16 @@ struct SmallWidget: View {
                         HStack {
                             ForEach(0 ..< 2, id: \.self) { column in
                                 VStack {
-                                    Image(uiImage: ((mantraArray[2 * row + column].image != nil) ?
-                                                        UIImage(data: mantraArray[2 * row + column].image!) :
-                                                        UIImage(named: Constants.defaultImage))!)
-                                        .resizable()
-                                        .frame(width: 43, height: 43, alignment: .center)
-                                    Text(Int(mantraArray[2 * row + column].reads).stringFormattedWithSpaces())
-                                        .font(Font(UIFont.preferredFont(for: .caption2, weight: .bold)))
-                                        .foregroundColor(.secondary)
+                                    if (2 * row + column) < mantraArray.count {
+                                        Image(uiImage: ((mantraArray[2 * row + column].image != nil) ?
+                                                            UIImage(data: mantraArray[2 * row + column].image!) :
+                                                            UIImage(named: Constants.defaultImage))!)
+                                            .resizable()
+                                            .frame(width: 43, height: 43, alignment: .center)
+                                        Text(Int(mantraArray[2 * row + column].reads).stringFormattedWithSpaces())
+                                            .font(Font(UIFont.preferredFont(for: .caption2, weight: .bold)))
+                                            .foregroundColor(.secondary)
+                                    }
                                 }
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                             }

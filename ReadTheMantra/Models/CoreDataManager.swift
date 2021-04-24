@@ -76,9 +76,9 @@ extension CoreDataManager {
 extension CoreDataManager {
     
     func checkForFirstLaunch() {
-        let networkMonitor = NetworkMonitor()
         let isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch")
         if isFirstLaunch {
+            let networkMonitor = NetworkMonitor()
             networkMonitor.startMonitoring()
             DispatchQueue.main.async {
                 if !(networkMonitor.isReachable) {

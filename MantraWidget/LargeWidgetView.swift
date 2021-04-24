@@ -48,7 +48,6 @@ struct LargeWidget: View {
                                         .resizable()
                                         .frame(width: 41, height: 41, alignment: .center)
                                 }
-                                .frame(maxHeight: .infinity)
                             }
                         }
                     }

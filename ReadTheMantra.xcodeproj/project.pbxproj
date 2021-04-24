@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		9F0ABF3825EA22E400742A36 /* MantraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0ABF3725EA22E400742A36 /* MantraCell.swift */; };
 		9F1769FA262EECAE00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1769F2262EE13A00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift */; };
+		9F22713A26348AA2001F92BD /* ResizeUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F22713726348A3F001F92BD /* ResizeUIImage.swift */; };
+		9F22713F26348E4A001F92BD /* CropToCircleUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6B824E9B6E500D0475E /* CropToCircleUIImage.swift */; };
+		9F22714B26349885001F92BD /* LaunchTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2271432634966D001F92BD /* LaunchTest.swift */; };
 		9F2715B025B83D92002A98FD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F2715AF25B83D92002A98FD /* CloudKit.framework */; };
 		9F293E3B2575503000B7B1C7 /* SetPhotoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */; };
 		9F2B1EC126077AF200D999CB /* NoImageAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1EC026077AF200D999CB /* NoImageAlert.swift */; };
@@ -32,7 +35,6 @@
 		9F5FE6AB24E78EE400D0475E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F5FE6AD24E78EE400D0475E /* Localizable.strings */; };
 		9F5FE6B124E7994400D0475E /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9F5FE6B024E7994400D0475E /* IQKeyboardManagerSwift */; };
 		9F5FE6B424E9262B00D0475E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F5FE6B624E9262B00D0475E /* InfoPlist.strings */; };
-		9F5FE6B924E9B6E500D0475E /* CircleAndResizeUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6B824E9B6E500D0475E /* CircleAndResizeUIImage.swift */; };
 		9F5FE6BB24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift */; };
 		9F6503D8256651680055ED8F /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6503D7256651670055ED8F /* ConfettiView.swift */; };
 		9F65C46025AB5BBE0037A8F7 /* FixInputAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F65C45F25AB5BBE0037A8F7 /* FixInputAssistant.swift */; };
@@ -106,6 +108,8 @@
 		9F0ABF3725EA22E400742A36 /* MantraCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraCell.swift; sourceTree = "<group>"; };
 		9F12CD18258112EE0089AFD8 /* MantraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraViewController.swift; sourceTree = "<group>"; };
 		9F1769F2262EE13A00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadedMantrasDueToNoInternetConnection.swift; sourceTree = "<group>"; };
+		9F22713726348A3F001F92BD /* ResizeUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizeUIImage.swift; sourceTree = "<group>"; };
+		9F2271432634966D001F92BD /* LaunchTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchTest.swift; sourceTree = "<group>"; };
 		9F2715AF25B83D92002A98FD /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPhotoButton.swift; sourceTree = "<group>"; };
 		9F2B1EBA2607784500D999CB /* CancelOrCloseMantraAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOrCloseMantraAlert.swift; sourceTree = "<group>"; };
@@ -132,7 +136,7 @@
 		9F5FE6A424E7183E00D0475E /* DetailsMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsMode.swift; sourceTree = "<group>"; };
 		9F5FE6AC24E78EE400D0475E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9F5FE6B524E9262B00D0475E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		9F5FE6B824E9B6E500D0475E /* CircleAndResizeUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleAndResizeUIImage.swift; sourceTree = "<group>"; };
+		9F5FE6B824E9B6E500D0475E /* CropToCircleUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropToCircleUIImage.swift; sourceTree = "<group>"; };
 		9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardWhenTappedAround.swift; sourceTree = "<group>"; };
 		9F6503D7256651670055ED8F /* ConfettiView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 		9F65C45625AA20A00037A8F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -198,10 +202,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9F22714226349645001F92BD /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				9F2271432634966D001F92BD /* LaunchTest.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		9F4B47F22530C31700E7FF4B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				9F5FE6B824E9B6E500D0475E /* CircleAndResizeUIImage.swift */,
+				9F5FE6B824E9B6E500D0475E /* CropToCircleUIImage.swift */,
+				9F22713726348A3F001F92BD /* ResizeUIImage.swift */,
 				9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */,
 				9F65C45F25AB5BBE0037A8F7 /* FixInputAssistant.swift */,
 				9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift */,
@@ -218,6 +231,7 @@
 			children = (
 				9FE855D0258E521D00771BA1 /* FavoritesWidgetExtension.entitlements */,
 				9F5FE68224E7141400D0475E /* ReadTheMantra */,
+				9F22714226349645001F92BD /* Tests */,
 				9FE855BE258E51BF00771BA1 /* MantraWidget */,
 				9FE855B9258E51BF00771BA1 /* Frameworks */,
 				9F5FE68124E7141400D0475E /* Products */,
@@ -466,6 +480,7 @@
 			files = (
 				9F7A5091253CB924008BFD6F /* CustomDynamicFontWeight.swift in Sources */,
 				9F3B62D2257CFFF800B4F5E4 /* OnboardingViewController.swift in Sources */,
+				9F22714B26349885001F92BD /* LaunchTest.swift in Sources */,
 				9FCA5CBF25936F16002E1D25 /* CongratulationsAlert.swift in Sources */,
 				9FE855B2258E4F9A00771BA1 /* WidgetManager.swift in Sources */,
 				9F293E3B2575503000B7B1C7 /* SetPhotoButton.swift in Sources */,
@@ -493,7 +508,6 @@
 				9FC3971925B14611002B1EE0 /* FirstSearchOnTheInternetAlert.swift in Sources */,
 				9F3766112513C5B9007E6BED /* StringFormattedWithSpaces.swift in Sources */,
 				9F3B62A32578E00D00B4F5E4 /* TextViewWithPlaceholder.swift in Sources */,
-				9F5FE6B924E9B6E500D0475E /* CircleAndResizeUIImage.swift in Sources */,
 				9F7A5096253DD439008BFD6F /* CopyableLabel.swift in Sources */,
 				9F9299AF250818B6003D5029 /* Constants.swift in Sources */,
 				9FCA5CB525936692002E1D25 /* Level.swift in Sources */,
@@ -501,8 +515,10 @@
 				9FCA5CD5259F6938002E1D25 /* CoreDataManager.swift in Sources */,
 				9FCA5C93259349EC002E1D25 /* DuplicatingAlert.swift in Sources */,
 				9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */,
+				9F22713A26348AA2001F92BD /* ResizeUIImage.swift in Sources */,
 				9FC558B025D158D30015C3C4 /* MantraProvider.swift in Sources */,
 				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,
+				9F22713F26348E4A001F92BD /* CropToCircleUIImage.swift in Sources */,
 				9F6503D8256651680055ED8F /* ConfettiView.swift in Sources */,
 				9F0ABF3825EA22E400742A36 /* MantraCell.swift in Sources */,
 				9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */,
@@ -706,14 +722,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -729,14 +745,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -751,7 +767,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = MantraWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -760,7 +776,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -776,7 +792,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = MantraWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -785,7 +801,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

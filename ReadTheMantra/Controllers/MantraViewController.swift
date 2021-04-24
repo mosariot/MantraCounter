@@ -101,7 +101,8 @@ final class MantraViewController: UICollectionViewController {
         inView: navigationController?.view ?? view,
         withText: NSLocalizedString("LOADING", comment: "Loading from iCloud"))
     
-    private lazy var blurEffectView = BlurEffectView.makeView(inView: splitViewController?.view ?? view)
+    private lazy var blurEffectView = BlurEffectView.makeView(
+        inView: splitViewController?.view ?? view)
     
     private let searchController = UISearchController(searchResultsController: nil)
     

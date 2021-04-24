@@ -21,7 +21,7 @@ struct Provider: TimelineProvider {
     private var widgetItemData: Data = Data()
     
     func placeholder(in context: Context) -> WidgetEntry {
-        let placeholderMantras = Array(repeating: WidgetModel.Item(id: UUID(), title: "Mantra", reads: 40000, image: nil), count: 4)
+        let placeholderMantras = Array(repeating: WidgetModel.Item(id: UUID(), title: "Mantra", reads: 40000, image: nil), count: 6)
         let widgetItem = WidgetModel(mantras: placeholderMantras)
         return WidgetEntry(widgetModel: widgetItem)
     }

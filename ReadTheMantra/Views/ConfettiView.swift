@@ -104,7 +104,7 @@ final class ConfettiView: UIView {
             }
         }
         timer.fire()
-        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.progressAnimationDuration + 2.7) {
+        afterDelay(Constants.progressAnimationDuration + 2.7) {
             self.removeFromSuperview()
         }
     }
