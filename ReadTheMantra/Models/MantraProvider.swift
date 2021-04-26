@@ -27,6 +27,7 @@ class MantraProvider {
     func loadMantras() {
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        request.fetchBatchSize = 8
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request,
                                                               managedObjectContext: context,
                                                               sectionNameKeyPath: nil, cacheName: nil)
