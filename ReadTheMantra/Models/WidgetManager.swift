@@ -11,6 +11,7 @@ import CoreData
 import WidgetKit
 
 struct WidgetManager {
+    
     @AppStorage("widgetItem", store: UserDefaults(suiteName: "group.com.mosariot.MantraCounter"))
     private var widgetItemData: Data = Data()
     

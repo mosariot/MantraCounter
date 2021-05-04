@@ -10,6 +10,7 @@ import WidgetKit
 import SwiftUI
 
 struct WidgetEntry: TimelineEntry {
+    
     let date: Date = Date()
     let widgetModel: WidgetModel
 }

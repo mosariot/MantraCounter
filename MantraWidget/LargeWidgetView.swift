@@ -10,6 +10,7 @@ import WidgetKit
 import SwiftUI
 
 struct LargeWidget: View {
+    
     var widgetModel: WidgetModel
     
     @ViewBuilder

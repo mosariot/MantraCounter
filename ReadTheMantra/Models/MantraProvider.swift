@@ -30,14 +30,15 @@ class MantraProvider {
         request.fetchBatchSize = 8
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request,
                                                               managedObjectContext: context,
-                                                              sectionNameKeyPath: nil, cacheName: nil)
+                                                              sectionNameKeyPath: nil,
+                                                              cacheName: "Mantras")
         fetchedResultsController?.delegate = fetchedResultsControllerDelegate
         
         do {
             try fetchedResultsController?.performFetch()
             deleteEmptyMantrasIfNeeded()
         } catch {
-            // Error fetching data
+            fatalCoreDataError(error)
         }
     }
     

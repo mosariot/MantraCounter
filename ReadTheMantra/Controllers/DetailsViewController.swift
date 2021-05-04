@@ -14,9 +14,8 @@ final class DetailsViewController: UIViewController {
     
     //MARK: - Properties
     
-    private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
-    private let dataProvider = MantraProvider()
+    private lazy var dataProvider = MantraProvider()
     
     private let pasteboard = UIPasteboard.general
     

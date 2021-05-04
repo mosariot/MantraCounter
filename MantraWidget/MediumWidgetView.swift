@@ -10,6 +10,7 @@ import WidgetKit
 import SwiftUI
 
 struct MediumWidget: View {
+    
     var widgetModel: WidgetModel
     
     @ViewBuilder

@@ -13,7 +13,7 @@ final class CoreDataManager {
     
     static let shared = CoreDataManager()
     
-    private init() { }
+    private init() {}
     
     private(set) lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentCloudKitContainer(name: "ReadTheMantra")
@@ -50,8 +50,7 @@ final class CoreDataManager {
         do {
             try context.save()
         } catch {
-            let nserror = error as NSError
-            fatalError("Unresolved error \(nserror)")
+            fatalCoreDataError(error)
         }
     }
 }

@@ -12,8 +12,7 @@ final class ReadsCountViewController: UIViewController {
     
     //MARK: - Properties
     
-    private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
-    private var dataProvider = MantraProvider()
+    private lazy var dataProvider = MantraProvider()
     
     private lazy var confettiView = ConfettiView()
     private lazy var noMantraLabel = PlaceholderLabelForEmptyView.makeLabel(

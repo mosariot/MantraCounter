@@ -240,6 +240,12 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 /* Buddha Shakyamuni */
 "Buddha Shakyamuni" = "Будда Шакьямуни";
 
+/* Internal Error */
+"Internal Error" = "Внутренняя ошибка";
+
+/* Core Data Fatal Error Message */
+"There was a fatal error in the app and it cannot continue. Press OK to terminate the app. Sorry for inconvinience." = "Произошла критическая ошибка в приложении, работа не может быть продолжена. Нажмите ОК для закрытия приложения. Просим прощения за неудобства.";
+
 /* Buddha Shakyamuni Description */
 "Thanks to the repetition of this mantra, all obscurations and hindrances go away, a person approaches the state of Enlightenment, receives inspiration, blessings, rapid progress on the path of perfection, and a connection is established with Buddha Shakyamuni." = "Благодаря повторению этой мантры уходят все омрачения, помехи, человек приближается к состоянию Просветления, получает воодушевление, благословение, быстрый прогресс на пути совершенствования, происходит установление связи с Буддой Шакьямуни.";
 

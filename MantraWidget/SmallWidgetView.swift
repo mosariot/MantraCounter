@@ -10,6 +10,7 @@ import WidgetKit
 import SwiftUI
 
 struct SmallWidget: View {
+    
     var widgetModel: WidgetModel
     
     @ViewBuilder

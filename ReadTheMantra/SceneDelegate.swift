@@ -41,6 +41,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             leftNavController.popToRootViewController(animated: false)
             handleShortcutAction(for: shortcutItem, controller: primaryViewController)
         }
+        
+        listenForFatalCoreDataNotifications()
     }
     
     func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
@@ -96,5 +98,29 @@ extension SceneDelegate: UISplitViewControllerDelegate {
     func splitViewController(_ svc: UISplitViewController,
                              topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
         defaults.bool(forKey: "collapseSecondaryViewController") ? .primary : .secondary
+    }
+}
+
+//MARK: - Core Data Fatal Errors
+
+extension SceneDelegate {
+    
+    func listenForFatalCoreDataNotifications() {
+        NotificationCenter.default.addObserver(forName: dataSaveFailedNotification, object: nil, queue: OperationQueue.main) { _ in
+            let message = NSLocalizedString("There was a fatal error in the app and it cannot continue. Press OK to terminate the app. Sorry for inconvinience.", comment: "Core Data Fatal Error Message") 
+            let alert = UIAlertController(
+                title: NSLocalizedString("Internal Error", comment: "Internal Error"),
+                message: message,
+                preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default) { _ in
+                let exception = NSException(name: NSExceptionName.internalInconsistencyException, reason: "Fatal Core Data error", userInfo: nil)
+                exception.raise()
+            }
+            alert.addAction(action)
+            
+            if let splitViewController = self.window?.rootViewController as? UISplitViewController {
+                splitViewController.present(alert, animated: true, completion: nil)
+            }
+        }
     }
 }

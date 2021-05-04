@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-protocol MantraSelectionDelegate: class {
+protocol MantraSelectionDelegate: AnyObject {
     func mantraSelected(_ newMantra: Mantra?)
 }
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol DeleteMantraDelegate: class {
+protocol DeleteMantraDelegate: AnyObject {
     func showDeleteConfirmationAlert(for: Mantra)
 }
 
