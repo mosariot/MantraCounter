@@ -87,11 +87,9 @@ extension PreloadedMantraController {
             cell.contentConfiguration = configuration
             
             let checkmark = UIImage(systemName: "checkmark.circle.fill",
-                                    withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))?
-                .withTintColor(Constants.accentColor ?? .systemOrange, renderingMode: .alwaysOriginal)
+                                    withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
             let circle = UIImage(systemName: "circle",
-                                 withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))?
-                .withTintColor(Constants.accentColor ?? .systemOrange, renderingMode: .alwaysOriginal)
+                                 withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))
             let badgeConfiguration = UICellAccessory.CustomViewConfiguration(customView: UIImageView(image: mantra.isSelected ? checkmark : circle),
                                                                              placement: .trailing(displayed: .always))
             let badgeAccessory = UICellAccessory.customView(configuration: badgeConfiguration)

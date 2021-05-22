@@ -12,7 +12,6 @@ extension Int {
     
     func stringFormattedWithSpaces() -> String {
         let formatter = NumberFormatter()
-        formatter.groupingSeparator = " "
         formatter.numberStyle = .decimal
         return formatter.string(from: NSNumber(value: self)) ?? ""
     }

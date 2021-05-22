@@ -24,7 +24,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         defaults.set(true, forKey: "collapseSecondaryViewController")
         
         splitViewController.delegate = self
-        splitViewController.view.tintColor = Constants.accentColor
         splitViewController.preferredDisplayMode = .oneBesideSecondary
         splitViewController.preferredPrimaryColumnWidthFraction = 0.5
         splitViewController.maximumPrimaryColumnWidth = 400
