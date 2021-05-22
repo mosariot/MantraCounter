@@ -13,6 +13,8 @@ final class ReadsCountViewController: UIViewController {
     //MARK: - Properties
     
     private lazy var dataProvider = MantraProvider()
+    private let mediumHapticGenerator = UIImpactFeedbackGenerator(style: .medium)
+    private let congratulationsGenerator = UINotificationFeedbackGenerator()
     
     private lazy var confettiView = ConfettiView()
     private lazy var noMantraLabel = PlaceholderLabelForEmptyView.makeLabel(
@@ -23,6 +25,8 @@ final class ReadsCountViewController: UIViewController {
     var mantra: Mantra? {
         didSet {
             loadViewIfNeeded()
+            mediumHapticGenerator.prepare()
+            congratulationsGenerator.prepare()
             guard let mantra = mantra else {
                 navigationItem.rightBarButtonItem = nil
                 mainStackView.isHidden = true
@@ -129,6 +133,7 @@ final class ReadsCountViewController: UIViewController {
         guard let mantra = mantra else { return }
         mantra.isFavorite.toggle()
         setupNavButtons()
+        mediumHapticGenerator.impactOccurred()
     }
     
     private func setupUI(animated: Bool = false) {
@@ -207,6 +212,7 @@ final class ReadsCountViewController: UIViewController {
         guard let mantra = mantra else { return }
         let alert = UIAlertController.updatingAlert(mantra: mantra, updatingType: updatingType, delegate: self) { [weak self] (value) in
             guard let self = self else { return }
+            self.mediumHapticGenerator.impactOccurred()
             self.handleAlertPositiveAction(forValue: value, updatingType: updatingType)
         }
         present(alert, animated: true, completion: nil)
@@ -248,6 +254,7 @@ final class ReadsCountViewController: UIViewController {
         }
         
         if oldReads < mantra.readsGoal && newReads >= mantra.readsGoal {
+            congratulationsGenerator.notificationOccurred(.success)
             confettiView = ConfettiView.makeView(inView: splitViewController?.view ?? view, animated: true)
             confettiView.startConfetti()
             
@@ -267,6 +274,7 @@ final class ReadsCountViewController: UIViewController {
     private func showUndoAlert() {
         let alert = UIAlertController.undoAlert { [weak self] in
             guard let self = self else { return }
+            self.mediumHapticGenerator.impactOccurred()
             self.undoReadsCount()
         }
         present(alert, animated: true, completion: nil)

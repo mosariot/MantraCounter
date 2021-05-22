@@ -18,6 +18,7 @@ final class DetailsViewController: UIViewController {
     private lazy var dataProvider = MantraProvider()
     
     private let pasteboard = UIPasteboard.general
+    private let addHapticGenerator = UINotificationFeedbackGenerator()
     
     private var mantra: Mantra
     private var mantraTitles: [String]?
@@ -77,6 +78,8 @@ final class DetailsViewController: UIViewController {
         titleTextField.delegate = self
         mantraTextTextView.delegate = self
         detailsTextView.delegate = self
+        
+        addHapticGenerator.prepare()
         
         setupData()
     }
@@ -379,6 +382,8 @@ extension DetailsViewController {
             details: detailsTextView.text,
             imageData: mantraImageData,
             imageForTableViewData: mantraImageForTableViewData)
+        
+        addHapticGenerator.notificationOccurred(.success)
         
         let hudView = HudView.makeView(inView: navigationController?.view ?? view, animated: true)
         hudView.text = NSLocalizedString("Added", comment: "HUD title")

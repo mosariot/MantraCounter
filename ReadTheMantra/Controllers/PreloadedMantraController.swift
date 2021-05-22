@@ -41,6 +41,8 @@ final class PreloadedMantraController: UIViewController {
         preloadedMantras.filter{ $0.isSelected }.map{ $0.title }
     }
     
+    private let addHapticGenerator = UINotificationFeedbackGenerator()
+    
     init(mantraTitles: [String]) {
         self.mantraTitles = mantraTitles
         super.init(nibName: nil, bundle: nil)
@@ -57,6 +59,7 @@ final class PreloadedMantraController: UIViewController {
         preloadedMantras = getPreloadedMantras()
         configureHierarchy()
         configureDataSource()
+        addHapticGenerator.prepare()
     }
 }
 
@@ -183,6 +186,8 @@ extension PreloadedMantraController {
     
     private func handleAddPreloadedMantra() {
         dataProvider.addPreloadedMantras(with: selectedMantrasTitles)
+        
+        addHapticGenerator.notificationOccurred(.success)
         
         let hudView = HudView.makeView(inView: navigationController?.view ?? view, animated: true)
         hudView.text = NSLocalizedString("Added", comment: "HUD title")
