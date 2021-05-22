@@ -11,7 +11,6 @@
 		9F1769FA262EECAE00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1769F2262EE13A00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift */; };
 		9F22713A26348AA2001F92BD /* ResizeUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F22713726348A3F001F92BD /* ResizeUIImage.swift */; };
 		9F22713F26348E4A001F92BD /* CropToCircleUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6B824E9B6E500D0475E /* CropToCircleUIImage.swift */; };
-		9F22714B26349885001F92BD /* LaunchTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2271432634966D001F92BD /* LaunchTest.swift */; };
 		9F2715B025B83D92002A98FD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F2715AF25B83D92002A98FD /* CloudKit.framework */; };
 		9F293E3B2575503000B7B1C7 /* SetPhotoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */; };
 		9F2B1EC126077AF200D999CB /* NoImageAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1EC026077AF200D999CB /* NoImageAlert.swift */; };
@@ -109,7 +108,6 @@
 		9F12CD18258112EE0089AFD8 /* MantraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraViewController.swift; sourceTree = "<group>"; };
 		9F1769F2262EE13A00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadedMantrasDueToNoInternetConnection.swift; sourceTree = "<group>"; };
 		9F22713726348A3F001F92BD /* ResizeUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizeUIImage.swift; sourceTree = "<group>"; };
-		9F2271432634966D001F92BD /* LaunchTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchTest.swift; sourceTree = "<group>"; };
 		9F2715AF25B83D92002A98FD /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPhotoButton.swift; sourceTree = "<group>"; };
 		9F2B1EBA2607784500D999CB /* CancelOrCloseMantraAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOrCloseMantraAlert.swift; sourceTree = "<group>"; };
@@ -202,14 +200,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9F22714226349645001F92BD /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				9F2271432634966D001F92BD /* LaunchTest.swift */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
 		9F4B47F22530C31700E7FF4B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,7 +221,6 @@
 			children = (
 				9FE855D0258E521D00771BA1 /* FavoritesWidgetExtension.entitlements */,
 				9F5FE68224E7141400D0475E /* ReadTheMantra */,
-				9F22714226349645001F92BD /* Tests */,
 				9FE855BE258E51BF00771BA1 /* MantraWidget */,
 				9FE855B9258E51BF00771BA1 /* Frameworks */,
 				9F5FE68124E7141400D0475E /* Products */,
@@ -480,7 +469,6 @@
 			files = (
 				9F7A5091253CB924008BFD6F /* CustomDynamicFontWeight.swift in Sources */,
 				9F3B62D2257CFFF800B4F5E4 /* OnboardingViewController.swift in Sources */,
-				9F22714B26349885001F92BD /* LaunchTest.swift in Sources */,
 				9FCA5CBF25936F16002E1D25 /* CongratulationsAlert.swift in Sources */,
 				9FE855B2258E4F9A00771BA1 /* WidgetManager.swift in Sources */,
 				9F293E3B2575503000B7B1C7 /* SetPhotoButton.swift in Sources */,
@@ -729,7 +717,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.2;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -752,7 +740,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.2;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -776,7 +764,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.2;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -801,7 +789,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.2;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
