@@ -34,8 +34,8 @@ final class MantraCell: UICollectionViewListCell {
         // Content Configuration
         var configuration = UIListContentConfiguration.subtitleCell().updated(for: state)
         configuration.text = mantra.title
-        configuration.secondaryText = NSLocalizedString("Current readings:",
-                                                        comment: "Current readings count") + " \(mantra.reads)"
+        configuration.secondaryText = NSLocalizedString("Current readings: ",
+                                                        comment: "Current readings count") + Int(mantra.reads).formattedNumber()
         configuration.secondaryTextProperties.color = .secondaryLabel
         configuration.textToSecondaryTextVerticalPadding = 4
         if let imageData = mantra.imageForTableView {

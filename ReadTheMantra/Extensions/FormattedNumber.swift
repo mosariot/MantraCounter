@@ -10,7 +10,7 @@ import Foundation
 
 extension Int {
     
-    func stringFormattedWithSpaces() -> String {
+    func formattedNumber() -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         return formatter.string(from: NSNumber(value: self)) ?? ""

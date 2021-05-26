@@ -38,7 +38,7 @@ struct SmallWidget: View {
                                                             UIImage(named: Constants.defaultImage))!)
                                             .resizable()
                                             .frame(width: 43, height: 43, alignment: .center)
-                                        Text(Int(mantraArray[2 * row + column].reads).stringFormattedWithSpaces())
+                                        Text(Int(mantraArray[2 * row + column].reads).formattedNumber())
                                             .font(Font(UIFont.preferredFont(for: .caption2, weight: .bold)))
                                             .foregroundColor(.secondary)
                                     }

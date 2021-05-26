@@ -37,7 +37,7 @@ struct LargeWidget: View {
                                             Text("Current readings: ")
                                                 .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                                 .foregroundColor(.secondary)
-                                            Text(Int(mantra.reads).stringFormattedWithSpaces())
+                                            Text(Int(mantra.reads).formattedNumber())
                                                 .font(Font(UIFont.preferredFont(for: .footnote, weight: .semibold)))
                                                 .foregroundColor(.secondary)
                                         }

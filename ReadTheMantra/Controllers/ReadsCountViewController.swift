@@ -145,8 +145,9 @@ final class ReadsCountViewController: UIViewController {
         titleLabel.text = mantra.title
         titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
         titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.allowsDefaultTighteningForTruncation = true
         readsGoalButton.setTitle(NSLocalizedString("Goal: ",
-                                                   comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(),
+                                                   comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),
                                  for: .normal)
         animateCircularProgressViewForUpdatedValues(animated: animated)
         
@@ -224,7 +225,7 @@ final class ReadsCountViewController: UIViewController {
         dataProvider.updateValues(for: mantra, with: value, updatingType: updatingType)
         updateProrgessView(for: updatingType)
         readsGoalButton.setTitle(NSLocalizedString("Goal: ",
-                                                   comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).stringFormattedWithSpaces(),
+                                                   comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),
                                  for: .normal)
         if updatingType != .goal {
             previousReadsCount = oldReads

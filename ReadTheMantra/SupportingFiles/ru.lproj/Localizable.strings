@@ -100,7 +100,7 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 "Cancel" = "Отменить";
 
 /* Current readings count */
-"Current readings:" = "Текущая начитка:";
+"Current readings: " = "Текущая начитка: ";
 
 /* Alert Button on ReadsCountViewController */
 "Done" = "Готово";

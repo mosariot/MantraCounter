@@ -138,7 +138,7 @@ final class CircularProgressView: UIView {
     private func setValueLabelAnimation(to newValue: Int, animated: Bool) {
         
         guard animated else {
-            self.label.text = value.stringFormattedWithSpaces()
+            self.label.text = value.formattedNumber()
             self.setForegroundLayerColor(value: value, readsGoal: goal)
             let fontSize = self.labelFontSize(for: value)
             self.setLabel(withSize: fontSize)
@@ -157,7 +157,7 @@ final class CircularProgressView: UIView {
                 var momentValue = Double(self.value) + Double(newValue - self.value) * (currentTime / Constants.progressAnimationDuration)
                 currentTime += Constants.progressAnimationDuration*0.01
                 momentValue.round(.toNearestOrAwayFromZero)
-                self.label.text = Int(momentValue).stringFormattedWithSpaces()
+                self.label.text = Int(momentValue).formattedNumber()
                 self.setForegroundLayerColor(value: Int(momentValue), readsGoal: self.goal)
                 let fontSize = self.labelFontSize(for: Int(momentValue))
                 self.setLabel(withSize: fontSize)
