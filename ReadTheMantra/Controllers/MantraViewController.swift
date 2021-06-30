@@ -107,7 +107,7 @@ final class MantraViewController: UICollectionViewController {
     private let searchController = UISearchController(searchResultsController: nil)
     
     
-    //MARK: - ViewController Lifecycle
+    //MARK: - View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()

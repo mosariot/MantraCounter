@@ -39,7 +39,7 @@
         <scene sceneID="rhA-NT-a6d">
             <objects>
                 <viewController storyboardIdentifier="OnboardingViewController" id="1Jb-bv-xnI" customClass="OnboardingViewController" customModule="MantraReader" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="HyO-GG-cdw">
+                    <view key="view" contentMode="scaleToFill" id="HyO-GG-cdw" customClass="OnboardingView" customModule="MantraReader" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -53,14 +53,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="DefaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="Z84-h7-wXb" userLabel="Image">
-                                        <rect key="frame" x="95" y="137.33333333333334" width="160" height="160.00000000000003"/>
+                                        <rect key="frame" x="90.666666666666671" y="134.33333333333334" width="168.66666666666663" height="169.00000000000003"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Z84-h7-wXb" secondAttribute="height" id="R2s-BO-Qg2"/>
                                         </constraints>
                                         <variation key="heightClass=compact-widthClass=compact" hidden="YES"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7r2-FB-UtH" userLabel="Text Label">
-                                        <rect key="frame" x="1.6666666666666572" y="373.66666666666669" width="347" height="226.00000000000006"/>
+                                        <rect key="frame" x="1.6666666666666572" y="376.66666666666669" width="347" height="226.00000000000006"/>
                                         <string key="text">Important information:
 Recitation of mantras - is a sacrament. Approach this issue with all your awareness.
 In order for the practice of reciting to be correct, one must receive the transmission of the mantra from the teacher. Transmission is essential to maintain the strength of the original source of the mantra. It is not enough just to read it in a book or on the Internet.
@@ -123,13 +123,13 @@ We wish you deep awarenesses and spiritual growth!</string>
                                 <exclude reference="aIt-M9-b11"/>
                             </mask>
                         </variation>
+                        <connections>
+                            <outlet property="dismissButton" destination="PUZ-IY-Geb" id="lUg-pg-2lQ"/>
+                            <outlet property="image" destination="Z84-h7-wXb" id="SJC-c2-8Yv"/>
+                            <outlet property="textLabel" destination="7r2-FB-UtH" id="hgY-nM-hG5"/>
+                            <outlet property="titleLabel" destination="7KD-zQ-R2b" id="p8D-zM-mnb"/>
+                        </connections>
                     </view>
-                    <connections>
-                        <outlet property="dismissButton" destination="PUZ-IY-Geb" id="Pe2-J3-f0N"/>
-                        <outlet property="image" destination="Z84-h7-wXb" id="gZt-st-wzQ"/>
-                        <outlet property="textLabel" destination="7r2-FB-UtH" id="nyR-eR-P0B"/>
-                        <outlet property="titleLabel" destination="7KD-zQ-R2b" id="gNv-IR-xBH"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jif-Tq-COJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -139,7 +139,7 @@ We wish you deep awarenesses and spiritual growth!</string>
         <scene sceneID="XS4-SK-kdP">
             <objects>
                 <viewController storyboardIdentifier="DetailsViewController" id="oME-Mn-XWI" customClass="DetailsViewController" customModule="MantraReader" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="eEh-mS-Rdf">
+                    <view key="view" contentMode="scaleToFill" id="eEh-mS-Rdf" customClass="DetailsView" customModule="MantraReader" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -207,10 +207,10 @@ We wish you deep awarenesses and spiritual growth!</string>
                                                 </constraints>
                                                 <edgeInsets key="layoutMargins" top="15" left="0.0" bottom="10" right="0.0"/>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="MIL-18-J7h" userLabel="Description Stack View">
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="MIL-18-J7h" userLabel="Details Stack View">
                                                 <rect key="frame" x="15" y="412" width="360" height="82"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oer-C2-YaE" userLabel="Description Label">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oer-C2-YaE" userLabel="Details Label">
                                                         <rect key="frame" x="20" y="15" width="320" height="17"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -260,20 +260,20 @@ We wish you deep awarenesses and spiritual growth!</string>
                             <constraint firstItem="ufR-lF-3WM" firstAttribute="bottom" secondItem="eEh-mS-Rdf" secondAttribute="bottom" id="b2o-WT-iiq"/>
                             <constraint firstItem="ufR-lF-3WM" firstAttribute="leading" secondItem="ZHa-2W-DAd" secondAttribute="leading" id="uHM-g4-Zp8"/>
                         </constraints>
+                        <connections>
+                            <outlet property="detailsStackView" destination="MIL-18-J7h" id="CIR-qw-hE8"/>
+                            <outlet property="detailsTextLabel" destination="oer-C2-YaE" id="FMr-QG-q4e"/>
+                            <outlet property="detailsTextView" destination="dBV-0g-Qvz" id="Hen-Jg-afN"/>
+                            <outlet property="mantraTextLabel" destination="rxE-9v-7MR" id="0km-79-iNP"/>
+                            <outlet property="mantraTextStackView" destination="xuB-nR-Oiy" id="0AE-eS-MPe"/>
+                            <outlet property="mantraTextTextView" destination="Xhj-0A-Osd" id="Xzp-vG-KHL"/>
+                            <outlet property="setPhotoButton" destination="KXK-gN-mOv" id="prv-wK-qHN"/>
+                            <outlet property="titleLabel" destination="aGu-qb-SNX" id="Iog-EB-8gQ"/>
+                            <outlet property="titleStackView" destination="a1H-9L-kHe" id="Fhc-vr-PPx"/>
+                            <outlet property="titleTextField" destination="YbO-xG-hna" id="PNQ-iP-OOF"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="dj2-g2-Fdu"/>
-                    <connections>
-                        <outlet property="descriptionStackView" destination="MIL-18-J7h" id="CZC-GT-s08"/>
-                        <outlet property="detailsTextLabel" destination="oer-C2-YaE" id="YeA-Fc-Yxy"/>
-                        <outlet property="detailsTextView" destination="dBV-0g-Qvz" id="9J1-jv-14H"/>
-                        <outlet property="mantraTextLabel" destination="rxE-9v-7MR" id="AhN-Rp-mn9"/>
-                        <outlet property="mantraTextStackView" destination="xuB-nR-Oiy" id="UNp-CB-KBI"/>
-                        <outlet property="mantraTextTextView" destination="Xhj-0A-Osd" id="ySH-db-OsM"/>
-                        <outlet property="setPhotoButton" destination="KXK-gN-mOv" id="yjL-oR-mog"/>
-                        <outlet property="titleLabel" destination="aGu-qb-SNX" id="4kf-Js-y1n"/>
-                        <outlet property="titleStackView" destination="a1H-9L-kHe" id="keB-M5-sjA"/>
-                        <outlet property="titleTextField" destination="YbO-xG-hna" id="XJ4-Gp-cQO"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kje-jA-G5g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -283,7 +283,7 @@ We wish you deep awarenesses and spiritual growth!</string>
         <scene sceneID="1qo-pL-BDf">
             <objects>
                 <viewController storyboardIdentifier="ReadsCountViewController" id="9Ew-Yb-oIM" customClass="ReadsCountViewController" customModule="MantraReader" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="LJz-A8-q5d">
+                    <view key="view" contentMode="scaleToFill" id="LJz-A8-q5d" customClass="ReadsCountView" customModule="MantraReader" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -481,19 +481,19 @@ We wish you deep awarenesses and spiritual growth!</string>
                                 <include reference="mS5-BY-H84"/>
                             </mask>
                         </variation>
+                        <connections>
+                            <outlet property="addReadsButton" destination="dUS-5m-kus" id="iSI-yt-vUp"/>
+                            <outlet property="addRoundsButton" destination="ZdM-Gq-d1v" id="Tsq-dj-JM1"/>
+                            <outlet property="circularProgressView" destination="56j-8c-bvo" id="W82-Zr-gv7"/>
+                            <outlet property="landscapeMantraImageView" destination="Rbr-tp-RAr" id="ZfT-UE-Q4E"/>
+                            <outlet property="mainStackView" destination="wUI-LR-HUU" id="HhI-9Q-Fl7"/>
+                            <outlet property="portraitMantraImageView" destination="aYM-Zj-T08" id="Tcc-rM-Uy6"/>
+                            <outlet property="readsGoalButton" destination="MmZ-ji-SKX" id="T12-vC-U9N"/>
+                            <outlet property="setProperValueButton" destination="5fa-hA-HQ2" id="NkC-Hv-EPP"/>
+                            <outlet property="titleLabel" destination="Z7q-lJ-Yge" id="aec-e8-Hcw"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="4DG-jk-Tfm"/>
-                    <connections>
-                        <outlet property="addReadsButton" destination="dUS-5m-kus" id="Nai-Y9-UVx"/>
-                        <outlet property="addRoundsButton" destination="ZdM-Gq-d1v" id="TkL-b3-uN6"/>
-                        <outlet property="circularProgressView" destination="56j-8c-bvo" id="BIf-Kl-quS"/>
-                        <outlet property="landscapeMantraImageView" destination="Rbr-tp-RAr" id="Xij-vY-xbS"/>
-                        <outlet property="mainStackView" destination="wUI-LR-HUU" id="wjz-nx-Yy4"/>
-                        <outlet property="portraitMantraImageView" destination="aYM-Zj-T08" id="B9A-Oa-tMT"/>
-                        <outlet property="readsGoalButton" destination="MmZ-ji-SKX" id="NOK-we-YsL"/>
-                        <outlet property="setProperValueButton" destination="5fa-hA-HQ2" id="SkR-pM-nqQ"/>
-                        <outlet property="titleLabel" destination="Z7q-lJ-Yge" id="iPP-ZR-8AK"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pyN-Dz-03y" sceneMemberID="firstResponder"/>
             </objects>
@@ -551,7 +551,7 @@ We wish you deep awarenesses and spiritual growth!</string>
     </scenes>
     <color key="tintColor" name="AccentColor"/>
     <resources>
-        <image name="DefaultImage" width="160" height="160"/>
+        <image name="DefaultImage" width="200" height="200"/>
         <namedColor name="AccentColor">
             <color red="0.89399999380111694" green="0.68599998950958252" blue="0.039000000804662704" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

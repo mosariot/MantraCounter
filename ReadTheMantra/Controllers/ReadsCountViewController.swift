@@ -29,7 +29,7 @@ final class ReadsCountViewController: UIViewController {
             congratulationsGenerator.prepare()
             guard let mantra = mantra else {
                 navigationItem.rightBarButtonItem = nil
-                mainStackView.isHidden = true
+                readsCountView.mainStackView.isHidden = true
                 noMantraLabel.isHidden = false
                 return
             }
@@ -43,10 +43,10 @@ final class ReadsCountViewController: UIViewController {
                 invalidatePreviousState()
             }
             navigationItem.largeTitleDisplayMode = .never
-            mainStackView.isHidden = false
+            readsCountView.mainStackView.isHidden = false
             noMantraLabel.isHidden = true
-            circularProgressView.goal = Int(mantra.readsGoal)
-            circularProgressView.value = Int(mantra.reads)
+            readsCountView.circularProgressView.goal = Int(mantra.readsGoal)
+            readsCountView.circularProgressView.value = Int(mantra.reads)
             setupUI()
         }
     }
@@ -58,22 +58,15 @@ final class ReadsCountViewController: UIViewController {
     private var shouldInvalidatePreviousState = false
     private let defaults = UserDefaults.standard
     
+    private var readsCountView: ReadsCountView! {
+        guard isViewLoaded else { return nil }
+        return (view as! ReadsCountView)
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         defaults.set(true, forKey: "collapseSecondaryViewController")
     }
-    
-    //MARK: - IBOutlets
-    
-    @IBOutlet private weak var portraitMantraImageView: UIImageView!
-    @IBOutlet private weak var landscapeMantraImageView: UIImageView!
-    @IBOutlet private weak var titleLabel: CopyableLabel!
-    @IBOutlet private weak var addRoundsButton: AdjustReadsButton!
-    @IBOutlet private weak var addReadsButton: AdjustReadsButton!
-    @IBOutlet private weak var setProperValueButton: AdjustReadsButton!
-    @IBOutlet private weak var circularProgressView: CircularProgressView!
-    @IBOutlet private weak var readsGoalButton: UIButton!
-    @IBOutlet private weak var mainStackView: UIStackView!
     
     //MARK: - Setup UI
     
@@ -142,11 +135,11 @@ final class ReadsCountViewController: UIViewController {
         setupNavButtons()
         getMantraImages()
         
-        titleLabel.text = mantra.title
-        titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
-        titleLabel.adjustsFontForContentSizeCategory = true
-        titleLabel.allowsDefaultTighteningForTruncation = true
-        readsGoalButton.setTitle(NSLocalizedString("Goal: ",
+        readsCountView.titleLabel.text = mantra.title
+        readsCountView.titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
+        readsCountView.titleLabel.adjustsFontForContentSizeCategory = true
+        readsCountView.titleLabel.allowsDefaultTighteningForTruncation = true
+        readsCountView.readsGoalButton.setTitle(NSLocalizedString("Goal: ",
                                                    comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),
                                  for: .normal)
         animateCircularProgressViewForUpdatedValues(animated: animated)
@@ -159,34 +152,34 @@ final class ReadsCountViewController: UIViewController {
         navigationItem.compactAppearance = compactAppearance
         navigationItem.title = mantra.title
         
-        addReadsButton.imageSystemName = "plus.circle.fill"
-        addRoundsButton.imageSystemName = "arrow.clockwise.circle.fill"
-        setProperValueButton.imageSystemName = "hand.draw.fill"
+        readsCountView.addReadsButton.imageSystemName = "plus.circle.fill"
+        readsCountView.addRoundsButton.imageSystemName = "arrow.clockwise.circle.fill"
+        readsCountView.setProperValueButton.imageSystemName = "hand.draw.fill"
     }
     
     private func getMantraImages() {
         guard let mantra = mantra else { return }
         let image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
         let downsampledPortraitMantraImage = image?.resize(
-            to: CGSize(width: portraitMantraImageView.bounds.width == 0 ? landscapeMantraImageView.bounds.width/1.5 : portraitMantraImageView.bounds.width,
-                       height: portraitMantraImageView.bounds.height == 0 ?  landscapeMantraImageView.bounds.height/1.5 : portraitMantraImageView.bounds.height))
+            to: CGSize(width: readsCountView.portraitMantraImageView.bounds.width == 0 ? readsCountView.landscapeMantraImageView.bounds.width/1.5 : readsCountView.portraitMantraImageView.bounds.width,
+                       height: readsCountView.portraitMantraImageView.bounds.height == 0 ? readsCountView.landscapeMantraImageView.bounds.height/1.5 : readsCountView.portraitMantraImageView.bounds.height))
         let downsampledLandscapeMantraImage = image?.resize(
-            to: CGSize(width: landscapeMantraImageView.bounds.width == 0 ? portraitMantraImageView.bounds.width*1.5 : landscapeMantraImageView.bounds.width,
-                       height: landscapeMantraImageView.bounds.height == 0 ?  portraitMantraImageView.bounds.height*1.5 : landscapeMantraImageView.bounds.height))
-        portraitMantraImageView.image = downsampledPortraitMantraImage
-        landscapeMantraImageView.image = downsampledLandscapeMantraImage
+            to: CGSize(width: readsCountView.landscapeMantraImageView.bounds.width == 0 ? readsCountView.portraitMantraImageView.bounds.width*1.5 : readsCountView.landscapeMantraImageView.bounds.width,
+                       height: readsCountView.landscapeMantraImageView.bounds.height == 0 ? readsCountView.portraitMantraImageView.bounds.height*1.5 : readsCountView.landscapeMantraImageView.bounds.height))
+        readsCountView.portraitMantraImageView.image = downsampledPortraitMantraImage
+        readsCountView.landscapeMantraImageView.image = downsampledLandscapeMantraImage
     }
     
     private func animateCircularProgressViewForUpdatedValues(animated: Bool = true) {
         guard let mantra = mantra else { return }
-        circularProgressView.setGoalAnimation(to: Int(mantra.readsGoal), animated: animated)
-        circularProgressView.setValueAnimation(to: Int(mantra.reads), animated: animated)
+        readsCountView.circularProgressView.setGoalAnimation(to: Int(mantra.readsGoal), animated: animated)
+        readsCountView.circularProgressView.setValueAnimation(to: Int(mantra.reads), animated: animated)
     }
     
     //MARK: - Invalidate Previous State
     
     private func invalidatePreviousState() {
-        circularProgressView.stopAnimationIfNeeded()
+        readsCountView.circularProgressView.stopAnimationIfNeeded()
         confettiView.removeFromSuperview()
         shouldInvalidatePreviousState = true
     }
@@ -224,7 +217,7 @@ final class ReadsCountViewController: UIViewController {
         let oldReads = mantra.reads
         dataProvider.updateValues(for: mantra, with: value, updatingType: updatingType)
         updateProrgessView(for: updatingType)
-        readsGoalButton.setTitle(NSLocalizedString("Goal: ",
+        readsCountView.readsGoalButton.setTitle(NSLocalizedString("Goal: ",
                                                    comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),
                                  for: .normal)
         if updatingType != .goal {
@@ -237,9 +230,9 @@ final class ReadsCountViewController: UIViewController {
         guard let mantra = mantra else { return }
         switch updatingType {
         case .goal:
-            circularProgressView.setGoalAnimation(to: Int(mantra.readsGoal))
+            readsCountView.circularProgressView.setGoalAnimation(to: Int(mantra.readsGoal))
         case .reads, .rounds, .properValue:
-            circularProgressView.setValueAnimation(to: Int(mantra.reads))
+            readsCountView.circularProgressView.setValueAnimation(to: Int(mantra.reads))
         }
     }
     
@@ -284,7 +277,7 @@ final class ReadsCountViewController: UIViewController {
     private func undoReadsCount() {
         guard let mantra = mantra, let previousReadsCount = previousReadsCount else { return }
         mantra.reads = previousReadsCount
-        circularProgressView.value = Int(previousReadsCount)
+        readsCountView.circularProgressView.value = Int(previousReadsCount)
         setupUI()
         self.previousReadsCount = nil
     }

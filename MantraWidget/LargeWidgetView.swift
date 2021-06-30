@@ -13,7 +13,6 @@ struct LargeWidget: View {
     
     var widgetModel: WidgetModel
     
-    @ViewBuilder
     var body: some View {
         let mantraArray = widgetModel.mantras.prefix(6)
         

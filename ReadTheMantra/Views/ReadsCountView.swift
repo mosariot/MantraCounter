@@ -2,8 +2,21 @@
 //  ReadsCountView.swift
 //  ReadTheMantra
 //
-//  Created by Александр Воробьев on 29.06.2021.
-//  Copyright © 2021 Александр Воробьев. All rights reserved.
+//  Created by Alex Vorobiev on 29.06.2021.
+//  Copyright © 2021 Alex Vorobiev. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+final class ReadsCountView: UIView {
+    
+    @IBOutlet var portraitMantraImageView: UIImageView!
+    @IBOutlet var landscapeMantraImageView: UIImageView!
+    @IBOutlet var titleLabel: CopyableLabel!
+    @IBOutlet var addRoundsButton: AdjustReadsButton!
+    @IBOutlet var addReadsButton: AdjustReadsButton!
+    @IBOutlet var setProperValueButton: AdjustReadsButton!
+    @IBOutlet var circularProgressView: CircularProgressView!
+    @IBOutlet var readsGoalButton: UIButton!
+    @IBOutlet var mainStackView: UIStackView!
+}

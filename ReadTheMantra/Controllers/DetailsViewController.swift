@@ -29,19 +29,10 @@ final class DetailsViewController: UIViewController {
     private var mantraImageForTableViewData: Data?
     private weak var callerController: UIViewController?
     
-    //MARK: - IBOutlets
-    
-    @IBOutlet private weak var titleStackView: UIStackView!
-    @IBOutlet private weak var mantraTextStackView: UIStackView!
-    @IBOutlet private weak var descriptionStackView: UIStackView!
-    @IBOutlet private weak var setPhotoButton: SetPhotoButton!
-    @IBOutlet private weak var titleTextField: UITextField!
-    @IBOutlet private weak var mantraTextTextView: TextViewWithPlaceholder!
-    @IBOutlet private weak var detailsTextView: TextViewWithPlaceholder!
-    
-    @IBOutlet private weak var titleLabel: UILabel!
-    @IBOutlet private weak var mantraTextLabel: UILabel!
-    @IBOutlet private weak var detailsTextLabel: UILabel!
+    private var detailsView: DetailsView! {
+        guard isViewLoaded else { return nil }
+        return (view as! DetailsView)
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -75,9 +66,9 @@ final class DetailsViewController: UIViewController {
         mantraImageData = mantra.image ?? nil
         mantraImageForTableViewData = mantra.imageForTableView ?? nil
         
-        titleTextField.delegate = self
-        mantraTextTextView.delegate = self
-        detailsTextView.delegate = self
+        detailsView.titleTextField.delegate = self
+        detailsView.mantraTextTextView.delegate = self
+        detailsView.detailsTextView.delegate = self
         
         addHapticGenerator.prepare()
         
@@ -91,31 +82,31 @@ final class DetailsViewController: UIViewController {
     }
     
     private func setupData() {
-        titleTextField.text = mantra.title
-        mantraTextTextView.text = mantra.text
-        detailsTextView.text = mantra.details
+        detailsView.titleTextField.text = mantra.title
+        detailsView.mantraTextTextView.text = mantra.text
+        detailsView.detailsTextView.text = mantra.details
         
         let mantraImage = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
-        let downsampledMantraImage = mantraImage?.resize(to: setPhotoButton.bounds.size)
-        setPhotoButton.setImage(downsampledMantraImage, for: .normal)
+        let downsampledMantraImage = mantraImage?.resize(to: detailsView.setPhotoButton.bounds.size)
+        detailsView.setPhotoButton.setImage(downsampledMantraImage, for: .normal)
     }
     
     private func setupUI() {
         
-        titleStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
-        mantraTextStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
-        descriptionStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
+        detailsView.titleStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
+        detailsView.mantraTextStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
+        detailsView.detailsStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
         
-        titleLabel.text = NSLocalizedString("TITLE", comment: "Mantra title label")
-        mantraTextLabel.text = NSLocalizedString("MANTRA TEXT", comment: "Mantra text label")
-        detailsTextLabel.text = NSLocalizedString("DESCRIPTION", comment: "Mantra description label")
-        titleTextField.placeholder = NSLocalizedString("Enter mantra title", comment: "Mantra title placeholder")
-        titleTextField.font = UIFont.preferredFont(for: .title2, weight: .medium)
-        titleTextField.adjustsFontForContentSizeCategory = true
-        mantraTextTextView.placeHolderText = NSLocalizedString("Enter mantra text", comment: "Mantra text placeholder")
-        detailsTextView.placeHolderText = NSLocalizedString("Enter mantra description", comment: "Mantra description placeholder")
+        detailsView.titleLabel.text = NSLocalizedString("TITLE", comment: "Mantra title label")
+        detailsView.mantraTextLabel.text = NSLocalizedString("MANTRA TEXT", comment: "Mantra text label")
+        detailsView.detailsTextLabel.text = NSLocalizedString("DESCRIPTION", comment: "Mantra description label")
+        detailsView.titleTextField.placeholder = NSLocalizedString("Enter mantra title", comment: "Mantra title placeholder")
+        detailsView.titleTextField.font = UIFont.preferredFont(for: .title2, weight: .medium)
+        detailsView.titleTextField.adjustsFontForContentSizeCategory = true
+        detailsView.mantraTextTextView.placeHolderText = NSLocalizedString("Enter mantra text", comment: "Mantra text placeholder")
+        detailsView.detailsTextView.placeHolderText = NSLocalizedString("Enter mantra description", comment: "Mantra description placeholder")
         
-        setPhotoButton.showsMenuAsPrimaryAction = true
+        detailsView.setPhotoButton.showsMenuAsPrimaryAction = true
         let photoLibraryAction = UIAction(
             title: NSLocalizedString("Photo Library", comment: "Menu Item on DetailsViewController"),
             image: UIImage(systemName: "photo.on.rectangle.angled")) { [weak self] _ in
@@ -135,7 +126,7 @@ final class DetailsViewController: UIViewController {
             self.searchOnTheInternet()
         }
         let photoMenu = UIMenu(children: [photoLibraryAction, standardImageAction, searchAction])
-        setPhotoButton.menu = photoMenu
+        detailsView.setPhotoButton.menu = photoMenu
         
         setMode()
     }
@@ -143,37 +134,37 @@ final class DetailsViewController: UIViewController {
     private func addGesturesRecongizers() {
         
         let titleGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showTitleKeyboard))
-        titleStackView.addGestureRecognizer(titleGestureRecognizer)
+        detailsView.titleStackView.addGestureRecognizer(titleGestureRecognizer)
         
         let textGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showTextKeyboard))
-        mantraTextStackView.addGestureRecognizer(textGestureRecognizer)
+        detailsView.mantraTextStackView.addGestureRecognizer(textGestureRecognizer)
         
         let descriptionGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showDescriptionKeyboard))
-        descriptionStackView.addGestureRecognizer(descriptionGestureRecognizer)
+        detailsView.detailsStackView.addGestureRecognizer(descriptionGestureRecognizer)
         
     }
     
     @objc private func showTitleKeyboard(_ recognizer: UIGestureRecognizer) {
-        if mode != .view && !titleTextField.isFirstResponder {
-            titleTextField.becomeFirstResponder()
-            let newPosition = titleTextField.endOfDocument
-            titleTextField.selectedTextRange = titleTextField.textRange(from: newPosition, to: newPosition)
+        if mode != .view && !detailsView.titleTextField.isFirstResponder {
+            detailsView.titleTextField.becomeFirstResponder()
+            let newPosition = detailsView.titleTextField.endOfDocument
+            detailsView.titleTextField.selectedTextRange = detailsView.titleTextField.textRange(from: newPosition, to: newPosition)
         }
     }
     
     @objc private func showTextKeyboard(_ recognizer: UIGestureRecognizer) {
-        if mode != .view && !mantraTextTextView.isFirstResponder {
-            mantraTextTextView.becomeFirstResponder()
-            let newPosition = mantraTextTextView.endOfDocument
-            mantraTextTextView.selectedTextRange = mantraTextTextView.textRange(from: newPosition, to: newPosition)
+        if mode != .view && !detailsView.mantraTextTextView.isFirstResponder {
+            detailsView.mantraTextTextView.becomeFirstResponder()
+            let newPosition = detailsView.mantraTextTextView.endOfDocument
+            detailsView.mantraTextTextView.selectedTextRange = detailsView.mantraTextTextView.textRange(from: newPosition, to: newPosition)
         }
     }
     
     @objc private func showDescriptionKeyboard(_ recognizer: UIGestureRecognizer) {
-        if mode != .view && !detailsTextView.isFirstResponder {
-            detailsTextView.becomeFirstResponder()
-            let newPosition = detailsTextView.endOfDocument
-            detailsTextView.selectedTextRange = detailsTextView.textRange(from: newPosition, to: newPosition)
+        if mode != .view && !detailsView.detailsTextView.isFirstResponder {
+            detailsView.detailsTextView.becomeFirstResponder()
+            let newPosition = detailsView.detailsTextView.endOfDocument
+            detailsView.detailsTextView.selectedTextRange = detailsView.detailsTextView.textRange(from: newPosition, to: newPosition)
         }
     }
     
@@ -204,16 +195,16 @@ final class DetailsViewController: UIViewController {
                 guard let self = self else { return }
                 self.cancelButtonPressed()
             }))
-        navigationItem.rightBarButtonItem?.isEnabled = (titleTextField.text != "")
-        setPhotoButton.setEditMode()
-        titleTextField.isUserInteractionEnabled = true
-        mantraTextTextView.isUserInteractionEnabled = true
-        mantraTextTextView.isEditable = true
-        detailsTextView.isUserInteractionEnabled = true
-        detailsTextView.isEditable = true
-        titleTextField.becomeFirstResponder()
-        mantraTextTextView.placeHolder.isHidden = !mantraTextTextView.text.isEmpty
-        detailsTextView.placeHolder.isHidden = !detailsTextView.text.isEmpty
+        navigationItem.rightBarButtonItem?.isEnabled = (detailsView.titleTextField.text != "")
+        detailsView.setPhotoButton.setEditMode()
+        detailsView.titleTextField.isUserInteractionEnabled = true
+        detailsView.mantraTextTextView.isUserInteractionEnabled = true
+        detailsView.mantraTextTextView.isEditable = true
+        detailsView.detailsTextView.isUserInteractionEnabled = true
+        detailsView.detailsTextView.isEditable = true
+        detailsView.titleTextField.becomeFirstResponder()
+        detailsView.mantraTextTextView.placeHolder.isHidden = !detailsView.mantraTextTextView.text.isEmpty
+        detailsView.detailsTextView.placeHolder.isHidden = !detailsView.detailsTextView.text.isEmpty
     }
     
     private func setEditMode() {
@@ -230,15 +221,15 @@ final class DetailsViewController: UIViewController {
                 guard let self = self else { return }
                 self.closeButtonPressed()
             }))
-        setPhotoButton.setEditMode()
-        titleTextField.isUserInteractionEnabled = true
-        mantraTextTextView.isUserInteractionEnabled = true
-        mantraTextTextView.isEditable = true
-        detailsTextView.isUserInteractionEnabled = true
-        detailsTextView.isEditable = true
-        titleTextField.becomeFirstResponder()
-        mantraTextTextView.placeHolder.isHidden = !mantraTextTextView.text.isEmpty
-        detailsTextView.placeHolder.isHidden = !detailsTextView.text.isEmpty
+        detailsView.setPhotoButton.setEditMode()
+        detailsView.titleTextField.isUserInteractionEnabled = true
+        detailsView.mantraTextTextView.isUserInteractionEnabled = true
+        detailsView.mantraTextTextView.isEditable = true
+        detailsView.detailsTextView.isUserInteractionEnabled = true
+        detailsView.detailsTextView.isEditable = true
+        detailsView.titleTextField.becomeFirstResponder()
+        detailsView.mantraTextTextView.placeHolder.isHidden = !detailsView.mantraTextTextView.text.isEmpty
+        detailsView.detailsTextView.placeHolder.isHidden = !detailsView.detailsTextView.text.isEmpty
     }
     
     private func setViewMode() {
@@ -255,17 +246,17 @@ final class DetailsViewController: UIViewController {
                 guard let self = self else { return }
                 self.closeButtonPressed()
             }))
-        setPhotoButton.setViewMode()
-        titleTextField.isUserInteractionEnabled = false
-        mantraTextTextView.isUserInteractionEnabled = false
-        mantraTextTextView.isEditable = false
-        detailsTextView.isUserInteractionEnabled = false
-        detailsTextView.isEditable = false
-        titleTextField.resignFirstResponder()
-        mantraTextTextView.resignFirstResponder()
-        detailsTextView.resignFirstResponder()
-        mantraTextTextView.placeHolder.isHidden = true
-        detailsTextView.placeHolder.isHidden = true
+        detailsView.setPhotoButton.setViewMode()
+        detailsView.titleTextField.isUserInteractionEnabled = false
+        detailsView.mantraTextTextView.isUserInteractionEnabled = false
+        detailsView.mantraTextTextView.isEditable = false
+        detailsView.detailsTextView.isUserInteractionEnabled = false
+        detailsView.detailsTextView.isEditable = false
+        detailsView.titleTextField.resignFirstResponder()
+        detailsView.mantraTextTextView.resignFirstResponder()
+        detailsView.detailsTextView.resignFirstResponder()
+        detailsView.mantraTextTextView.placeHolder.isHidden = true
+        detailsView.detailsTextView.placeHolder.isHidden = true
     }
 }
 
@@ -274,7 +265,7 @@ final class DetailsViewController: UIViewController {
 extension DetailsViewController {
     
     private func addButtonPressed() {
-        guard let title = titleTextField.text else { return }
+        guard let title = detailsView.titleTextField.text else { return }
         if isMantraDuplicating(for: title) {
             showDuplicatingAlert(for: title)
         } else {
@@ -283,10 +274,10 @@ extension DetailsViewController {
     }
     
     private func cancelButtonPressed() {
-        guard let title = titleTextField.text else { return }
-        if titleTextField.text?.trimmingCharacters(in: .whitespaces) == ""
-            && mantraTextTextView.text == ""
-            && detailsTextView.text == ""
+        guard let title = detailsView.titleTextField.text else { return }
+        if detailsView.titleTextField.text?.trimmingCharacters(in: .whitespaces) == ""
+            && detailsView.mantraTextTextView.text == ""
+            && detailsView.detailsTextView.text == ""
             && mantraImageData == nil {
             self.context.delete(self.mantra)
             self.dismiss(animated: true, completion: nil)
@@ -311,28 +302,28 @@ extension DetailsViewController {
     }
     
     private func doneButtonPressed() {
-        guard let title = titleTextField.text else { return }
+        guard let title = detailsView.titleTextField.text else { return }
         dataProvider.processMantra(
             mantra: mantra,
             title: title,
-            text: mantraTextTextView.text,
-            details: detailsTextView.text,
+            text: detailsView.mantraTextTextView.text,
+            details: detailsView.detailsTextView.text,
             imageData: mantraImageData,
             imageForTableViewData: mantraImageForTableViewData)
         mode = .view
     }
     
     private func closeButtonPressed() {
-        if titleTextField.text != mantra.title
-            || mantraTextTextView.text != mantra.text ?? ""
-            || detailsTextView.text != mantra.details
+        if detailsView.titleTextField.text != mantra.title
+            || detailsView.mantraTextTextView.text != mantra.text ?? ""
+            || detailsView.detailsTextView.text != mantra.details
             || mantraImageData != mantra.image {
-            guard let title = titleTextField.text else { return }
+            guard let title = detailsView.titleTextField.text else { return }
             let alert = UIAlertController.cancelOrCloseMantraAlert(
                 idiom: traitCollection.userInterfaceIdiom,
                 saveMantraHandler: { [weak self] in
                     guard let self = self else { return }
-                    guard self.titleTextField.text?.trimmingCharacters(in: .whitespaces) != "" else {
+                    guard self.detailsView.titleTextField.text?.trimmingCharacters(in: .whitespaces) != "" else {
                         let alert = UIAlertController.addTitleAlert()
                         self.present(alert, animated: true, completion: nil)
                         return
@@ -340,8 +331,8 @@ extension DetailsViewController {
                     self.dataProvider.processMantra(
                         mantra: self.mantra,
                         title: title,
-                        text: self.mantraTextTextView.text,
-                        details: self.detailsTextView.text,
+                        text: self.detailsView.mantraTextTextView.text,
+                        details: self.detailsView.detailsTextView.text,
                         imageData: self.mantraImageData,
                         imageForTableViewData: self.mantraImageForTableViewData)
                     self.dismiss(animated: true, completion: nil)
@@ -369,7 +360,7 @@ extension DetailsViewController {
     }
     
     private func handleAddNewMantra(for title: String) {
-        guard titleTextField.text?.trimmingCharacters(in: .whitespaces) != "" else {
+        guard detailsView.titleTextField.text?.trimmingCharacters(in: .whitespaces) != "" else {
             let alert = UIAlertController.addTitleAlert()
             present(alert, animated: true, completion: nil)
             return
@@ -378,8 +369,8 @@ extension DetailsViewController {
         dataProvider.processMantra(
             mantra: mantra,
             title: title,
-            text: mantraTextTextView.text,
-            details: detailsTextView.text,
+            text: detailsView.mantraTextTextView.text,
+            details: detailsView.detailsTextView.text,
             imageData: mantraImageData,
             imageForTableViewData: mantraImageForTableViewData)
         
@@ -406,7 +397,7 @@ extension DetailsViewController {
     }
     
     private func setDefaultImage() {
-        setPhotoButton.setImage(UIImage(named: Constants.defaultImage), for: .normal)
+        detailsView.setPhotoButton.setImage(UIImage(named: Constants.defaultImage), for: .normal)
         addTransition()
         mantraImageData = nil
         mantraImageForTableViewData = nil
@@ -423,7 +414,7 @@ extension DetailsViewController {
     }
     
     private func searchOnTheInternet() {
-        guard let search = titleTextField.text else { return }
+        guard let search = detailsView.titleTextField.text else { return }
         guard let urlString = "https://www.google.com/search?q=\(search)&tbm=isch"
                 .addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed) else { return }
         guard let url = URL(string: urlString) else { return }
@@ -475,8 +466,8 @@ extension DetailsViewController: UITextFieldDelegate {
 extension DetailsViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
-        mantraTextTextView.placeHolder.isHidden = !mantraTextTextView.text.isEmpty
-        detailsTextView.placeHolder.isHidden = !detailsTextView.text.isEmpty
+        detailsView.mantraTextTextView.placeHolder.isHidden = !detailsView.mantraTextTextView.text.isEmpty
+        detailsView.detailsTextView.placeHolder.isHidden = !detailsView.detailsTextView.text.isEmpty
     }
 }
 
@@ -489,7 +480,7 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
         
         guard !results.isEmpty else { return }
         
-        setPhotoButton.setProcessMode()
+        detailsView.setPhotoButton.setProcessMode()
         
         results.forEach { result in
             let provider = result.itemProvider
@@ -499,14 +490,14 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
                     if let image = object as? UIImage {
                         let resultImage = self.processImage(image: image)
                         DispatchQueue.main.async {
-                            let downsampledImage = resultImage?.resize(to: self.setPhotoButton.bounds.size)
-                            self.setPhotoButton.setImage(downsampledImage, for: .normal)
-                            self.setPhotoButton.setEditMode()
+                            let downsampledImage = resultImage?.resize(to: self.detailsView.setPhotoButton.bounds.size)
+                            self.detailsView.setPhotoButton.setImage(downsampledImage, for: .normal)
+                            self.detailsView.setPhotoButton.setEditMode()
                             self.addTransition()
                         }
                     } else {
                         DispatchQueue.main.async {
-                            self.setPhotoButton.setEditMode()
+                            self.detailsView.setPhotoButton.setEditMode()
                             self.showNoImageAlert()
                         }
                     }
@@ -553,7 +544,7 @@ extension DetailsViewController: SFSafariViewControllerDelegate {
     
     private func didSelectImageFromSafariController(image: UIImage) {
         let resultImage = processImage(image: image)
-        let downsampledImage = resultImage?.resize(to: setPhotoButton.bounds.size)
-        setPhotoButton.setImage(downsampledImage, for: .normal)
+        let downsampledImage = resultImage?.resize(to: detailsView.setPhotoButton.bounds.size)
+        detailsView.setPhotoButton.setImage(downsampledImage, for: .normal)
     }
 }
