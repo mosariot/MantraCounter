@@ -53,6 +53,11 @@ final class CoreDataManager {
             fatalCoreDataError(error)
         }
     }
+    
+    func deleteMantra(_ mantra: Mantra) {
+        let context = persistentContainer.viewContext
+        context.delete(mantra)
+    }
 }
     
     //MARK: - Register Defaults

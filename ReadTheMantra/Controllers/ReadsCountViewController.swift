@@ -283,16 +283,16 @@ final class ReadsCountViewController: UIViewController {
     }
 }
 
-//MARK: - MantraSelection Delegate
+//MARK: - MantraViewControllerDelegate
 
-extension ReadsCountViewController: MantraSelectionDelegate {
+extension ReadsCountViewController: MantraViewControllerDelegate {
     
     func mantraSelected(_ newMantra: Mantra?) {
         mantra = newMantra
     }
 }
 
-//MARK: - TextField Delegate
+//MARK: - TextFieldDelegate
 
 extension ReadsCountViewController: UITextFieldDelegate {
     

@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-protocol MantraSelectionDelegate: AnyObject {
+protocol MantraViewControllerDelegate: AnyObject {
     func mantraSelected(_ newMantra: Mantra?)
 }
 
@@ -23,14 +23,11 @@ final class MantraViewController: UICollectionViewController {
     
     //MARK: - Properties
     
-    weak var delegate: MantraSelectionDelegate?
+    weak var delegate: MantraViewControllerDelegate?
     
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Mantra>
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Mantra>
     private lazy var dataSource = makeDataSource()
-    
-    private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
-    private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
     
     private lazy var dataProvider: MantraProvider = {
         MantraProvider(fetchedResultsControllerDelegate: self)
@@ -480,7 +477,7 @@ extension MantraViewController {
     }
     
     private func showNewMantraVC() {
-        let mantra = Mantra(context: context)
+        let mantra = dataProvider.makeNewMantra()
         mantra.uuid = UUID()
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
@@ -499,9 +496,9 @@ extension MantraViewController {
     }
 }
 
-//MARK: - Delete Mantra Delegate
+//MARK: - MantraCellDelegate
 
-extension MantraViewController: DeleteMantraDelegate {
+extension MantraViewController: MantraCellDelegate {
     
     func showDeleteConfirmationAlert(for mantra: Mantra) {
         let alert = UIAlertController.deleteConfirmationAlert(for: mantra, idiom: traitCollection.userInterfaceIdiom) { [weak self] (mantra) in
@@ -515,7 +512,7 @@ extension MantraViewController: DeleteMantraDelegate {
     }
 }
 
-// MARK: - NSFetchedResultsController Delegate
+// MARK: - NSFetchedResultsControllerDelegate
 
 extension MantraViewController: NSFetchedResultsControllerDelegate {
     
@@ -527,7 +524,7 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
         stopActivityIndicatorForInitialDataLoadingIfNeeded()
         widgetManager.updateWidgetData(for: overallMantras)
         afterDelay(0.1) {
-            self.coreDataManager.saveContext()
+            self.dataProvider.saveMantras()
         }
     }
     
@@ -563,7 +560,7 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
     }
 }
 
-// MARK: - UISearchResultsUpdating Delegate
+// MARK: - UISearchResultsUpdating
 
 extension MantraViewController: UISearchResultsUpdating {
     

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol DeleteMantraDelegate: AnyObject {
+protocol MantraCellDelegate: AnyObject {
     func showDeleteConfirmationAlert(for: Mantra)
 }
 
@@ -20,7 +20,7 @@ final class MantraCell: UICollectionViewListCell {
         }
     }
     
-    weak var delegate: DeleteMantraDelegate?
+    weak var delegate: MantraCellDelegate?
     
     private var isPadOrMacIdiom: Bool {
         traitCollection.userInterfaceIdiom == .pad || traitCollection.userInterfaceIdiom == .mac

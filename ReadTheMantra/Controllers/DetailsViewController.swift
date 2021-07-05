@@ -14,7 +14,6 @@ final class DetailsViewController: UIViewController {
     
     //MARK: - Properties
     
-    private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
     private lazy var dataProvider = MantraProvider()
     
     private let pasteboard = UIPasteboard.general
@@ -279,7 +278,8 @@ extension DetailsViewController {
             && detailsView.mantraTextTextView.text == ""
             && detailsView.detailsTextView.text == ""
             && mantraImageData == nil {
-            self.context.delete(self.mantra)
+            self.dataProvider.deleteMantra(mantra)
+//            self.context.delete(self.mantra)
             self.dismiss(animated: true, completion: nil)
             return
         }
@@ -290,7 +290,8 @@ extension DetailsViewController {
                 self.handleAddNewMantra(for: title)
             }, dontSaveActionHandler: { [weak self] in
                 guard let self = self else { return }
-                self.context.delete(self.mantra)
+                self.dataProvider.deleteMantra(self.mantra)
+//                self.context.delete(self.mantra)
                 self.dismiss(animated: true, completion: nil)
             })
         present(alert, animated: true, completion: nil)
@@ -461,7 +462,7 @@ extension DetailsViewController: UITextFieldDelegate {
     }
 }
 
-//MARK: - TextView Delegate (Handling TextViews Placeholders)
+//MARK: - TextViewDelegate (Handling TextViews Placeholders)
 
 extension DetailsViewController: UITextViewDelegate {
     
@@ -471,7 +472,7 @@ extension DetailsViewController: UITextViewDelegate {
     }
 }
 
-//MARK: - PHPickerViewController Delegate
+//MARK: - PHPickerViewControllerDelegate
 
 extension DetailsViewController: PHPickerViewControllerDelegate {
     
@@ -523,7 +524,7 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
     }
 }
 
-//MARK: - SFSafariViewController Delegate
+//MARK: - SFSafariViewControllerDelegate
 
 extension DetailsViewController: SFSafariViewControllerDelegate {
     

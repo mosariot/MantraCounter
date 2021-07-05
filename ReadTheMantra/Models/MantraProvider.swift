@@ -11,7 +11,7 @@ import CoreData
 
 class MantraProvider {
     
-    private lazy var context = (UIApplication.shared.delegate as! AppDelegate).coreDataManager.persistentContainer.viewContext
+    private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     private weak var fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate?
     private(set) var fetchedResultsController: NSFetchedResultsController<Mantra>?
     private lazy var sortedInitialMantraData = InitialMantra.sortedData()
@@ -29,7 +29,7 @@ class MantraProvider {
         request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         request.fetchBatchSize = 20
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request,
-                                                              managedObjectContext: context,
+                                                              managedObjectContext: coreDataManager.persistentContainer.viewContext,
                                                               sectionNameKeyPath: nil,
                                                               cacheName: "Mantras")
         fetchedResultsController?.delegate = fetchedResultsControllerDelegate
@@ -48,7 +48,7 @@ class MantraProvider {
             return selectedMantrasTitles.contains(title)
         }
         selectedMantras.forEach { (selectedMantra) in
-            let mantra = Mantra(context: context)
+            let mantra = Mantra(context: coreDataManager.persistentContainer.viewContext)
             mantra.uuid = UUID()
             mantra.title = selectedMantra[.title]
             mantra.text = selectedMantra[.text]
@@ -81,15 +81,23 @@ class MantraProvider {
         mantra.imageForTableView = imageForTableViewData ?? nil
     }
     
+    func saveMantras() {
+        coreDataManager.saveContext()
+    }
+    
+    func makeNewMantra() -> Mantra {
+        Mantra(context: coreDataManager.persistentContainer.viewContext)
+    }
+    
     func deleteMantra(_ mantra: Mantra) {
-        context.delete(mantra)
+        coreDataManager.deleteMantra(mantra)
     }
     
     private func deleteEmptyMantrasIfNeeded() {
         fetchedResultsController?.fetchedObjects?
             .filter{ $0.title == "" }
             .forEach { (mantra) in
-                context.delete(mantra)
+                coreDataManager.deleteMantra(mantra)
             }
     }
 }

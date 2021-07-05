@@ -197,7 +197,7 @@ extension PreloadedMantraController {
     }
 }
 
-//MARK: - UICollectionView Delegate
+//MARK: - UICollectionViewDelegate
 
 extension PreloadedMantraController: UICollectionViewDelegate {
     
