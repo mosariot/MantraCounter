@@ -73,7 +73,7 @@ class MantraProvider {
         }
     }
     
-    func processMantra(mantra: Mantra, title: String, text: String, details: String, imageData: Data?, imageForTableViewData: Data?) {
+    func buildOrUpdateMantra(mantra: Mantra, title: String, text: String, details: String, imageData: Data?, imageForTableViewData: Data?) {
         mantra.title = title
         mantra.text = text
         mantra.details = details

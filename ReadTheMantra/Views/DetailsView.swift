@@ -23,5 +23,4 @@ final class DetailsView: UIView {
     @IBOutlet var detailsStackView: UIStackView!
     @IBOutlet var detailsTextLabel: UILabel!
     @IBOutlet var detailsTextView: TextViewWithPlaceholder!
-    
 }

@@ -279,7 +279,6 @@ extension DetailsViewController {
             && detailsView.detailsTextView.text == ""
             && mantraImageData == nil {
             self.dataProvider.deleteMantra(mantra)
-//            self.context.delete(self.mantra)
             self.dismiss(animated: true, completion: nil)
             return
         }
@@ -291,7 +290,6 @@ extension DetailsViewController {
             }, dontSaveActionHandler: { [weak self] in
                 guard let self = self else { return }
                 self.dataProvider.deleteMantra(self.mantra)
-//                self.context.delete(self.mantra)
                 self.dismiss(animated: true, completion: nil)
             })
         present(alert, animated: true, completion: nil)
@@ -304,7 +302,7 @@ extension DetailsViewController {
     
     private func doneButtonPressed() {
         guard let title = detailsView.titleTextField.text else { return }
-        dataProvider.processMantra(
+        dataProvider.buildOrUpdateMantra(
             mantra: mantra,
             title: title,
             text: detailsView.mantraTextTextView.text,
@@ -329,7 +327,7 @@ extension DetailsViewController {
                         self.present(alert, animated: true, completion: nil)
                         return
                     }
-                    self.dataProvider.processMantra(
+                    self.dataProvider.buildOrUpdateMantra(
                         mantra: self.mantra,
                         title: title,
                         text: self.detailsView.mantraTextTextView.text,
@@ -367,7 +365,7 @@ extension DetailsViewController {
             return
         }
         
-        dataProvider.processMantra(
+        dataProvider.buildOrUpdateMantra(
             mantra: mantra,
             title: title,
             text: detailsView.mantraTextTextView.text,
