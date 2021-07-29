@@ -302,13 +302,7 @@ extension DetailsViewController {
     
     private func doneButtonPressed() {
         guard let title = detailsView.titleTextField.text else { return }
-        dataProvider.buildOrUpdateMantra(
-            mantra: mantra,
-            title: title,
-            text: detailsView.mantraTextTextView.text,
-            details: detailsView.detailsTextView.text,
-            imageData: mantraImageData,
-            imageForTableViewData: mantraImageForTableViewData)
+        buildOrUpdateMantra(with: title)
         mode = .view
     }
     
@@ -327,13 +321,7 @@ extension DetailsViewController {
                         self.present(alert, animated: true, completion: nil)
                         return
                     }
-                    self.dataProvider.buildOrUpdateMantra(
-                        mantra: self.mantra,
-                        title: title,
-                        text: self.detailsView.mantraTextTextView.text,
-                        details: self.detailsView.detailsTextView.text,
-                        imageData: self.mantraImageData,
-                        imageForTableViewData: self.mantraImageForTableViewData)
+                    self.buildOrUpdateMantra(with: title)
                     self.dismiss(animated: true, completion: nil)
                 }, dontSaveActionHandler: { [weak self] in
                     guard let self = self else { return }
@@ -365,13 +353,7 @@ extension DetailsViewController {
             return
         }
         
-        dataProvider.buildOrUpdateMantra(
-            mantra: mantra,
-            title: title,
-            text: detailsView.mantraTextTextView.text,
-            details: detailsView.detailsTextView.text,
-            imageData: mantraImageData,
-            imageForTableViewData: mantraImageForTableViewData)
+        buildOrUpdateMantra(with: title)
         
         addHapticGenerator.notificationOccurred(.success)
         
@@ -380,6 +362,16 @@ extension DetailsViewController {
         afterDelay(0.8) {
             self.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    private func buildOrUpdateMantra(with title: String) {
+        dataProvider.buildOrUpdateMantra(
+            mantra: mantra,
+            title: title,
+            text: detailsView.mantraTextTextView.text,
+            details: detailsView.detailsTextView.text,
+            imageData: mantraImageData,
+            imageForTableViewData: mantraImageForTableViewData)
     }
 }
 

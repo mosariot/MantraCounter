@@ -69,6 +69,7 @@ extension CoreDataManager {
                           "isOnboarding": true,
                           "isInitalDataLoading": true,
                           "isFirstSearchOnTheInternet": true,
+                          "isFirstSwitchDisplayMode": true,
                           "isAlphabeticalSorting": true,
                           "isPreloadedMantrasDueToNoInternetConnection": false]
         UserDefaults.standard.register(defaults: dictionary)

@@ -10,11 +10,19 @@ import UIKit
 
 final class ReadsCountViewController: UIViewController {
     
+    private enum DisplayMode {
+        case displayAlwaysOn
+        case systemBehavior
+    }
+    
     //MARK: - Properties
     
     private lazy var dataProvider = MantraProvider()
     private let mediumHapticGenerator = UIImpactFeedbackGenerator(style: .medium)
     private let congratulationsGenerator = UINotificationFeedbackGenerator()
+    private var displayMode = DisplayMode.systemBehavior {
+        didSet { setDisplayMode() }
+    }
     
     private lazy var confettiView = ConfettiView()
     private lazy var noMantraLabel = PlaceholderLabelForEmptyView.makeLabel(
@@ -34,10 +42,12 @@ final class ReadsCountViewController: UIViewController {
                 return
             }
             if currentMantra == nil {
+                displayMode = DisplayMode.systemBehavior
                 currentMantra = mantra
                 previousReadsCount = nil
             }
             if let currentMantra = currentMantra, mantra !== currentMantra {
+                displayMode = DisplayMode.systemBehavior
                 self.currentMantra = mantra
                 previousReadsCount = nil
                 invalidatePreviousState()
@@ -61,6 +71,11 @@ final class ReadsCountViewController: UIViewController {
     private var readsCountView: ReadsCountView! {
         guard isViewLoaded else { return nil }
         return (view as! ReadsCountView)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        displayMode = DisplayMode.systemBehavior
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -133,7 +148,7 @@ final class ReadsCountViewController: UIViewController {
         guard let mantra = mantra else { return }
         
         setupNavButtons()
-        getMantraImages()
+        setMantraImages()
         
         readsCountView.titleLabel.text = mantra.title
         readsCountView.titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
@@ -157,7 +172,7 @@ final class ReadsCountViewController: UIViewController {
         readsCountView.setProperValueButton.imageSystemName = "hand.draw.fill"
     }
     
-    private func getMantraImages() {
+    private func setMantraImages() {
         guard let mantra = mantra else { return }
         let image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
         let downsampledPortraitMantraImage = image?.resize(
@@ -184,6 +199,72 @@ final class ReadsCountViewController: UIViewController {
         shouldInvalidatePreviousState = true
     }
     
+    // MARK: - Display Always On Stack
+    
+    @IBAction func displayAlwaysOnPressed(_ sender: UIButton) {
+        checkForFirstSwitchDisplayMode()
+        switch displayMode {
+        case .displayAlwaysOn:
+            displayMode = .systemBehavior
+        case .systemBehavior:
+            displayMode = .displayAlwaysOn
+        }
+    }
+    
+    @objc private func doubleTapped() {
+        handlePositiveAction(for: 1, updatingType: .reads)
+    }
+    
+    @objc private func tripleTapped() {
+        handlePositiveAction(for: 1, updatingType: .rounds)
+    }
+    
+    private func setDisplayMode() {
+        switch displayMode {
+        case .systemBehavior:
+            setSystemBehaviorMode()
+        case .displayAlwaysOn:
+            setDisplayAlwaysOnMode()
+        }
+    }
+    
+    private func setSystemBehaviorMode() {
+        UIApplication.shared.isIdleTimerDisabled = false
+        readsCountView.displayAlwaysOn.setImage(UIImage(systemName: "sun.max"), for: .normal)
+        readsCountView.addReadsButton.isEnabled = true
+        readsCountView.addRoundsButton.isEnabled = true
+        readsCountView.setProperValueButton.isEnabled = true
+        readsCountView.readsGoalButton.isEnabled = true
+        readsCountView.gestureRecognizers?.forEach(readsCountView.removeGestureRecognizer)
+    }
+    
+    private func setDisplayAlwaysOnMode() {
+        UIApplication.shared.isIdleTimerDisabled = true
+        readsCountView.displayAlwaysOn.setImage(UIImage(systemName: "sun.max.fill"), for: .normal)
+        readsCountView.addReadsButton.isEnabled = false
+        readsCountView.addRoundsButton.isEnabled = false
+        readsCountView.setProperValueButton.isEnabled = false
+        readsCountView.readsGoalButton.isEnabled = false
+        
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
+        let tripleTap = UITapGestureRecognizer(target: self, action: #selector(tripleTapped))
+        doubleTap.numberOfTapsRequired = 2
+        tripleTap.numberOfTapsRequired = 3
+        readsCountView.addGestureRecognizer(doubleTap)
+        readsCountView.addGestureRecognizer(tripleTap)
+        doubleTap.require(toFail: tripleTap)
+    }
+    
+    private func checkForFirstSwitchDisplayMode() {
+        let defaults = UserDefaults.standard
+        let isFirstSwitchDisplayMode = defaults.bool(forKey: "isFirstSwitchDisplayMode")
+        if isFirstSwitchDisplayMode {
+            let alert = UIAlertController.firstSwitchDisplayMode()
+            present(alert, animated: true)
+            defaults.setValue(false, forKey: "isFirstSwitchDisplayMode")
+        }
+    }
+    
     //MARK: - Updating ReadsCount and ReadsGoal
     
     @IBAction private func setGoalButtonPressed(_ sender: UIButton) {
@@ -207,12 +288,12 @@ final class ReadsCountViewController: UIViewController {
         let alert = UIAlertController.updatingAlert(mantra: mantra, updatingType: updatingType, delegate: self) { [weak self] (value) in
             guard let self = self else { return }
             self.mediumHapticGenerator.impactOccurred()
-            self.handleAlertPositiveAction(forValue: value, updatingType: updatingType)
+            self.handlePositiveAction(for: value, updatingType: updatingType)
         }
         present(alert, animated: true, completion: nil)
     }
     
-    private func handleAlertPositiveAction(forValue value: Int32, updatingType: UpdatingType) {
+    private func handlePositiveAction(for value: Int32, updatingType: UpdatingType) {
         guard let mantra = mantra else { return }
         let oldReads = mantra.reads
         dataProvider.updateValues(for: mantra, with: value, updatingType: updatingType)

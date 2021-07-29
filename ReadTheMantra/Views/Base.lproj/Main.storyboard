@@ -3,6 +3,7 @@
     <device id="retina6_0" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -415,6 +416,16 @@ We wish you deep awarenesses and spiritual growth!</string>
                                     </mask>
                                 </variation>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aed-An-0ad">
+                                <rect key="frame" x="348" y="108" width="22" height="21.333333333333343"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <state key="normal">
+                                    <imageReference key="image" image="sun.max" catalog="system" symbolScale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="displayAlwaysOnPressed:" destination="9Ew-Yb-oIM" eventType="touchUpInside" id="DAM-oR-wEV"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="c4c-wV-DI0"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -422,12 +433,14 @@ We wish you deep awarenesses and spiritual growth!</string>
                             <constraint firstItem="wUI-LR-HUU" firstAttribute="top" secondItem="c4c-wV-DI0" secondAttribute="top" constant="20" id="0ie-qI-VNO"/>
                             <constraint firstItem="aYM-Zj-T08" firstAttribute="width" secondItem="LJz-A8-q5d" secondAttribute="width" multiplier="0.35" id="3hd-gF-8ty"/>
                             <constraint firstItem="56j-8c-bvo" firstAttribute="height" secondItem="LJz-A8-q5d" secondAttribute="height" multiplier="0.35" id="6f3-MF-ix0"/>
+                            <constraint firstItem="aed-An-0ad" firstAttribute="trailing" secondItem="c4c-wV-DI0" secondAttribute="trailing" constant="-20" id="BJA-Mt-n2N"/>
                             <constraint firstItem="wUI-LR-HUU" firstAttribute="leading" secondItem="c4c-wV-DI0" secondAttribute="leading" constant="30" id="FIe-tn-R19"/>
                             <constraint firstItem="56j-8c-bvo" firstAttribute="height" secondItem="LJz-A8-q5d" secondAttribute="height" multiplier="0.56" id="SN2-YQ-H1v"/>
                             <constraint firstItem="wUI-LR-HUU" firstAttribute="top" secondItem="c4c-wV-DI0" secondAttribute="top" constant="5" id="U3z-kr-lZg"/>
                             <constraint firstItem="56j-8c-bvo" firstAttribute="height" secondItem="LJz-A8-q5d" secondAttribute="height" multiplier="0.46" id="UTR-Dv-P5t"/>
                             <constraint firstItem="c4c-wV-DI0" firstAttribute="bottom" secondItem="wUI-LR-HUU" secondAttribute="bottom" constant="20" id="cnS-Ha-03C"/>
                             <constraint firstItem="wUI-LR-HUU" firstAttribute="trailing" secondItem="c4c-wV-DI0" secondAttribute="trailing" constant="-30" id="ePn-A2-Slk"/>
+                            <constraint firstItem="aed-An-0ad" firstAttribute="top" secondItem="wUI-LR-HUU" secondAttribute="top" id="ick-F9-foE"/>
                             <constraint firstItem="f0G-CI-caq" firstAttribute="width" secondItem="LJz-A8-q5d" secondAttribute="width" multiplier="0.5" id="mS5-BY-H84"/>
                             <constraint firstItem="wUI-LR-HUU" firstAttribute="bottom" secondItem="c4c-wV-DI0" secondAttribute="bottom" constant="-5" id="maV-Fh-pgv"/>
                             <constraint firstItem="56j-8c-bvo" firstAttribute="width" secondItem="LJz-A8-q5d" secondAttribute="width" multiplier="0.58" id="nw0-1U-ehe"/>
@@ -485,6 +498,7 @@ We wish you deep awarenesses and spiritual growth!</string>
                             <outlet property="addReadsButton" destination="dUS-5m-kus" id="iSI-yt-vUp"/>
                             <outlet property="addRoundsButton" destination="ZdM-Gq-d1v" id="Tsq-dj-JM1"/>
                             <outlet property="circularProgressView" destination="56j-8c-bvo" id="W82-Zr-gv7"/>
+                            <outlet property="displayAlwaysOn" destination="aed-An-0ad" id="QuI-wL-t0B"/>
                             <outlet property="landscapeMantraImageView" destination="Rbr-tp-RAr" id="ZfT-UE-Q4E"/>
                             <outlet property="mainStackView" destination="wUI-LR-HUU" id="HhI-9Q-Fl7"/>
                             <outlet property="portraitMantraImageView" destination="aYM-Zj-T08" id="Tcc-rM-Uy6"/>
@@ -552,6 +566,7 @@ We wish you deep awarenesses and spiritual growth!</string>
     <color key="tintColor" name="AccentColor"/>
     <resources>
         <image name="DefaultImage" width="200" height="200"/>
+        <image name="sun.max" catalog="system" width="128" height="124"/>
         <namedColor name="AccentColor">
             <color red="0.89399999380111694" green="0.68599998950958252" blue="0.039000000804662704" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

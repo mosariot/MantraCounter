@@ -11,6 +11,7 @@
 		9F08B660268B4C60008F20B1 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F08B65F268B4C60008F20B1 /* DetailsView.swift */; };
 		9F08B662268B4C75008F20B1 /* ReadsCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F08B661268B4C75008F20B1 /* ReadsCountView.swift */; };
 		9F0ABF3825EA22E400742A36 /* MantraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0ABF3725EA22E400742A36 /* MantraCell.swift */; };
+		9F0BDAED26B2D8A30079FE48 /* FirstSwitchDisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0BDAEC26B2D8A30079FE48 /* FirstSwitchDisplayMode.swift */; };
 		9F1769FA262EECAE00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1769F2262EE13A00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift */; };
 		9F22713A26348AA2001F92BD /* ResizeUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F22713726348A3F001F92BD /* ResizeUIImage.swift */; };
 		9F22713F26348E4A001F92BD /* CropToCircleUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6B824E9B6E500D0475E /* CropToCircleUIImage.swift */; };
@@ -111,6 +112,7 @@
 		9F08B65F268B4C60008F20B1 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
 		9F08B661268B4C75008F20B1 /* ReadsCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadsCountView.swift; sourceTree = "<group>"; };
 		9F0ABF3725EA22E400742A36 /* MantraCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraCell.swift; sourceTree = "<group>"; };
+		9F0BDAEC26B2D8A30079FE48 /* FirstSwitchDisplayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstSwitchDisplayMode.swift; sourceTree = "<group>"; };
 		9F12CD18258112EE0089AFD8 /* MantraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraViewController.swift; sourceTree = "<group>"; };
 		9F1769F2262EE13A00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadedMantrasDueToNoInternetConnection.swift; sourceTree = "<group>"; };
 		9F22713726348A3F001F92BD /* ResizeUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizeUIImage.swift; sourceTree = "<group>"; };
@@ -206,7 +208,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9F4B47F22530C31700E7FF4B /* Extensions */ = {
+		9F4B47F22530C31700E7FF4B /* HelperExtensions */ = {
 			isa = PBXGroup;
 			children = (
 				9F5FE6B824E9B6E500D0475E /* CropToCircleUIImage.swift */,
@@ -219,7 +221,7 @@
 				9F3B1C022538F50200BEE838 /* RoundedSystemFont.swift */,
 				9F3766102513C5B9007E6BED /* FormattedNumber.swift */,
 			);
-			path = Extensions;
+			path = HelperExtensions;
 			sourceTree = "<group>";
 		};
 		9F5FE67724E7141300D0475E = {
@@ -251,7 +253,7 @@
 				9F5FE6A224E7181B00D0475E /* Models */,
 				9F5FE6A124E7181000D0475E /* Views */,
 				9F5FE6A024E717FE00D0475E /* Controllers */,
-				9F4B47F22530C31700E7FF4B /* Extensions */,
+				9F4B47F22530C31700E7FF4B /* HelperExtensions */,
 				9F5FE6A724E71C9100D0475E /* SupportingFiles */,
 			);
 			path = ReadTheMantra;
@@ -333,6 +335,7 @@
 				9FCA5C92259349EC002E1D25 /* DuplicatingAlert.swift */,
 				9FE827F7261F953900CBDFF2 /* DuplicatingAlertForPreloadedMantras.swift */,
 				9FC3971325B143C8002B1EE0 /* FirstSearchOnTheInternetAlert.swift */,
+				9F0BDAEC26B2D8A30079FE48 /* FirstSwitchDisplayMode.swift */,
 				9F2B1EC026077AF200D999CB /* NoImageAlert.swift */,
 				9F1769F2262EE13A00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift */,
 				9FFF85AF25EEAEB200131AA7 /* UndoAlert.swift */,
@@ -509,6 +512,7 @@
 				9F7A5096253DD439008BFD6F /* CopyableLabel.swift in Sources */,
 				9F9299AF250818B6003D5029 /* Constants.swift in Sources */,
 				9FCA5CB525936692002E1D25 /* Level.swift in Sources */,
+				9F0BDAED26B2D8A30079FE48 /* FirstSwitchDisplayMode.swift in Sources */,
 				9FFF85B725EEAF7F00131AA7 /* UndoAlert.swift in Sources */,
 				9FCA5CD5259F6938002E1D25 /* CoreDataManager.swift in Sources */,
 				9FCA5C93259349EC002E1D25 /* DuplicatingAlert.swift in Sources */,

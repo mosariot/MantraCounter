@@ -36,7 +36,6 @@ final class PreloadedMantraController: UIViewController {
     private var mantraTitles: [String] = []
     private var preloadedMantras: [PreloadedMantra] = []
     
-    private lazy var sortedInitialMantraData = InitialMantra.sortedData()
     private var selectedMantrasTitles: [String] {
         preloadedMantras.filter{ $0.isSelected }.map{ $0.title }
     }

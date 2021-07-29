@@ -19,4 +19,13 @@ final class ReadsCountView: UIView {
     @IBOutlet var circularProgressView: CircularProgressView!
     @IBOutlet var readsGoalButton: UIButton!
     @IBOutlet var mainStackView: UIStackView!
+    @IBOutlet var displayAlwaysOn: UIButton!
+    
+    @objc func doubleTapped() {
+        print("double view")
+    }
+    
+    @objc func tripleTapped() {
+        print("triple view")
+    }
 }
