@@ -211,20 +211,22 @@ final class ReadsCountViewController: UIViewController {
         }
     }
     
-    @objc private func doubleTapped() {
-        handlePositiveAction(for: 1, updatingType: .reads)
-    }
-    
-    @objc private func tripleTapped() {
-        handlePositiveAction(for: 1, updatingType: .rounds)
-    }
-    
     private func setDisplayMode() {
         switch displayMode {
         case .systemBehavior:
             setSystemBehaviorMode()
         case .displayAlwaysOn:
             setDisplayAlwaysOnMode()
+        }
+    }
+    
+    private func checkForFirstSwitchDisplayMode() {
+        let defaults = UserDefaults.standard
+        let isFirstSwitchDisplayMode = defaults.bool(forKey: "isFirstSwitchDisplayMode")
+        if isFirstSwitchDisplayMode {
+            let alert = UIAlertController.firstSwitchDisplayMode()
+            present(alert, animated: true)
+            defaults.setValue(false, forKey: "isFirstSwitchDisplayMode")
         }
     }
     
@@ -246,23 +248,21 @@ final class ReadsCountViewController: UIViewController {
         readsCountView.setProperValueButton.isEnabled = false
         readsCountView.readsGoalButton.isEnabled = false
         
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(singleTapped))
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
-        let tripleTap = UITapGestureRecognizer(target: self, action: #selector(tripleTapped))
+        singleTap.numberOfTapsRequired = 1
         doubleTap.numberOfTapsRequired = 2
-        tripleTap.numberOfTapsRequired = 3
+        readsCountView.addGestureRecognizer(singleTap)
         readsCountView.addGestureRecognizer(doubleTap)
-        readsCountView.addGestureRecognizer(tripleTap)
-        doubleTap.require(toFail: tripleTap)
+        singleTap.require(toFail: doubleTap)
     }
     
-    private func checkForFirstSwitchDisplayMode() {
-        let defaults = UserDefaults.standard
-        let isFirstSwitchDisplayMode = defaults.bool(forKey: "isFirstSwitchDisplayMode")
-        if isFirstSwitchDisplayMode {
-            let alert = UIAlertController.firstSwitchDisplayMode()
-            present(alert, animated: true)
-            defaults.setValue(false, forKey: "isFirstSwitchDisplayMode")
-        }
+    @objc private func singleTapped() {
+        handlePositiveAction(for: 1, updatingType: .reads)
+    }
+    
+    @objc private func doubleTapped() {
+        handlePositiveAction(for: 1, updatingType: .rounds)
     }
     
     //MARK: - Updating ReadsCount and ReadsGoal

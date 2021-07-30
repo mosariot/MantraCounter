@@ -187,7 +187,7 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 "'Mantra Counter' Mode" = "Режим 'Счетчик мантр'";
 
 /* Alert Message for first switch display mode */
-"You have entered the 'Mantra Counter' mode. Double tap on the screen will add one reading, triple tap will add one round. The screen will not dim. The edit buttons at the bottom are disabled." = "Вы вошли в режим 'Счетчик мантр'. Двойной тап по экрану добавит одну начитку, тройной тап - добавит один круг. Экран не будет затемняться. Кнопки редактирования внизу отключены.";
+"You have entered the 'Mantra Counter' mode. Single tap on the screen will add one reading, double tap will add one round. The screen will not dim. The edit buttons at the bottom are disabled." = "Вы вошли в режим 'Счетчик мантр'. Один тап по экрану добавит одну начитку, двойной тап - добавит один круг. Экран не будет затемняться. Кнопки редактирования внизу отключены.";
 
 /* Alert Title for first search on the Internet */
 "Pick Photo" = "Выберите фото";

@@ -15,7 +15,7 @@ extension UIAlertController {
         let alert = UIAlertController(
             title: NSLocalizedString("'Mantra Counter' Mode",
                                      comment: "Alert Title for first switch display mode"),
-            message: NSLocalizedString("You have entered the 'Mantra Counter' mode. Double tap on the screen will add one reading, triple tap will add one round. The screen will not dim. The edit buttons at the bottom are disabled.",
+            message: NSLocalizedString("You have entered the 'Mantra Counter' mode. Single tap on the screen will add one reading, double tap will add one round. The screen will not dim. The edit buttons at the bottom are disabled.",
                                        comment: "Alert Message for first switch display mode"),
             preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
