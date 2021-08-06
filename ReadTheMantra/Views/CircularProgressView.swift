@@ -22,11 +22,11 @@ final class CircularProgressView: UIView {
         didSet {
             setupView()
             if currentGoal != goal {
-                setGoalAnimation(to: currentGoal)
+                setNewGoal(to: currentGoal)
             } else {
                 setValueCircleAnimation(to: currentValue, animated: false)
             }
-            setValueLabelAnimation(to: currentValue, animated: false)
+            setNewValueLabel(to: currentValue, animated: false)
         }
     }
     
@@ -38,7 +38,7 @@ final class CircularProgressView: UIView {
         didSet { currentGoal = goal }
     }
     
-    func setGoalAnimation(to newGoal: Int, animated: Bool = true) {
+    func setNewGoal(to newGoal: Int, animated: Bool = true) {
         
         currentGoal = newGoal
         
@@ -86,9 +86,9 @@ final class CircularProgressView: UIView {
         goalCircleTimer?.fire()
     }
     
-    func setValueAnimation(to newValue: Int, animated: Bool = true) {
+    func setNewValue(to newValue: Int, animated: Bool = true) {
         setValueCircleAnimation(to: newValue, animated: animated)
-        setValueLabelAnimation(to: newValue, animated: animated)
+        setNewValueLabel(to: newValue, animated: animated)
     }
     
     func stopAnimationIfNeeded() {
@@ -135,9 +135,10 @@ final class CircularProgressView: UIView {
         foregroundLayer.add(animation, forKey: "foregroundAnimation")
     }
     
-    private func setValueLabelAnimation(to newValue: Int, animated: Bool) {
+    private func setNewValueLabel(to newValue: Int, animated: Bool) {
         
         guard animated else {
+            value = newValue
             self.label.text = value.formattedNumber()
             self.setForegroundLayerColor(value: value, readsGoal: goal)
             let fontSize = self.labelFontSize(for: value)

@@ -2,7 +2,7 @@
 //  FirstSwitchDisplayMode.swift
 //  ReadTheMantra
 //
-//  Created by Alex Vorobiev on 15.01.2021.
+//  Created by Alex Vorobiev on 30.06.2021.
 //  Copyright © 2021 Alex Vorobiev. All rights reserved.
 //
 

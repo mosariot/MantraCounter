@@ -417,8 +417,9 @@ We wish you deep awarenesses and spiritual growth!</string>
                                 </variation>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aed-An-0ad">
-                                <rect key="frame" x="348" y="108" width="22" height="21.333333333333343"/>
+                                <rect key="frame" x="338" y="98" width="42" height="41.333333333333343"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal">
                                     <imageReference key="image" image="sun.max" catalog="system" symbolScale="large"/>
                                 </state>
@@ -433,14 +434,14 @@ We wish you deep awarenesses and spiritual growth!</string>
                             <constraint firstItem="wUI-LR-HUU" firstAttribute="top" secondItem="c4c-wV-DI0" secondAttribute="top" constant="20" id="0ie-qI-VNO"/>
                             <constraint firstItem="aYM-Zj-T08" firstAttribute="width" secondItem="LJz-A8-q5d" secondAttribute="width" multiplier="0.35" id="3hd-gF-8ty"/>
                             <constraint firstItem="56j-8c-bvo" firstAttribute="height" secondItem="LJz-A8-q5d" secondAttribute="height" multiplier="0.35" id="6f3-MF-ix0"/>
-                            <constraint firstItem="aed-An-0ad" firstAttribute="trailing" secondItem="c4c-wV-DI0" secondAttribute="trailing" constant="-20" id="BJA-Mt-n2N"/>
+                            <constraint firstItem="aed-An-0ad" firstAttribute="trailing" secondItem="c4c-wV-DI0" secondAttribute="trailing" constant="-10" id="BJA-Mt-n2N"/>
                             <constraint firstItem="wUI-LR-HUU" firstAttribute="leading" secondItem="c4c-wV-DI0" secondAttribute="leading" constant="30" id="FIe-tn-R19"/>
                             <constraint firstItem="56j-8c-bvo" firstAttribute="height" secondItem="LJz-A8-q5d" secondAttribute="height" multiplier="0.56" id="SN2-YQ-H1v"/>
                             <constraint firstItem="wUI-LR-HUU" firstAttribute="top" secondItem="c4c-wV-DI0" secondAttribute="top" constant="5" id="U3z-kr-lZg"/>
                             <constraint firstItem="56j-8c-bvo" firstAttribute="height" secondItem="LJz-A8-q5d" secondAttribute="height" multiplier="0.46" id="UTR-Dv-P5t"/>
-                            <constraint firstItem="c4c-wV-DI0" firstAttribute="bottom" secondItem="wUI-LR-HUU" secondAttribute="bottom" constant="20" id="cnS-Ha-03C"/>
+                            <constraint firstItem="wUI-LR-HUU" firstAttribute="bottom" secondItem="c4c-wV-DI0" secondAttribute="bottom" constant="-20" id="cnS-Ha-03C"/>
                             <constraint firstItem="wUI-LR-HUU" firstAttribute="trailing" secondItem="c4c-wV-DI0" secondAttribute="trailing" constant="-30" id="ePn-A2-Slk"/>
-                            <constraint firstItem="aed-An-0ad" firstAttribute="top" secondItem="wUI-LR-HUU" secondAttribute="top" id="ick-F9-foE"/>
+                            <constraint firstItem="aed-An-0ad" firstAttribute="top" secondItem="wUI-LR-HUU" secondAttribute="top" constant="-10" id="ick-F9-foE"/>
                             <constraint firstItem="f0G-CI-caq" firstAttribute="width" secondItem="LJz-A8-q5d" secondAttribute="width" multiplier="0.5" id="mS5-BY-H84"/>
                             <constraint firstItem="wUI-LR-HUU" firstAttribute="bottom" secondItem="c4c-wV-DI0" secondAttribute="bottom" constant="-5" id="maV-Fh-pgv"/>
                             <constraint firstItem="56j-8c-bvo" firstAttribute="width" secondItem="LJz-A8-q5d" secondAttribute="width" multiplier="0.58" id="nw0-1U-ehe"/>

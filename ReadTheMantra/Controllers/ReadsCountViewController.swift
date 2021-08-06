@@ -9,19 +9,15 @@
 import UIKit
 
 final class ReadsCountViewController: UIViewController {
-    
-    private enum DisplayMode {
-        case displayAlwaysOn
-        case systemBehavior
-    }
-    
+        
     //MARK: - Properties
     
     private lazy var dataProvider = MantraProvider()
     private let mediumHapticGenerator = UIImpactFeedbackGenerator(style: .medium)
     private let congratulationsGenerator = UINotificationFeedbackGenerator()
-    private var displayMode = DisplayMode.systemBehavior {
-        didSet { setDisplayMode() }
+    private let states = (alwaysOnDisplay: AlwaysOnDisplayState(), displaySystemBehavior: DisplaySystemBehaviorState())
+    private var currentState: ReadsCountViewControllerState = DisplaySystemBehaviorState() {
+        didSet { currentState.apply(to: self) }
     }
     
     private lazy var confettiView = ConfettiView()
@@ -42,12 +38,12 @@ final class ReadsCountViewController: UIViewController {
                 return
             }
             if currentMantra == nil {
-                displayMode = DisplayMode.systemBehavior
+                currentState = states.displaySystemBehavior
                 currentMantra = mantra
                 previousReadsCount = nil
             }
             if let currentMantra = currentMantra, mantra !== currentMantra {
-                displayMode = DisplayMode.systemBehavior
+                currentState = states.displaySystemBehavior
                 self.currentMantra = mantra
                 previousReadsCount = nil
                 invalidatePreviousState()
@@ -68,14 +64,14 @@ final class ReadsCountViewController: UIViewController {
     private var shouldInvalidatePreviousState = false
     private let defaults = UserDefaults.standard
     
-    private var readsCountView: ReadsCountView! {
+    var readsCountView: ReadsCountView! {
         guard isViewLoaded else { return nil }
         return (view as! ReadsCountView)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        displayMode = DisplayMode.systemBehavior
+        currentState = states.displaySystemBehavior
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -84,6 +80,33 @@ final class ReadsCountViewController: UIViewController {
     }
     
     //MARK: - Setup UI
+    private func setupUI() {
+        guard let mantra = mantra else { return }
+        
+        setupNavButtons()
+        setMantraImages()
+        
+        readsCountView.titleLabel.text = mantra.title
+        readsCountView.titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
+        readsCountView.titleLabel.adjustsFontForContentSizeCategory = true
+        readsCountView.titleLabel.allowsDefaultTighteningForTruncation = true
+        readsCountView.readsGoalButton.setTitle(NSLocalizedString("Goal: ",
+                                                   comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),
+                                 for: .normal)
+        setCircularProgressViewForUpdatedValues()
+        
+        let standardAppearance = UINavigationBarAppearance()
+        let compactAppearance = UINavigationBarAppearance()
+        standardAppearance.titleTextAttributes = [.foregroundColor: UIColor.clear]
+        compactAppearance.titleTextAttributes = [.foregroundColor: UIColor.label]
+        navigationItem.standardAppearance = standardAppearance
+        navigationItem.compactAppearance = compactAppearance
+        navigationItem.title = mantra.title
+        
+        readsCountView.addReadsButton.imageSystemName = "plus.circle.fill"
+        readsCountView.addRoundsButton.imageSystemName = "arrow.clockwise.circle.fill"
+        readsCountView.setProperValueButton.imageSystemName = "hand.draw.fill"
+    }
     
     private func setupNavButtons() {
         guard let mantra = mantra else { return }
@@ -107,7 +130,7 @@ final class ReadsCountViewController: UIViewController {
         let favoriteButton = UIButton(primaryAction: UIAction(handler: { [weak self] _ in
             guard let self = self else { return }
             self.favoriteButtonPressed()
-         }))
+        }))
         favoriteButton.setImage(UIImage(systemName: star), for: .normal)
         
         let buttonStackView = UIStackView.init(arrangedSubviews: [undoButton, favoriteButton, infoButton])
@@ -144,34 +167,6 @@ final class ReadsCountViewController: UIViewController {
         mediumHapticGenerator.impactOccurred()
     }
     
-    private func setupUI(animated: Bool = false) {
-        guard let mantra = mantra else { return }
-        
-        setupNavButtons()
-        setMantraImages()
-        
-        readsCountView.titleLabel.text = mantra.title
-        readsCountView.titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
-        readsCountView.titleLabel.adjustsFontForContentSizeCategory = true
-        readsCountView.titleLabel.allowsDefaultTighteningForTruncation = true
-        readsCountView.readsGoalButton.setTitle(NSLocalizedString("Goal: ",
-                                                   comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),
-                                 for: .normal)
-        animateCircularProgressViewForUpdatedValues(animated: animated)
-        
-        let standardAppearance = UINavigationBarAppearance()
-        let compactAppearance = UINavigationBarAppearance()
-        standardAppearance.titleTextAttributes = [.foregroundColor: UIColor.clear]
-        compactAppearance.titleTextAttributes = [.foregroundColor: UIColor.label]
-        navigationItem.standardAppearance = standardAppearance
-        navigationItem.compactAppearance = compactAppearance
-        navigationItem.title = mantra.title
-        
-        readsCountView.addReadsButton.imageSystemName = "plus.circle.fill"
-        readsCountView.addRoundsButton.imageSystemName = "arrow.clockwise.circle.fill"
-        readsCountView.setProperValueButton.imageSystemName = "hand.draw.fill"
-    }
-    
     private func setMantraImages() {
         guard let mantra = mantra else { return }
         let image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
@@ -185,10 +180,10 @@ final class ReadsCountViewController: UIViewController {
         readsCountView.landscapeMantraImageView.image = downsampledLandscapeMantraImage
     }
     
-    private func animateCircularProgressViewForUpdatedValues(animated: Bool = true) {
+    private func setCircularProgressViewForUpdatedValues(animated: Bool = false) {
         guard let mantra = mantra else { return }
-        readsCountView.circularProgressView.setGoalAnimation(to: Int(mantra.readsGoal), animated: animated)
-        readsCountView.circularProgressView.setValueAnimation(to: Int(mantra.reads), animated: animated)
+        readsCountView.circularProgressView.setNewGoal(to: Int(mantra.readsGoal), animated: animated)
+        readsCountView.circularProgressView.setNewValue(to: Int(mantra.reads), animated: animated)
     }
     
     //MARK: - Invalidate Previous State
@@ -203,20 +198,13 @@ final class ReadsCountViewController: UIViewController {
     
     @IBAction func displayAlwaysOnPressed(_ sender: UIButton) {
         checkForFirstSwitchDisplayMode()
-        switch displayMode {
-        case .displayAlwaysOn:
-            displayMode = .systemBehavior
-        case .systemBehavior:
-            displayMode = .displayAlwaysOn
-        }
-    }
-    
-    private func setDisplayMode() {
-        switch displayMode {
-        case .systemBehavior:
-            setSystemBehaviorMode()
-        case .displayAlwaysOn:
-            setDisplayAlwaysOnMode()
+        switch currentState {
+        case is AlwaysOnDisplayState:
+            currentState = states.displaySystemBehavior
+        case is DisplaySystemBehaviorState:
+            currentState = states.alwaysOnDisplay
+        default:
+            currentState = states.displaySystemBehavior
         }
     }
     
@@ -228,41 +216,6 @@ final class ReadsCountViewController: UIViewController {
             present(alert, animated: true)
             defaults.setValue(false, forKey: "isFirstSwitchDisplayMode")
         }
-    }
-    
-    private func setSystemBehaviorMode() {
-        UIApplication.shared.isIdleTimerDisabled = false
-        readsCountView.displayAlwaysOn.setImage(UIImage(systemName: "sun.max"), for: .normal)
-        readsCountView.addReadsButton.isEnabled = true
-        readsCountView.addRoundsButton.isEnabled = true
-        readsCountView.setProperValueButton.isEnabled = true
-        readsCountView.readsGoalButton.isEnabled = true
-        readsCountView.gestureRecognizers?.forEach(readsCountView.removeGestureRecognizer)
-    }
-    
-    private func setDisplayAlwaysOnMode() {
-        UIApplication.shared.isIdleTimerDisabled = true
-        readsCountView.displayAlwaysOn.setImage(UIImage(systemName: "sun.max.fill"), for: .normal)
-        readsCountView.addReadsButton.isEnabled = false
-        readsCountView.addRoundsButton.isEnabled = false
-        readsCountView.setProperValueButton.isEnabled = false
-        readsCountView.readsGoalButton.isEnabled = false
-        
-        let singleTap = UITapGestureRecognizer(target: self, action: #selector(singleTapped))
-        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
-        singleTap.numberOfTapsRequired = 1
-        doubleTap.numberOfTapsRequired = 2
-        readsCountView.addGestureRecognizer(singleTap)
-        readsCountView.addGestureRecognizer(doubleTap)
-        singleTap.require(toFail: doubleTap)
-    }
-    
-    @objc private func singleTapped() {
-        handlePositiveAction(for: 1, updatingType: .reads)
-    }
-    
-    @objc private func doubleTapped() {
-        handlePositiveAction(for: 1, updatingType: .rounds)
     }
     
     //MARK: - Updating ReadsCount and ReadsGoal
@@ -288,16 +241,16 @@ final class ReadsCountViewController: UIViewController {
         let alert = UIAlertController.updatingAlert(mantra: mantra, updatingType: updatingType, delegate: self) { [weak self] (value) in
             guard let self = self else { return }
             self.mediumHapticGenerator.impactOccurred()
-            self.handlePositiveAction(for: value, updatingType: updatingType)
+            self.adjustMantra(with: value, updatingType: updatingType)
         }
         present(alert, animated: true, completion: nil)
     }
     
-    private func handlePositiveAction(for value: Int32, updatingType: UpdatingType) {
+    func adjustMantra(with value: Int32, updatingType: UpdatingType, animated: Bool = true) {
         guard let mantra = mantra else { return }
         let oldReads = mantra.reads
         dataProvider.updateValues(for: mantra, with: value, updatingType: updatingType)
-        updateProrgessView(for: updatingType)
+        updateProrgessView(for: updatingType, animated: animated)
         readsCountView.readsGoalButton.setTitle(NSLocalizedString("Goal: ",
                                                    comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),
                                  for: .normal)
@@ -307,13 +260,13 @@ final class ReadsCountViewController: UIViewController {
         }
     }
     
-    private func updateProrgessView(for updatingType: UpdatingType) {
+    private func updateProrgessView(for updatingType: UpdatingType, animated: Bool) {
         guard let mantra = mantra else { return }
         switch updatingType {
         case .goal:
-            readsCountView.circularProgressView.setGoalAnimation(to: Int(mantra.readsGoal))
+            readsCountView.circularProgressView.setNewGoal(to: Int(mantra.readsGoal), animated: animated)
         case .reads, .rounds, .properValue:
-            readsCountView.circularProgressView.setValueAnimation(to: Int(mantra.reads))
+            readsCountView.circularProgressView.setNewValue(to: Int(mantra.reads), animated: animated)
         }
     }
     
