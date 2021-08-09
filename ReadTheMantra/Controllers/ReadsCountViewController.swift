@@ -16,8 +16,10 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
     private let defaults = UserDefaults.standard
     private let mediumHapticGenerator = UIImpactFeedbackGenerator(style: .medium)
     
-    private lazy var states: (alwaysOnDisplay: ReadsCountViewControllerState, displaySystemBehavior: ReadsCountViewControllerState) =
-        (alwaysOnDisplay: AlwaysOnDisplayState(context: self), displaySystemBehavior: DisplaySystemBehaviorState(context: self))
+    private lazy var states: (alwaysOnDisplay: ReadsCountViewControllerState,
+                              displaySystemBehavior: ReadsCountViewControllerState) =
+        (alwaysOnDisplay: AlwaysOnDisplayState(context: self),
+         displaySystemBehavior: DisplaySystemBehaviorState(context: self))
     private lazy var currentState: ReadsCountViewControllerState = states.displaySystemBehavior {
         didSet { currentState.apply() }
     }
@@ -154,7 +156,7 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
                 creator: { coder in
                     return DetailsViewController(
                         mantra: mantra,
-                        mode: .view,
+                        state: .viewDetailsState(),
                         coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)

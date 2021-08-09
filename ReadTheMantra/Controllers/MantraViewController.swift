@@ -485,7 +485,7 @@ extension MantraViewController {
                     guard let self = self else { fatalError() }
                     return DetailsViewController(
                         mantra: mantra,
-                        mode: .add,
+                        state: .addDetailsState(),
                         mantraTitles: self.overallMantras.compactMap({ $0.title }),
                         callerController: self,
                         coder: coder)

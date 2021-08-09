@@ -83,6 +83,10 @@
 		9FE855C0258E51BF00771BA1 /* MantraWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855BF258E51BF00771BA1 /* MantraWidget.swift */; };
 		9FE855C2258E51C300771BA1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FE855C1258E51C300771BA1 /* Assets.xcassets */; };
 		9FE855C6258E51C300771BA1 /* FavoritesWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9FE855B8258E51BF00771BA1 /* FavoritesWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9FFCF08826C1C1E000984666 /* DetailsViewControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCF08726C1C1DF00984666 /* DetailsViewControllerState.swift */; };
+		9FFCF08A26C1C26700984666 /* AddDetailsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCF08926C1C26700984666 /* AddDetailsState.swift */; };
+		9FFCF08C26C1C27700984666 /* EditDetailsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCF08B26C1C27700984666 /* EditDetailsState.swift */; };
+		9FFCF08E26C1C28800984666 /* ViewDetailsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCF08D26C1C28800984666 /* ViewDetailsState.swift */; };
 		9FFF85B725EEAF7F00131AA7 /* UndoAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF85AF25EEAEB200131AA7 /* UndoAlert.swift */; };
 /* End PBXBuildFile section */
 
@@ -189,6 +193,10 @@
 		9FE855C1258E51C300771BA1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9FE855C3258E51C300771BA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9FE855D0258E521D00771BA1 /* FavoritesWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FavoritesWidgetExtension.entitlements; sourceTree = "<group>"; };
+		9FFCF08726C1C1DF00984666 /* DetailsViewControllerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewControllerState.swift; sourceTree = "<group>"; };
+		9FFCF08926C1C26700984666 /* AddDetailsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDetailsState.swift; sourceTree = "<group>"; };
+		9FFCF08B26C1C27700984666 /* EditDetailsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDetailsState.swift; sourceTree = "<group>"; };
+		9FFCF08D26C1C28800984666 /* ViewDetailsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDetailsState.swift; sourceTree = "<group>"; };
 		9FFF85AF25EEAEB200131AA7 /* UndoAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoAlert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -278,6 +286,7 @@
 		9F5FE6A024E717FE00D0475E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9FFCF08626C19DC500984666 /* DetailsViewControllerState */,
 				9F0BDAEE26BAC95E0079FE48 /* ReadsCountViewControllerStates */,
 				9F5FE69A24E717A200D0475E /* DetailsViewController.swift */,
 				9F12CD18258112EE0089AFD8 /* MantraViewController.swift */,
@@ -383,6 +392,17 @@
 				9FE855C3258E51C300771BA1 /* Info.plist */,
 			);
 			path = MantraWidget;
+			sourceTree = "<group>";
+		};
+		9FFCF08626C19DC500984666 /* DetailsViewControllerState */ = {
+			isa = PBXGroup;
+			children = (
+				9FFCF08726C1C1DF00984666 /* DetailsViewControllerState.swift */,
+				9FFCF08926C1C26700984666 /* AddDetailsState.swift */,
+				9FFCF08B26C1C27700984666 /* EditDetailsState.swift */,
+				9FFCF08D26C1C28800984666 /* ViewDetailsState.swift */,
+			);
+			path = DetailsViewControllerState;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -512,6 +532,7 @@
 				9F5FE68E24E7141400D0475E /* ReadTheMantra.xcdatamodeld in Sources */,
 				9FE828092626227B00CBDFF2 /* MantraViewController.swift in Sources */,
 				9F5FE68624E7141400D0475E /* SceneDelegate.swift in Sources */,
+				9FFCF08A26C1C26700984666 /* AddDetailsState.swift in Sources */,
 				9FD06444262C804800F0054F /* PlaceholderLabelForEmptyView.swift in Sources */,
 				9FE827F0261E36B100CBDFF2 /* PreloadedMantraController.swift in Sources */,
 				9F0BDAF426BACB7B0079FE48 /* AlwaysOnDisplayState.swift in Sources */,
@@ -535,11 +556,14 @@
 				9F0BDAED26B2D8A30079FE48 /* FirstSwitchDisplayMode.swift in Sources */,
 				9FFF85B725EEAF7F00131AA7 /* UndoAlert.swift in Sources */,
 				9FCA5CD5259F6938002E1D25 /* CoreDataManager.swift in Sources */,
+				9FFCF08826C1C1E000984666 /* DetailsViewControllerState.swift in Sources */,
 				9FCA5C93259349EC002E1D25 /* DuplicatingAlert.swift in Sources */,
 				9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */,
+				9FFCF08C26C1C27700984666 /* EditDetailsState.swift in Sources */,
 				9F22713A26348AA2001F92BD /* ResizeUIImage.swift in Sources */,
 				9F08B662268B4C75008F20B1 /* ReadsCountView.swift in Sources */,
 				9F08B65E268B4A1E008F20B1 /* OnboardingView.swift in Sources */,
+				9FFCF08E26C1C28800984666 /* ViewDetailsState.swift in Sources */,
 				9FC558B025D158D30015C3C4 /* MantraProvider.swift in Sources */,
 				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,
 				9F22713F26348E4A001F92BD /* CropToCircleUIImage.swift in Sources */,
@@ -746,14 +770,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.1;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -769,14 +793,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.1;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -791,7 +815,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = MantraWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -800,7 +824,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.5.1;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -816,7 +840,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = MantraWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -825,7 +849,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.5.1;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
