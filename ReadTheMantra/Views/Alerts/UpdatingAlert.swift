@@ -11,11 +11,11 @@ import UIKit
 extension UIAlertController {
     
     static func updatingAlert(mantra: Mantra,
-                              updatingType: UpdatingType,
+                              updatingType: AdjustingType,
                               delegate: UITextFieldDelegate,
                               positiveActionHanlder: @escaping (Int32) -> ()) -> UIAlertController {
         
-        func isValidUpdatingNumber(text: String?, updatingType: UpdatingType) -> Bool {
+        func isValidUpdatingNumber(text: String?, updatingType: AdjustingType) -> Bool {
             guard
                 let alertText = text,
                 let alertNumber = UInt32(alertText)
@@ -31,7 +31,7 @@ extension UIAlertController {
             }
         }
         
-        func alertAndActionTitles(for updatingType: UpdatingType) -> (String, String) {
+        func alertAndActionTitles(for updatingType: AdjustingType) -> (String, String) {
             switch updatingType {
             case .goal:
                 return (NSLocalizedString("Set a New Readings Goal", comment: "Alert Title on ReadsCountViewController"),

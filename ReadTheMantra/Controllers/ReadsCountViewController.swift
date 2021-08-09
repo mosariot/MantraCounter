@@ -8,29 +8,42 @@
 
 import UIKit
 
-final class ReadsCountViewController: UIViewController {
+final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
         
     //MARK: - Properties
     
-    private lazy var dataProvider = MantraProvider()
+    lazy var dataProvider = MantraProvider()
+    private let defaults = UserDefaults.standard
     private let mediumHapticGenerator = UIImpactFeedbackGenerator(style: .medium)
-    private let congratulationsGenerator = UINotificationFeedbackGenerator()
-    private let states = (alwaysOnDisplay: AlwaysOnDisplayState(), displaySystemBehavior: DisplaySystemBehaviorState())
-    private var currentState: ReadsCountViewControllerState = DisplaySystemBehaviorState() {
-        didSet { currentState.apply(to: self) }
+    
+    private lazy var states: (alwaysOnDisplay: ReadsCountViewControllerState, displaySystemBehavior: ReadsCountViewControllerState) =
+        (alwaysOnDisplay: AlwaysOnDisplayState(context: self), displaySystemBehavior: DisplaySystemBehaviorState(context: self))
+    private lazy var currentState: ReadsCountViewControllerState = states.displaySystemBehavior {
+        didSet { currentState.apply() }
     }
     
-    private lazy var confettiView = ConfettiView()
+    var previousReadsCount: Int32? = nil {
+        didSet { setupNavButtons() }
+    }
+    var shouldInvalidatePreviousState = false
+    
+    lazy var confettiView = ConfettiView()
     private lazy var noMantraLabel = PlaceholderLabelForEmptyView.makeLabel(
         inView: view,
         withText: NSLocalizedString("No mantra selected", comment: "No mantra selected"),
         textStyle: .title1)
     
+    var readsCountView: ReadsCountView! {
+        guard isViewLoaded else { return nil }
+        return (view as! ReadsCountView)
+    }
+    
+    private var currentMantra: Mantra? = nil
+    
     var mantra: Mantra? {
         didSet {
             loadViewIfNeeded()
             mediumHapticGenerator.prepare()
-            congratulationsGenerator.prepare()
             guard let mantra = mantra else {
                 navigationItem.rightBarButtonItem = nil
                 readsCountView.mainStackView.isHidden = true
@@ -55,18 +68,6 @@ final class ReadsCountViewController: UIViewController {
             readsCountView.circularProgressView.value = Int(mantra.reads)
             setupUI()
         }
-    }
-    
-    private var currentMantra: Mantra? = nil
-    private var previousReadsCount: Int32? = nil {
-        didSet { setupNavButtons() }
-    }
-    private var shouldInvalidatePreviousState = false
-    private let defaults = UserDefaults.standard
-    
-    var readsCountView: ReadsCountView! {
-        guard isViewLoaded else { return nil }
-        return (view as! ReadsCountView)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -218,85 +219,22 @@ final class ReadsCountViewController: UIViewController {
         }
     }
     
-    //MARK: - Updating ReadsCount and ReadsGoal
+    //MARK: - Adjusting ReadsCount and ReadsGoal
     
     @IBAction private func setGoalButtonPressed(_ sender: UIButton) {
-        showUpdatingAlert(updatingType: .goal)
+        currentState.handleAdjustMantraCount(adjustingType: .goal)
     }
     
     @IBAction private func addReadsButtonPressed(_ sender: UIButton) {
-        showUpdatingAlert(updatingType: .reads)
+        currentState.handleAdjustMantraCount(adjustingType: .reads)
     }
     
     @IBAction private func addRoundsButtonPressed(_ sender: UIButton) {
-        showUpdatingAlert(updatingType: .rounds)
+        currentState.handleAdjustMantraCount(adjustingType: .rounds)
     }
     
     @IBAction private func setProperValueButtonPressed(_ sender: UIButton) {
-        showUpdatingAlert(updatingType: .properValue)
-    }
-    
-    private func showUpdatingAlert(updatingType: UpdatingType) {
-        guard let mantra = mantra else { return }
-        let alert = UIAlertController.updatingAlert(mantra: mantra, updatingType: updatingType, delegate: self) { [weak self] (value) in
-            guard let self = self else { return }
-            self.mediumHapticGenerator.impactOccurred()
-            self.adjustMantra(with: value, updatingType: updatingType)
-        }
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func adjustMantra(with value: Int32, updatingType: UpdatingType, animated: Bool = true) {
-        guard let mantra = mantra else { return }
-        let oldReads = mantra.reads
-        dataProvider.updateValues(for: mantra, with: value, updatingType: updatingType)
-        updateProrgessView(for: updatingType, animated: animated)
-        readsCountView.readsGoalButton.setTitle(NSLocalizedString("Goal: ",
-                                                   comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),
-                                 for: .normal)
-        if updatingType != .goal {
-            previousReadsCount = oldReads
-            readsCongratulationsCheck(oldReads: previousReadsCount, newReads: mantra.reads)
-        }
-    }
-    
-    private func updateProrgessView(for updatingType: UpdatingType, animated: Bool) {
-        guard let mantra = mantra else { return }
-        switch updatingType {
-        case .goal:
-            readsCountView.circularProgressView.setNewGoal(to: Int(mantra.readsGoal), animated: animated)
-        case .reads, .rounds, .properValue:
-            readsCountView.circularProgressView.setNewValue(to: Int(mantra.reads), animated: animated)
-        }
-    }
-    
-    private func readsCongratulationsCheck(oldReads: Int32?, newReads: Int32) {
-        guard let mantra = mantra, let oldReads = oldReads else { return }
-        shouldInvalidatePreviousState = false
-        if (oldReads < mantra.readsGoal/2 && mantra.readsGoal/2..<mantra.readsGoal ~= newReads) {
-            afterDelay(Constants.progressAnimationDuration + 0.3) {
-                if !self.shouldInvalidatePreviousState {
-                    self.showReadsCongratulationsAlert(level: .halfGoal)
-                }
-            }
-        }
-        
-        if oldReads < mantra.readsGoal && newReads >= mantra.readsGoal {
-            congratulationsGenerator.notificationOccurred(.success)
-            confettiView = ConfettiView.makeView(inView: splitViewController?.view ?? view, animated: true)
-            confettiView.startConfetti()
-            
-            afterDelay(Constants.progressAnimationDuration + 1.8) {
-                if !self.shouldInvalidatePreviousState {
-                    self.showReadsCongratulationsAlert(level: .fullGoal)
-                }
-            }
-        }
-    }
-    
-    private func showReadsCongratulationsAlert(level: Level) {
-        let alert = UIAlertController.congratulationsAlert(level: level)
-        present(alert, animated: true, completion: nil)
+        currentState.handleAdjustMantraCount(adjustingType: .properValue)
     }
     
     private func showUndoAlert() {
@@ -329,7 +267,7 @@ extension ReadsCountViewController: MantraViewControllerDelegate {
 //MARK: - TextFieldDelegate
 
 extension ReadsCountViewController: UITextFieldDelegate {
-    
+
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) else {
             return false

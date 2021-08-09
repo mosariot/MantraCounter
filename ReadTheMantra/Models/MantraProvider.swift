@@ -60,8 +60,8 @@ class MantraProvider {
         }
     }
     
-    func updateValues(for mantra: Mantra, with value: Int32, updatingType: UpdatingType) {
-        switch updatingType {
+    func updateValues(for mantra: Mantra, with value: Int32, adjustingType: AdjustingType) {
+        switch adjustingType {
         case .goal:
             mantra.readsGoal = value
         case .reads:

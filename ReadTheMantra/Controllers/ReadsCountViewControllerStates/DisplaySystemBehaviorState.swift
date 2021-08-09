@@ -8,9 +8,35 @@
 
 import UIKit
 
-class DisplaySystemBehaviorState: ReadsCountViewControllerState {
+final class DisplaySystemBehaviorState: ReadsCountViewControllerState {
     
-    func apply(to context: ReadsCountViewController) {
+    private weak var context: ReadsCountStateContext?
+    private let mediumHapticGenerator = UIImpactFeedbackGenerator(style: .medium)
+    
+    override init(context: ReadsCountStateContext) {
+        self.context = context
+        super.init(context: context)
+        mediumHapticGenerator.prepare()
+    }
+    
+    override func handleAdjustMantraCount(adjustingType: AdjustingType) {
+        showUpdatingAlert(adjustingType: adjustingType)
+    }
+    
+    
+    private func showUpdatingAlert(adjustingType: AdjustingType) {
+        guard let mantra = context?.mantra, let context = context else { return }
+        let alert = UIAlertController.updatingAlert(mantra: mantra, updatingType: adjustingType, delegate: context) { [weak self] (value) in
+            guard let self = self else { return }
+            self.mediumHapticGenerator.impactOccurred()
+            self.adjustMantra(with: value, adjustingType: adjustingType)
+        }
+        context.present(alert, animated: true, completion: nil)
+    }
+    
+    
+    override func apply() {
+        guard let context = context else { return }
         UIApplication.shared.isIdleTimerDisabled = false
         context.readsCountView.displayAlwaysOn.setImage(UIImage(systemName: "sun.max"), for: .normal)
         context.readsCountView.addReadsButton.isEnabled = true

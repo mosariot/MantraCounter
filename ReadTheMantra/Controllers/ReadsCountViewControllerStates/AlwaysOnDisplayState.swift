@@ -2,40 +2,48 @@
 //  AlwaysOnDisplayState.swift
 //  ReadTheMantra
 //
-//  Created by Александр Воробьев on 04.08.2021.
-//  Copyright © 2021 Александр Воробьев. All rights reserved.
+//  Created by Alex Vorobiev on 04.08.2021.
+//  Copyright © 2021 Alex Vorobiev. All rights reserved.
 //
 
 import UIKit
 
-class AlwaysOnDisplayState: ReadsCountViewControllerState {
+final class AlwaysOnDisplayState: ReadsCountViewControllerState {
     
-    private weak var context: ReadsCountViewController?
+    private weak var context: ReadsCountStateContext?
     private let lightHapticGenerator = UIImpactFeedbackGenerator(style: .light)
     
-    func apply(to context: ReadsCountViewController) {
+    override init(context: ReadsCountStateContext) {
         self.context = context
+        super.init(context: context)
+    }
+    
+    override func apply() {
         lightHapticGenerator.prepare()
         UIApplication.shared.isIdleTimerDisabled = true
-        context.readsCountView.displayAlwaysOn.setImage(UIImage(systemName: "sun.max.fill"), for: .normal)
-        context.readsCountView.addReadsButton.isEnabled = false
-        context.readsCountView.addRoundsButton.isEnabled = false
-        context.readsCountView.setProperValueButton.isEnabled = false
-        context.readsCountView.readsGoalButton.isEnabled = false
+        context?.readsCountView.displayAlwaysOn.setImage(UIImage(systemName: "sun.max.fill"), for: .normal)
+        context?.readsCountView.addReadsButton.isEnabled = false
+        context?.readsCountView.addRoundsButton.isEnabled = false
+        context?.readsCountView.setProperValueButton.isEnabled = false
+        context?.readsCountView.readsGoalButton.isEnabled = false
         
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(singleTapped))
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
         singleTap.numberOfTapsRequired = 1
         doubleTap.numberOfTapsRequired = 2
-        context.readsCountView.addGestureRecognizer(singleTap)
-        context.readsCountView.addGestureRecognizer(doubleTap)
+        context?.readsCountView.addGestureRecognizer(singleTap)
+        context?.readsCountView.addGestureRecognizer(doubleTap)
         singleTap.require(toFail: doubleTap)
     }
     
     @objc private func singleTapped() {
         lightHapticGenerator.impactOccurred()
-        context?.adjustMantra(with: 1, updatingType: .reads, animated: false)
+        adjustMantra(with: 1, adjustingType: .reads, animated: false)
         flashScreen()
+    }
+    
+    @objc private func doubleTapped() {
+        adjustMantra(with: 1, adjustingType: .rounds)
     }
     
     private func flashScreen() {
@@ -49,9 +57,5 @@ class AlwaysOnDisplayState: ReadsCountViewControllerState {
         } completion: { _ in
             dimmedView.removeFromSuperview()
         }
-    }
-    
-    @objc private func doubleTapped() {
-        context?.adjustMantra(with: 1, updatingType: .rounds)
     }
 }
