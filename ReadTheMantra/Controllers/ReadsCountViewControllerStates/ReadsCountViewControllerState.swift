@@ -19,7 +19,7 @@ protocol ReadsCountStateContext: UIViewController, UITextFieldDelegate {
 
 class ReadsCountViewControllerState {
     
-    private weak var context: ReadsCountStateContext?
+    weak var context: ReadsCountStateContext?
     private let congratulationsGenerator = UINotificationFeedbackGenerator()
     
     init(context: ReadsCountStateContext) {

@@ -10,13 +10,7 @@ import UIKit
 
 final class AlwaysOnDisplayState: ReadsCountViewControllerState {
     
-    private weak var context: ReadsCountStateContext?
     private let lightHapticGenerator = UIImpactFeedbackGenerator(style: .light)
-    
-    override init(context: ReadsCountStateContext) {
-        self.context = context
-        super.init(context: context)
-    }
     
     override func apply() {
         lightHapticGenerator.prepare()
@@ -43,6 +37,7 @@ final class AlwaysOnDisplayState: ReadsCountViewControllerState {
     }
     
     @objc private func doubleTapped() {
+        lightHapticGenerator.impactOccurred()
         adjustMantra(with: 1, adjustingType: .rounds)
     }
     
