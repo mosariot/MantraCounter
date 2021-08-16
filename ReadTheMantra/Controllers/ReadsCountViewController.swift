@@ -40,6 +40,22 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
         return (view as! ReadsCountView)
     }
     
+    private var noMantraSelected = false {
+        didSet {
+            switch noMantraSelected {
+            case true:
+                navigationItem.rightBarButtonItem = nil
+                readsCountView.mainStackView.isHidden = true
+                readsCountView.displayAlwaysOn.isHidden = true
+                noMantraLabel.isHidden = false
+            case false:
+                readsCountView.mainStackView.isHidden = false
+                readsCountView.displayAlwaysOn.isHidden = false
+                noMantraLabel.isHidden = true
+            }
+        }
+    }
+    
     private var currentMantra: Mantra? = nil
     
     var mantra: Mantra? {
@@ -47,9 +63,7 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
             loadViewIfNeeded()
             mediumHapticGenerator.prepare()
             guard let mantra = mantra else {
-                navigationItem.rightBarButtonItem = nil
-                readsCountView.mainStackView.isHidden = true
-                noMantraLabel.isHidden = false
+                noMantraSelected = true
                 return
             }
             if currentMantra == nil {
@@ -64,8 +78,7 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
                 invalidatePreviousState()
             }
             navigationItem.largeTitleDisplayMode = .never
-            readsCountView.mainStackView.isHidden = false
-            noMantraLabel.isHidden = true
+            noMantraSelected = false
             readsCountView.circularProgressView.goal = Int(mantra.readsGoal)
             readsCountView.circularProgressView.value = Int(mantra.reads)
             setupUI()
