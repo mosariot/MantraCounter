@@ -83,6 +83,7 @@
 		9FE855C0258E51BF00771BA1 /* MantraWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855BF258E51BF00771BA1 /* MantraWidget.swift */; };
 		9FE855C2258E51C300771BA1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FE855C1258E51C300771BA1 /* Assets.xcassets */; };
 		9FE855C6258E51C300771BA1 /* FavoritesWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9FE855B8258E51BF00771BA1 /* FavoritesWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9FEB07F026CA5D3A005AD2E3 /* DetailsButtonsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB07EF26CA5D3A005AD2E3 /* DetailsButtonsHandler.swift */; };
 		9FFCF08826C1C1E000984666 /* DetailsViewControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCF08726C1C1DF00984666 /* DetailsViewControllerState.swift */; };
 		9FFCF08A26C1C26700984666 /* AddDetailsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCF08926C1C26700984666 /* AddDetailsState.swift */; };
 		9FFCF08C26C1C27700984666 /* EditDetailsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCF08B26C1C27700984666 /* EditDetailsState.swift */; };
@@ -193,6 +194,7 @@
 		9FE855C1258E51C300771BA1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9FE855C3258E51C300771BA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9FE855D0258E521D00771BA1 /* FavoritesWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FavoritesWidgetExtension.entitlements; sourceTree = "<group>"; };
+		9FEB07EF26CA5D3A005AD2E3 /* DetailsButtonsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsButtonsHandler.swift; sourceTree = "<group>"; };
 		9FFCF08726C1C1DF00984666 /* DetailsViewControllerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewControllerState.swift; sourceTree = "<group>"; };
 		9FFCF08926C1C26700984666 /* AddDetailsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDetailsState.swift; sourceTree = "<group>"; };
 		9FFCF08B26C1C27700984666 /* EditDetailsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDetailsState.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 			children = (
 				9F9299AE250818B6003D5029 /* Constants.swift */,
 				9FCA5CD4259F6936002E1D25 /* CoreDataManager.swift */,
+				9FEB07EF26CA5D3A005AD2E3 /* DetailsButtonsHandler.swift */,
 				9F5FE6A424E7183E00D0475E /* DetailsMode.swift */,
 				9F5FE6A324E7183D00D0475E /* InitialMantraData.swift */,
 				9FCA5CB425936692002E1D25 /* Level.swift */,
@@ -560,6 +563,7 @@
 				9FCA5C93259349EC002E1D25 /* DuplicatingAlert.swift in Sources */,
 				9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */,
 				9FFCF08C26C1C27700984666 /* EditDetailsState.swift in Sources */,
+				9FEB07F026CA5D3A005AD2E3 /* DetailsButtonsHandler.swift in Sources */,
 				9F22713A26348AA2001F92BD /* ResizeUIImage.swift in Sources */,
 				9F08B662268B4C75008F20B1 /* ReadsCountView.swift in Sources */,
 				9F08B65E268B4A1E008F20B1 /* OnboardingView.swift in Sources */,

@@ -148,6 +148,8 @@ extension PreloadedMantraController {
                 if key == .image {
                     if let image = UIImage(named: value) {
                         mantra.image = image.resize(to: CGSize(width: Constants.rowHeight/2, height: Constants.rowHeight/2))
+                    } else {
+                        mantra.image = UIImage(named: Constants.defaultImage)?.resize(to: CGSize(width: Constants.rowHeight/2, height: Constants.rowHeight/2))
                     }
                 }
             }

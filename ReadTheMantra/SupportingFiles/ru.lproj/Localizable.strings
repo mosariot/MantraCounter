@@ -168,17 +168,11 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 /* Menu Item on DetailsViewController */
 "Search on the Internet" = "Искать в Интернете";
 
-/* Alert Title for Cancel New Mantra */
-"Save changes" = "Сохранение изменений";
-
 /* Alert Message for Cancel New Mantra */
-"Do you want to save this mantra?" = "Вы хотите сохранить эту мантру?";
+"Are you sure you want to discard changes?" = "Вы уверены, что хотите отменить все изменения?";
 
 /* Alert button */
-"Save" = "Сохранить";
-
-/* Alert button */
-"Don't save" = "Не сохранять";
+"Discard Changes" = "Сбросить изменения";
 
 /* Alert Title for add missing title */
 "Please add some title to mantra" = "Пожалуйста, добавьте название мантры";
@@ -347,3 +341,21 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 
 /* Maytreya Description */
 "Maitreya symbolizes the loving kindness of the Buddha, as well as the aspect of vision, the sense of sight. He embodies the future Buddha, who will be reborn and appear before people. If the practitioner does not succeed in achieving full enlightenment in this incarnation, the Maitreya mantra will bring him closer to the highest good in subsequent reincarnations." = "Майтрейя символизирует любящую доброту Будды, а также аспект видения, чувство зрения. Он воплощает собой будущего Будду, который возродится и предстанет перед людьми. Если у практикующего не получается достигнуть полного просвещения в этой инкарнации, мантра Майтрейи приблизит к высшему благу в последующих перевоплощениях.";
+
+/* Vajrakilaya */
+"Vajrakilaya" = "Ваджракилайя";
+
+/* Vajrakilaya Description */
+"The Vajrakilaya mantra protects from any evil, removes obstacles, destroys hostile forces, relieves fear, jealousy, anger." = "Мантра Ваджракилайи защищает от любого зла, удаляет препятствия, уничтожает враждебные силы, избавляет от страхов, ревности, злости.";
+
+/* Guru Padmasambhava */
+"Guru Padmasambhava" = "Гуру Падмасамбхава";
+
+/* Guru Padmasambhava Description */
+"Guru Padmasambhava himself eloquently and extensively described the benefits of reciting this mantra: 'The essential Vajra Guru mantra, if it is recited with unlimited aspiration as much as possible - one hundred, one thousand, ten thousand, one hundred thousand, ten million, one hundred million, and so on, will bring unimaginable benefits and strengths. Countries everywhere are protected from all epidemics, hunger, wars, armed violence, crop failure, bad omens and evil spells. The rains will come in due season, the harvests and livestock will be excellent, and the lands will prosper. In this life, in future lives, successful practitioners will meet me again and again - the best in reality, or in visions, the lowest in dreams'." = "Сам Гуру Падмасамбхава красноречиво и подробно описал блага от чтения этой мантры: 'Сущностная Ваджра Гуру мантра, если её начитывают с безграничным устремлением столько, сколько возможно - сто, тысячу, десять тысяч, сто тысяч, десять миллионов, сто миллионов и так далее - принесёт невообразимые блага и силы. Страны везде защищены от всех эпидемий, голода, войн, вооружённого насилия, неурожая, плохих знамений и злых заклинаний. Дожди будут идти в своё время, урожаи и скот будут отличными, а земли будут процветать. В этой жизни, в будущих жизнях удачливые практикующие будут встречать меня снова и снова - лучшие в реальности, или же в видениях, низшие - во снах'.";
+
+/* Parnashavari */
+"Parnashavari" = "Парнашавари";
+
+/* Parnashavari Description */
+"Meditation on Parnashavari and the practice of her mantra strengthens immunity and resistance to infectious diseases. Parnashavari's call declares that she prevents all epidemics, disease and suffering." = "Медитация на Парнашавари и практика ее мантры укрепляют иммунитет и сопротивляемость к заразным болезням. Призыв Парнашавари заявляет, что она предотвращает все эпидемии, болезни и страдания.";

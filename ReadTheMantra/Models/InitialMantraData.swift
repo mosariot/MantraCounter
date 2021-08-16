@@ -98,6 +98,21 @@ enum InitialMantra {
             .title: NSLocalizedString("Maytreya", comment: "Maytreya"),
             .details: NSLocalizedString("Maitreya symbolizes the loving kindness of the Buddha, as well as the aspect of vision, the sense of sight. He embodies the future Buddha, who will be reborn and appear before people. If the practitioner does not succeed in achieving full enlightenment in this incarnation, the Maitreya mantra will bring him closer to the highest good in subsequent reincarnations.", comment: "Maytreya Description"),
             .image: "Maytreya"
+        ],
+        [
+            .title: NSLocalizedString("Vajrakilaya", comment: "Vajrakilaya"),
+            .details: NSLocalizedString("The Vajrakilaya mantra protects from any evil, removes obstacles, destroys hostile forces, relieves fear, jealousy, anger.", comment: "Vajrakilaya Description"),
+            .image: "Vajrakilaya"
+        ],
+        [
+            .title: NSLocalizedString("Guru Padmasambhava", comment: "Guru Padmasambhava"),
+            .details: NSLocalizedString("Guru Padmasambhava himself eloquently and extensively described the benefits of reciting this mantra: 'The essential Vajra Guru mantra, if it is recited with unlimited aspiration as much as possible - one hundred, one thousand, ten thousand, one hundred thousand, ten million, one hundred million, and so on, will bring unimaginable benefits and strengths. Countries everywhere are protected from all epidemics, hunger, wars, armed violence, crop failure, bad omens and evil spells. The rains will come in due season, the harvests and livestock will be excellent, and the lands will prosper. In this life, in future lives, successful practitioners will meet me again and again - the best in reality, or in visions, the lowest in dreams'.", comment: "Guru Padmasambhava Description"),
+            .image: "Guru_Padmasambhava"
+        ],
+        [
+            .title: NSLocalizedString("Parnashavari", comment: "Parnashavari"),
+            .details: NSLocalizedString("Meditation on Parnashavari and the practice of her mantra strengthens immunity and resistance to infectious diseases. Parnashavari's call declares that she prevents all epidemics, disease and suffering.", comment: "Parnashavari Description"),
+            .image: "Parnashavari"
         ]
     ]
     

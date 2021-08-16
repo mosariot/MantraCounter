@@ -11,11 +11,7 @@ import UIKit
 protocol DetailsStateContext: UIViewController {
     
     var detailsView: DetailsView! { get }
-    func addButtonPressed()
-    func editButtonPressed()
-    func doneButtonPressed()
-    func cancelButtonPressed()
-    func closeButtonPressed()
+    var mantraHandler: DetailsButtonsHandler { get }
 }
 
 class DetailsViewControllerState {

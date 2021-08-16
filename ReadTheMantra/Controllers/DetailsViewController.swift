@@ -10,35 +10,37 @@ import UIKit
 import PhotosUI
 import SafariServices
 
-final class DetailsViewController: UIViewController, DetailsStateContext {
+final class DetailsViewController: UIViewController, DetailsStateContext, DetailsButtonHandlerContext {
     
     //MARK: - Properties
     
-    private lazy var dataProvider = MantraProvider()
+    lazy var dataProvider = MantraProvider()
+    lazy var mantraHandler = DetailsButtonsHandler(context: self)
     
     var detailsView: DetailsView! {
         guard isViewLoaded else { return nil }
         return (view as! DetailsView)
     }
     
-    private var states: (addState: DetailsViewControllerState,
+    var states: (addState: DetailsViewControllerState,
                          editState: DetailsViewControllerState,
                          viewState: DetailsViewControllerState) =
         (addState: AddDetailsState(),
          editState: EditDetailsState(),
          viewState: ViewDetailsState())
-    private var initialState: DetailsViewControllerState
-    private lazy var currentState: DetailsViewControllerState = states.viewState {
+    lazy var currentState: DetailsViewControllerState = states.viewState {
         didSet { currentState.apply(to: self) }
     }
+    private var initialState: DetailsViewControllerState
     
+    let addHapticGenerator = UINotificationFeedbackGenerator()
     private let pasteboard = UIPasteboard.general
-    private let addHapticGenerator = UINotificationFeedbackGenerator()
     
-    private var mantra: Mantra
-    private var mantraTitles: [String]?
-    private var mantraImageData: Data?
-    private var mantraImageForTableViewData: Data?
+    var mantraImageData: Data?
+    var mantraImageForTableViewData: Data?
+    
+    var mantra: Mantra
+    var mantraTitles: [String]?
     private weak var callerController: UIViewController?
     
     required init?(coder: NSCoder) {
@@ -188,124 +190,6 @@ final class DetailsViewController: UIViewController, DetailsStateContext {
         default:
             currentState = states.viewState
         }
-    }
-}
-
-//MARK: - Navigation Bar Buttons Methods
-
-extension DetailsViewController {
-    
-    func addButtonPressed() {
-        guard let title = detailsView.titleTextField.text else { return }
-        if isMantraDuplicating(for: title) {
-            showDuplicatingAlert(for: title)
-        } else {
-            handleAddNewMantra(for: title)
-        }
-    }
-    
-    func cancelButtonPressed() {
-        guard let title = detailsView.titleTextField.text else { return }
-        if detailsView.titleTextField.text?.trimmingCharacters(in: .whitespaces) == ""
-            && detailsView.mantraTextTextView.text == ""
-            && detailsView.detailsTextView.text == ""
-            && mantraImageData == nil {
-            self.dataProvider.deleteMantra(mantra)
-            self.dismiss(animated: true, completion: nil)
-            return
-        }
-        let alert = UIAlertController.cancelOrCloseMantraAlert(
-            idiom: traitCollection.userInterfaceIdiom,
-            saveMantraHandler: { [weak self] in
-                guard let self = self else { return }
-                self.handleAddNewMantra(for: title)
-            }, dontSaveActionHandler: { [weak self] in
-                guard let self = self else { return }
-                self.dataProvider.deleteMantra(self.mantra)
-                self.dismiss(animated: true, completion: nil)
-            })
-        present(alert, animated: true, completion: nil)
-        
-    }
-    
-    func editButtonPressed() {
-        currentState = states.editState
-    }
-    
-    func doneButtonPressed() {
-        guard let title = detailsView.titleTextField.text else { return }
-        afterDelay(0.05) {
-            self.buildOrUpdateMantra(with: title)
-        }
-        currentState = states.viewState
-    }
-    
-    func closeButtonPressed() {
-        if detailsView.titleTextField.text != mantra.title
-            || detailsView.mantraTextTextView.text != mantra.text ?? ""
-            || detailsView.detailsTextView.text != mantra.details
-            || mantraImageData != mantra.image {
-            guard let title = detailsView.titleTextField.text else { return }
-            let alert = UIAlertController.cancelOrCloseMantraAlert(
-                idiom: traitCollection.userInterfaceIdiom,
-                saveMantraHandler: { [weak self] in
-                    guard let self = self else { return }
-                    guard self.detailsView.titleTextField.text?.trimmingCharacters(in: .whitespaces) != "" else {
-                        let alert = UIAlertController.addTitleAlert()
-                        self.present(alert, animated: true, completion: nil)
-                        return
-                    }
-                    self.buildOrUpdateMantra(with: title)
-                    self.dismiss(animated: true, completion: nil)
-                }, dontSaveActionHandler: { [weak self] in
-                    guard let self = self else { return }
-                    self.dismiss(animated: true, completion: nil)
-                })
-            present(alert, animated: true, completion: nil)
-        } else {
-            dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    private func isMantraDuplicating(for title: String) -> Bool {
-        guard let mantraTitles = mantraTitles else { return false }
-        return mantraTitles.contains(title)
-    }
-    
-    private func showDuplicatingAlert(for title: String) {
-        let alert = UIAlertController.duplicatingAlert(idiom: traitCollection.userInterfaceIdiom) { [weak self] in
-            guard let self = self else { return }
-            self.handleAddNewMantra(for: title)
-        } cancelActionHandler: { return }
-        present(alert, animated: true, completion: nil)
-    }
-    
-    private func handleAddNewMantra(for title: String) {
-        guard detailsView.titleTextField.text?.trimmingCharacters(in: .whitespaces) != "" else {
-            let alert = UIAlertController.addTitleAlert()
-            present(alert, animated: true, completion: nil)
-            return
-        }
-        
-        buildOrUpdateMantra(with: title)
-        
-        addHapticGenerator.notificationOccurred(.success)
-        
-        let hudView = HudView.makeView(inView: navigationController?.view ?? view, animated: true)
-        hudView.text = NSLocalizedString("Added", comment: "HUD title")
-        afterDelay(0.8) {
-            self.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    private func buildOrUpdateMantra(with title: String) {
-        dataProvider.buildOrUpdateMantra(
-            mantra: mantra,
-            title: title,
-            text: detailsView.mantraTextTextView.text,
-            details: detailsView.detailsTextView.text,
-            imageData: mantraImageData,
-            imageForTableViewData: mantraImageForTableViewData)
     }
 }
 
