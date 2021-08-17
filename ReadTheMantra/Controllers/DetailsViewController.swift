@@ -14,15 +14,15 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
     
     //MARK: - Properties
     
-    lazy var dataProvider = MantraProvider()
-    lazy var mantraHandler = DetailsButtonsHandler(context: self)
+    private(set) var mantraManager: DataManager = MantraManager()
+    lazy var buttonsHandler = DetailsButtonsHandler(context: self)
     
     var detailsView: DetailsView! {
         guard isViewLoaded else { return nil }
         return (view as! DetailsView)
     }
     
-    var states: (addState: DetailsViewControllerState,
+    private(set) var states: (addState: DetailsViewControllerState,
                          editState: DetailsViewControllerState,
                          viewState: DetailsViewControllerState) =
         (addState: AddDetailsState(),
@@ -36,11 +36,11 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
     let addHapticGenerator = UINotificationFeedbackGenerator()
     private let pasteboard = UIPasteboard.general
     
-    var mantraImageData: Data?
-    var mantraImageForTableViewData: Data?
+    private(set) var mantraImageData: Data?
+    private(set) var mantraImageForTableViewData: Data?
     
-    var mantra: Mantra
-    var mantraTitles: [String]?
+    private(set) var mantra: Mantra
+    private(set) var mantraTitles: [String]?
     private weak var callerController: UIViewController?
     
     required init?(coder: NSCoder) {

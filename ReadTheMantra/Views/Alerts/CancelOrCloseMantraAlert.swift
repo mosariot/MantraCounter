@@ -10,13 +10,12 @@ import UIKit
 
 extension UIAlertController {
     
-    static func cancelOrCloseMantraAlert(idiom: UIUserInterfaceIdiom, //saveMantraHandler: @escaping () -> (),
-                                         dontSaveActionHandler: @escaping () -> ()) -> UIAlertController {
+    static func cancelOrCloseMantraAlert(_ sender: UIBarButtonItem?, dontSaveActionHandler: @escaping () -> ()) -> UIAlertController {
         let alert = UIAlertController(
             title: nil,
             message: NSLocalizedString("Are you sure you want to discard changes?",
                                        comment: "Alert Message for Cancel New Mantra"),
-            preferredStyle: idiom == .phone ? .actionSheet : .alert)
+            preferredStyle: .actionSheet)
         let dontSaveAction = UIAlertAction(
             title: NSLocalizedString("Discard Changes", comment: "Alert Button"),
             style: .destructive) { _ in
@@ -28,6 +27,11 @@ extension UIAlertController {
         alert.addAction(dontSaveAction)
         alert.addAction(cancelAction)
         alert.view.tintColor = Constants.accentColor ?? .systemOrange
+        
+        if let popoverController = alert.popoverPresentationController {
+            popoverController.barButtonItem = sender
+          }
+        
         return alert
     }
 }

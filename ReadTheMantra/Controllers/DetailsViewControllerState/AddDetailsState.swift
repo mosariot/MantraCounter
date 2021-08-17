@@ -16,14 +16,14 @@ class AddDetailsState: DetailsViewControllerState {
             title: NSLocalizedString("Add", comment: "Button on MantraTableViewController"),
             primaryAction: UIAction(handler: { [weak context] _ in
                 guard let context = context else { return }
-                context.mantraHandler.addButtonPressed()
+                context.buttonsHandler.addButtonPressed()
             }))
         context.navigationItem.rightBarButtonItem?.style = .done
         context.navigationItem.leftBarButtonItem = UIBarButtonItem(
             systemItem: .cancel,
             primaryAction: UIAction(handler: { [weak context] _ in
                 guard let context = context else { return }
-                context.mantraHandler.cancelButtonPressed()
+                context.buttonsHandler.cancelButtonPressed(context.navigationItem.leftBarButtonItem ?? nil)
             }))
         context.navigationItem.rightBarButtonItem?.isEnabled = (context.detailsView.titleTextField.text != "")
         context.detailsView.setPhotoButton.setEditMode()

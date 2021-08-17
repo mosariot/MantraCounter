@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum InitialMantra {
+enum PreloadedMantras {
     
     enum MantraAttributes {
         case title

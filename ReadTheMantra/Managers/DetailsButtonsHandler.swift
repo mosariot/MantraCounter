@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DetailsButtonHandlerContext: UIViewController {
-    var dataProvider: MantraProvider { get }
+    var mantraManager: DataManager { get }
     var detailsView: DetailsView! { get }
     var currentState: DetailsViewControllerState { get set }
     var states: (addState: DetailsViewControllerState,
@@ -40,25 +40,22 @@ final class DetailsButtonsHandler {
         }
     }
     
-    func cancelButtonPressed() {
+    func cancelButtonPressed(_ sender: UIBarButtonItem?) {
         guard let context = context else { return }
         if context.detailsView.titleTextField.text?.trimmingCharacters(in: .whitespaces) == ""
             && context.detailsView.mantraTextTextView.text == ""
             && context.detailsView.detailsTextView.text == ""
             && context.mantraImageData == nil {
-            context.dataProvider.deleteMantra(context.mantra)
+            context.mantraManager.deleteMantra(context.mantra)
             context.dismiss(animated: true, completion: nil)
             return
         }
-        let alert = UIAlertController.cancelOrCloseMantraAlert(
-            idiom: context.traitCollection.userInterfaceIdiom,
-    dontSaveActionHandler: { [weak context] in
+        let alert = UIAlertController.cancelOrCloseMantraAlert(sender) { [weak context] in
                 guard let context = context else { return }
-                context.dataProvider.deleteMantra(context.mantra)
+                context.mantraManager.deleteMantra(context.mantra)
                 context.dismiss(animated: true, completion: nil)
-            })
+            }
         context.present(alert, animated: true, completion: nil)
-        
     }
     
     func editButtonPressed() {
@@ -76,18 +73,16 @@ final class DetailsButtonsHandler {
         context.currentState = context.states.viewState
     }
     
-    func closeButtonPressed() {
+    func closeButtonPressed(_ sender: UIBarButtonItem?) {
         guard let context = context else { return }
         if context.detailsView.titleTextField.text != context.mantra.title
             || context.detailsView.mantraTextTextView.text != context.mantra.text ?? ""
             || context.detailsView.detailsTextView.text != context.mantra.details
             || context.mantraImageData != context.mantra.image {
-            let alert = UIAlertController.cancelOrCloseMantraAlert(
-                idiom: context.traitCollection.userInterfaceIdiom,
-                dontSaveActionHandler: { [weak context] in
-                    guard let context = context else { return }
-                    context.dismiss(animated: true, completion: nil)
-                })
+            let alert = UIAlertController.cancelOrCloseMantraAlert(sender) { [weak context] in
+                guard let context = context else { return }
+                context.dismiss(animated: true, completion: nil)
+            }
             context.present(alert, animated: true, completion: nil)
         } else {
             context.dismiss(animated: true, completion: nil)
@@ -97,12 +92,12 @@ final class DetailsButtonsHandler {
     private func isMantraDuplicating(for title: String) -> Bool {
         guard let context = context,
               let mantraTitles = context.mantraTitles else { return false }
-        return mantraTitles.contains(title)
+        return mantraTitles.contains(where: {$0.caseInsensitiveCompare(title) == .orderedSame})
     }
     
     private func showDuplicatingAlert(for title: String) {
         guard let context = context else { return }
-        let alert = UIAlertController.duplicatingAlert(idiom: context.traitCollection.userInterfaceIdiom) { [weak self] in
+        let alert = UIAlertController.duplicatingAlert(context.navigationItem.rightBarButtonItem) { [weak self] in
             guard let self = self else { return }
             self.handleAddNewMantra(for: title)
         } cancelActionHandler: { return }
@@ -130,7 +125,7 @@ final class DetailsButtonsHandler {
     
     private func addNewOrUpdateMantra(with title: String) {
         guard let context = context else { return }
-        context.dataProvider.buildOrUpdateMantra(
+        context.mantraManager.buildOrUpdateMantra(
             mantra: context.mantra,
             title: title,
             text: context.detailsView.mantraTextTextView.text,

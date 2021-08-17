@@ -31,7 +31,7 @@ final class PreloadedMantraController: UIViewController {
         }
     }
     
-    private let dataProvider = MantraProvider()
+    private let mantraManager: DataManager = MantraManager()
     
     private var mantraTitles: [String] = []
     private var preloadedMantras: [PreloadedMantra] = []
@@ -139,7 +139,7 @@ extension PreloadedMantraController {
     
     private func getPreloadedMantras() -> [PreloadedMantra] {
         var mantras: [PreloadedMantra] = []
-        InitialMantra.sortedData().forEach { (data) in
+        PreloadedMantras.sortedData().forEach { (data) in
             let mantra = PreloadedMantra()
             data.forEach { (key, value) in
                 if key == .title {
@@ -170,7 +170,7 @@ extension PreloadedMantraController {
     private func isMantraDuplicating() -> Bool {
         var isDuplicating = false
         mantraTitles.forEach { (title) in
-            if selectedMantrasTitles.contains(title) {
+            if selectedMantrasTitles.contains(where: { $0.caseInsensitiveCompare(title) == .orderedSame }) {
                 isDuplicating = true
             }
         }
@@ -178,7 +178,7 @@ extension PreloadedMantraController {
     }
     
     private func showDuplicatingAlert() {
-        let alert = UIAlertController.duplicatingAlertForPreloadedMantras(idiom: traitCollection.userInterfaceIdiom) { [weak self] in
+        let alert = UIAlertController.duplicatingAlertForPreloadedMantras(navigationItem.rightBarButtonItem) { [weak self] in
             guard let self = self else { return }
             self.handleAddPreloadedMantra()
         }
@@ -186,7 +186,7 @@ extension PreloadedMantraController {
     }
     
     private func handleAddPreloadedMantra() {
-        dataProvider.addPreloadedMantras(with: selectedMantrasTitles)
+        mantraManager.addPreloadedMantras(with: selectedMantrasTitles)
         
         addHapticGenerator.notificationOccurred(.success)
         

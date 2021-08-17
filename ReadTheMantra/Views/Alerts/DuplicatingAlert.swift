@@ -10,14 +10,14 @@ import UIKit
 
 extension UIAlertController {
     
-    static func duplicatingAlert(idiom: UIUserInterfaceIdiom, addPreloadedMantraHandler: @escaping () -> (),
+    static func duplicatingAlert(_ sender: UIBarButtonItem?, addPreloadedMantraHandler: @escaping () -> (),
                                  cancelActionHandler: @escaping () -> ()) -> UIAlertController {
         let alert = UIAlertController(
             title: NSLocalizedString("Duplicating Mantra",
                                      comment: "Alert Title for Duplication"),
             message: NSLocalizedString("It's already in your mantra list. Add another one?",
                                        comment: "Alert Message for Duplication"),
-            preferredStyle: idiom == .phone ? .actionSheet : .alert)
+            preferredStyle: .actionSheet)
         let addAction = UIAlertAction(
             title: NSLocalizedString("Add", comment: "Alert Button"),
             style: .default) { _ in
@@ -31,6 +31,11 @@ extension UIAlertController {
         alert.addAction(cancelAction)
         alert.addAction(addAction)
         alert.view.tintColor = Constants.accentColor ?? .systemOrange
+        
+        if let popoverController = alert.popoverPresentationController {
+            popoverController.barButtonItem = sender
+          }
+        
         return alert
     }
 }

@@ -9,12 +9,12 @@
 import UIKit
 import CoreData
 
-class MantraProvider {
+class MantraManager: DataManager {
     
     private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     private weak var fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate?
     private(set) var fetchedResultsController: NSFetchedResultsController<Mantra>?
-    private lazy var sortedInitialMantraData = InitialMantra.sortedData()
+    private lazy var sortedInitialMantraData = PreloadedMantras.sortedData()
     
     var fetchedMantras: [Mantra] {
         fetchedResultsController?.fetchedObjects?.filter{ $0.title != "" } ?? []
@@ -60,7 +60,7 @@ class MantraProvider {
         }
     }
     
-    func updateValues(for mantra: Mantra, with value: Int32, adjustingType: AdjustingType) {
+    func updateMantraValues(for mantra: Mantra, with value: Int32, and adjustingType: AdjustingType) {
         switch adjustingType {
         case .goal:
             mantra.readsGoal = value

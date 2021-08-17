@@ -16,13 +16,13 @@ class EditDetailsState: DetailsViewControllerState {
             systemItem: .done,
             primaryAction: UIAction(handler: { [weak context] _ in
                 guard let context = context else { return }
-                context.mantraHandler.doneButtonPressed()
+                context.buttonsHandler.doneButtonPressed()
             }))
         context.navigationItem.leftBarButtonItem = UIBarButtonItem(
             systemItem: .close,
             primaryAction: UIAction(handler: { [weak context] _ in
                 guard let context = context else { return }
-                context.mantraHandler.closeButtonPressed()
+                context.buttonsHandler.closeButtonPressed(context.navigationItem.leftBarButtonItem)
             }))
         context.detailsView.setPhotoButton.setEditMode()
         context.detailsView.titleTextField.isUserInteractionEnabled = true

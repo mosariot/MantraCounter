@@ -1,68 +1,19 @@
 //
-//  CoreDataManager.swift
+//  LaunchPreparer.swift
 //  ReadTheMantra
 //
-//  Created by Alex Vorobiev on 01.01.2021.
+//  Created by Alex Vorobiev on 17.08.2021.
 //  Copyright © 2021 Alex Vorobiev. All rights reserved.
 //
 
 import UIKit
-import CoreData
+import CloudKit
 
-final class CoreDataManager {
+class LaunchPreparer {
     
-    static let shared = CoreDataManager()
-    
-    private init() {}
-    
-    private(set) lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentCloudKitContainer(name: "ReadTheMantra")
-        
-        guard let description = container.persistentStoreDescriptions.first else {
-            fatalError("Failed to retrieve a persistent store description.")
-        }
-        
-        // Enable history tracking and remote notifications
-        description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-        description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
-        
-        container.loadPersistentStores(completionHandler: { (_, error) in
-            guard let error = error as NSError? else { return }
-            fatalError("Failed to load persistent stores: \(error)")
-        })
-        
-        // Pin the viewContext to the current generation token and set it to keep itself up to date with local changes
-        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        container.viewContext.automaticallyMergesChangesFromParent = true
-        
-        do {
-            try container.viewContext.setQueryGenerationFrom(.current)
-        } catch {
-            fatalError("Failed to pin viewContext to the current generation: \(error)")
-        }
-        
-        return container
-    }()
-    
-    func saveContext() {
-        let context = persistentContainer.viewContext
-        guard context.hasChanges else { return }
-        do {
-            try context.save()
-        } catch {
-            fatalCoreDataError(error)
-        }
-    }
-    
-    func deleteMantra(_ mantra: Mantra) {
-        let context = persistentContainer.viewContext
-        context.delete(mantra)
-    }
-}
+    private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     
     //MARK: - Register Defaults
-    
-extension CoreDataManager {
     
     func registerDefaults() {
         let dictionary = ["isFirstLaunch": true,
@@ -74,11 +25,8 @@ extension CoreDataManager {
                           "isPreloadedMantrasDueToNoInternetConnection": false]
         UserDefaults.standard.register(defaults: dictionary)
     }
-}
-
-//MARK: - Preload Data For First Launch
-
-extension CoreDataManager {
+    
+    //MARK: - Preload Data For First Launch
     
     func checkForFirstLaunch() {
         let isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch")
@@ -128,8 +76,8 @@ extension CoreDataManager {
     }
     
     private func preloadData() {
-        let context = persistentContainer.viewContext
-        InitialMantra.data.forEach { (data) in
+        let context = coreDataManager.persistentContainer.viewContext
+        PreloadedMantras.data.forEach { (data) in
             let mantra = Mantra(context: context)
             mantra.uuid = UUID()
             data.forEach { (key, value) in
@@ -148,6 +96,6 @@ extension CoreDataManager {
                 }
             }
         }
-        saveContext()
+        coreDataManager.saveContext()
     }
 }

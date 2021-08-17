@@ -12,7 +12,7 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
         
     //MARK: - Properties
     
-    lazy var dataProvider = MantraProvider()
+    private(set) var mantraManager: DataManager = MantraManager()
     private let defaults = UserDefaults.standard
     private let mediumHapticGenerator = UIImpactFeedbackGenerator(style: .medium)
     
@@ -58,7 +58,7 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
     
     private var currentMantra: Mantra? = nil
     
-    var mantra: Mantra? {
+    private(set) var mantra: Mantra? {
         didSet {
             loadViewIfNeeded()
             mediumHapticGenerator.prepare()

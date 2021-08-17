@@ -11,7 +11,7 @@ import UIKit
 protocol DetailsStateContext: UIViewController {
     
     var detailsView: DetailsView! { get }
-    var mantraHandler: DetailsButtonsHandler { get }
+    var buttonsHandler: DetailsButtonsHandler { get }
 }
 
 class DetailsViewControllerState {

@@ -29,18 +29,18 @@ final class MantraViewController: UICollectionViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Mantra>
     private lazy var dataSource = makeDataSource()
     
-    private lazy var dataProvider: MantraProvider = {
-        MantraProvider(fetchedResultsControllerDelegate: self)
+    private lazy var mantraManager: MantraManager = {
+        MantraManager(fetchedResultsControllerDelegate: self)
     }()
     
     private let widgetManager = WidgetManager()
     
     private var overallMantras: [Mantra] {
         isAlphabeticalSorting ?
-            dataProvider.fetchedMantras.sorted {
+            mantraManager.fetchedMantras.sorted {
                 guard let title1 = $0.title, let title2 = $1.title else { return false }
                 return title1.localizedStandardCompare(title2) == .orderedAscending } :
-            dataProvider.fetchedMantras.sorted {
+            mantraManager.fetchedMantras.sorted {
                 $0.reads > $1.reads }
     }
     private lazy var displayedMantras = overallMantras
@@ -126,7 +126,7 @@ final class MantraViewController: UICollectionViewController {
         super.viewDidAppear(animated)
         if isColdStart {
             checkForOnboardingAlert()
-            dataProvider.loadMantras()
+            mantraManager.loadMantras()
             loadFirstMantraForSecondaryView()
             applySnapshot()
             widgetManager.updateWidgetData(for: overallMantras)
@@ -477,7 +477,7 @@ extension MantraViewController {
     }
     
     private func showNewMantraVC() {
-        let mantra = dataProvider.makeNewMantra()
+        let mantra = mantraManager.makeNewMantra()
         mantra.uuid = UUID()
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
@@ -506,7 +506,7 @@ extension MantraViewController: MantraCellDelegate {
             if self.selectedMantra == mantra {
                 self.selectedMantra = nil
             }
-            self.dataProvider.deleteMantra(mantra)
+            self.mantraManager.deleteMantra(mantra)
         }
         present(alert, animated: true, completion: nil)
     }
@@ -524,7 +524,7 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
         stopActivityIndicatorForInitialDataLoadingIfNeeded()
         widgetManager.updateWidgetData(for: overallMantras)
         afterDelay(0.1) {
-            self.dataProvider.saveMantras()
+            self.mantraManager.saveMantras()
         }
     }
     
