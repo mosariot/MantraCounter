@@ -17,6 +17,7 @@ final class CoreDataManager {
     
     private(set) lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentCloudKitContainer(name: "ReadTheMantra")
+        print("persistentContainer")
         
         guard let description = container.persistentStoreDescriptions.first else {
             fatalError("Failed to retrieve a persistent store description.")

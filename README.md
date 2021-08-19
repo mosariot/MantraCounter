@@ -1,3 +1,5 @@
+# Mantra Reader
+
 / ENG /
 
 The repetition of mantras has a beneficial effect on a person in many areas of his life. This process is able to remove suffering on the mental and physical levels and to clarify consciousness.
@@ -17,7 +19,9 @@ For this reason, application doesn't include the mantra texts themselves (except
 
 We wish you deep awarenesses and spiritual growth!
 
-/ RUS /
+# Начитай!
+
+/ РУС /
 
 Повторение мантр оказывает благоприятное влияние на человека во многих сферах его жизни. Этот процесс способен убирать страдания на ментальном и физическом уровне и прояснять сознание.
 Начитывайте мантры и ведите учет достигнутого уровня.

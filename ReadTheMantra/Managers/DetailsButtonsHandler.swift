@@ -126,7 +126,7 @@ final class DetailsButtonsHandler {
     private func addNewOrUpdateMantra(with title: String) {
         guard let context = context else { return }
         context.mantraManager.buildOrUpdateMantra(
-            mantra: context.mantra,
+            context.mantra,
             title: title,
             text: context.detailsView.mantraTextTextView.text,
             details: context.detailsView.detailsTextView.text,

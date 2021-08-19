@@ -20,8 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         launchPreparer.registerDefaults()
         launchPreparer.checkForFirstLaunch()
-//        coreDataManager.registerDefaults()
-//        coreDataManager.checkForFirstLaunch()
         return true
     }
     

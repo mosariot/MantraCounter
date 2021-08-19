@@ -60,7 +60,7 @@ class MantraManager: DataManager {
         }
     }
     
-    func updateMantraValues(for mantra: Mantra, with value: Int32, and adjustingType: AdjustingType) {
+    func updateMantraValues(_ mantra: Mantra, with value: Int32, and adjustingType: AdjustingType) {
         switch adjustingType {
         case .goal:
             mantra.readsGoal = value
@@ -73,7 +73,7 @@ class MantraManager: DataManager {
         }
     }
     
-    func buildOrUpdateMantra(mantra: Mantra, title: String, text: String, details: String, imageData: Data?, imageForTableViewData: Data?) {
+    func buildOrUpdateMantra(_ mantra: Mantra, title: String, text: String, details: String, imageData: Data?, imageForTableViewData: Data?) {
         mantra.title = title
         mantra.text = text
         mantra.details = details

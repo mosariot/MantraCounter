@@ -14,8 +14,8 @@ protocol DataManager {
     func loadMantras()
     func saveMantras()
     func addPreloadedMantras(with selectedMantrasTitles: [String])
-    func updateMantraValues(for mantra: Mantra, with value: Int32, and adjustingType: AdjustingType)
-    func buildOrUpdateMantra(mantra: Mantra, title: String, text: String, details: String, imageData: Data?, imageForTableViewData: Data?)
+    func updateMantraValues(_ mantra: Mantra, with value: Int32, and adjustingType: AdjustingType)
+    func buildOrUpdateMantra(_ mantra: Mantra, title: String, text: String, details: String, imageData: Data?, imageForTableViewData: Data?)
     func makeNewMantra() -> Mantra
     func deleteMantra(_ mantra: Mantra)
 }

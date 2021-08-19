@@ -39,7 +39,7 @@ extension ReadsCountViewControllerState {
     func adjustMantra(with value: Int32, adjustingType: AdjustingType, animated: Bool = true) {
         guard let mantra = context?.mantra else { return }
         let oldReads = mantra.reads
-        context?.mantraManager.updateMantraValues(for: mantra, with: value, and: adjustingType)
+        context?.mantraManager.updateMantraValues(mantra, with: value, and: adjustingType)
         updateProrgessView(for: adjustingType, animated: animated)
         context?.readsCountView.readsGoalButton.setTitle(NSLocalizedString("Goal: ",
                                                    comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),
