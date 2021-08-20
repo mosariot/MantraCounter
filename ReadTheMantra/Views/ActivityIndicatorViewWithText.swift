@@ -10,7 +10,7 @@ import UIKit
 
 final class ActivityIndicatorViewWithText: UIView {
     
-    //MARK: - Convinient initializer
+    //MARK: - Convenient initializer
     
     static func makeView(inView view: UIView, withText: String) -> UIView {
         let viewForActivityIndicator = UIView(frame: view.bounds)

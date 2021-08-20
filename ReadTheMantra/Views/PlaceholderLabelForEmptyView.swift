@@ -10,7 +10,7 @@ import UIKit
 
 final class PlaceholderLabelForEmptyView: UILabel {
     
-    //MARK: - Convinient initializer
+    //MARK: - Convenient initializer
     
     static func makeLabel(inView view: UIView, withText text: String, textStyle: UIFont.TextStyle) -> PlaceholderLabelForEmptyView {
         let label = PlaceholderLabelForEmptyView(frame: view.bounds)

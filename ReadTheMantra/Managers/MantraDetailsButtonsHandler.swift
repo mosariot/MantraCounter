@@ -9,6 +9,7 @@
 import UIKit
 
 protocol DetailsButtonHandlerContext: UIViewController {
+    
     var mantraDataManager: DataManager { get }
     var detailsView: DetailsView! { get }
     var currentState: DetailsViewControllerState { get set }

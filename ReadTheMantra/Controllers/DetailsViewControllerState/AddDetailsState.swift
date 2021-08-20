@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddDetailsState: DetailsViewControllerState {
+final class AddDetailsState: DetailsViewControllerState {
     
     override func apply(to context: DetailsStateContext) {
         context.title = NSLocalizedString("New Mantra", comment: "Add new mantra bar title")

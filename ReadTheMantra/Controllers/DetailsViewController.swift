@@ -15,7 +15,7 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
     //MARK: - Properties
     
     private(set) var mantraDataManager: DataManager = MantraDataManager()
-    lazy var buttonsHandler: DetailsButtonsHandler = MantraDetailsButtonsHandler(context: self)
+    private(set) lazy var buttonsHandler: DetailsButtonsHandler = MantraDetailsButtonsHandler(context: self)
     
     var detailsView: DetailsView! {
         guard isViewLoaded else { return nil }

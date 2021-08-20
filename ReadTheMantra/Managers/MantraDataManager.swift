@@ -9,14 +9,14 @@
 import UIKit
 import CoreData
 
-protocol MantraManagerDelegate: AnyObject {
-    func mantraManagerDidUpdateContent()
+protocol MantraDataManagerDelegate: AnyObject {
+    func mantraDataManagerDidUpdateContent()
 }
 
 final class MantraDataManager: NSObject, DataManager {
     
-    private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
-    private weak var delegate: MantraManagerDelegate?
+    private lazy var coreDataManager = CoreDataManager.shared
+    private weak var delegate: MantraDataManagerDelegate?
     private(set) var fetchedResultsController: NSFetchedResultsController<Mantra>?
     private lazy var sortedInitialMantraData = PreloadedMantras.sortedData()
     
@@ -24,7 +24,7 @@ final class MantraDataManager: NSObject, DataManager {
         fetchedResultsController?.fetchedObjects?.filter{ $0.title != "" } ?? []
     }
     
-    init(delegate: MantraManagerDelegate? = nil) {
+    init(delegate: MantraDataManagerDelegate? = nil) {
         self.delegate = delegate
     }
     
@@ -104,12 +104,36 @@ final class MantraDataManager: NSObject, DataManager {
                 coreDataManager.deleteMantra(mantra)
             }
     }
+    
+    func preloadData() {
+        let context = coreDataManager.persistentContainer.viewContext
+        PreloadedMantras.data.forEach { (data) in
+            let mantra = Mantra(context: context)
+            mantra.uuid = UUID()
+            data.forEach { (key, value) in
+                switch key {
+                case .title:
+                    mantra.title = value
+                case .text:
+                    mantra.text = value
+                case .details:
+                    mantra.details = value
+                case .image:
+                    if let image = UIImage(named: value) {
+                        mantra.image = image.pngData()
+                        mantra.imageForTableView = image.resize(to: CGSize(width: Constants.rowHeight, height: Constants.rowHeight)).pngData()
+                    }
+                }
+            }
+        }
+        coreDataManager.saveContext()
+    }
 }
 
 extension MantraDataManager: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        delegate?.mantraManagerDidUpdateContent()
+        delegate?.mantraDataManagerDidUpdateContent()
         afterDelay(0.1) {
             self.saveMantras()
         }

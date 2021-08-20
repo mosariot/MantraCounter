@@ -10,7 +10,7 @@ import UIKit
 
 final class BlurEffectView: UIVisualEffectView {
     
-    //MARK: - Convinient initializer
+    //MARK: - Convenient initializer
     
     static func makeView(inView view: UIView) -> BlurEffectView {
         let blurView = BlurEffectView(frame: view.bounds)

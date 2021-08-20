@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewDetailsState: DetailsViewControllerState {
+final class ViewDetailsState: DetailsViewControllerState {
     
     override func apply(to context: DetailsStateContext) {
         context.navigationItem.title = NSLocalizedString("Information", comment: "Information bar title")

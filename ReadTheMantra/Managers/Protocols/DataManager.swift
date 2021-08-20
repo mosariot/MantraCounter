@@ -18,4 +18,5 @@ protocol DataManager {
     func buildOrUpdateMantra(_ mantra: Mantra, title: String, text: String, details: String, imageData: Data?, imageForTableViewData: Data?)
     func makeNewMantra() -> Mantra
     func deleteMantra(_ mantra: Mantra)
+    func preloadData()
 }

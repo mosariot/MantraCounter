@@ -12,7 +12,7 @@ final class HudView: UIView {
     
     var text = ""
     
-    //MARK: - Convinient initializer
+    //MARK: - Convenient initializer
     
     static func makeView(inView view: UIView, animated: Bool) -> HudView {
         let hudView = HudView(frame: view.bounds)

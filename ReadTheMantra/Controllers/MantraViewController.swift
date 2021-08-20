@@ -514,9 +514,9 @@ extension MantraViewController: MantraCellDelegate {
 
 // MARK: - MantraManagerDelegate
 
-extension MantraViewController: MantraManagerDelegate {
+extension MantraViewController: MantraDataManagerDelegate {
     
-    func mantraManagerDidUpdateContent() {
+    func mantraDataManagerDidUpdateContent() {
         handleSearchControllerResultsIfNeeded()
         applySnapshot()
         reselectSelectedMantraIfNeeded()

@@ -11,7 +11,11 @@ import CloudKit
 
 final class MantraLaunchPreparer: LaunchPreparer {
     
-    private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
+    private let mantraDataManager: DataManager
+    
+    init(with mantraDataManager: DataManager) {
+        self.mantraDataManager = mantraDataManager
+    }
     
     //MARK: - Register Defaults
     
@@ -76,6 +80,6 @@ final class MantraLaunchPreparer: LaunchPreparer {
     }
     
     private func preloadData() {
-        coreDataManager.preloadData()
+        mantraDataManager.preloadData()
     }
 }

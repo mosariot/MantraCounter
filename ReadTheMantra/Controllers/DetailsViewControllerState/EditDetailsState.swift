@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditDetailsState: DetailsViewControllerState {
+final class EditDetailsState: DetailsViewControllerState {
     
     override func apply(to context: DetailsStateContext) {
         context.title = NSLocalizedString("Information", comment: "Information bar title")
