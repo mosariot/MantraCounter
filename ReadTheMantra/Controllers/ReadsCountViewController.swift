@@ -12,13 +12,15 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
         
     //MARK: - Properties
     
+    var mantraDataManager: DataManager?
+    
     private let defaults = UserDefaults.standard
     private let mediumHapticGenerator = UIImpactFeedbackGenerator(style: .medium)
     
     private lazy var states: (alwaysOnDisplay: ReadsCountViewControllerState,
                               displaySystemBehavior: ReadsCountViewControllerState) =
-        (alwaysOnDisplay: AlwaysOnDisplayState(context: self),
-         displaySystemBehavior: DisplaySystemBehaviorState(context: self))
+        (alwaysOnDisplay: AlwaysOnDisplayState(context: self, mantraDataManager: mantraDataManager!),
+         displaySystemBehavior: DisplaySystemBehaviorState(context: self, mantraDataManager: mantraDataManager!))
     private lazy var currentState: ReadsCountViewControllerState = states.displaySystemBehavior {
         didSet { currentState.apply() }
     }
@@ -162,13 +164,14 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
     }
     
     private func infoButtonPressed() {
-        guard let mantra = mantra else { return }
+        guard let mantra = mantra, let mantraDataManager = mantraDataManager else { return }
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
                 creator: { coder in
                     return DetailsViewController(
                         mantra: mantra,
                         state: .viewDetailsState(),
+                        mantraDataManager: mantraDataManager,
                         coder: coder)
                 }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)

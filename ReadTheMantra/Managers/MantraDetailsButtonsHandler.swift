@@ -19,7 +19,7 @@ protocol DetailsButtonHandlerContext: UIViewController {
     var mantra: Mantra { get }
     var mantraImageData: Data? { get }
     var mantraImageForTableViewData: Data? { get }
-    var mantraTitles: [String]? { get }
+    var mantraTitles: [String] { get }
     var addHapticGenerator: UINotificationFeedbackGenerator { get }
 }
 
@@ -91,9 +91,8 @@ final class MantraDetailsButtonsHandler: DetailsButtonsHandler {
     }
     
     private func isMantraDuplicating(for title: String) -> Bool {
-        guard let context = context,
-              let mantraTitles = context.mantraTitles else { return false }
-        return mantraTitles.contains(where: {$0.caseInsensitiveCompare(title) == .orderedSame})
+        guard let context = context else { return false }
+        return context.mantraTitles.contains(where: {$0.caseInsensitiveCompare(title) == .orderedSame})
     }
     
     private func showDuplicatingAlert(for title: String) {

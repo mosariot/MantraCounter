@@ -14,7 +14,7 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
     
     //MARK: - Properties
     
-    private(set) var mantraDataManager: DataManager = MantraDataManager()
+    let mantraDataManager: DataManager
     private(set) lazy var buttonsHandler: DetailsButtonsHandler = MantraDetailsButtonsHandler(context: self)
     
     var detailsView: DetailsView! {
@@ -40,7 +40,7 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
     private(set) var mantraImageForTableViewData: Data?
     
     private(set) var mantra: Mantra
-    private(set) var mantraTitles: [String]?
+    private(set) var mantraTitles: [String]
     private weak var callerController: UIViewController?
     
     required init?(coder: NSCoder) {
@@ -51,12 +51,13 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
     
     init?(mantra: Mantra,
           state: DetailsViewControllerState,
-          mantraTitles: [String]? = nil,
+          mantraDataManager: DataManager,
           callerController: UIViewController? = nil,
           coder: NSCoder) {
         self.mantra = mantra
         self.initialState = state
-        self.mantraTitles = mantraTitles
+        self.mantraDataManager = mantraDataManager
+        self.mantraTitles = mantraDataManager.fetchedMantras.compactMap{ $0.title }
         self.callerController = callerController
         
         super.init(coder: coder)

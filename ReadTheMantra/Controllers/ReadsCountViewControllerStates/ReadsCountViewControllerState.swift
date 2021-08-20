@@ -18,12 +18,13 @@ protocol ReadsCountStateContext: UIViewController, UITextFieldDelegate {
 
 class ReadsCountViewControllerState {
     
-    private var mantraDataManager: DataManager = MantraDataManager()
+    private var mantraDataManager: DataManager
     private let congratulationsGenerator = UINotificationFeedbackGenerator()
     weak var context: ReadsCountStateContext?
     
-    init(context: ReadsCountStateContext) {
+    init(context: ReadsCountStateContext, mantraDataManager: DataManager) {
         self.context = context
+        self.mantraDataManager = mantraDataManager
         congratulationsGenerator.prepare()
     }
     

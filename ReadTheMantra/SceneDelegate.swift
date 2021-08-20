@@ -28,6 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         splitViewController.preferredPrimaryColumnWidthFraction = 0.5
         splitViewController.maximumPrimaryColumnWidth = 400
         primaryViewController.delegate = secondaryViewController
+        secondaryViewController.mantraDataManager = primaryViewController.mantraDataManager
         
         if let url = connectionOptions.urlContexts.first?.url {
             let uuid = UUID(uuidString: "\(url)")

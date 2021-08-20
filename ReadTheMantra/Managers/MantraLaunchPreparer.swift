@@ -11,11 +11,7 @@ import CloudKit
 
 final class MantraLaunchPreparer: LaunchPreparer {
     
-    private let mantraDataManager: DataManager
-    
-    init(with mantraDataManager: DataManager) {
-        self.mantraDataManager = mantraDataManager
-    }
+    private let coreDataManager = CoreDataManager.shared
     
     //MARK: - Register Defaults
     
@@ -80,6 +76,26 @@ final class MantraLaunchPreparer: LaunchPreparer {
     }
     
     private func preloadData() {
-        mantraDataManager.preloadData()
+        let context = coreDataManager.persistentContainer.viewContext
+        PreloadedMantras.data.forEach { (data) in
+            let mantra = Mantra(context: context)
+            mantra.uuid = UUID()
+            data.forEach { (key, value) in
+                switch key {
+                case .title:
+                    mantra.title = value
+                case .text:
+                    mantra.text = value
+                case .details:
+                    mantra.details = value
+                case .image:
+                    if let image = UIImage(named: value) {
+                        mantra.image = image.pngData()
+                        mantra.imageForTableView = image.resize(to: CGSize(width: Constants.rowHeight, height: Constants.rowHeight)).pngData()
+                    }
+                }
+            }
+        }
+        coreDataManager.saveContext()
     }
 }

@@ -31,9 +31,9 @@ final class PreloadedMantraController: UIViewController {
         }
     }
     
-    private let mantraDataManager: DataManager = MantraDataManager()
+    private let mantraDataManager: DataManager
+    private var mantraTitles: [String]
     
-    private var mantraTitles: [String] = []
     private var preloadedMantras: [PreloadedMantra] = []
     
     private var selectedMantrasTitles: [String] {
@@ -42,8 +42,9 @@ final class PreloadedMantraController: UIViewController {
     
     private let addHapticGenerator = UINotificationFeedbackGenerator()
     
-    init(mantraTitles: [String]) {
-        self.mantraTitles = mantraTitles
+    init(mantraDataManager: DataManager) {
+        self.mantraDataManager = mantraDataManager
+        self.mantraTitles = mantraDataManager.fetchedMantras.compactMap{ $0.title }
         super.init(nibName: nil, bundle: nil)
     }
     

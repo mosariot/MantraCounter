@@ -13,7 +13,7 @@ final class CoreDataManager {
     
     static let shared = CoreDataManager()
     
-    private init() {}
+    private init() { print("core data init")}
     
     private(set) lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentCloudKitContainer(name: "ReadTheMantra")

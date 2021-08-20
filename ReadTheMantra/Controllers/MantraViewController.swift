@@ -29,9 +29,7 @@ final class MantraViewController: UICollectionViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Mantra>
     private lazy var dataSource = makeDataSource()
     
-    private lazy var mantraDataManager: DataManager = {
-        MantraDataManager(delegate: self)
-    }()
+    private(set) lazy var mantraDataManager: DataManager = MantraDataManager(delegate: self)
     
     private let mantraWidgetManager: WidgetManager = MantraWidgetManager()
     
@@ -447,6 +445,7 @@ extension MantraViewController {
         let image = mantra.isFavorite ? UIImage(systemName: "star.slash") : UIImage(systemName: "star")
         
         let favorite = UIAction(title: title, image: image) { _ in
+            // wait for animation completes
             afterDelay(0.7) {
                 mantra.isFavorite.toggle()
             }
@@ -470,7 +469,7 @@ extension MantraViewController {
 extension MantraViewController {
     
     private func showPreloadedMantraVC() {
-        let preloadedMantraController = PreloadedMantraController(mantraTitles: overallMantras.compactMap({ $0.title }))
+        let preloadedMantraController = PreloadedMantraController(mantraDataManager: mantraDataManager)
         let navigationController = UINavigationController(rootViewController: preloadedMantraController)
         navigationController.modalPresentationStyle = .formSheet
         present(navigationController, animated: true)
@@ -486,7 +485,7 @@ extension MantraViewController {
                     return DetailsViewController(
                         mantra: mantra,
                         state: .addDetailsState(),
-                        mantraTitles: self.overallMantras.compactMap({ $0.title }),
+                        mantraDataManager: self.mantraDataManager,
                         callerController: self,
                         coder: coder)
                 }) else { return }
