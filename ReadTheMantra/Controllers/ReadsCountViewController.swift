@@ -12,7 +12,6 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
         
     //MARK: - Properties
     
-    private(set) var mantraManager: DataManager = MantraManager()
     private let defaults = UserDefaults.standard
     private let mediumHapticGenerator = UIImpactFeedbackGenerator(style: .medium)
     

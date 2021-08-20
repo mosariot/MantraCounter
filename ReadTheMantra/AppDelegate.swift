@@ -14,12 +14,12 @@ import IQKeyboardManagerSwift
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     lazy var coreDataManager = CoreDataManager.shared
-    lazy var launchPreparer = LaunchPreparer()
+    lazy var mantraLaunchPreparer: LaunchPreparer = MantraLaunchPreparer()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
-        launchPreparer.registerDefaults()
-        launchPreparer.checkForFirstLaunch()
+        mantraLaunchPreparer.registerDefaults()
+        mantraLaunchPreparer.checkForFirstLaunch()
         return true
     }
     

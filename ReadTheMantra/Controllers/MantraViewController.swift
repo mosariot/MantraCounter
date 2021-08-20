@@ -29,18 +29,18 @@ final class MantraViewController: UICollectionViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Mantra>
     private lazy var dataSource = makeDataSource()
     
-    private lazy var mantraManager: MantraManager = {
-        MantraManager(fetchedResultsControllerDelegate: self)
+    private lazy var mantraDataManager: DataManager = {
+        MantraDataManager(delegate: self)
     }()
     
-    private let widgetManager = WidgetManager()
+    private let mantraWidgetManager: WidgetManager = MantraWidgetManager()
     
     private var overallMantras: [Mantra] {
         isAlphabeticalSorting ?
-            mantraManager.fetchedMantras.sorted {
+            mantraDataManager.fetchedMantras.sorted {
                 guard let title1 = $0.title, let title2 = $1.title else { return false }
                 return title1.localizedStandardCompare(title2) == .orderedAscending } :
-            mantraManager.fetchedMantras.sorted {
+            mantraDataManager.fetchedMantras.sorted {
                 $0.reads > $1.reads }
     }
     private lazy var displayedMantras = overallMantras
@@ -79,7 +79,7 @@ final class MantraViewController: UICollectionViewController {
             defaults.set(newValue, forKey: "isAlphabeticalSorting")
             displayedMantras = overallMantras
             applySnapshot()
-            widgetManager.updateWidgetData(for: overallMantras)
+            mantraWidgetManager.updateWidgetData(for: overallMantras)
         }
     }
     private var isPreloadedMantrasDueToNoInternetConnection: Bool {
@@ -126,10 +126,10 @@ final class MantraViewController: UICollectionViewController {
         super.viewDidAppear(animated)
         if isColdStart {
             checkForOnboardingAlert()
-            mantraManager.loadMantras()
+            mantraDataManager.loadMantras()
             loadFirstMantraForSecondaryView()
             applySnapshot()
-            widgetManager.updateWidgetData(for: overallMantras)
+            mantraWidgetManager.updateWidgetData(for: overallMantras)
             checkForInitialDataLoading()
             reselectSelectedMantraIfNeeded()
             isAppReadyForDeeplinkOrShortcut = true
@@ -477,7 +477,7 @@ extension MantraViewController {
     }
     
     private func showNewMantraVC() {
-        let mantra = mantraManager.makeNewMantra()
+        let mantra = mantraDataManager.makeNewMantra()
         mantra.uuid = UUID()
         guard let detailsViewController = storyboard?.instantiateViewController(
                 identifier: Constants.detailsViewControllerID,
@@ -506,26 +506,23 @@ extension MantraViewController: MantraCellDelegate {
             if self.selectedMantra == mantra {
                 self.selectedMantra = nil
             }
-            self.mantraManager.deleteMantra(mantra)
+            self.mantraDataManager.deleteMantra(mantra)
         }
         present(alert, animated: true, completion: nil)
     }
 }
 
-// MARK: - NSFetchedResultsControllerDelegate
+// MARK: - MantraManagerDelegate
 
-extension MantraViewController: NSFetchedResultsControllerDelegate {
+extension MantraViewController: MantraManagerDelegate {
     
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    func mantraManagerDidUpdateContent() {
         handleSearchControllerResultsIfNeeded()
         applySnapshot()
         reselectSelectedMantraIfNeeded()
         updateSecondaryView()
         stopActivityIndicatorForInitialDataLoadingIfNeeded()
-        widgetManager.updateWidgetData(for: overallMantras)
-        afterDelay(0.1) {
-            self.mantraManager.saveMantras()
-        }
+        mantraWidgetManager.updateWidgetData(for: overallMantras)
     }
     
     private func handleSearchControllerResultsIfNeeded() {
@@ -543,7 +540,7 @@ extension MantraViewController: NSFetchedResultsControllerDelegate {
                 activityIndicator.removeFromSuperview()
                 loadFirstMantraForSecondaryView()
                 reselectSelectedMantraIfNeeded()
-                widgetManager.updateWidgetData(for: overallMantras)
+                mantraWidgetManager.updateWidgetData(for: overallMantras)
                 isInitalDataLoading = false
             }
         }
@@ -607,7 +604,7 @@ extension MantraViewController: OnboardingViewControllerDelegate {
         isOnboarding = false
         if isPreloadedMantrasDueToNoInternetConnection {
             let alert = UIAlertController.preloadedMantrasDueToNoInternetConnection()
-            widgetManager.updateWidgetData(for: overallMantras)
+            mantraWidgetManager.updateWidgetData(for: overallMantras)
             isPreloadedMantrasDueToNoInternetConnection = false
             present(alert, animated: true, completion: nil)
         }

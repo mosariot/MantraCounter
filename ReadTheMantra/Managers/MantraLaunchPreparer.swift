@@ -9,7 +9,7 @@
 import UIKit
 import CloudKit
 
-class LaunchPreparer {
+final class MantraLaunchPreparer: LaunchPreparer {
     
     private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     
@@ -76,26 +76,6 @@ class LaunchPreparer {
     }
     
     private func preloadData() {
-        let context = coreDataManager.persistentContainer.viewContext
-        PreloadedMantras.data.forEach { (data) in
-            let mantra = Mantra(context: context)
-            mantra.uuid = UUID()
-            data.forEach { (key, value) in
-                switch key {
-                case .title:
-                    mantra.title = value
-                case .text:
-                    mantra.text = value
-                case .details:
-                    mantra.details = value
-                case .image:
-                    if let image = UIImage(named: value) {
-                        mantra.image = image.pngData()
-                        mantra.imageForTableView = image.resize(to: CGSize(width: Constants.rowHeight, height: Constants.rowHeight)).pngData()
-                    }
-                }
-            }
-        }
-        coreDataManager.saveContext()
+        coreDataManager.preloadData()
     }
 }

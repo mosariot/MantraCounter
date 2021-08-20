@@ -44,6 +44,9 @@
 		9F5FE6BB24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift */; };
 		9F6503D8256651680055ED8F /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6503D7256651670055ED8F /* ConfettiView.swift */; };
 		9F65C46025AB5BBE0037A8F7 /* FixInputAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F65C45F25AB5BBE0037A8F7 /* FixInputAssistant.swift */; };
+		9F72DC2326CFC43200D96038 /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F72DC2226CFC43200D96038 /* WidgetManager.swift */; };
+		9F72DC2626CFC6F500D96038 /* LaunchPreparer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F72DC2526CFC6F500D96038 /* LaunchPreparer.swift */; };
+		9F72DC2826CFC7C600D96038 /* DetailsButtonsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F72DC2726CFC7C600D96038 /* DetailsButtonsHandler.swift */; };
 		9F75828525821EED00695ED7 /* RoundedStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F75828125821EC600695ED7 /* RoundedStackView.swift */; };
 		9F7A5091253CB924008BFD6F /* CustomDynamicFontWeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */; };
 		9F7A5096253DD439008BFD6F /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A5095253DD438008BFD6F /* CopyableLabel.swift */; };
@@ -56,7 +59,7 @@
 		9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */; };
 		9FC0B81525D9828100EDA40E /* BlurEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC0B81425D9828100EDA40E /* BlurEffectView.swift */; };
 		9FC3971925B14611002B1EE0 /* FirstSearchOnTheInternetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3971325B143C8002B1EE0 /* FirstSearchOnTheInternetAlert.swift */; };
-		9FC558B025D158D30015C3C4 /* MantraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC558AF25D158D20015C3C4 /* MantraManager.swift */; };
+		9FC558B025D158D30015C3C4 /* MantraDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC558AF25D158D20015C3C4 /* MantraDataManager.swift */; };
 		9FC9F49425CD1FF400B4D2B5 /* HeaderSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC9F49325CD1FF400B4D2B5 /* HeaderSupplementaryView.swift */; };
 		9FCA5C52258E52D4002E1D25 /* WidgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855A4258E2B8000771BA1 /* WidgetModel.swift */; };
 		9FCA5C6625907124002E1D25 /* CustomDynamicFontWeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */; };
@@ -77,14 +80,14 @@
 		9FE827FD261F960100CBDFF2 /* DuplicatingAlertForPreloadedMantras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE827F7261F953900CBDFF2 /* DuplicatingAlertForPreloadedMantras.swift */; };
 		9FE828092626227B00CBDFF2 /* MantraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F12CD18258112EE0089AFD8 /* MantraViewController.swift */; };
 		9FE855A5258E2B8000771BA1 /* WidgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855A4258E2B8000771BA1 /* WidgetModel.swift */; };
-		9FE855B2258E4F9A00771BA1 /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */; };
+		9FE855B2258E4F9A00771BA1 /* MantraWidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855AA258E4F1A00771BA1 /* MantraWidgetManager.swift */; };
 		9FE855BB258E51BF00771BA1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE855BA258E51BF00771BA1 /* WidgetKit.framework */; };
 		9FE855BD258E51BF00771BA1 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE855BC258E51BF00771BA1 /* SwiftUI.framework */; };
 		9FE855C0258E51BF00771BA1 /* MantraWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855BF258E51BF00771BA1 /* MantraWidget.swift */; };
 		9FE855C2258E51C300771BA1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FE855C1258E51C300771BA1 /* Assets.xcassets */; };
 		9FE855C6258E51C300771BA1 /* FavoritesWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9FE855B8258E51BF00771BA1 /* FavoritesWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		9FEB07F026CA5D3A005AD2E3 /* DetailsButtonsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB07EF26CA5D3A005AD2E3 /* DetailsButtonsHandler.swift */; };
-		9FEB07F326CBA183005AD2E3 /* LaunchPreparer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB07F226CBA183005AD2E3 /* LaunchPreparer.swift */; };
+		9FEB07F026CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB07EF26CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift */; };
+		9FEB07F326CBA183005AD2E3 /* MantraLaunchPreparer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB07F226CBA183005AD2E3 /* MantraLaunchPreparer.swift */; };
 		9FEB07F526CBA8A7005AD2E3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB07F426CBA8A7005AD2E3 /* DataManager.swift */; };
 		9FFCF08826C1C1E000984666 /* DetailsViewControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCF08726C1C1DF00984666 /* DetailsViewControllerState.swift */; };
 		9FFCF08A26C1C26700984666 /* AddDetailsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCF08926C1C26700984666 /* AddDetailsState.swift */; };
@@ -160,6 +163,9 @@
 		9F6503D7256651670055ED8F /* ConfettiView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 		9F65C45625AA20A00037A8F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9F65C45F25AB5BBE0037A8F7 /* FixInputAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixInputAssistant.swift; sourceTree = "<group>"; };
+		9F72DC2226CFC43200D96038 /* WidgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetManager.swift; sourceTree = "<group>"; };
+		9F72DC2526CFC6F500D96038 /* LaunchPreparer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchPreparer.swift; sourceTree = "<group>"; };
+		9F72DC2726CFC7C600D96038 /* DetailsButtonsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsButtonsHandler.swift; sourceTree = "<group>"; };
 		9F75828125821EC600695ED7 /* RoundedStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedStackView.swift; sourceTree = "<group>"; };
 		9F7A5090253CB924008BFD6F /* CustomDynamicFontWeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDynamicFontWeight.swift; sourceTree = "<group>"; };
 		9F7A5095253DD438008BFD6F /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
@@ -172,7 +178,7 @@
 		9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		9FC0B81425D9828100EDA40E /* BlurEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurEffectView.swift; sourceTree = "<group>"; };
 		9FC3971325B143C8002B1EE0 /* FirstSearchOnTheInternetAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstSearchOnTheInternetAlert.swift; sourceTree = "<group>"; };
-		9FC558AF25D158D20015C3C4 /* MantraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraManager.swift; sourceTree = "<group>"; };
+		9FC558AF25D158D20015C3C4 /* MantraDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraDataManager.swift; sourceTree = "<group>"; };
 		9FC9F49325CD1FF400B4D2B5 /* HeaderSupplementaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderSupplementaryView.swift; sourceTree = "<group>"; };
 		9FCA5C8B259347A5002E1D25 /* DeleteConfirmationAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteConfirmationAlert.swift; sourceTree = "<group>"; };
 		9FCA5C92259349EC002E1D25 /* DuplicatingAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicatingAlert.swift; sourceTree = "<group>"; };
@@ -188,7 +194,7 @@
 		9FE827F7261F953900CBDFF2 /* DuplicatingAlertForPreloadedMantras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicatingAlertForPreloadedMantras.swift; sourceTree = "<group>"; };
 		9FE855A4258E2B8000771BA1 /* WidgetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetModel.swift; sourceTree = "<group>"; };
 		9FE855A7258E2CED00771BA1 /* MantraCounter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MantraCounter.entitlements; sourceTree = "<group>"; };
-		9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetManager.swift; sourceTree = "<group>"; };
+		9FE855AA258E4F1A00771BA1 /* MantraWidgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraWidgetManager.swift; sourceTree = "<group>"; };
 		9FE855B8258E51BF00771BA1 /* FavoritesWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FavoritesWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FE855BA258E51BF00771BA1 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		9FE855BC258E51BF00771BA1 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -196,8 +202,8 @@
 		9FE855C1258E51C300771BA1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9FE855C3258E51C300771BA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9FE855D0258E521D00771BA1 /* FavoritesWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FavoritesWidgetExtension.entitlements; sourceTree = "<group>"; };
-		9FEB07EF26CA5D3A005AD2E3 /* DetailsButtonsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsButtonsHandler.swift; sourceTree = "<group>"; };
-		9FEB07F226CBA183005AD2E3 /* LaunchPreparer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchPreparer.swift; sourceTree = "<group>"; };
+		9FEB07EF26CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraDetailsButtonsHandler.swift; sourceTree = "<group>"; };
+		9FEB07F226CBA183005AD2E3 /* MantraLaunchPreparer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraLaunchPreparer.swift; sourceTree = "<group>"; };
 		9FEB07F426CBA8A7005AD2E3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		9FFCF08726C1C1DF00984666 /* DetailsViewControllerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewControllerState.swift; sourceTree = "<group>"; };
 		9FFCF08926C1C26700984666 /* AddDetailsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDetailsState.swift; sourceTree = "<group>"; };
@@ -354,6 +360,17 @@
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
+		9F72DC2426CFC4DD00D96038 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				9FEB07F426CBA8A7005AD2E3 /* DataManager.swift */,
+				9F72DC2726CFC7C600D96038 /* DetailsButtonsHandler.swift */,
+				9F72DC2526CFC6F500D96038 /* LaunchPreparer.swift */,
+				9F72DC2226CFC43200D96038 /* WidgetManager.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		9FCA5C8F2593496B002E1D25 /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
@@ -400,13 +417,13 @@
 		9FEB07F126CBA138005AD2E3 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				9F72DC2426CFC4DD00D96038 /* Protocols */,
 				9FCA5CD4259F6936002E1D25 /* CoreDataManager.swift */,
-				9FEB07F426CBA8A7005AD2E3 /* DataManager.swift */,
-				9FEB07EF26CA5D3A005AD2E3 /* DetailsButtonsHandler.swift */,
-				9FEB07F226CBA183005AD2E3 /* LaunchPreparer.swift */,
-				9FC558AF25D158D20015C3C4 /* MantraManager.swift */,
+				9FC558AF25D158D20015C3C4 /* MantraDataManager.swift */,
+				9FEB07EF26CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift */,
+				9FEB07F226CBA183005AD2E3 /* MantraLaunchPreparer.swift */,
+				9FE855AA258E4F1A00771BA1 /* MantraWidgetManager.swift */,
 				9F7EAC1B25B9360400AEC901 /* NetworkMonitor.swift */,
-				9FE855AA258E4F1A00771BA1 /* WidgetManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -535,17 +552,19 @@
 			files = (
 				9F7A5091253CB924008BFD6F /* CustomDynamicFontWeight.swift in Sources */,
 				9F3B62D2257CFFF800B4F5E4 /* OnboardingViewController.swift in Sources */,
+				9F72DC2326CFC43200D96038 /* WidgetManager.swift in Sources */,
 				9FCA5CBF25936F16002E1D25 /* CongratulationsAlert.swift in Sources */,
-				9FE855B2258E4F9A00771BA1 /* WidgetManager.swift in Sources */,
+				9FE855B2258E4F9A00771BA1 /* MantraWidgetManager.swift in Sources */,
 				9F293E3B2575503000B7B1C7 /* SetPhotoButton.swift in Sources */,
 				9FE827FD261F960100CBDFF2 /* DuplicatingAlertForPreloadedMantras.swift in Sources */,
 				9FCA5C8C259347A5002E1D25 /* DeleteConfirmationAlert.swift in Sources */,
 				9F5FE6A524E7183E00D0475E /* PreloadedMantras.swift in Sources */,
 				9FC9F49425CD1FF400B4D2B5 /* HeaderSupplementaryView.swift in Sources */,
 				9FCA5CB125936668002E1D25 /* AdjustingType.swift in Sources */,
+				9F72DC2626CFC6F500D96038 /* LaunchPreparer.swift in Sources */,
 				9F5FE6BB24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift in Sources */,
 				9FEB07F526CBA8A7005AD2E3 /* DataManager.swift in Sources */,
-				9FEB07F326CBA183005AD2E3 /* LaunchPreparer.swift in Sources */,
+				9FEB07F326CBA183005AD2E3 /* MantraLaunchPreparer.swift in Sources */,
 				9F5FE68424E7141400D0475E /* AppDelegate.swift in Sources */,
 				9FA9E0F1262A2A2B000A408A /* Functions.swift in Sources */,
 				9F5FE68E24E7141400D0475E /* ReadTheMantra.xcdatamodeld in Sources */,
@@ -579,12 +598,12 @@
 				9FCA5C93259349EC002E1D25 /* DuplicatingAlert.swift in Sources */,
 				9F5FE69D24E717A200D0475E /* DetailsViewController.swift in Sources */,
 				9FFCF08C26C1C27700984666 /* EditDetailsState.swift in Sources */,
-				9FEB07F026CA5D3A005AD2E3 /* DetailsButtonsHandler.swift in Sources */,
+				9FEB07F026CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift in Sources */,
 				9F22713A26348AA2001F92BD /* ResizeUIImage.swift in Sources */,
 				9F08B662268B4C75008F20B1 /* ReadsCountView.swift in Sources */,
 				9F08B65E268B4A1E008F20B1 /* OnboardingView.swift in Sources */,
 				9FFCF08E26C1C28800984666 /* ViewDetailsState.swift in Sources */,
-				9FC558B025D158D30015C3C4 /* MantraManager.swift in Sources */,
+				9FC558B025D158D30015C3C4 /* MantraDataManager.swift in Sources */,
 				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,
 				9F22713F26348E4A001F92BD /* CropToCircleUIImage.swift in Sources */,
 				9F6503D8256651680055ED8F /* ConfettiView.swift in Sources */,
@@ -596,6 +615,7 @@
 				9F3B1C032538F50200BEE838 /* RoundedSystemFont.swift in Sources */,
 				9FE827D72613C0AC00CBDFF2 /* CancelOrCloseMantraAlert.swift in Sources */,
 				9FD06450262E13A500F0054F /* ActivityIndicatorViewWithText.swift in Sources */,
+				9F72DC2826CFC7C600D96038 /* DetailsButtonsHandler.swift in Sources */,
 				9F7EAC1C25B9360400AEC901 /* NetworkMonitor.swift in Sources */,
 				9F91804725BB48F20016FEB6 /* ModelDetection.swift in Sources */,
 			);

@@ -9,7 +9,6 @@
 import UIKit
 
 protocol ReadsCountStateContext: UIViewController, UITextFieldDelegate {
-    var mantraManager: DataManager { get }
     var mantra: Mantra? { get }
     var readsCountView: ReadsCountView! { get }
     var confettiView: ConfettiView { get set }
@@ -19,8 +18,9 @@ protocol ReadsCountStateContext: UIViewController, UITextFieldDelegate {
 
 class ReadsCountViewControllerState {
     
-    weak var context: ReadsCountStateContext?
+    private var mantraDataManager: DataManager = MantraDataManager()
     private let congratulationsGenerator = UINotificationFeedbackGenerator()
+    weak var context: ReadsCountStateContext?
     
     init(context: ReadsCountStateContext) {
         self.context = context
@@ -28,7 +28,6 @@ class ReadsCountViewControllerState {
     }
     
     func handleAdjustMantraCount(adjustingType: AdjustingType) { }
-    
     func apply() { }
 }
 
@@ -39,7 +38,7 @@ extension ReadsCountViewControllerState {
     func adjustMantra(with value: Int32, adjustingType: AdjustingType, animated: Bool = true) {
         guard let mantra = context?.mantra else { return }
         let oldReads = mantra.reads
-        context?.mantraManager.updateMantraValues(mantra, with: value, and: adjustingType)
+        mantraDataManager.updateMantraValues(mantra, with: value, and: adjustingType)
         updateProrgessView(for: adjustingType, animated: animated)
         context?.readsCountView.readsGoalButton.setTitle(NSLocalizedString("Goal: ",
                                                    comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),

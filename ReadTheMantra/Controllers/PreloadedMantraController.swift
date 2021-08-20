@@ -31,7 +31,7 @@ final class PreloadedMantraController: UIViewController {
         }
     }
     
-    private let mantraManager: DataManager = MantraManager()
+    private let mantraDataManager: DataManager = MantraDataManager()
     
     private var mantraTitles: [String] = []
     private var preloadedMantras: [PreloadedMantra] = []
@@ -186,7 +186,7 @@ extension PreloadedMantraController {
     }
     
     private func handleAddPreloadedMantra() {
-        mantraManager.addPreloadedMantras(with: selectedMantrasTitles)
+        mantraDataManager.addPreloadedMantras(with: selectedMantrasTitles)
         
         addHapticGenerator.notificationOccurred(.success)
         

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DetailsButtonHandlerContext: UIViewController {
-    var mantraManager: DataManager { get }
+    var mantraDataManager: DataManager { get }
     var detailsView: DetailsView! { get }
     var currentState: DetailsViewControllerState { get set }
     var states: (addState: DetailsViewControllerState,
@@ -22,7 +22,7 @@ protocol DetailsButtonHandlerContext: UIViewController {
     var addHapticGenerator: UINotificationFeedbackGenerator { get }
 }
 
-final class DetailsButtonsHandler {
+final class MantraDetailsButtonsHandler: DetailsButtonsHandler {
     
     private weak var context: DetailsButtonHandlerContext?
     
@@ -46,13 +46,13 @@ final class DetailsButtonsHandler {
             && context.detailsView.mantraTextTextView.text == ""
             && context.detailsView.detailsTextView.text == ""
             && context.mantraImageData == nil {
-            context.mantraManager.deleteMantra(context.mantra)
+            context.mantraDataManager.deleteMantra(context.mantra)
             context.dismiss(animated: true, completion: nil)
             return
         }
         let alert = UIAlertController.cancelOrCloseMantraAlert(sender) { [weak context] in
                 guard let context = context else { return }
-                context.mantraManager.deleteMantra(context.mantra)
+                context.mantraDataManager.deleteMantra(context.mantra)
                 context.dismiss(animated: true, completion: nil)
             }
         context.present(alert, animated: true, completion: nil)
@@ -125,7 +125,7 @@ final class DetailsButtonsHandler {
     
     private func addNewOrUpdateMantra(with title: String) {
         guard let context = context else { return }
-        context.mantraManager.buildOrUpdateMantra(
+        context.mantraDataManager.buildOrUpdateMantra(
             context.mantra,
             title: title,
             text: context.detailsView.mantraTextTextView.text,

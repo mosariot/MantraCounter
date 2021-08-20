@@ -9,10 +9,14 @@
 import UIKit
 import CoreData
 
-class MantraManager: DataManager {
+protocol MantraManagerDelegate: AnyObject {
+    func mantraManagerDidUpdateContent()
+}
+
+final class MantraDataManager: NSObject, DataManager {
     
     private lazy var coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
-    private weak var fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate?
+    private weak var delegate: MantraManagerDelegate?
     private(set) var fetchedResultsController: NSFetchedResultsController<Mantra>?
     private lazy var sortedInitialMantraData = PreloadedMantras.sortedData()
     
@@ -20,8 +24,8 @@ class MantraManager: DataManager {
         fetchedResultsController?.fetchedObjects?.filter{ $0.title != "" } ?? []
     }
     
-    init(fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate? = nil) {
-        self.fetchedResultsControllerDelegate = fetchedResultsControllerDelegate
+    init(delegate: MantraManagerDelegate? = nil) {
+        self.delegate = delegate
     }
     
     func loadMantras() {
@@ -32,7 +36,7 @@ class MantraManager: DataManager {
                                                               managedObjectContext: coreDataManager.persistentContainer.viewContext,
                                                               sectionNameKeyPath: nil,
                                                               cacheName: "Mantras")
-        fetchedResultsController?.delegate = fetchedResultsControllerDelegate
+        fetchedResultsController?.delegate = self
         
         do {
             try fetchedResultsController?.performFetch()
@@ -99,5 +103,15 @@ class MantraManager: DataManager {
             .forEach { (mantra) in
                 coreDataManager.deleteMantra(mantra)
             }
+    }
+}
+
+extension MantraDataManager: NSFetchedResultsControllerDelegate {
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        delegate?.mantraManagerDidUpdateContent()
+        afterDelay(0.1) {
+            self.saveMantras()
+        }
     }
 }
