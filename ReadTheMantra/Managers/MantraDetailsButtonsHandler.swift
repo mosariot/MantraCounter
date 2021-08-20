@@ -23,7 +23,7 @@ protocol DetailsButtonHandlerContext: UIViewController {
     var addHapticGenerator: UINotificationFeedbackGenerator { get }
 }
 
-final class MantraDetailsButtonsHandler: DetailsButtonsHandler {
+struct MantraDetailsButtonsHandler: DetailsButtonsHandler {
     
     private weak var context: DetailsButtonHandlerContext?
     
@@ -97,9 +97,8 @@ final class MantraDetailsButtonsHandler: DetailsButtonsHandler {
     
     private func showDuplicatingAlert(for title: String) {
         guard let context = context else { return }
-        let alert = UIAlertController.duplicatingAlert(context.navigationItem.rightBarButtonItem) { [weak self] in
-            guard let self = self else { return }
-            self.handleAddNewMantra(for: title)
+        let alert = UIAlertController.duplicatingAlert(context.navigationItem.rightBarButtonItem) {
+            handleAddNewMantra(for: title)
         } cancelActionHandler: { return }
         context.present(alert, animated: true, completion: nil)
     }

@@ -11,5 +11,5 @@ import Foundation
 protocol LaunchPreparer {
     
     func registerDefaults()
-    func checkForFirstLaunch()
+    mutating func checkForFirstLaunch()
 }

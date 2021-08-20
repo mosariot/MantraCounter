@@ -9,11 +9,11 @@
 import UIKit
 import CoreData
 
-final class CoreDataManager {
+struct CoreDataManager {
     
     static let shared = CoreDataManager()
     
-    private init() { print("core data init")}
+    private init() { }
     
     private(set) lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentCloudKitContainer(name: "ReadTheMantra")
@@ -44,7 +44,7 @@ final class CoreDataManager {
         return container
     }()
     
-    func saveContext() {
+    mutating func saveContext() {
         let context = persistentContainer.viewContext
         guard context.hasChanges else { return }
         do {
@@ -54,7 +54,7 @@ final class CoreDataManager {
         }
     }
     
-    func deleteMantra(_ mantra: Mantra) {
+    mutating func deleteMantra(_ mantra: Mantra) {
         let context = persistentContainer.viewContext
         context.delete(mantra)
     }

@@ -11,7 +11,7 @@ import CloudKit
 
 final class MantraLaunchPreparer: LaunchPreparer {
     
-    private let coreDataManager = CoreDataManager.shared
+    private var coreDataManager = CoreDataManager.shared
     
     //MARK: - Register Defaults
     

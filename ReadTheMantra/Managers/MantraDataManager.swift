@@ -25,7 +25,6 @@ final class MantraDataManager: NSObject, DataManager {
     }
     
     init(delegate: MantraDataManagerDelegate? = nil) {
-        print("mantra data init")
         self.delegate = delegate
     }
     
