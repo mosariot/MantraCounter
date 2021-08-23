@@ -18,6 +18,7 @@
 		9F1769FA262EECAE00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1769F2262EE13A00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift */; };
 		9F22713A26348AA2001F92BD /* ResizeUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F22713726348A3F001F92BD /* ResizeUIImage.swift */; };
 		9F22713F26348E4A001F92BD /* CropToCircleUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FE6B824E9B6E500D0475E /* CropToCircleUIImage.swift */; };
+		9F2362F626D3C8BA00F11D80 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2362F526D3C8BA00F11D80 /* DataBaseManager.swift */; };
 		9F2715B025B83D92002A98FD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F2715AF25B83D92002A98FD /* CloudKit.framework */; };
 		9F293E3B2575503000B7B1C7 /* SetPhotoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */; };
 		9F2B1EC126077AF200D999CB /* NoImageAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1EC026077AF200D999CB /* NoImageAlert.swift */; };
@@ -132,6 +133,7 @@
 		9F12CD18258112EE0089AFD8 /* MantraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraViewController.swift; sourceTree = "<group>"; };
 		9F1769F2262EE13A00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadedMantrasDueToNoInternetConnection.swift; sourceTree = "<group>"; };
 		9F22713726348A3F001F92BD /* ResizeUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizeUIImage.swift; sourceTree = "<group>"; };
+		9F2362F526D3C8BA00F11D80 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
 		9F2715AF25B83D92002A98FD /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPhotoButton.swift; sourceTree = "<group>"; };
 		9F2B1EBA2607784500D999CB /* CancelOrCloseMantraAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOrCloseMantraAlert.swift; sourceTree = "<group>"; };
@@ -244,6 +246,15 @@
 			path = ReadsCountViewControllerStates;
 			sourceTree = "<group>";
 		};
+		9F2362E726D38A3C00F11D80 /* DetailsButtonHandler */ = {
+			isa = PBXGroup;
+			children = (
+				9F72DC2726CFC7C600D96038 /* DetailsButtonsHandler.swift */,
+				9FEB07EF26CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift */,
+			);
+			path = DetailsButtonHandler;
+			sourceTree = "<group>";
+		};
 		9F4B47F22530C31700E7FF4B /* HelperExtensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,6 +310,7 @@
 		9F5FE6A024E717FE00D0475E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9F2362E726D38A3C00F11D80 /* DetailsButtonHandler */,
 				9FFCF08626C19DC500984666 /* DetailsViewControllerState */,
 				9F0BDAEE26BAC95E0079FE48 /* ReadsCountViewControllerStates */,
 				9F5FE69A24E717A200D0475E /* DetailsViewController.swift */,
@@ -363,8 +375,8 @@
 		9F72DC2426CFC4DD00D96038 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				9F2362F526D3C8BA00F11D80 /* DataBaseManager.swift */,
 				9FEB07F426CBA8A7005AD2E3 /* DataManager.swift */,
-				9F72DC2726CFC7C600D96038 /* DetailsButtonsHandler.swift */,
 				9F72DC2526CFC6F500D96038 /* LaunchPreparer.swift */,
 				9F72DC2226CFC43200D96038 /* WidgetManager.swift */,
 			);
@@ -420,7 +432,6 @@
 				9F72DC2426CFC4DD00D96038 /* Protocols */,
 				9FCA5CD4259F6936002E1D25 /* CoreDataManager.swift */,
 				9FC558AF25D158D20015C3C4 /* MantraDataManager.swift */,
-				9FEB07EF26CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift */,
 				9FEB07F226CBA183005AD2E3 /* MantraLaunchPreparer.swift */,
 				9FE855AA258E4F1A00771BA1 /* MantraWidgetManager.swift */,
 				9F7EAC1B25B9360400AEC901 /* NetworkMonitor.swift */,
@@ -555,6 +566,7 @@
 				9F72DC2326CFC43200D96038 /* WidgetManager.swift in Sources */,
 				9FCA5CBF25936F16002E1D25 /* CongratulationsAlert.swift in Sources */,
 				9FE855B2258E4F9A00771BA1 /* MantraWidgetManager.swift in Sources */,
+				9F2362F626D3C8BA00F11D80 /* DataBaseManager.swift in Sources */,
 				9F293E3B2575503000B7B1C7 /* SetPhotoButton.swift in Sources */,
 				9FE827FD261F960100CBDFF2 /* DuplicatingAlertForPreloadedMantras.swift in Sources */,
 				9FCA5C8C259347A5002E1D25 /* DeleteConfirmationAlert.swift in Sources */,
@@ -810,7 +822,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -833,7 +845,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -855,7 +867,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = MantraWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -880,7 +892,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = MantraWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

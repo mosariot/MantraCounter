@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-struct CoreDataManager {
+class CoreDataManager {
     
     static let shared = CoreDataManager()
     
@@ -44,7 +44,7 @@ struct CoreDataManager {
         return container
     }()
     
-    mutating func saveContext() {
+    func saveContext() {
         let context = persistentContainer.viewContext
         guard context.hasChanges else { return }
         do {
@@ -54,8 +54,35 @@ struct CoreDataManager {
         }
     }
     
-    mutating func deleteMantra(_ mantra: Mantra) {
+    func deleteMantra(_ mantra: Mantra) {
         let context = persistentContainer.viewContext
         context.delete(mantra)
+    }
+}
+
+extension CoreDataManager: DataBaseManager {
+    
+    func preloadData() {
+        let context = persistentContainer.viewContext
+        PreloadedMantras.data.forEach { (data) in
+            let mantra = Mantra(context: context)
+            mantra.uuid = UUID()
+            data.forEach { (key, value) in
+                switch key {
+                case .title:
+                    mantra.title = value
+                case .text:
+                    mantra.text = value
+                case .details:
+                    mantra.details = value
+                case .image:
+                    if let image = UIImage(named: value) {
+                        mantra.image = image.pngData()
+                        mantra.imageForTableView = image.resize(to: CGSize(width: Constants.rowHeight, height: Constants.rowHeight)).pngData()
+                    }
+                }
+            }
+        }
+        saveContext()
     }
 }

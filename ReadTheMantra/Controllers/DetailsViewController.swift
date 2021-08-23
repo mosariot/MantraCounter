@@ -25,9 +25,9 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
     private(set) var states: (addState: DetailsViewControllerState,
                          editState: DetailsViewControllerState,
                          viewState: DetailsViewControllerState) =
-        (addState: AddDetailsState(),
-         editState: EditDetailsState(),
-         viewState: ViewDetailsState())
+        (addState: .addDetailsState(),
+         editState: .editDetailsState(),
+         viewState: .viewDetailsState())
     lazy var currentState: DetailsViewControllerState = states.viewState {
         didSet { currentState.apply(to: self) }
     }

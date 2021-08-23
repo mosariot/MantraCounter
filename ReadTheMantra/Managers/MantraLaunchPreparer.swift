@@ -11,7 +11,11 @@ import CloudKit
 
 final class MantraLaunchPreparer: LaunchPreparer {
     
-    private var coreDataManager = CoreDataManager.shared
+    private var dataBaseManager: DataBaseManager
+    
+    init(dataBaseManager: DataBaseManager) {
+        self.dataBaseManager = dataBaseManager
+    }
     
     //MARK: - Register Defaults
     
@@ -35,7 +39,7 @@ final class MantraLaunchPreparer: LaunchPreparer {
             networkMonitor.startMonitoring()
             DispatchQueue.main.async {
                 if !(networkMonitor.isReachable) {
-                    self.preloadData()
+                    self.dataBaseManager.preloadData()
                     UserDefaults.standard.set(true, forKey: "isPreloadedMantrasDueToNoInternetConnection")
                     UserDefaults.standard.set(false, forKey: "isInitalDataLoading")
                 } else {
@@ -62,40 +66,16 @@ final class MantraLaunchPreparer: LaunchPreparer {
                 if error == nil {
                     if recordsCount == 0 {
                         // no records in iCloud
-                        self.preloadData()
+                        self.dataBaseManager.preloadData()
                     } else {
                         // automatically handle loading records from iCloud
                     }
                 } else {
                     // for example user is not logged-in iCloud
-                    self.preloadData()
+                    self.dataBaseManager.preloadData()
                 }
             }
         }
         CKContainer.default().privateCloudDatabase.add(operation)
-    }
-    
-    private func preloadData() {
-        let context = coreDataManager.persistentContainer.viewContext
-        PreloadedMantras.data.forEach { (data) in
-            let mantra = Mantra(context: context)
-            mantra.uuid = UUID()
-            data.forEach { (key, value) in
-                switch key {
-                case .title:
-                    mantra.title = value
-                case .text:
-                    mantra.text = value
-                case .details:
-                    mantra.details = value
-                case .image:
-                    if let image = UIImage(named: value) {
-                        mantra.image = image.pngData()
-                        mantra.imageForTableView = image.resize(to: CGSize(width: Constants.rowHeight, height: Constants.rowHeight)).pngData()
-                    }
-                }
-            }
-        }
-        coreDataManager.saveContext()
     }
 }
