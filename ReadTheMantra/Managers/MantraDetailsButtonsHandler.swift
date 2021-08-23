@@ -1,5 +1,5 @@
 //
-//  MantraHandler.swift
+//  MantraDetailsButtonsHandler.swift
 //  ReadTheMantra
 //
 //  Created by Alex Vorobiev on 16.08.2021.

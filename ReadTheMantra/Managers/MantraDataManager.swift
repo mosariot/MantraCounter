@@ -1,5 +1,5 @@
 //
-//  MantraProvider.swift
+//  MantraDataManager.swift
 //  ReadTheMantra
 //
 //  Created by Alex Vorobiev on 08.02.2021.
@@ -104,7 +104,6 @@ final class MantraDataManager: NSObject, DataManager {
                 coreDataManager.deleteMantra(mantra)
             }
     }
-
 }
 
 extension MantraDataManager: NSFetchedResultsControllerDelegate {

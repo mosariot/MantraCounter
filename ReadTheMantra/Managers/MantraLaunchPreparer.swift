@@ -1,5 +1,5 @@
 //
-//  LaunchPreparer.swift
+//  MantraLaunchPreparer.swift
 //  ReadTheMantra
 //
 //  Created by Alex Vorobiev on 17.08.2021.
