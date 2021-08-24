@@ -9,6 +9,7 @@
 import Foundation
 
 protocol LaunchPreparer {
+    
     func registerDefaults()
     mutating func checkForFirstLaunch()
 }

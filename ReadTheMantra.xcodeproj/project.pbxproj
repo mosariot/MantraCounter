@@ -90,6 +90,7 @@
 		9FEB07F026CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB07EF26CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift */; };
 		9FEB07F326CBA183005AD2E3 /* MantraLaunchPreparer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB07F226CBA183005AD2E3 /* MantraLaunchPreparer.swift */; };
 		9FEB07F526CBA8A7005AD2E3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB07F426CBA8A7005AD2E3 /* DataManager.swift */; };
+		9FF5568626D3DC2500276383 /* MantraProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF5568526D3DC2500276383 /* MantraProtocol.swift */; };
 		9FFCF08826C1C1E000984666 /* DetailsViewControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCF08726C1C1DF00984666 /* DetailsViewControllerState.swift */; };
 		9FFCF08A26C1C26700984666 /* AddDetailsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCF08926C1C26700984666 /* AddDetailsState.swift */; };
 		9FFCF08C26C1C27700984666 /* EditDetailsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCF08B26C1C27700984666 /* EditDetailsState.swift */; };
@@ -207,6 +208,7 @@
 		9FEB07EF26CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraDetailsButtonsHandler.swift; sourceTree = "<group>"; };
 		9FEB07F226CBA183005AD2E3 /* MantraLaunchPreparer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraLaunchPreparer.swift; sourceTree = "<group>"; };
 		9FEB07F426CBA8A7005AD2E3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		9FF5568526D3DC2500276383 /* MantraProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraProtocol.swift; sourceTree = "<group>"; };
 		9FFCF08726C1C1DF00984666 /* DetailsViewControllerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewControllerState.swift; sourceTree = "<group>"; };
 		9FFCF08926C1C26700984666 /* AddDetailsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDetailsState.swift; sourceTree = "<group>"; };
 		9FFCF08B26C1C27700984666 /* EditDetailsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDetailsState.swift; sourceTree = "<group>"; };
@@ -353,6 +355,7 @@
 				9F9299AE250818B6003D5029 /* Constants.swift */,
 				9F5FE6A424E7183E00D0475E /* DetailsMode.swift */,
 				9FCA5CB425936692002E1D25 /* Level.swift */,
+				9FF5568526D3DC2500276383 /* MantraProtocol.swift */,
 				9F5FE6A324E7183D00D0475E /* PreloadedMantras.swift */,
 				9F5FE68C24E7141400D0475E /* ReadTheMantra.xcdatamodeld */,
 				9FE855A4258E2B8000771BA1 /* WidgetModel.swift */,
@@ -629,6 +632,7 @@
 				9FD06450262E13A500F0054F /* ActivityIndicatorViewWithText.swift in Sources */,
 				9F72DC2826CFC7C600D96038 /* DetailsButtonsHandler.swift in Sources */,
 				9F7EAC1C25B9360400AEC901 /* NetworkMonitor.swift in Sources */,
+				9FF5568626D3DC2500276383 /* MantraProtocol.swift in Sources */,
 				9F91804725BB48F20016FEB6 /* ModelDetection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

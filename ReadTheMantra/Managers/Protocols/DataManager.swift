@@ -9,6 +9,7 @@
 import Foundation
 
 protocol DataManager {
+    
     var fetchedMantras: [Mantra] { get }
     func loadMantras()
     func saveMantras()
