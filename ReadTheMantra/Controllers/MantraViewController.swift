@@ -446,7 +446,7 @@ extension MantraViewController {
         
         let favorite = UIAction(title: title, image: image) { _ in
             // wait for animation completes
-            afterDelay(0.7) {
+            afterDelay(0.5) {
                 mantra.isFavorite.toggle()
             }
         }

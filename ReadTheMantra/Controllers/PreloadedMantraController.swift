@@ -210,7 +210,11 @@ extension PreloadedMantraController: UICollectionViewDelegate {
         navigationItem.rightBarButtonItem?.isEnabled = !preloadedMantras.filter{ $0.isSelected }.isEmpty
         
         var newSnapshot = dataSource.snapshot()
-        newSnapshot.reloadItems([mantra])
+        if #available(iOS 15, *) {
+            newSnapshot.reconfigureItems([mantra])
+        } else {
+            newSnapshot.reloadItems([mantra])
+        }
         dataSource.apply(newSnapshot)
     }
 }

@@ -56,6 +56,8 @@ struct MantraWidgetEntryView: View {
             MediumWidget(widgetModel: entry.widgetModel)
         case .systemLarge:
             LargeWidget(widgetModel: entry.widgetModel)
+        case .systemExtraLarge:
+            fatalError("Extra Large size not implemented")
         @unknown default:
             fatalError("Unknown Widget Size")
         }

@@ -47,10 +47,15 @@ final class CoreDataManager {
     func saveContext() {
         let context = persistentContainer.viewContext
         guard context.hasChanges else { return }
-        do {
-            try context.save()
-        } catch {
-            fatalCoreDataError(error)
+        
+        let savingContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        savingContext.parent = context
+        savingContext.perform {
+            do {
+                try context.save()
+            } catch {
+                fatalCoreDataError(error)
+            }
         }
     }
     
