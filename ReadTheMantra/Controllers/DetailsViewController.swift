@@ -34,6 +34,7 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
     private var initialState: DetailsViewControllerState
     
     let addHapticGenerator = UINotificationFeedbackGenerator()
+    
     private let pasteboard = UIPasteboard.general
     
     private(set) var mantraImageData: Data?
@@ -104,43 +105,19 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
     
     private func setupUI() {
         
-        detailsView.titleStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
-        detailsView.mantraTextStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
-        detailsView.detailsStackView.customize(backgroundColor: .secondarySystemGroupedBackground, radiusSize: 15)
+        detailsView.setup()
         
-        detailsView.titleTextField.autocorrectionType = .no
-        detailsView.mantraTextTextView.autocorrectionType = .no
-        
-        detailsView.titleLabel.text = NSLocalizedString("TITLE", comment: "Mantra title label")
-        detailsView.mantraTextLabel.text = NSLocalizedString("MANTRA TEXT", comment: "Mantra text label")
-        detailsView.detailsTextLabel.text = NSLocalizedString("DESCRIPTION", comment: "Mantra description label")
-        detailsView.titleTextField.placeholder = NSLocalizedString("Enter mantra title", comment: "Mantra title placeholder")
-        detailsView.titleTextField.font = UIFont.preferredFont(for: .title2, weight: .medium)
-        detailsView.titleTextField.adjustsFontForContentSizeCategory = true
-        detailsView.mantraTextTextView.placeHolderText = NSLocalizedString("Enter mantra text", comment: "Mantra text placeholder")
-        detailsView.detailsTextView.placeHolderText = NSLocalizedString("Enter mantra description", comment: "Mantra description placeholder")
-        
-        detailsView.setPhotoButton.showsMenuAsPrimaryAction = true
-        let photoLibraryAction = UIAction(
-            title: NSLocalizedString("Photo Library", comment: "Menu Item on DetailsViewController"),
-            image: UIImage(systemName: "photo.on.rectangle.angled")) { [weak self] _ in
-            guard let self = self else { return }
-            self.showImagePicker()
-        }
-        let standardImageAction = UIAction(
-            title: NSLocalizedString("Standard Image", comment: "Menu Item on DetailsViewController"),
-            image: UIImage(systemName: "photo")) { [weak self] _ in
-            guard let self = self else { return }
-            self.setDefaultImage()
-        }
-        let searchAction = UIAction(
-            title: NSLocalizedString("Search on the Internet", comment: "Menu Item on DetailsViewController"),
-            image: UIImage(systemName: "globe")) { [weak self] _ in
-            guard let self = self else { return }
-            self.searchOnTheInternet()
-        }
-        let photoMenu = UIMenu(children: [photoLibraryAction, standardImageAction, searchAction])
-        detailsView.setPhotoButton.menu = photoMenu
+        detailsView.setPhotoButtonMenu (
+            imagePickerHandler: { [weak self] in
+                guard let self = self else { return }
+                self.showImagePicker()},
+            defaultImageHandler: { [weak self] in
+                guard let self = self else { return }
+                self.setDefaultImage()},
+            searchOnTheInternetHandler: { [weak self] in
+                guard let self = self else { return }
+                self.searchOnTheInternet()
+            })
     }
     
     private func addGesturesRecongizers() {

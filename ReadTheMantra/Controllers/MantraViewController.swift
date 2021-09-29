@@ -49,9 +49,7 @@ final class MantraViewController: UICollectionViewController {
         displayedMantras.filter{ !$0.isFavorite }
     }
     private var selectedMantra: Mantra? {
-        didSet {
-            delegate?.mantraSelected(selectedMantra)
-        }
+        didSet { delegate?.mantraSelected(selectedMantra) }
     }
     
     private lazy var noResultsForSearchLabel = PlaceholderLabelForEmptyView.makeLabel(
@@ -446,7 +444,7 @@ extension MantraViewController {
         
         let favorite = UIAction(title: title, image: image) { _ in
             // wait for animation completes
-            afterDelay(0.5) {
+            afterDelay(0.7) {
                 mantra.isFavorite.toggle()
             }
         }

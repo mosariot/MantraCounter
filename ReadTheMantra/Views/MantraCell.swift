@@ -15,9 +15,7 @@ protocol MantraCellDelegate: AnyObject {
 final class MantraCell: UICollectionViewListCell {
     
     var mantra: Mantra? {
-        didSet {
-            setNeedsUpdateConfiguration()
-        }
+        didSet { setNeedsUpdateConfiguration() }
     }
     
     weak var delegate: MantraCellDelegate?

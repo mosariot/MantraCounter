@@ -54,6 +54,7 @@
 		9F7EAC1C25B9360400AEC901 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7EAC1B25B9360400AEC901 /* NetworkMonitor.swift */; };
 		9F91804725BB48F20016FEB6 /* ModelDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91804625BB48F20016FEB6 /* ModelDetection.swift */; };
 		9F9299AF250818B6003D5029 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* Constants.swift */; };
+		9FA05ED2270489FF00163DA1 /* ButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA05ED1270489FF00163DA1 /* ButtonStackView.swift */; };
 		9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA97A382570177B005C9078 /* ReadsCountViewController.swift */; };
 		9FA9E0F1262A2A2B000A408A /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA9E0F0262A2A2B000A408A /* Functions.swift */; };
 		9FA9E0F7262A2FF4000A408A /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA9E0F6262A2FF4000A408A /* HudView.swift */; };
@@ -174,6 +175,7 @@
 		9F7EAC1B25B9360400AEC901 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		9F91804625BB48F20016FEB6 /* ModelDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDetection.swift; sourceTree = "<group>"; };
 		9F9299AE250818B6003D5029 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		9FA05ED1270489FF00163DA1 /* ButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStackView.swift; sourceTree = "<group>"; };
 		9FA97A382570177B005C9078 /* ReadsCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadsCountViewController.swift; sourceTree = "<group>"; };
 		9FA9E0F0262A2A2B000A408A /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		9FA9E0F6262A2FF4000A408A /* HudView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 				9F2B1ED7260790F500D999CB /* ActivityIndicatorViewWithText.swift */,
 				9F3B627425781A6F00B4F5E4 /* AdjustReadsButton.swift */,
 				9FC0B81425D9828100EDA40E /* BlurEffectView.swift */,
+				9FA05ED1270489FF00163DA1 /* ButtonStackView.swift */,
 				9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */,
 				9F6503D7256651670055ED8F /* ConfettiView.swift */,
 				9F7A5095253DD438008BFD6F /* CopyableLabel.swift */,
@@ -602,6 +605,7 @@
 				9F7A5096253DD439008BFD6F /* CopyableLabel.swift in Sources */,
 				9F9299AF250818B6003D5029 /* Constants.swift in Sources */,
 				9FCA5CB525936692002E1D25 /* Level.swift in Sources */,
+				9FA05ED2270489FF00163DA1 /* ButtonStackView.swift in Sources */,
 				9F0BDAF226BACA290079FE48 /* DisplaySystemBehaviorState.swift in Sources */,
 				9F0BDAED26B2D8A30079FE48 /* FirstSwitchDisplayMode.swift in Sources */,
 				9FFF85B725EEAF7F00131AA7 /* UndoAlert.swift in Sources */,
@@ -822,14 +826,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.1;
+				MARKETING_VERSION = 1.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -845,14 +849,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.1;
+				MARKETING_VERSION = 1.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -867,7 +871,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = MantraWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -876,7 +880,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.6.1;
+				MARKETING_VERSION = 1.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -892,7 +896,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = MantraWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -901,7 +905,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.6.1;
+				MARKETING_VERSION = 1.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

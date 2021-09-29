@@ -97,19 +97,13 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
     }
     
     //MARK: - Setup UI
+    
     private func setupUI() {
         guard let mantra = mantra else { return }
         
         setupNavButtons()
         setMantraImages()
         
-        readsCountView.titleLabel.text = mantra.title
-        readsCountView.titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
-        readsCountView.titleLabel.adjustsFontForContentSizeCategory = true
-        readsCountView.titleLabel.allowsDefaultTighteningForTruncation = true
-        readsCountView.readsGoalButton.setTitle(NSLocalizedString("Goal: ",
-                                                   comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),
-                                 for: .normal)
         setCircularProgressViewForUpdatedValues()
         
         let standardAppearance = UINavigationBarAppearance()
@@ -120,41 +114,25 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
         navigationItem.compactAppearance = compactAppearance
         navigationItem.title = mantra.title
         
-        readsCountView.addReadsButton.imageSystemName = "plus.circle.fill"
-        readsCountView.addRoundsButton.imageSystemName = "arrow.clockwise.circle.fill"
-        readsCountView.setProperValueButton.imageSystemName = "hand.draw.fill"
+        readsCountView.setup(with: mantra)
     }
     
     private func setupNavButtons() {
         guard let mantra = mantra else { return }
         
-        let undoButton = UIButton(primaryAction: UIAction(handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.undoButtonPressed()
-        }))
-        undoButton.setImage(UIImage(systemName: "arrow.uturn.backward.circle"), for: .normal)
-        undoButton.isEnabled = previousReadsCount != nil
-        
-        let infoButton = UIButton(
-            type: .infoLight,
-            primaryAction: UIAction(handler: { [weak self] _ in
+        let buttonStackView = ButtonStackView(
+            with: mantra,
+            previousReadsCount: previousReadsCount,
+            undoButtonHandler: { [weak self] in
                 guard let self = self else { return }
-                self.infoButtonPressed()
-            }))
-        
-        let star = mantra.isFavorite ? "star.fill" : "star"
-        
-        let favoriteButton = UIButton(primaryAction: UIAction(handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.favoriteButtonPressed()
-        }))
-        favoriteButton.setImage(UIImage(systemName: star), for: .normal)
-        
-        let buttonStackView = UIStackView.init(arrangedSubviews: [undoButton, favoriteButton, infoButton])
-        buttonStackView.distribution = .equalSpacing
-        buttonStackView.axis = .horizontal
-        buttonStackView.alignment = .center
-        buttonStackView.spacing = 25
+                self.undoButtonPressed()},
+            infoButtonHandler: { [weak self] in
+                guard let self = self else { return }
+                self.infoButtonPressed()},
+            favoriteButtonHandler: { [weak self] in
+                guard let self = self else { return }
+                self.favoriteButtonPressed()
+            })
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonStackView)
     }
@@ -187,15 +165,8 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
     
     private func setMantraImages() {
         guard let mantra = mantra else { return }
-        let image = (mantra.image != nil) ? UIImage(data: mantra.image!) : UIImage(named: Constants.defaultImage)
-        let downsampledPortraitMantraImage = image?.resize(
-            to: CGSize(width: readsCountView.portraitMantraImageView.bounds.width == 0 ? readsCountView.landscapeMantraImageView.bounds.width/1.5 : readsCountView.portraitMantraImageView.bounds.width,
-                       height: readsCountView.portraitMantraImageView.bounds.height == 0 ? readsCountView.landscapeMantraImageView.bounds.height/1.5 : readsCountView.portraitMantraImageView.bounds.height))
-        let downsampledLandscapeMantraImage = image?.resize(
-            to: CGSize(width: readsCountView.landscapeMantraImageView.bounds.width == 0 ? readsCountView.portraitMantraImageView.bounds.width*1.5 : readsCountView.landscapeMantraImageView.bounds.width,
-                       height: readsCountView.landscapeMantraImageView.bounds.height == 0 ? readsCountView.portraitMantraImageView.bounds.height*1.5 : readsCountView.landscapeMantraImageView.bounds.height))
-        readsCountView.portraitMantraImageView.image = downsampledPortraitMantraImage
-        readsCountView.landscapeMantraImageView.image = downsampledLandscapeMantraImage
+        readsCountView.setPortraitMantraImage(with: mantra)
+        readsCountView.setLandscapeMantraImage(with: mantra)
     }
     
     private func setCircularProgressViewForUpdatedValues(animated: Bool = false) {

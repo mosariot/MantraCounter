@@ -211,10 +211,10 @@ extension PreloadedMantraController: UICollectionViewDelegate {
         
         var newSnapshot = dataSource.snapshot()
         
-        if ProcessInfo.processInfo.isiOSAppOnMac {
+        if ProcessInfo.processInfo.isiOSAppOnMac || ProcessInfo.processInfo.isMacCatalystApp {
             newSnapshot.reloadItems([mantra])
         } else {
-            if #available(iOS 15, macOS 11.7, *) {
+            if #available(iOS 15, *) {
                 newSnapshot.reconfigureItems([mantra])
             } else {
                 newSnapshot.reloadItems([mantra])
