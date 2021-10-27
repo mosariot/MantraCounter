@@ -14,7 +14,10 @@ final class PreloadedMantraController: UIViewController {
         case main
     }
     
-    private var dataSource: UICollectionViewDiffableDataSource<Section, PreloadedMantra>! = nil
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, PreloadedMantra.ID>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, PreloadedMantra.ID>
+    
+    private var dataSource: DataSource! = nil
     private var collectionView: UICollectionView! = nil
     
     private class PreloadedMantra: Identifiable, Hashable {
@@ -99,14 +102,15 @@ extension PreloadedMantraController {
             cell.accessories = [badgeAccessory]
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, PreloadedMantra>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: PreloadedMantra) -> UICollectionViewCell? in
-            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+        dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, mantraID) -> UICollectionViewCell? in
+            let mantra = self.preloadedMantras.first(where: { $0.id == mantraID })
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: mantra)
         }
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, PreloadedMantra>()
+        var snapshot = Snapshot()
+        let preloadedMantrasIDs = preloadedMantras.map { $0.id }
         snapshot.appendSections([.main])
-        snapshot.appendItems(preloadedMantras)
+        snapshot.appendItems(preloadedMantrasIDs)
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
@@ -204,7 +208,9 @@ extension PreloadedMantraController {
 extension PreloadedMantraController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let mantra = dataSource.itemIdentifier(for: indexPath) else { return }
+        guard let mantraID = dataSource.itemIdentifier(for: indexPath),
+        let mantra = preloadedMantras.first(where: { $0.id == mantraID })
+        else { return }
         collectionView.deselectItem(at: indexPath, animated: true)
         mantra.isSelected.toggle()
         navigationItem.rightBarButtonItem?.isEnabled = !preloadedMantras.filter{ $0.isSelected }.isEmpty
@@ -212,12 +218,12 @@ extension PreloadedMantraController: UICollectionViewDelegate {
         var newSnapshot = dataSource.snapshot()
         
         if ProcessInfo.processInfo.isiOSAppOnMac || ProcessInfo.processInfo.isMacCatalystApp {
-            newSnapshot.reloadItems([mantra])
+            newSnapshot.reloadItems([mantra.id])
         } else {
             if #available(iOS 15, *) {
-                newSnapshot.reconfigureItems([mantra])
+                newSnapshot.reconfigureItems([mantra.id])
             } else {
-                newSnapshot.reloadItems([mantra])
+                newSnapshot.reloadItems([mantra.id])
             }
         }
         dataSource.apply(newSnapshot)

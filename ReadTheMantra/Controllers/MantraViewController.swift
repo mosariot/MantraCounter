@@ -314,6 +314,9 @@ extension MantraViewController {
             snapshot.appendSections([.other])
             snapshot.appendItems(mainSectionMantrasIDs, toSection: .other)
         }
+        if #available(iOS 15, *) {
+            snapshot.reconfigureItems(snapshot.itemIdentifiers)
+        }
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
@@ -494,7 +497,7 @@ extension MantraViewController: MantraCellDelegate {
     }
 }
 
-// MARK: - MantraManagerDelegate
+// MARK: - MantraDataManager Delegate
 
 extension MantraViewController: MantraDataManagerDelegate {
     
@@ -568,8 +571,7 @@ extension MantraViewController: UISearchResultsUpdating {
 // MARK: - DataStore Delegate
 
 extension MantraViewController: DataStoreDelegate {
-    
-    func sortingIsChanged() {
+    func sortingDidChanged() {
         applySnapshot()
         mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
     }

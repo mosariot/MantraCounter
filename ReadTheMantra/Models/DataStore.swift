@@ -9,7 +9,7 @@
 import Foundation
 
 protocol DataStoreDelegate: AnyObject {
-    func sortingIsChanged()
+    func sortingDidChanged()
 }
 
 final class DataStore {
@@ -24,7 +24,7 @@ final class DataStore {
         set {
             defaults.set(newValue, forKey: "isAlphabeticalSorting")
             syncDisplayedMantrasWithOverallMantras()
-            delegate?.sortingIsChanged()
+            delegate?.sortingDidChanged()
         }
     }
     
