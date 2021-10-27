@@ -91,6 +91,7 @@
 		9FEB07F026CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB07EF26CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift */; };
 		9FEB07F326CBA183005AD2E3 /* MantraLaunchPreparer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB07F226CBA183005AD2E3 /* MantraLaunchPreparer.swift */; };
 		9FEB07F526CBA8A7005AD2E3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB07F426CBA8A7005AD2E3 /* DataManager.swift */; };
+		9FF812AF272966FD00DEC7F7 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF812AE272966FD00DEC7F7 /* DataStore.swift */; };
 		9FFCF08826C1C1E000984666 /* DetailsViewControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCF08726C1C1DF00984666 /* DetailsViewControllerState.swift */; };
 		9FFCF08A26C1C26700984666 /* AddDetailsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCF08926C1C26700984666 /* AddDetailsState.swift */; };
 		9FFCF08C26C1C27700984666 /* EditDetailsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCF08B26C1C27700984666 /* EditDetailsState.swift */; };
@@ -209,6 +210,7 @@
 		9FEB07EF26CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraDetailsButtonsHandler.swift; sourceTree = "<group>"; };
 		9FEB07F226CBA183005AD2E3 /* MantraLaunchPreparer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MantraLaunchPreparer.swift; sourceTree = "<group>"; };
 		9FEB07F426CBA8A7005AD2E3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		9FF812AE272966FD00DEC7F7 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		9FFCF08726C1C1DF00984666 /* DetailsViewControllerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewControllerState.swift; sourceTree = "<group>"; };
 		9FFCF08926C1C26700984666 /* AddDetailsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDetailsState.swift; sourceTree = "<group>"; };
 		9FFCF08B26C1C27700984666 /* EditDetailsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDetailsState.swift; sourceTree = "<group>"; };
@@ -354,6 +356,7 @@
 			children = (
 				9FCA5CB025936668002E1D25 /* AdjustingType.swift */,
 				9F9299AE250818B6003D5029 /* Constants.swift */,
+				9FF812AE272966FD00DEC7F7 /* DataStore.swift */,
 				9F5FE6A424E7183E00D0475E /* DetailsMode.swift */,
 				9FCA5CB425936692002E1D25 /* Level.swift */,
 				9F5FE6A324E7183D00D0475E /* PreloadedMantras.swift */,
@@ -623,6 +626,7 @@
 				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,
 				9F22713F26348E4A001F92BD /* CropToCircleUIImage.swift in Sources */,
 				9F6503D8256651680055ED8F /* ConfettiView.swift in Sources */,
+				9FF812AF272966FD00DEC7F7 /* DataStore.swift in Sources */,
 				9F0ABF3825EA22E400742A36 /* MantraCell.swift in Sources */,
 				9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */,
 				9F75828525821EED00695ED7 /* RoundedStackView.swift in Sources */,
@@ -833,7 +837,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.2;
+				MARKETING_VERSION = 1.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -856,7 +860,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.2;
+				MARKETING_VERSION = 1.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -880,7 +884,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.6.2;
+				MARKETING_VERSION = 1.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -905,7 +909,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.6.2;
+				MARKETING_VERSION = 1.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

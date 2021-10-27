@@ -10,5 +10,5 @@ import Foundation
 
 protocol WidgetManager {
     
-    func updateWidgetData(for allMantras: [Mantra])
+    func updateWidgetData(with allMantras: [Mantra])
 }

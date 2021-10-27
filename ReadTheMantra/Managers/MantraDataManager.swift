@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol MantraDataManagerDelegate: AnyObject {
-    func mantraDataManagerDidUpdateContent()
+    func mantraDataManagerDidChangeContent()
 }
 
 final class MantraDataManager: NSObject, DataManager {
@@ -109,7 +109,7 @@ final class MantraDataManager: NSObject, DataManager {
 extension MantraDataManager: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        delegate?.mantraDataManagerDidUpdateContent()
+        delegate?.mantraDataManagerDidChangeContent()
         afterDelay(0.1) {
             self.saveMantras()
         }

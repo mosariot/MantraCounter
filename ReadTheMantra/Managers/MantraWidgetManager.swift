@@ -15,7 +15,7 @@ struct MantraWidgetManager: WidgetManager {
     @AppStorage("widgetItem", store: UserDefaults(suiteName: "group.com.mosariot.MantraCounter"))
     private var widgetItemData: Data = Data()
     
-    func updateWidgetData(for allMantras: [Mantra]) {
+    func updateWidgetData(with allMantras: [Mantra]) {
         let widgetModel = getWidgetModel(for: allMantras)
         storeWidgetItem(widgetModel: widgetModel)
     }

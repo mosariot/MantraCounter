@@ -25,29 +25,15 @@ final class MantraViewController: UICollectionViewController {
     
     weak var delegate: MantraViewControllerDelegate?
     
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Mantra>
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Mantra>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Mantra.ID>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Mantra.ID>
     private lazy var dataSource = makeDataSource()
     
     private(set) lazy var mantraDataManager: DataManager = MantraDataManager(delegate: self)
     
     private let mantraWidgetManager: WidgetManager = MantraWidgetManager()
-    
-    private var overallMantras: [Mantra] {
-        isAlphabeticalSorting ?
-            mantraDataManager.fetchedMantras.sorted {
-                guard let title1 = $0.title, let title2 = $1.title else { return false }
-                return title1.localizedStandardCompare(title2) == .orderedAscending } :
-            mantraDataManager.fetchedMantras.sorted {
-                $0.reads > $1.reads }
-    }
-    private lazy var displayedMantras = overallMantras
-    private var favoritesSectionMantras: [Mantra] {
-        displayedMantras.filter{ $0.isFavorite }
-    }
-    private var mainSectionMantras: [Mantra] {
-        displayedMantras.filter{ !$0.isFavorite }
-    }
+
+    private lazy var dataStore = DataStore(mantraDataManager: mantraDataManager, delegate: self)
     private var selectedMantra: Mantra? {
         didSet { delegate?.mantraSelected(selectedMantra) }
     }
@@ -67,17 +53,7 @@ final class MantraViewController: UICollectionViewController {
     private var isAppReadyForDeeplinkOrShortcut = false
     
     private let defaults = UserDefaults.standard
-    private var isAlphabeticalSorting: Bool {
-        get {
-            defaults.bool(forKey: "isAlphabeticalSorting")
-        }
-        set {
-            defaults.set(newValue, forKey: "isAlphabeticalSorting")
-            displayedMantras = overallMantras
-            applySnapshot()
-            mantraWidgetManager.updateWidgetData(for: overallMantras)
-        }
-    }
+
     private var isPreloadedMantrasDueToNoInternetConnection: Bool {
         get { defaults.bool(forKey: "isPreloadedMantrasDueToNoInternetConnection") }
         set { defaults.set(newValue, forKey: "isPreloadedMantrasDueToNoInternetConnection") }
@@ -125,7 +101,7 @@ final class MantraViewController: UICollectionViewController {
             mantraDataManager.loadMantras()
             loadFirstMantraForSecondaryView()
             applySnapshot()
-            mantraWidgetManager.updateWidgetData(for: overallMantras)
+            mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
             checkForInitialDataLoading()
             reselectSelectedMantraIfNeeded()
             isAppReadyForDeeplinkOrShortcut = true
@@ -134,9 +110,9 @@ final class MantraViewController: UICollectionViewController {
     }
     
     private func loadFirstMantraForSecondaryView() {
-        if let firstFavoriteMantra = favoritesSectionMantras.first {
+        if let firstFavoriteMantra = dataStore.favoritesSectionMantras.first {
             selectedMantra = firstFavoriteMantra
-        } else if let firstMantra = mainSectionMantras.first {
+        } else if let firstMantra = dataStore.mainSectionMantras.first {
             selectedMantra = firstMantra
         } else {
             selectedMantra = nil
@@ -148,7 +124,7 @@ final class MantraViewController: UICollectionViewController {
             if let selectedMantra = selectedMantra {
                 collectionView.indexPathsForSelectedItems?
                     .forEach { collectionView.deselectItem(at: $0, animated: false) }
-                let indexPath = dataSource.indexPath(for: selectedMantra)
+                let indexPath = dataSource.indexPath(for: selectedMantra.id)
                 collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
             }
         }
@@ -172,7 +148,7 @@ final class MantraViewController: UICollectionViewController {
     
     private func checkForInitialDataLoading() {
         if isInitalDataLoading {
-            if overallMantras.isEmpty {
+            if dataStore.overallMantras.isEmpty {
                 activityIndicator.isHidden = false
             }
         }
@@ -212,23 +188,23 @@ final class MantraViewController: UICollectionViewController {
         let alphabetSortingAction = UIAction(
             title: NSLocalizedString("Alphabetically", comment: "Menu Item on MantraViewController"),
             image: UIImage(systemName: "textformat")) { [weak self] action in
-            guard let self = self else { return }
-            self.isAlphabeticalSorting = true
-            if let barButtonItem = action.sender as? UIBarButtonItem {
-                barButtonItem.menu = self.createSortingMenu()
+                guard let self = self else { return }
+                self.dataStore.isAlphabeticalSorting = true
+                if let barButtonItem = action.sender as? UIBarButtonItem {
+                    barButtonItem.menu = self.createSortingMenu()
+                }
             }
-        }
         let readsCountSortingAction = UIAction(
             title: NSLocalizedString("By readings count", comment: "Menu Item on MantraViewController"),
             image: UIImage(systemName: "text.book.closed")) { [weak self] action in
-            guard let self = self else { return }
-            self.isAlphabeticalSorting = false
-            if let barButtonItem = action.sender as? UIBarButtonItem {
-                barButtonItem.menu = self.createSortingMenu()
+                guard let self = self else { return }
+                self.dataStore.isAlphabeticalSorting = false
+                if let barButtonItem = action.sender as? UIBarButtonItem {
+                    barButtonItem.menu = self.createSortingMenu()
+                }
             }
-        }
         
-        if isAlphabeticalSorting {
+        if dataStore.isAlphabeticalSorting {
             alphabetSortingAction.state = .on
         } else {
             readsCountSortingAction.state = .on
@@ -305,8 +281,9 @@ extension MantraViewController {
             cell.delegate = self
         }
         
-        let dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, mantra) -> UICollectionViewCell? in
-            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: mantra)
+        let dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, mantraID) -> UICollectionViewCell? in
+            let mantra = self.dataStore.mantraFor(mantraID)
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: mantra)
         }
         
         let headerRegistration = UICollectionView.SupplementaryRegistration<HeaderSupplementaryView>(elementKind: "Header") {
@@ -323,18 +300,19 @@ extension MantraViewController {
     
     private func applySnapshot() {
         var snapshot = Snapshot()
-        if !favoritesSectionMantras.isEmpty {
+        let favoritesSectionMantrasIDs = dataStore.favoritesSectionMantrasIDs()
+        let mainSectionMantrasIDs = dataStore.mainSectionMantrasIDs()
+        if !dataStore.favoritesSectionMantras.isEmpty {
             snapshot.appendSections([.favorites])
-            snapshot.appendItems(favoritesSectionMantras, toSection: .favorites)
+            snapshot.appendItems(favoritesSectionMantrasIDs, toSection: .favorites)
         }
-        if !mainSectionMantras.isEmpty && favoritesSectionMantras.isEmpty {
+        if !dataStore.mainSectionMantras.isEmpty && dataStore.favoritesSectionMantras.isEmpty {
             snapshot.appendSections([.main])
-            snapshot.appendItems(mainSectionMantras, toSection: .main)
+            snapshot.appendItems(mainSectionMantrasIDs, toSection: .main)
         }
-        
-        if !mainSectionMantras.isEmpty && !favoritesSectionMantras.isEmpty {
+        if !dataStore.mainSectionMantras.isEmpty && !dataStore.favoritesSectionMantras.isEmpty {
             snapshot.appendSections([.other])
-            snapshot.appendItems(mainSectionMantras, toSection: .other)
+            snapshot.appendItems(mainSectionMantrasIDs, toSection: .other)
         }
         dataSource.apply(snapshot, animatingDifferences: true)
     }
@@ -352,7 +330,10 @@ extension MantraViewController {
             
             // Swipe Actions
             configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
-                guard let self = self, let mantra = self.dataSource.itemIdentifier(for: indexPath) else { return nil }
+                guard let self = self,
+                      let mantraID = self.dataSource.itemIdentifier(for: indexPath),
+                      let mantra = self.dataStore.mantraFor(mantraID)
+                else { return nil }
                 
                 let title = mantra.isFavorite ?
                     NSLocalizedString("Unfavorite", comment: "Menu Action on MantraViewController") :
@@ -407,7 +388,7 @@ extension MantraViewController {
                 return
             }
             if self.isAppReadyForDeeplinkOrShortcut {
-                guard let mantra = self.displayedMantras.filter({ $0.uuid == uuid }).first else { return }
+                guard let mantra = self.dataStore.mantraFor(uuid) else { return }
                 self.selectedMantra = mantra
                 self.reselectSelectedMantraIfNeeded()
                 self.defaults.set(false, forKey: "collapseSecondaryViewController")
@@ -426,7 +407,9 @@ extension MantraViewController {
 extension MantraViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let mantra = dataSource.itemIdentifier(for: indexPath) else { return }
+        guard let mantraID = dataSource.itemIdentifier(for: indexPath),
+              let mantra = dataStore.mantraFor(mantraID)
+        else { return }
         selectedMantra = mantra
         defaults.set(false, forKey: "collapseSecondaryViewController")
         if let readsCountViewController = delegate as? ReadsCountViewController,
@@ -436,7 +419,9 @@ extension MantraViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        guard let mantra = dataSource.itemIdentifier(for: indexPath) else { return nil }
+        guard let mantraID = dataSource.itemIdentifier(for: indexPath),
+              let mantra = dataStore.mantraFor(mantraID)
+        else { return nil }
         let title = mantra.isFavorite ?
             NSLocalizedString("Unfavorite", comment: "Menu Action on MantraViewController") :
             NSLocalizedString("Favorite", comment: "Menu Action on MantraViewController")
@@ -513,13 +498,13 @@ extension MantraViewController: MantraCellDelegate {
 
 extension MantraViewController: MantraDataManagerDelegate {
     
-    func mantraDataManagerDidUpdateContent() {
+    func mantraDataManagerDidChangeContent() {
         handleSearchControllerResultsIfNeeded()
         applySnapshot()
         reselectSelectedMantraIfNeeded()
         updateSecondaryView()
         stopActivityIndicatorForInitialDataLoadingIfNeeded()
-        mantraWidgetManager.updateWidgetData(for: overallMantras)
+        mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
     }
     
     private func handleSearchControllerResultsIfNeeded() {
@@ -527,17 +512,17 @@ extension MantraViewController: MantraDataManagerDelegate {
             searchController.searchBar.text! += " "
             searchController.searchBar.text! = String(searchController.searchBar.text!.dropLast())
         } else {
-            displayedMantras = overallMantras
+            dataStore.syncDisplayedMantrasWithOverallMantras()
         }
     }
     
     private func stopActivityIndicatorForInitialDataLoadingIfNeeded() {
         if isInitalDataLoading {
-            if !overallMantras.isEmpty {
+            if !dataStore.overallMantras.isEmpty {
                 activityIndicator.removeFromSuperview()
                 loadFirstMantraForSecondaryView()
                 reselectSelectedMantraIfNeeded()
-                mantraWidgetManager.updateWidgetData(for: overallMantras)
+                mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
                 isInitalDataLoading = false
             }
         }
@@ -546,7 +531,7 @@ extension MantraViewController: MantraDataManagerDelegate {
     private func updateSecondaryView() {
         afterDelay(Constants.progressAnimationDuration) {
             guard let selectedMantra = self.selectedMantra else { return }
-            if !self.overallMantras.contains(selectedMantra) {
+            if !self.dataStore.overallMantras.contains(selectedMantra) {
                 self.selectedMantra = nil
             }
             self.delegate?.mantraSelected(self.selectedMantra)
@@ -560,7 +545,7 @@ extension MantraViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         performSearch()
-        if displayedMantras.isEmpty {
+        if dataStore.displayedMantras.isEmpty {
             noResultsForSearchLabel.isHidden = false
         } else {
             noResultsForSearchLabel.isHidden = true
@@ -570,19 +555,23 @@ extension MantraViewController: UISearchResultsUpdating {
     private func performSearch() {
         guard let text = searchController.searchBar.text else { return }
         if text.isEmpty {
-            displayedMantras = overallMantras
+            dataStore.syncDisplayedMantrasWithOverallMantras()
             noResultsForSearchLabel.isHidden = true
             applySnapshot()
             return
         }
-        displayedMantras = overallMantras.filter{
-            if let title = $0.title {
-                return title.localizedCaseInsensitiveContains(text)
-            } else {
-                return false
-            }
-        }
+        dataStore.filterDisplayedMantrasWith(text)
         applySnapshot()
+    }
+}
+
+// MARK: - DataStore Delegate
+
+extension MantraViewController: DataStoreDelegate {
+    
+    func sortingIsChanged() {
+        applySnapshot()
+        mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
     }
 }
 
@@ -601,7 +590,7 @@ extension MantraViewController: OnboardingViewControllerDelegate {
         isOnboarding = false
         if isPreloadedMantrasDueToNoInternetConnection {
             let alert = UIAlertController.preloadedMantrasDueToNoInternetConnection()
-            mantraWidgetManager.updateWidgetData(for: overallMantras)
+            mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
             isPreloadedMantrasDueToNoInternetConnection = false
             present(alert, animated: true, completion: nil)
         }
