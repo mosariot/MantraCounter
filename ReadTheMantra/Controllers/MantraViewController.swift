@@ -298,7 +298,7 @@ extension MantraViewController {
         return dataSource
     }
     
-    private func applySnapshot() {
+    private func applySnapshot(withReconfiguration: Bool = false) {
         var snapshot = Snapshot()
         let favoritesSectionMantrasIDs = dataStore.favoritesSectionMantrasIDs()
         let mainSectionMantrasIDs = dataStore.mainSectionMantrasIDs()
@@ -314,8 +314,10 @@ extension MantraViewController {
             snapshot.appendSections([.other])
             snapshot.appendItems(mainSectionMantrasIDs, toSection: .other)
         }
-        if #available(iOS 15, *) {
-            snapshot.reconfigureItems(snapshot.itemIdentifiers)
+        if withReconfiguration {
+            if #available(iOS 15, *) {
+                snapshot.reconfigureItems(snapshot.itemIdentifiers)
+            }
         }
         dataSource.apply(snapshot, animatingDifferences: true)
     }
@@ -384,14 +386,14 @@ extension MantraViewController {
 
 extension MantraViewController {
     
-    func goToMantraWith(uuid: UUID) {
+    func goToMantraWith(_ id: UUID) {
         Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
             guard let self = self else {
                 timer.invalidate()
                 return
             }
             if self.isAppReadyForDeeplinkOrShortcut {
-                guard let mantra = self.dataStore.mantraFor(uuid) else { return }
+                guard let mantra = self.dataStore.mantraFor(id) else { return }
                 self.selectedMantra = mantra
                 self.reselectSelectedMantraIfNeeded()
                 self.defaults.set(false, forKey: "collapseSecondaryViewController")
@@ -503,7 +505,7 @@ extension MantraViewController: MantraDataManagerDelegate {
     
     func mantraDataManagerDidChangeContent() {
         handleSearchControllerResultsIfNeeded()
-        applySnapshot()
+        applySnapshot(withReconfiguration: true)
         reselectSelectedMantraIfNeeded()
         updateSecondaryView()
         stopActivityIndicatorForInitialDataLoadingIfNeeded()

@@ -32,7 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if let url = connectionOptions.urlContexts.first?.url {
             let uuid = UUID(uuidString: "\(url)")
-            deepLinkToSpecificMantra(uuid: uuid)
+            deepLinkToSpecificMantra(with: uuid)
         }
         
         if let shortcutItem = connectionOptions.shortcutItem {
@@ -74,13 +74,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         if let url = URLContexts.first?.url {
             let uuid = UUID(uuidString: "\(url)")
-            deepLinkToSpecificMantra(uuid: uuid)
+            deepLinkToSpecificMantra(with: uuid)
         }
     }
     
-    private func deepLinkToSpecificMantra(uuid: UUID?) {
+    private func deepLinkToSpecificMantra(with id: UUID?) {
         guard
-            let uuid = uuid,
+            let id = id,
             let splitViewController = window?.rootViewController as? UISplitViewController,
             let leftNavController = splitViewController.viewControllers.first as? UINavigationController,
             let primaryViewController = leftNavController.viewControllers.first as? MantraViewController
@@ -89,7 +89,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         splitViewController.dismiss(animated: false, completion: nil)
         leftNavController.popToRootViewController(animated: false)
         
-        primaryViewController.goToMantraWith(uuid: uuid)
+        primaryViewController.goToMantraWith(id)
     }
 }
 
