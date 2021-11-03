@@ -30,6 +30,10 @@ final class DisplaySystemBehaviorState: ReadsCountViewControllerState {
         guard let context = context else { return }
         mediumHapticGenerator.prepare()
         UIApplication.shared.isIdleTimerDisabled = false
+        UIView.animate(withDuration: 0.2) {
+            context.readsCountView.backgroundColor = .systemBackground
+            context.readsCountView.circularProgressView.backgroundColor = .systemBackground
+        }
         context.readsCountView.displayAlwaysOn.setImage(UIImage(systemName: "sun.max"), for: .normal)
         context.readsCountView.addReadsButton.isEnabled = true
         context.readsCountView.addRoundsButton.isEnabled = true

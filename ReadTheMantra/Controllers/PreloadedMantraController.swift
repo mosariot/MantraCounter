@@ -195,8 +195,9 @@ extension PreloadedMantraController {
         
         addHapticGenerator.notificationOccurred(.success)
         
-        let hudView = HudView.makeView(inView: navigationController?.view ?? view, animated: true)
-        hudView.text = NSLocalizedString("Added", comment: "HUD title")
+        HudView.makeViewWithCheckmark(
+            inView: navigationController?.view ?? view,
+            withText: NSLocalizedString("Added", comment: "HUD title"))
         afterDelay(0.8) {
             self.dismiss(animated: true, completion: nil)
         }

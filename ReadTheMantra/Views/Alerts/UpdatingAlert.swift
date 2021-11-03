@@ -13,23 +13,7 @@ extension UIAlertController {
     static func updatingAlert(mantra: Mantra,
                               updatingType: AdjustingType,
                               delegate: UITextFieldDelegate,
-                              positiveActionHanlder: @escaping (Int32) -> ()) -> UIAlertController {
-        
-        func isValidUpdatingNumber(text: String?, updatingType: AdjustingType) -> Bool {
-            guard
-                let alertText = text,
-                let alertNumber = UInt32(alertText)
-            else { return false }
-            
-            switch updatingType {
-            case .goal, .properValue:
-                return 0...1_000_000 ~= alertNumber
-            case .reads:
-                return 0...1_000_000 ~= UInt32(mantra.reads) + alertNumber
-            case .rounds:
-                return 0...1_000_000 ~= UInt32(mantra.reads) + alertNumber * 108
-            }
-        }
+                              positiveActionHandler: @escaping (Int32) -> ()) -> UIAlertController {
         
         func alertAndActionTitles(for updatingType: AdjustingType) -> (String, String) {
             switch updatingType {
@@ -53,8 +37,10 @@ extension UIAlertController {
         
         let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
         let positiveAction = UIAlertAction(title: actionTitle, style: .default) { _ in
-            positiveActionHanlder(value)
+            positiveActionHandler(value)
         }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on ReadsCountViewController"),
+                                         style: .default)
         alert.addTextField { alertTextField in
             alertTextField.placeholder = NSLocalizedString("Enter number", comment: "Alert Placehonder on ReadsCountViewController")
             alertTextField.keyboardType = .numberPad
@@ -62,7 +48,7 @@ extension UIAlertController {
             alertTextField.delegate = delegate
             positiveAction.isEnabled = false
             NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: alertTextField, queue: .main) { _ in
-                if isValidUpdatingNumber(text: alertTextField.text, updatingType: updatingType) {
+                if alertTextField.text!.isValidUpdatingNumber(with: updatingType, and: mantra.reads) {
                     positiveAction.isEnabled = true
                     guard
                         let textValue = alertTextField.text,
@@ -74,8 +60,6 @@ extension UIAlertController {
                 }
             }
         }
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on ReadsCountViewController"),
-                                         style: .default)
         alert.addAction(cancelAction)
         alert.addAction(positiveAction)
         alert.view.tintColor = Constants.accentColor ?? .systemOrange

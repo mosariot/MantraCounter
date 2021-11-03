@@ -13,20 +13,75 @@ final class AlwaysOnDisplayState: ReadsCountViewControllerState {
     private let lightHapticGenerator = UIImpactFeedbackGenerator(style: .light)
     
     override func apply() {
+        guard let context = context else { return }
         lightHapticGenerator.prepare()
-        UIApplication.shared.isIdleTimerDisabled = true
-        context?.readsCountView.displayAlwaysOn.setImage(UIImage(systemName: "sun.max.fill"), for: .normal)
-        context?.readsCountView.addReadsButton.isEnabled = false
-        context?.readsCountView.addRoundsButton.isEnabled = false
-        context?.readsCountView.setProperValueButton.isEnabled = false
-        context?.readsCountView.readsGoalButton.isEnabled = false
+        animateView(context)
+        showHudView(context)
+        adjustReadsCountView(context)
+        setupTaps(context)
+    }
+    
+    private func showHudView(_ context: ReadsCountStateContext) {
+        guard !UserDefaults.standard.bool(forKey: "isFirstSwitchDisplayMode") else {
+            UserDefaults.standard.setValue(false, forKey: "isFirstSwitchDisplayMode")
+            return
+        }
+        let attachment1 = NSTextAttachment()
+        attachment1.image = UIImage(systemName: "hand.tap")?.withTintColor(.white)
+        let attachment2 = NSTextAttachment()
+        attachment2.image = UIImage(systemName: "plus.circle")?.withTintColor(.white)
+        let attachment3 = NSTextAttachment()
+        attachment3.image = UIImage(systemName: "goforward")?.withTintColor(.white)
+        let imageString = NSMutableAttributedString()
+        let tapString = NSMutableAttributedString(attachment: attachment1)
+        let plusString = NSMutableAttributedString(attachment: attachment2)
+        let goforwardString = NSMutableAttributedString(attachment: attachment3)
+        let equalString = NSAttributedString(string: "  =  ")
+        let newLineString = NSAttributedString(string: "\n")
+        let spaceString = NSAttributedString(string: " ")
+        imageString.append(tapString)
+        imageString.append(equalString)
+        imageString.append(plusString)
+        imageString.append(newLineString)
+        imageString.append(tapString)
+        imageString.append(spaceString)
+        imageString.append(tapString)
+        imageString.append(equalString)
+        imageString.append(goforwardString)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 12
+        paragraphStyle.alignment = .center
+        imageString.addAttribute(
+            NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, imageString.length))
         
+        let hudView = HudView.makeViewWithoutCheckmark(
+            inView: context.view, withText: imageString, blockViewInteractions: false)
+        hudView.hide(afterDelay: 1.5)
+    }
+    
+    private func adjustReadsCountView(_ context: ReadsCountStateContext) {
+        context.readsCountView.displayAlwaysOn.setImage(UIImage(systemName: "sun.max.fill"), for: .normal)
+        context.readsCountView.addReadsButton.isEnabled = false
+        context.readsCountView.addRoundsButton.isEnabled = false
+        context.readsCountView.setProperValueButton.isEnabled = false
+        context.readsCountView.readsGoalButton.isEnabled = false
+    }
+    
+    private func animateView(_ context: ReadsCountStateContext) {
+        UIApplication.shared.isIdleTimerDisabled = true
+        UIView.animate(withDuration: 0.2) {
+            context.readsCountView.backgroundColor = .systemGray4
+            context.readsCountView.circularProgressView.backgroundColor = .systemGray4
+        }
+    }
+    
+    private func setupTaps(_ context: ReadsCountStateContext) {
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(singleTapped))
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
         singleTap.numberOfTapsRequired = 1
         doubleTap.numberOfTapsRequired = 2
-        context?.readsCountView.addGestureRecognizer(singleTap)
-        context?.readsCountView.addGestureRecognizer(doubleTap)
+        context.readsCountView.addGestureRecognizer(singleTap)
+        context.readsCountView.addGestureRecognizer(doubleTap)
         singleTap.require(toFail: doubleTap)
     }
     

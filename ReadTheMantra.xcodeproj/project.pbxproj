@@ -26,6 +26,7 @@
 		9F2B1EEA26079CF100D999CB /* SmallWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1EE226079C4300D999CB /* SmallWidgetView.swift */; };
 		9F2B1EEE26079D3B00D999CB /* MediumWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1EED26079D3B00D999CB /* MediumWidgetView.swift */; };
 		9F2B1EF226079D7900D999CB /* LargeWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1EF126079D7900D999CB /* LargeWidgetView.swift */; };
+		9F35BCC92731B17A00EE1943 /* NumberValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F35BCC82731B17A00EE1943 /* NumberValidation.swift */; };
 		9F3766112513C5B9007E6BED /* FormattedNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3766102513C5B9007E6BED /* FormattedNumber.swift */; };
 		9F3B1C032538F50200BEE838 /* RoundedSystemFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B1C022538F50200BEE838 /* RoundedSystemFont.swift */; };
 		9F3B62A32578E00D00B4F5E4 /* TextViewWithPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B62952578DAD200B4F5E4 /* TextViewWithPlaceholder.swift */; };
@@ -144,6 +145,7 @@
 		9F2B1EE226079C4300D999CB /* SmallWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetView.swift; sourceTree = "<group>"; };
 		9F2B1EED26079D3B00D999CB /* MediumWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumWidgetView.swift; sourceTree = "<group>"; };
 		9F2B1EF126079D7900D999CB /* LargeWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeWidgetView.swift; sourceTree = "<group>"; };
+		9F35BCC82731B17A00EE1943 /* NumberValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberValidation.swift; sourceTree = "<group>"; };
 		9F3766102513C5B9007E6BED /* FormattedNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedNumber.swift; sourceTree = "<group>"; };
 		9F3B1C022538F50200BEE838 /* RoundedSystemFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedSystemFont.swift; sourceTree = "<group>"; };
 		9F3B627425781A6F00B4F5E4 /* AdjustReadsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustReadsButton.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				9F3766102513C5B9007E6BED /* FormattedNumber.swift */,
 				9F5FE6BA24E9C8F300D0475E /* HideKeyboardWhenTappedAround.swift */,
 				9F91804625BB48F20016FEB6 /* ModelDetection.swift */,
+				9F35BCC82731B17A00EE1943 /* NumberValidation.swift */,
 				9F22713726348A3F001F92BD /* ResizeUIImage.swift */,
 				9F75828125821EC600695ED7 /* RoundedStackView.swift */,
 				9F3B1C022538F50200BEE838 /* RoundedSystemFont.swift */,
@@ -604,6 +607,7 @@
 				9F3766112513C5B9007E6BED /* FormattedNumber.swift in Sources */,
 				9F08B660268B4C60008F20B1 /* DetailsView.swift in Sources */,
 				9F3B62A32578E00D00B4F5E4 /* TextViewWithPlaceholder.swift in Sources */,
+				9F35BCC92731B17A00EE1943 /* NumberValidation.swift in Sources */,
 				9F0BDAF026BAC9DF0079FE48 /* ReadsCountViewControllerState.swift in Sources */,
 				9F7A5096253DD439008BFD6F /* CopyableLabel.swift in Sources */,
 				9F9299AF250818B6003D5029 /* Constants.swift in Sources */,
@@ -830,14 +834,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.2;
+				MARKETING_VERSION = 1.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -853,14 +857,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.2;
+				MARKETING_VERSION = 1.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -875,7 +879,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = MantraWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -884,7 +888,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.6.2;
+				MARKETING_VERSION = 1.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -900,7 +904,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = MantraWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -909,7 +913,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.6.2;
+				MARKETING_VERSION = 1.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

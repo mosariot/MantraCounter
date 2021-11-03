@@ -115,8 +115,9 @@ struct MantraDetailsButtonsHandler: DetailsButtonsHandler {
         
         context.addHapticGenerator.notificationOccurred(.success)
         
-        let hudView = HudView.makeView(inView: context.navigationController?.view ?? context.view, animated: true)
-        hudView.text = NSLocalizedString("Added", comment: "HUD title")
+        HudView.makeViewWithCheckmark(
+            inView: context.navigationController?.view ?? context.view,
+            withText: NSLocalizedString("Added", comment: "HUD title"))
         afterDelay(0.8) {
             context.dismiss(animated: true, completion: nil)
         }

@@ -9,7 +9,7 @@
 import UIKit
 
 final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
-        
+    
     //MARK: - Properties
     
     var mantraDataManager: DataManager?
@@ -19,8 +19,8 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
     
     private lazy var states: (alwaysOnDisplay: ReadsCountViewControllerState,
                               displaySystemBehavior: ReadsCountViewControllerState) =
-        (alwaysOnDisplay: AlwaysOnDisplayState(context: self, mantraDataManager: mantraDataManager!),
-         displaySystemBehavior: DisplaySystemBehaviorState(context: self, mantraDataManager: mantraDataManager!))
+    (alwaysOnDisplay: AlwaysOnDisplayState(context: self, mantraDataManager: mantraDataManager!),
+     displaySystemBehavior: DisplaySystemBehaviorState(context: self, mantraDataManager: mantraDataManager!))
     private lazy var currentState: ReadsCountViewControllerState = states.displaySystemBehavior {
         didSet { currentState.apply() }
     }
@@ -144,14 +144,14 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
     private func infoButtonPressed() {
         guard let mantra = mantra, let mantraDataManager = mantraDataManager else { return }
         guard let detailsViewController = storyboard?.instantiateViewController(
-                identifier: Constants.detailsViewControllerID,
-                creator: { coder in
-                    return DetailsViewController(
-                        mantra: mantra,
-                        state: .viewDetailsState(),
-                        mantraDataManager: mantraDataManager,
-                        coder: coder)
-                }) else { return }
+            identifier: Constants.detailsViewControllerID,
+            creator: { coder in
+                return DetailsViewController(
+                    mantra: mantra,
+                    state: .viewDetailsState(),
+                    mantraDataManager: mantraDataManager,
+                    coder: coder)
+            }) else { return }
         let navigationController = UINavigationController(rootViewController: detailsViewController)
         present(navigationController, animated: true)
     }
@@ -203,7 +203,6 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
         if isFirstSwitchDisplayMode {
             let alert = UIAlertController.firstSwitchDisplayMode()
             present(alert, animated: true)
-            defaults.setValue(false, forKey: "isFirstSwitchDisplayMode")
         }
     }
     
@@ -255,11 +254,8 @@ extension ReadsCountViewController: MantraViewControllerDelegate {
 //MARK: - TextFieldDelegate
 
 extension ReadsCountViewController: UITextFieldDelegate {
-
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) else {
-            return false
-        }
-        return true
+        CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: string))
     }
 }
