@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIAlertController {
+extension AlertControllerFactory {
     
     static func cancelOrCloseMantraAlert(_ sender: UIBarButtonItem?, dontSaveActionHandler: @escaping () -> ()) -> UIAlertController {
         let alert = UIAlertController(

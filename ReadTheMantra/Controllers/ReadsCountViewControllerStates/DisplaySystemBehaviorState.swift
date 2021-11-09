@@ -18,7 +18,7 @@ final class DisplaySystemBehaviorState: ReadsCountViewControllerState {
     
     private func showUpdatingAlert(adjustingType: AdjustingType) {
         guard let mantra = context?.mantra, let context = context else { return }
-        let alert = UIAlertController.updatingAlert(mantra: mantra, updatingType: adjustingType, delegate: context) { [weak self] (value) in
+        let alert = AlertControllerFactory.updatingAlert(mantra: mantra, updatingType: adjustingType, delegate: context) { [weak self] (value) in
             guard let self = self else { return }
             self.mediumHapticGenerator.impactOccurred()
             self.adjustMantra(with: value, adjustingType: adjustingType)
@@ -29,16 +29,28 @@ final class DisplaySystemBehaviorState: ReadsCountViewControllerState {
     override func apply() {
         guard let context = context else { return }
         mediumHapticGenerator.prepare()
+        animateView(context)
+        adjustReadsCountView(context)
+        setupTaps(context)
+    }
+    
+    private func animateView(_ context: ReadsCountStateContext) {
         UIApplication.shared.isIdleTimerDisabled = false
         UIView.animate(withDuration: 0.2) {
             context.readsCountView.backgroundColor = .systemBackground
             context.readsCountView.circularProgressView.backgroundColor = .systemBackground
         }
+    }
+    
+    private func adjustReadsCountView(_ context: ReadsCountStateContext) {
         context.readsCountView.displayAlwaysOn.setImage(UIImage(systemName: "sun.max"), for: .normal)
         context.readsCountView.addReadsButton.isEnabled = true
         context.readsCountView.addRoundsButton.isEnabled = true
         context.readsCountView.setProperValueButton.isEnabled = true
         context.readsCountView.readsGoalButton.isEnabled = true
+    }
+    
+    private func setupTaps(_ context: ReadsCountStateContext) {
         context.readsCountView.gestureRecognizers?.forEach(context.readsCountView.removeGestureRecognizer)
     }
 }

@@ -488,7 +488,7 @@ extension MantraViewController {
 extension MantraViewController: MantraCellDelegate {
     
     func showDeleteConfirmationAlert(for mantra: Mantra) {
-        let alert = UIAlertController.deleteConfirmationAlert(for: mantra, idiom: traitCollection.userInterfaceIdiom) { [weak self] (mantra) in
+        let alert = AlertControllerFactory.deleteConfirmationAlert(for: mantra, idiom: traitCollection.userInterfaceIdiom) { [weak self] (mantra) in
             guard let self = self else { return }
             if self.selectedMantra == mantra {
                 self.selectedMantra = nil
@@ -593,7 +593,7 @@ extension MantraViewController: OnboardingViewControllerDelegate {
         blurEffectView.animateOut()
         isOnboarding = false
         if isPreloadedMantrasDueToNoInternetConnection {
-            let alert = UIAlertController.preloadedMantrasDueToNoInternetConnection()
+            let alert = AlertControllerFactory.preloadedMantrasDueToNoInternetConnection()
             mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
             isPreloadedMantrasDueToNoInternetConnection = false
             present(alert, animated: true, completion: nil)

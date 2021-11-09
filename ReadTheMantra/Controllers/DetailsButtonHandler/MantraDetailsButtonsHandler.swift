@@ -51,7 +51,7 @@ struct MantraDetailsButtonsHandler: DetailsButtonsHandler {
             context.dismiss(animated: true, completion: nil)
             return
         }
-        let alert = UIAlertController.cancelOrCloseMantraAlert(sender) { [weak context] in
+        let alert = AlertControllerFactory.cancelOrCloseMantraAlert(sender) { [weak context] in
                 guard let context = context else { return }
                 context.mantraDataManager.deleteMantra(context.mantra)
                 context.dismiss(animated: true, completion: nil)
@@ -80,7 +80,7 @@ struct MantraDetailsButtonsHandler: DetailsButtonsHandler {
             || context.detailsView.mantraTextTextView.text != context.mantra.text ?? ""
             || context.detailsView.detailsTextView.text != context.mantra.details
             || context.mantraImageData != context.mantra.image {
-            let alert = UIAlertController.cancelOrCloseMantraAlert(sender) { [weak context] in
+            let alert = AlertControllerFactory.cancelOrCloseMantraAlert(sender) { [weak context] in
                 guard let context = context else { return }
                 context.dismiss(animated: true, completion: nil)
             }
@@ -97,7 +97,7 @@ struct MantraDetailsButtonsHandler: DetailsButtonsHandler {
     
     private func showDuplicatingAlert(for title: String) {
         guard let context = context else { return }
-        let alert = UIAlertController.duplicatingAlert(context.navigationItem.rightBarButtonItem) {
+        let alert = AlertControllerFactory.duplicatingAlert(context.navigationItem.rightBarButtonItem) {
             handleAddNewMantra(for: title)
         } cancelActionHandler: { return }
         context.present(alert, animated: true, completion: nil)
@@ -106,7 +106,7 @@ struct MantraDetailsButtonsHandler: DetailsButtonsHandler {
     private func handleAddNewMantra(for title: String) {
         guard let context = context else { return }
         guard context.detailsView.titleTextField.text?.trimmingCharacters(in: .whitespaces) != "" else {
-            let alert = UIAlertController.addTitleAlert()
+            let alert = AlertControllerFactory.addTitleAlert()
             context.present(alert, animated: true, completion: nil)
             return
         }

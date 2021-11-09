@@ -183,7 +183,7 @@ extension PreloadedMantraController {
     }
     
     private func showDuplicatingAlert() {
-        let alert = UIAlertController.duplicatingAlertForPreloadedMantras(navigationItem.rightBarButtonItem) { [weak self] in
+        let alert = AlertControllerFactory.duplicatingAlertForPreloadedMantras(navigationItem.rightBarButtonItem) { [weak self] in
             guard let self = self else { return }
             self.handleAddPreloadedMantra()
         }

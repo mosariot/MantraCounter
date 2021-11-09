@@ -85,7 +85,7 @@ extension ReadsCountViewControllerState {
     }
     
     private func showReadsCongratulationsAlert(level: Level) {
-        let alert = UIAlertController.congratulationsAlert(level: level)
+        let alert = AlertControllerFactory.congratulationsAlert(level: level)
         context?.present(alert, animated: true, completion: nil)
     }
 }

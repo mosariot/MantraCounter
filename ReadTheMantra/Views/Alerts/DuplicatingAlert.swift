@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIAlertController {
+extension AlertControllerFactory {
     
     static func duplicatingAlert(_ sender: UIBarButtonItem?, addPreloadedMantraHandler: @escaping () -> (),
                                  cancelActionHandler: @escaping () -> ()) -> UIAlertController {

@@ -201,7 +201,7 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
         let defaults = UserDefaults.standard
         let isFirstSwitchDisplayMode = defaults.bool(forKey: "isFirstSwitchDisplayMode")
         if isFirstSwitchDisplayMode {
-            let alert = UIAlertController.firstSwitchDisplayMode()
+            let alert = AlertControllerFactory.firstSwitchDisplayMode()
             present(alert, animated: true)
         }
     }
@@ -225,7 +225,7 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
     }
     
     private func showUndoAlert() {
-        let alert = UIAlertController.undoAlert { [weak self] in
+        let alert = AlertControllerFactory.undoAlert { [weak self] in
             guard let self = self else { return }
             self.mediumHapticGenerator.impactOccurred()
             self.undoReadsCount()

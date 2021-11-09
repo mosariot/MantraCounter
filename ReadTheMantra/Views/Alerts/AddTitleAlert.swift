@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIAlertController {
+extension AlertControllerFactory {
     
     static func addTitleAlert() -> UIAlertController {
         let alert = UIAlertController(

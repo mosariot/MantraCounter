@@ -194,7 +194,7 @@ extension DetailsViewController {
         let defaults = UserDefaults.standard
         let isFirstSearchOnTheInternet = defaults.bool(forKey: "isFirstSearchOnTheInternet")
         if isFirstSearchOnTheInternet {
-            let alert = UIAlertController.firstSearchOnTheInternetAlert()
+            let alert = AlertControllerFactory.firstSearchOnTheInternetAlert()
             defaults.setValue(false, forKey: "isFirstSearchOnTheInternet")
             handler(alert)
         }
@@ -294,7 +294,7 @@ extension DetailsViewController: PHPickerViewControllerDelegate {
     }
     
     private func showNoImageAlert() {
-        let alert = UIAlertController.noImageAlert { [weak self] in
+        let alert = AlertControllerFactory.noImageAlert { [weak self] in
             guard let self = self else { return }
             self.showImagePicker()
         }

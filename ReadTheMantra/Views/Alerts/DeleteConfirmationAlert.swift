@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIAlertController {
+extension AlertControllerFactory {
     
     static func deleteConfirmationAlert(for mantra: Mantra, idiom: UIUserInterfaceIdiom, deleteActionHandler: @escaping (Mantra) -> ()) -> UIAlertController {
         let alert = UIAlertController(
