@@ -23,6 +23,7 @@ final class HudView: UIView {
         self.withCheckmark = true
         view.isUserInteractionEnabled = false
         let hudView = makeAndShowHudView(in: view)
+        hudView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
         return hudView
     }
     
@@ -31,6 +32,7 @@ final class HudView: UIView {
         self.attributedText = text
         self.withCheckmark = false
         let hudView = makeAndShowHudView(in: view)
+        hudView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: -view.bounds.height / 6).isActive = true
         return hudView
     }
     
@@ -42,7 +44,6 @@ final class HudView: UIView {
         
         hudView.translatesAutoresizingMaskIntoConstraints = false
         hudView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
-        hudView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: -view.bounds.height / 6).isActive = true
         hudView.widthAnchor.constraint(equalToConstant: Self.boxSize).isActive = true
         hudView.heightAnchor.constraint(equalToConstant: Self.boxSize).isActive = true
         
