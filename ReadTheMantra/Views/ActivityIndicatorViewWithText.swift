@@ -10,9 +10,7 @@ import UIKit
 
 final class ActivityIndicatorViewWithText: UIView {
     
-    //MARK: - Convenient initializer
-    
-    static func makeView(inView view: UIView, withText: String) -> UIView {
+    static func makeView(inView view: UIView, withText text: String) -> UIView {
         let viewForActivityIndicator = UIView(frame: view.bounds)
         view.addSubview(viewForActivityIndicator)
         
@@ -24,7 +22,7 @@ final class ActivityIndicatorViewWithText: UIView {
         
         let loadingTextLabel = UILabel()
         loadingTextLabel.textColor = .secondaryLabel
-        loadingTextLabel.text = withText
+        loadingTextLabel.text = text
         loadingTextLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         loadingTextLabel.sizeToFit()
         loadingTextLabel.center = CGPoint(x: activityIndicatorView.center.x, y: activityIndicatorView.center.y + 25)

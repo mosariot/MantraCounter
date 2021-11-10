@@ -13,77 +13,102 @@ final class HudView: UIView {
     private static var withCheckmark = true
     private static var text = ""
     private static var attributedText: NSMutableAttributedString = NSMutableAttributedString()
+    private static let boxSize = 96.0
     
     //MARK: - Convenient initializer
     
     @discardableResult
     static func makeViewWithCheckmark(inView view: UIView, withText text: String) -> HudView {
-        let hudView = makeHudView(in: view)
         self.text = text
         self.withCheckmark = true
         view.isUserInteractionEnabled = true
+        let hudView = makeAndShowHudView(in: view)
         return hudView
     }
     
     @discardableResult
     static func makeViewWithoutCheckmark(inView view: UIView, withText text: NSMutableAttributedString) -> HudView {
-        let hudView = makeHudView(in: view)
         self.attributedText = text
         self.withCheckmark = false
         view.isUserInteractionEnabled = false
+        let hudView = makeAndShowHudView(in: view)
         return hudView
     }
     
-    private static func makeHudView(in view: UIView) -> HudView {
-        let hudView = HudView(frame: view.bounds)
-        hudView.isOpaque = false
+    private static func makeAndShowHudView(in view: UIView) -> HudView {
+        let hudView = HudView()
         view.addSubview(hudView)
+        hudView.isOpaque = false
         hudView.show()
+        
+        hudView.translatesAutoresizingMaskIntoConstraints = false
+        hudView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        hudView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        hudView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
+        hudView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
+        
         return hudView
     }
     
     //MARK: - Draw the HUD View
     
     override func draw(_ rect: CGRect) {
-        let boxWidth = 96.0
-        let boxHeight = 96.0
-        
-        let boxRect = CGRect(
-            x: round((bounds.width - boxWidth)/2),
-            y: round((bounds.height - boxHeight)/2),
-            width: boxWidth,
-            height: boxHeight)
-        
-        let roundedRect = UIBezierPath(roundedRect: boxRect, cornerRadius: 10)
-        UIColor.systemGray.withAlphaComponent(0.8).setFill()
-        roundedRect.fill()
+        drawTheBox()
         
         if Self.withCheckmark {
-            // Draw checkmark
-            if let image = UIImage(named: "Checkmark") {
-                let imagePoint = CGPoint(x: center.x - round(image.size.width / 2),
-                                         y: center.y - round(image.size.height / 2) - boxHeight / 8)
-                image.draw(at: imagePoint)
-            }
-            // Draw the text
-            let attribs = [
-                NSAttributedString.Key.font: UIFont.preferredFont(for: .footnote, weight: .medium),
-                NSAttributedString.Key.foregroundColor: UIColor.white]
-            let textSize = Self.text.size(withAttributes: attribs)
-            let textPoint = CGPoint(
-                x: center.x - round(textSize.width / 2),
-                y: center.y - round(textSize.height / 2) + (Self.withCheckmark ? boxHeight / 4 : 0))
-            Self.text.draw(at: textPoint, withAttributes: attribs)
+            drawCheckmark()
+            drawText()
         } else {
-            // Draw label
-            let label = UILabel(frame: boxRect)
-            label.font = .preferredFont(for: .footnote, weight: .medium)
-            label.textColor = .white
-            label.textAlignment = .center
-            label.numberOfLines = 0
-            label.attributedText = Self.attributedText
-            self.addSubview(label)
+            drawLabel()
         }
+    }
+    
+    private func drawTheBox() {
+        let fill = UIView()
+        fill.backgroundColor = .systemGray.withAlphaComponent(0.8)
+        fill.layer.cornerRadius = 10
+        addSubview(fill)
+        fill.translatesAutoresizingMaskIntoConstraints = false
+        fill.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        fill.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        fill.widthAnchor.constraint(equalToConstant: Self.boxSize).isActive = true
+        fill.heightAnchor.constraint(equalToConstant: Self.boxSize).isActive = true
+    }
+    
+    private func drawCheckmark() {
+        if let image = UIImage(named: "Checkmark") {
+            let imageView = UIImageView(image: image)
+            addSubview(imageView)
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+            imageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -Self.boxSize / 8).isActive = true
+        }
+    }
+    
+    private func drawText() {
+        let label = UILabel()
+        label.font = .preferredFont(for: .footnote, weight: .medium)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.text = Self.text
+        addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        label.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Self.boxSize / 4).isActive = true
+    }
+    
+    private func drawLabel() {
+        let label = UILabel()
+        label.font = .preferredFont(for: .footnote, weight: .medium)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.attributedText = Self.attributedText
+        addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }
     
     //MARK: - Show/Hide HUDView
