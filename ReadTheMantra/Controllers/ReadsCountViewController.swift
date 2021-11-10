@@ -81,7 +81,6 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
             noMantraSelected = false
             readsCountView.circularProgressView.goal = Int(mantra.readsGoal)
             readsCountView.circularProgressView.value = Int(mantra.reads)
-            print("didSet2")
             setupUI()
         }
     }

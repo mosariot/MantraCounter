@@ -40,6 +40,8 @@ final class DetailsView: UIView {
         titleTextField.adjustsFontForContentSizeCategory = true
         mantraTextTextView.placeHolderText = NSLocalizedString("Enter mantra text", comment: "Mantra text placeholder")
         detailsTextView.placeHolderText = NSLocalizedString("Enter mantra description", comment: "Mantra description placeholder")
+        
+        setPhotoButton.accessibilityIgnoresInvertColors = true
     }
     
     func setPhotoButtonMenu(imagePickerHandler: @escaping () -> (),

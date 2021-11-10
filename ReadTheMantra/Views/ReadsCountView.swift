@@ -26,12 +26,16 @@ final class ReadsCountView: UIView {
         titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)
         titleLabel.adjustsFontForContentSizeCategory = true
         titleLabel.allowsDefaultTighteningForTruncation = true
+        
         readsGoalButton.setTitle(NSLocalizedString("Goal: ",
                                                    comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),
-                                                for: .normal)
+                                 for: .normal)
         addReadsButton.imageSystemName = "plus.circle.fill"
         addRoundsButton.imageSystemName = "arrow.clockwise.circle.fill"
         setProperValueButton.imageSystemName = "hand.draw.fill"
+        
+        portraitMantraImageView.accessibilityIgnoresInvertColors = true
+        landscapeMantraImageView.accessibilityIgnoresInvertColors = true
     }
     
     func setPortraitMantraImage(with mantra: Mantra) {

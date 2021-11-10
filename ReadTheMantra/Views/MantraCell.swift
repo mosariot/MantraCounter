@@ -43,6 +43,7 @@ final class MantraCell: UICollectionViewListCell {
                 to: CGSize(width: Constants.rowHeight,
                            height: Constants.rowHeight))
         }
+        configuration.imageProperties.accessibilityIgnoresInvertColors = true
         configuration.imageProperties.maximumSize = CGSize(width: Constants.rowHeight, height: Constants.rowHeight)
         
         // Background Configuration
