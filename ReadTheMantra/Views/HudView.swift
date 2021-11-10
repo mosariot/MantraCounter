@@ -21,7 +21,7 @@ final class HudView: UIView {
     static func makeViewWithCheckmark(inView view: UIView, withText text: String) -> HudView {
         self.text = text
         self.withCheckmark = true
-        view.isUserInteractionEnabled = true
+        view.isUserInteractionEnabled = false
         let hudView = makeAndShowHudView(in: view)
         return hudView
     }
@@ -30,7 +30,6 @@ final class HudView: UIView {
     static func makeViewWithoutCheckmark(inView view: UIView, withText text: NSMutableAttributedString) -> HudView {
         self.attributedText = text
         self.withCheckmark = false
-        view.isUserInteractionEnabled = false
         let hudView = makeAndShowHudView(in: view)
         return hudView
     }
@@ -42,10 +41,10 @@ final class HudView: UIView {
         hudView.show()
         
         hudView.translatesAutoresizingMaskIntoConstraints = false
-        hudView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        hudView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        hudView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
-        hudView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
+        hudView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        hudView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
+        hudView.widthAnchor.constraint(equalToConstant: Self.boxSize).isActive = true
+        hudView.heightAnchor.constraint(equalToConstant: Self.boxSize).isActive = true
         
         return hudView
     }
@@ -53,7 +52,7 @@ final class HudView: UIView {
     //MARK: - Draw the HUD View
     
     override func draw(_ rect: CGRect) {
-        drawTheBox()
+        drawBox()
         
         if Self.withCheckmark {
             drawCheckmark()
@@ -63,22 +62,24 @@ final class HudView: UIView {
         }
     }
     
-    private func drawTheBox() {
-        let fill = UIView()
-        fill.backgroundColor = .systemGray.withAlphaComponent(0.8)
-        fill.layer.cornerRadius = 10
-        addSubview(fill)
-        fill.translatesAutoresizingMaskIntoConstraints = false
-        fill.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        fill.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        fill.widthAnchor.constraint(equalToConstant: Self.boxSize).isActive = true
-        fill.heightAnchor.constraint(equalToConstant: Self.boxSize).isActive = true
+    private func drawBox() {
+        let box = UIView()
+        box.backgroundColor = .systemGray.withAlphaComponent(0.8)
+        box.layer.cornerRadius = 10
+        addSubview(box)
+        
+        box.translatesAutoresizingMaskIntoConstraints = false
+        box.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        box.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        box.widthAnchor.constraint(equalToConstant: Self.boxSize).isActive = true
+        box.heightAnchor.constraint(equalToConstant: Self.boxSize).isActive = true
     }
     
     private func drawCheckmark() {
         if let image = UIImage(named: "Checkmark") {
             let imageView = UIImageView(image: image)
             addSubview(imageView)
+            
             imageView.translatesAutoresizingMaskIntoConstraints = false
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
             imageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -Self.boxSize / 8).isActive = true
@@ -93,6 +94,7 @@ final class HudView: UIView {
         label.numberOfLines = 0
         label.text = Self.text
         addSubview(label)
+        
         label.translatesAutoresizingMaskIntoConstraints = false
         label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         label.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Self.boxSize / 4).isActive = true
@@ -106,6 +108,7 @@ final class HudView: UIView {
         label.numberOfLines = 0
         label.attributedText = Self.attributedText
         addSubview(label)
+        
         label.translatesAutoresizingMaskIntoConstraints = false
         label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
@@ -113,7 +116,7 @@ final class HudView: UIView {
     
     //MARK: - Show/Hide HUDView
     
-    func show() {
+    private func show() {
         alpha = 0
         transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: [], animations: {
@@ -122,13 +125,12 @@ final class HudView: UIView {
         }, completion: nil)
     }
     
-    func hide(afterDelay delay: Double, handler: @escaping () -> ()) {
+    func hide(afterDelay delay: Double) {
         afterDelay(delay) {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: []) {
                 self.alpha = 0
                 self.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
             } completion: { _ in
-                handler()
                 self.removeFromSuperview()
             }
         }

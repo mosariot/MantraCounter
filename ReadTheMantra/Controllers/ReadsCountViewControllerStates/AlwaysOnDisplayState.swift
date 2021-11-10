@@ -55,9 +55,7 @@ final class AlwaysOnDisplayState: ReadsCountViewControllerState {
             NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, imageString.length))
         
         let hudView = HudView.makeViewWithoutCheckmark(inView: context.view, withText: imageString)
-        hudView.hide(afterDelay: 1.2) { [weak context] in
-            context?.view.isUserInteractionEnabled = true
-        }
+        hudView.hide(afterDelay: 1.2)
     }
     
     private func adjustReadsCountView(_ context: ReadsCountStateContext) {
