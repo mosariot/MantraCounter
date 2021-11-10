@@ -42,7 +42,7 @@ final class HudView: UIView {
         
         hudView.translatesAutoresizingMaskIntoConstraints = false
         hudView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
-        hudView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
+        hudView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: -view.bounds.height / 6).isActive = true
         hudView.widthAnchor.constraint(equalToConstant: Self.boxSize).isActive = true
         hudView.heightAnchor.constraint(equalToConstant: Self.boxSize).isActive = true
         
@@ -64,7 +64,7 @@ final class HudView: UIView {
     
     private func drawBox() {
         let box = UIView()
-        box.backgroundColor = .systemGray.withAlphaComponent(0.8)
+        box.backgroundColor = .systemGray.withAlphaComponent(0.9)
         box.layer.cornerRadius = 10
         addSubview(box)
         
