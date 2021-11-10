@@ -36,7 +36,7 @@ final class DisplaySystemBehaviorState: ReadsCountViewControllerState {
     
     private func animateView(_ context: ReadsCountStateContext) {
         UIApplication.shared.isIdleTimerDisabled = false
-        UIView.animate(withDuration: 0.2) {
+        UIView.animate(withDuration: 0.3) {
             context.readsCountView.backgroundColor = .systemBackground
             context.readsCountView.circularProgressView.backgroundColor = .systemBackground
         }
@@ -48,6 +48,7 @@ final class DisplaySystemBehaviorState: ReadsCountViewControllerState {
         context.readsCountView.addRoundsButton.isEnabled = true
         context.readsCountView.setProperValueButton.isEnabled = true
         context.readsCountView.readsGoalButton.isEnabled = true
+        context.readsCountView.circularProgressView.isAlwayOnDisplay = false
     }
     
     private func setupTaps(_ context: ReadsCountStateContext) {

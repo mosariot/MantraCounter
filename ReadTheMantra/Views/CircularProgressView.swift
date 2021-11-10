@@ -24,18 +24,52 @@ final class CircularProgressView: UIView {
             if currentGoal != goal {
                 setNewGoal(to: currentGoal)
             } else {
-                setValueCircleAnimation(to: currentValue, animated: false)
+                setValueCircleAnimation(to: updatedValue, animated: false)
             }
-            setNewValueLabel(to: currentValue, animated: false)
+            setNewValueLabel(to: updatedValue, animated: false)
         }
     }
     
     var value = 0 {
-        didSet { currentValue = value }
+        didSet { updatedValue = value }
     }
+    
+    @NotNegative var currentSessionValue = 0
     
     var goal = Constants.initialReadsGoal {
         didSet { currentGoal = goal }
+    }
+    
+    var isAlwayOnDisplay = false {
+        didSet {
+            UIView.animate(withDuration: 0.3) {
+                self.label.center = self.labelCenter
+            }
+            if isAlwayOnDisplay {
+                currentSessionLabelAnimateIn()
+            } else {
+                currentSessionLabelAnimateOut()
+            }
+        }
+    }
+    
+    private func currentSessionLabelAnimateIn() {
+        self.currentSessionLabel.isHidden = false
+        self.currentSessionLabel.alpha = 0
+        self.currentSessionLabel.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: [], animations: {
+            self.currentSessionLabel.alpha = 1
+            self.currentSessionLabel.transform = CGAffineTransform.identity
+        }, completion: nil)
+    }
+    
+    private func currentSessionLabelAnimateOut() {
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: []) {
+            self.currentSessionLabel.alpha = 0
+            self.currentSessionLabel.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        } completion: { _ in
+            self.currentSessionLabel.isHidden = true
+        }
     }
     
     func setNewGoal(to newGoal: Int, animated: Bool = true) {
@@ -73,7 +107,7 @@ final class CircularProgressView: UIView {
         let currentReadsGoal = goal
         goalCircleTimer = Timer.scheduledTimer(withTimeInterval: Constants.progressAnimationDuration * 0.01, repeats: true) { [weak self] timer in
             guard let self = self else { return }
-            if currentTime >= Constants.progressAnimationDuration * 1.01 {
+            if currentTime >= Constants.progressAnimationDuration * (Constants.progressAnimationDuration + 0.01) {
                 timer.invalidate()
                 self.goalCircleTimer = nil
                 self.goal = newGoal
@@ -100,24 +134,22 @@ final class CircularProgressView: UIView {
     
     //MARK: - Private
     
-    private var currentValue = 0
+    private var updatedValue = 0
     private var currentGoal = Constants.initialReadsGoal
     private let label = CopyableLabel()
+    private let currentSessionLabel = UILabel()
+    private var labelCenter: CGPoint { CGPoint(x: pathCenter.x, y: pathCenter.y - (isAlwayOnDisplay ? radius / 3 : 0)) }
     private let lineWidth: CGFloat = 7
     private let foregroundLayer = CAShapeLayer()
     private let backgroundLayer = CAShapeLayer()
-    private var pathCenter: CGPoint {
-        convert(center, from: superview)
-    }
-    private var radius: CGFloat {
-        (([bounds.width, bounds.height].min() ?? lineWidth) - lineWidth) / 2
-    }
+    private var pathCenter: CGPoint { convert(center, from: superview) }
+    private var radius: CGFloat { (([bounds.width, bounds.height].min() ?? lineWidth) - lineWidth) / 2 }
     private var labelTimer: Timer?
     private var goalCircleTimer: Timer?
     
     private func setValueCircleAnimation(to newValue: Int, animated: Bool) {
         
-        currentValue = newValue
+        updatedValue = newValue
         
         var progress: Double {
             let progressConstant = Double(newValue) / Double(goal)
@@ -137,23 +169,27 @@ final class CircularProgressView: UIView {
     
     private func setNewValueLabel(to newValue: Int, animated: Bool) {
         
+        currentSessionValue += newValue - value
+        
         guard animated else {
             value = newValue
             self.label.text = value.formattedNumber()
             self.setForegroundLayerColor(value: value, readsGoal: goal)
             let fontSize = self.labelFontSize(for: value)
             self.setLabel(withSize: fontSize)
+            self.setCurrentSessionLabel()
             return
         }
         
-        currentValue = newValue
+        updatedValue = newValue
         var currentTime: Double = 0
         labelTimer = Timer.scheduledTimer(withTimeInterval: Constants.progressAnimationDuration * 0.01, repeats: true) { [weak self] timer in
             guard let self = self else { return }
-            if currentTime >= Constants.progressAnimationDuration * 1.01 {
+            if currentTime >= Constants.progressAnimationDuration * (Constants.progressAnimationDuration + 0.01) {
                 timer.invalidate()
                 self.labelTimer = nil
                 self.value = newValue
+                self.setCurrentSessionLabel()
             } else {
                 var momentValue = Double(self.value) + Double(newValue - self.value) * (currentTime / Constants.progressAnimationDuration)
                 currentTime += Constants.progressAnimationDuration * 0.01
@@ -170,6 +206,7 @@ final class CircularProgressView: UIView {
     private func setupView() {
         makeBar()
         addSubview(label)
+        addSubview(currentSessionLabel)
     }
     
     private func makeBar() {
@@ -179,7 +216,7 @@ final class CircularProgressView: UIView {
     
     private func drawBackgroundLayer() {
         
-        let path = UIBezierPath(arcCenter: pathCenter, radius: radius, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
+        let path = UIBezierPath(arcCenter: pathCenter, radius: radius, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
         backgroundLayer.path = path.cgPath
         backgroundLayer.strokeColor = UIColor.systemGray.cgColor
         backgroundLayer.lineWidth = lineWidth - (0.3 * lineWidth)
@@ -189,7 +226,7 @@ final class CircularProgressView: UIView {
     
     private func drawForegroundLayer() {
         
-        let startAngle = (-CGFloat.pi/2)
+        let startAngle = (-CGFloat.pi / 2)
         let endAngle = 2 * CGFloat.pi + startAngle
         
         let path = UIBezierPath(arcCenter: pathCenter, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
@@ -217,15 +254,24 @@ final class CircularProgressView: UIView {
     private func setLabel(withSize fontSize: CGFloat) {
         label.font = .rounded(ofSize: fontSize, weight: .medium)
         label.sizeToFit()
-        label.center = pathCenter
+        label.center = labelCenter
+    }
+    
+    private func setCurrentSessionLabel() {
+        let fontSize = self.labelFontSize(for: value)
+        currentSessionLabel.font = .rounded(ofSize: fontSize, weight: .medium)
+        currentSessionLabel.textColor = Constants.accentColor ?? .systemOrange
+        currentSessionLabel.text = currentSessionValue.formattedNumber()
+        currentSessionLabel.sizeToFit()
+        currentSessionLabel.center = CGPoint(x: pathCenter.x, y: pathCenter.y + radius / 3)
     }
     
     private func setForegroundLayerColor(value: Int, readsGoal: Int) {
         var color = UIColor()
         switch value {
-        case 0..<readsGoal/2:
+        case 0 ..< readsGoal / 2:
             color = .systemGreen
-        case readsGoal/2..<readsGoal:
+        case readsGoal / 2 ..< readsGoal:
             color = .systemOrange
         case readsGoal...:
             color = .systemPurple

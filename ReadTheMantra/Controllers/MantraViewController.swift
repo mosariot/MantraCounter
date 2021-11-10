@@ -503,11 +503,13 @@ extension MantraViewController: MantraCellDelegate {
 
 extension MantraViewController: MantraDataManagerDelegate {
     
-    func mantraDataManagerDidChangeContent() {
+    func mantraDataManagerDidChangeContent(_ isUserInitiatedChange: Bool) {
         handleSearchControllerResultsIfNeeded()
         applySnapshot(withReconfiguration: true)
         reselectSelectedMantraIfNeeded()
-        updateSecondaryView()
+        if !isUserInitiatedChange {
+            updateSecondaryView()
+        }
         stopActivityIndicatorForInitialDataLoadingIfNeeded()
         mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
     }
@@ -534,13 +536,13 @@ extension MantraViewController: MantraDataManagerDelegate {
     }
     
     private func updateSecondaryView() {
-        afterDelay(Constants.progressAnimationDuration) {
+//        afterDelay(Constants.progressAnimationDuration) {
             guard let selectedMantra = self.selectedMantra else { return }
             if !self.dataStore.overallMantras.contains(selectedMantra) {
                 self.selectedMantra = nil
             }
             self.delegate?.mantraSelected(self.selectedMantra)
-        }
+//        }
     }
 }
 

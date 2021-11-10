@@ -17,32 +17,30 @@ final class HudView: UIView {
     //MARK: - Convenient initializer
     
     @discardableResult
-    static func makeViewWithCheckmark(
-        inView view: UIView, withText text: String, blockViewInteractions: Bool = true) -> HudView {
-            let hudView = HudView(frame: view.bounds)
-            Self.text = text
-            Self.withCheckmark = true
-            hudView.isOpaque = false
-            view.addSubview(hudView)
-            view.isUserInteractionEnabled = !blockViewInteractions
-            hudView.show()
-            return hudView
-        }
+    static func makeViewWithCheckmark(inView view: UIView, withText text: String) -> HudView {
+        let hudView = makeHudView(in: view)
+        self.text = text
+        self.withCheckmark = true
+        view.isUserInteractionEnabled = true
+        return hudView
+    }
     
     @discardableResult
-    static func makeViewWithoutCheckmark(
-        inView view: UIView,
-        withText text: NSMutableAttributedString,
-        blockViewInteractions: Bool = true) -> HudView {
-            let hudView = HudView(frame: view.bounds)
-            self.attributedText = text
-            Self.withCheckmark = false
-            hudView.isOpaque = false
-            view.addSubview(hudView)
-            view.isUserInteractionEnabled = !blockViewInteractions
-            hudView.show()
-            return hudView
-        }
+    static func makeViewWithoutCheckmark(inView view: UIView, withText text: NSMutableAttributedString) -> HudView {
+        let hudView = makeHudView(in: view)
+        self.attributedText = text
+        self.withCheckmark = false
+        view.isUserInteractionEnabled = false
+        return hudView
+    }
+    
+    private static func makeHudView(in view: UIView) -> HudView {
+        let hudView = HudView(frame: view.bounds)
+        hudView.isOpaque = false
+        view.addSubview(hudView)
+        hudView.show()
+        return hudView
+    }
     
     //MARK: - Draw the HUD View
     
@@ -93,18 +91,19 @@ final class HudView: UIView {
     func show() {
         alpha = 0
         transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: [], animations: {
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: [], animations: {
             self.alpha = 1
             self.transform = CGAffineTransform.identity
         }, completion: nil)
     }
     
-    func hide(afterDelay delay: Double) {
+    func hide(afterDelay delay: Double, handler: @escaping () -> ()) {
         afterDelay(delay) {
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: []) {
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: []) {
                 self.alpha = 0
                 self.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
             } completion: { _ in
+                handler()
                 self.removeFromSuperview()
             }
         }

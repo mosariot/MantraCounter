@@ -43,13 +43,12 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
     
     private var noMantraSelected = false {
         didSet {
-            switch noMantraSelected {
-            case true:
+            if noMantraSelected {
                 navigationItem.rightBarButtonItem = nil
                 readsCountView.mainStackView.isHidden = true
                 readsCountView.displayAlwaysOn.isHidden = true
                 noMantraLabel.isHidden = false
-            case false:
+            } else {
                 readsCountView.mainStackView.isHidden = false
                 readsCountView.displayAlwaysOn.isHidden = false
                 noMantraLabel.isHidden = true
@@ -82,6 +81,7 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
             noMantraSelected = false
             readsCountView.circularProgressView.goal = Int(mantra.readsGoal)
             readsCountView.circularProgressView.value = Int(mantra.reads)
+            print("didSet2")
             setupUI()
         }
     }
@@ -179,6 +179,7 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
     
     private func invalidatePreviousState() {
         readsCountView.circularProgressView.stopAnimationIfNeeded()
+        readsCountView.circularProgressView.currentSessionValue = 0
         confettiView.removeFromSuperview()
         shouldInvalidatePreviousState = true
     }

@@ -55,8 +55,10 @@ final class AlwaysOnDisplayState: ReadsCountViewControllerState {
             NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, imageString.length))
         
         let hudView = HudView.makeViewWithoutCheckmark(
-            inView: context.view, withText: imageString, blockViewInteractions: false)
-        hudView.hide(afterDelay: 1.5)
+            inView: context.view, withText: imageString)
+        hudView.hide(afterDelay: 1.2) { [weak context] in
+            context?.view.isUserInteractionEnabled = true
+        }
     }
     
     private func adjustReadsCountView(_ context: ReadsCountStateContext) {
@@ -65,13 +67,14 @@ final class AlwaysOnDisplayState: ReadsCountViewControllerState {
         context.readsCountView.addRoundsButton.isEnabled = false
         context.readsCountView.setProperValueButton.isEnabled = false
         context.readsCountView.readsGoalButton.isEnabled = false
+        context.readsCountView.circularProgressView.isAlwayOnDisplay = true
     }
     
     private func animateView(_ context: ReadsCountStateContext) {
         UIApplication.shared.isIdleTimerDisabled = true
-        UIView.animate(withDuration: 0.2) {
-            context.readsCountView.backgroundColor = .systemGray4
-            context.readsCountView.circularProgressView.backgroundColor = .systemGray4
+        UIView.animate(withDuration: 0.3) {
+            context.readsCountView.backgroundColor = .systemGray5
+            context.readsCountView.circularProgressView.backgroundColor = .systemGray5
         }
     }
     

@@ -57,6 +57,7 @@
 		9F9299AF250818B6003D5029 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* Constants.swift */; };
 		9FA05ED2270489FF00163DA1 /* ButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA05ED1270489FF00163DA1 /* ButtonStackView.swift */; };
 		9FA216D82733C6B1008AC6D7 /* AlertControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA216D72733C6B1008AC6D7 /* AlertControllerFactory.swift */; };
+		9FA2171F273BA25E008AC6D7 /* NotNegativePropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA2171E273BA25E008AC6D7 /* NotNegativePropertyWrapper.swift */; };
 		9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA97A382570177B005C9078 /* ReadsCountViewController.swift */; };
 		9FA9E0F1262A2A2B000A408A /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA9E0F0262A2A2B000A408A /* Functions.swift */; };
 		9FA9E0F7262A2FF4000A408A /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA9E0F6262A2FF4000A408A /* HudView.swift */; };
@@ -181,6 +182,7 @@
 		9F9299AE250818B6003D5029 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9FA05ED1270489FF00163DA1 /* ButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStackView.swift; sourceTree = "<group>"; };
 		9FA216D72733C6B1008AC6D7 /* AlertControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerFactory.swift; sourceTree = "<group>"; };
+		9FA2171E273BA25E008AC6D7 /* NotNegativePropertyWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotNegativePropertyWrapper.swift; sourceTree = "<group>"; };
 		9FA97A382570177B005C9078 /* ReadsCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadsCountViewController.swift; sourceTree = "<group>"; };
 		9FA9E0F0262A2A2B000A408A /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		9FA9E0F6262A2FF4000A408A /* HudView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 				9F5FE69424E7141700D0475E /* Info.plist */,
 				9F5FE6B624E9262B00D0475E /* InfoPlist.strings */,
 				9F5FE6AD24E78EE400D0475E /* Localizable.strings */,
+				9FA2171E273BA25E008AC6D7 /* NotNegativePropertyWrapper.swift */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -629,6 +632,7 @@
 				9F22713A26348AA2001F92BD /* UIImage+ResizeUIImage.swift in Sources */,
 				9F08B662268B4C75008F20B1 /* ReadsCountView.swift in Sources */,
 				9F08B65E268B4A1E008F20B1 /* OnboardingView.swift in Sources */,
+				9FA2171F273BA25E008AC6D7 /* NotNegativePropertyWrapper.swift in Sources */,
 				9FFCF08E26C1C28800984666 /* ViewDetailsState.swift in Sources */,
 				9FC558B025D158D30015C3C4 /* MantraDataManager.swift in Sources */,
 				9F5FE6A624E7183E00D0475E /* DetailsMode.swift in Sources */,

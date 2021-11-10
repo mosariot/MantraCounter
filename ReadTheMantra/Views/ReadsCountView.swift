@@ -21,14 +21,6 @@ final class ReadsCountView: UIView {
     @IBOutlet var mainStackView: UIStackView!
     @IBOutlet var displayAlwaysOn: UIButton!
     
-    @objc func doubleTapped() {
-        print("double view")
-    }
-    
-    @objc func tripleTapped() {
-        print("triple view")
-    }
-    
     func setup(with mantra: Mantra) {
         titleLabel.text = mantra.title
         titleLabel.font = UIFont.preferredFont(for: .largeTitle, weight: .medium)

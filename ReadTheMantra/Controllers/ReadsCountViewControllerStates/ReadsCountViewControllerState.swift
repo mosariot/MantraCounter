@@ -42,8 +42,8 @@ extension ReadsCountViewControllerState {
         mantraDataManager.updateMantraValues(mantra, with: value, and: adjustingType)
         updateProrgessView(for: adjustingType, animated: animated)
         context?.readsCountView.readsGoalButton.setTitle(NSLocalizedString("Goal: ",
-                                                   comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),
-                                 for: .normal)
+                                                                           comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),
+                                                         for: .normal)
         if adjustingType != .goal {
             context?.previousReadsCount = oldReads
             readsCongratulationsCheck(oldReads: context?.previousReadsCount, newReads: mantra.reads)
