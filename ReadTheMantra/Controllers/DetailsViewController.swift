@@ -180,6 +180,17 @@ extension DetailsViewController {
         configuration.filter = .images
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
+        
+        if #available (iOS 15, *) {
+            if let sheet = picker.presentationController as? UISheetPresentationController {
+                sheet.detents = [.medium(), .large()]
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                sheet.prefersGrabberVisible = true
+                sheet.prefersEdgeAttachedInCompactHeight = true
+                sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+            }
+        }
+        
         present(picker, animated: true, completion: nil)
     }
     

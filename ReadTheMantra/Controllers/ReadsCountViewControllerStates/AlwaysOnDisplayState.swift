@@ -21,6 +21,14 @@ final class AlwaysOnDisplayState: ReadsCountViewControllerState {
         setupTaps(context)
     }
     
+    private func animateView(_ context: ReadsCountStateContext) {
+        UIApplication.shared.isIdleTimerDisabled = true
+        UIView.animate(withDuration: 0.3) {
+            context.readsCountView.backgroundColor = .systemGray5
+            context.readsCountView.circularProgressView.backgroundColor = .systemGray5
+        }
+    }
+    
     private func showHudView(_ context: ReadsCountStateContext) {
         guard !UserDefaults.standard.bool(forKey: "isFirstSwitchDisplayMode") else {
             UserDefaults.standard.setValue(false, forKey: "isFirstSwitchDisplayMode")
@@ -55,7 +63,7 @@ final class AlwaysOnDisplayState: ReadsCountViewControllerState {
             NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, imageString.length))
         
         let hudView = HudView.makeViewWithoutCheckmark(inView: context.view, withText: imageString)
-        hudView.hide(afterDelay: 1.2)
+        hudView.hide(afterDelay: 1.5)
     }
     
     private func adjustReadsCountView(_ context: ReadsCountStateContext) {
@@ -65,14 +73,6 @@ final class AlwaysOnDisplayState: ReadsCountViewControllerState {
         context.readsCountView.setProperValueButton.isEnabled = false
         context.readsCountView.readsGoalButton.isEnabled = false
         context.readsCountView.circularProgressView.isAlwayOnDisplay = true
-    }
-    
-    private func animateView(_ context: ReadsCountStateContext) {
-        UIApplication.shared.isIdleTimerDisabled = true
-        UIView.animate(withDuration: 0.3) {
-            context.readsCountView.backgroundColor = .systemGray5
-            context.readsCountView.circularProgressView.backgroundColor = .systemGray5
-        }
     }
     
     private func setupTaps(_ context: ReadsCountStateContext) {
