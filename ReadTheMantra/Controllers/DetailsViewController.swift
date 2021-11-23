@@ -69,6 +69,8 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(pasteboardChanged), name: UIPasteboard.changedNotification, object: pasteboard)
+        
         hideKeyboardWhenTappedAround()
         view.fixInputAssistant()
         
@@ -84,6 +86,10 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
         addHapticGenerator.prepare()
         
         setupData()
+    }
+    
+    @objc func pasteboardChanged() {
+        print("!")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -220,6 +226,17 @@ extension DetailsViewController {
         vc.delegate = self
         vc.modalPresentationStyle = .pageSheet
         vc.preferredControlTintColor = view.tintColor
+        
+        if #available (iOS 15, *) {
+            if let sheet = vc.presentationController as? UISheetPresentationController {
+                sheet.detents = [.medium(), .large()]
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                sheet.prefersGrabberVisible = true
+                sheet.prefersEdgeAttachedInCompactHeight = true
+                sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+            }
+        }
+        
         present(vc, animated: true) {
             self.checkForFirstSearchOnTheInternet { [weak vc] (alert) in
                 guard let vc = vc else { return }
