@@ -23,7 +23,7 @@ final class MantraDataManager: NSObject, DataManager {
     private var isUserInitiatedChange = false
     
     var fetchedMantras: [Mantra] {
-        fetchedResultsController?.fetchedObjects?.filter{ $0.title != "" } ?? []
+        fetchedResultsController?.fetchedObjects?.filter { $0.title != "" } ?? []
     }
     
     init(delegate: MantraDataManagerDelegate? = nil) {
@@ -53,7 +53,7 @@ final class MantraDataManager: NSObject, DataManager {
             guard let title = $0[.title] else { return false }
             return selectedMantrasTitles.contains(title)
         }
-        selectedMantras.forEach { (selectedMantra) in
+        selectedMantras.forEach { selectedMantra in
             let mantra = Mantra(context: coreDataManager.persistentContainer.viewContext)
             mantra.uuid = UUID()
             mantra.title = selectedMantra[.title]
@@ -103,9 +103,7 @@ final class MantraDataManager: NSObject, DataManager {
     private func deleteEmptyMantrasIfNeeded() {
         fetchedResultsController?.fetchedObjects?
             .filter { $0.title == "" }
-            .forEach { (mantra) in
-                coreDataManager.deleteMantra(mantra)
-            }
+            .forEach { mantra in coreDataManager.deleteMantra(mantra) }
     }
 }
 

@@ -275,23 +275,23 @@ extension MantraViewController {
     
     private func makeDataSource() -> DataSource {
         
-        let cellRegistration = UICollectionView.CellRegistration<MantraCell, Mantra> { [weak self] (cell, indexPath, mantra) in
+        let cellRegistration = UICollectionView.CellRegistration<MantraCell, Mantra> { [weak self] cell, indexPath, mantra in
             guard let self = self else { return }
             cell.mantra = mantra
             cell.delegate = self
         }
         
-        let dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, mantraID) -> UICollectionViewCell? in
+        let dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, mantraID -> UICollectionViewCell? in
             let mantra = self.dataStore.mantraFor(mantraID)
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: mantra)
         }
         
         let headerRegistration = UICollectionView.SupplementaryRegistration<HeaderSupplementaryView>(elementKind: "Header") {
-            (supplementaryView, string, indexPath) in
+            supplementaryView, string, indexPath in
             supplementaryView.section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
         }
         
-        dataSource.supplementaryViewProvider = { (view, kind, index) in
+        dataSource.supplementaryViewProvider = { view, kind, index in
             self.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: index)
         }
         
@@ -345,7 +345,7 @@ extension MantraViewController {
                     NSLocalizedString("Favorite", comment: "Menu Action on MantraViewController")
                 let image = mantra.isFavorite ? UIImage(systemName: "star.slash") : UIImage(systemName: "star")
                 
-                let favorite = UIContextualAction(style: .normal, title: title) { (action, view, completion) in
+                let favorite = UIContextualAction(style: .normal, title: title) { _, _, completion in
                     mantra.isFavorite.toggle()
                     completion(true)
                 }
@@ -354,7 +354,7 @@ extension MantraViewController {
                 
                 let delete = UIContextualAction(
                     style: .destructive,
-                    title: NSLocalizedString("Delete", comment: "Menu Action on MantraViewController")) { (action, view, completion) in
+                    title: NSLocalizedString("Delete", comment: "Menu Action on MantraViewController")) { _, _, completion in
                     self.showDeleteConfirmationAlert(for: mantra)
                     completion(true)
                 }
@@ -488,7 +488,7 @@ extension MantraViewController {
 extension MantraViewController: MantraCellDelegate {
     
     func showDeleteConfirmationAlert(for mantra: Mantra) {
-        let alert = AlertControllerFactory.deleteConfirmationAlert(for: mantra, idiom: traitCollection.userInterfaceIdiom) { [weak self] (mantra) in
+        let alert = AlertControllerFactory.deleteConfirmationAlert(for: mantra, idiom: traitCollection.userInterfaceIdiom) { [weak self] mantra in
             guard let self = self else { return }
             if self.selectedMantra == mantra {
                 self.selectedMantra = nil

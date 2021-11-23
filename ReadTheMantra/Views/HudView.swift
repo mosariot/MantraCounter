@@ -18,21 +18,21 @@ final class HudView: UIView {
     //MARK: - Convenient initializer
     
     @discardableResult
-    static func makeViewWithCheckmark(inView view: UIView, withText text: String) -> HudView {
+    static func makeViewWithCheckmark(inView view: UIView, withText text: String, verticalOffset offset: CGFloat = 0) -> HudView {
         self.text = text
         self.withCheckmark = true
         view.isUserInteractionEnabled = false
         let hudView = makeAndShowHudView(in: view)
-        hudView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
+        hudView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: offset).isActive = true
         return hudView
     }
     
     @discardableResult
-    static func makeViewWithoutCheckmark(inView view: UIView, withText text: NSMutableAttributedString) -> HudView {
+    static func makeViewWithoutCheckmark(inView view: UIView, withText text: NSMutableAttributedString, verticalOffset offset: CGFloat = 0) -> HudView {
         self.attributedText = text
         self.withCheckmark = false
         let hudView = makeAndShowHudView(in: view)
-        hudView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: -view.bounds.height / 6).isActive = true
+        hudView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: -offset).isActive = true
         return hudView
     }
     

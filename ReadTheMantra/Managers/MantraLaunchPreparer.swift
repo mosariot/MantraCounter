@@ -61,7 +61,7 @@ final class MantraLaunchPreparer: LaunchPreparer {
             recordsCount += 1
         }
         
-        operation.queryCompletionBlock = { (_, error) in
+        operation.queryCompletionBlock = { _, error in
             DispatchQueue.main.async {
                 if error == nil {
                     if recordsCount == 0 {

@@ -33,17 +33,16 @@ final class DataStore {
             mantraDataManager.fetchedMantras.sorted {
                 guard let title1 = $0.title, let title2 = $1.title else { return false }
                 return title1.localizedStandardCompare(title2) == .orderedAscending } :
-            mantraDataManager.fetchedMantras.sorted {
-                $0.reads > $1.reads }
+            mantraDataManager.fetchedMantras.sorted { $0.reads > $1.reads }
     }
     
     lazy var displayedMantras = overallMantras
     
     var favoritesSectionMantras: [Mantra] {
-        displayedMantras.filter{ $0.isFavorite }
+        displayedMantras.filter { $0.isFavorite }
     }
     var mainSectionMantras: [Mantra] {
-        displayedMantras.filter{ !$0.isFavorite }
+        displayedMantras.filter { !$0.isFavorite }
     }
     
     init(mantraDataManager: DataManager, delegate: DataStoreDelegate) {
@@ -60,11 +59,11 @@ final class DataStore {
     }
     
     func favoritesSectionMantrasIDs() -> [ObjectIdentifier] {
-        favoritesSectionMantras.map{ $0.id }
+        favoritesSectionMantras.map { $0.id }
     }
     
     func mainSectionMantrasIDs() -> [ObjectIdentifier] {
-        mainSectionMantras.map{ $0.id }
+        mainSectionMantras.map { $0.id }
     }
     
     func syncDisplayedMantrasWithOverallMantras() {
@@ -72,7 +71,7 @@ final class DataStore {
     }
     
     func filterDisplayedMantrasWith(_ text: String) {
-        displayedMantras = overallMantras.filter{
+        displayedMantras = overallMantras.filter {
             if let title = $0.title {
                 return title.localizedCaseInsensitiveContains(text)
             } else {

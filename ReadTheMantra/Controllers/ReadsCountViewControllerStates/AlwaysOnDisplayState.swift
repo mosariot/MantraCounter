@@ -34,35 +34,8 @@ final class AlwaysOnDisplayState: ReadsCountViewControllerState {
             UserDefaults.standard.setValue(false, forKey: "isFirstSwitchDisplayMode")
             return
         }
-        let attachment1 = NSTextAttachment()
-        attachment1.image = UIImage(systemName: "hand.tap")?.withTintColor(.white)
-        let attachment2 = NSTextAttachment()
-        attachment2.image = UIImage(systemName: "plus.circle")?.withTintColor(.white)
-        let attachment3 = NSTextAttachment()
-        attachment3.image = UIImage(systemName: "goforward")?.withTintColor(.white)
-        let imageString = NSMutableAttributedString()
-        let tapString = NSMutableAttributedString(attachment: attachment1)
-        let plusString = NSMutableAttributedString(attachment: attachment2)
-        let goforwardString = NSMutableAttributedString(attachment: attachment3)
-        let equalString = NSAttributedString(string: "  =  ")
-        let newLineString = NSAttributedString(string: "\n")
-        let spaceString = NSAttributedString(string: " ")
-        imageString.append(tapString)
-        imageString.append(equalString)
-        imageString.append(plusString)
-        imageString.append(newLineString)
-        imageString.append(tapString)
-        imageString.append(spaceString)
-        imageString.append(tapString)
-        imageString.append(equalString)
-        imageString.append(goforwardString)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 12
-        paragraphStyle.alignment = .center
-        imageString.addAttribute(
-            NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, imageString.length))
-        
-        let hudView = HudView.makeViewWithoutCheckmark(inView: context.view, withText: imageString)
+        let imageString = getImageString()
+        let hudView = HudView.makeViewWithoutCheckmark(inView: context.view, withText: imageString, verticalOffset: context.view.bounds.height / 6)
         hudView.hide(afterDelay: 1.5)
     }
     
@@ -107,5 +80,38 @@ final class AlwaysOnDisplayState: ReadsCountViewControllerState {
         } completion: { _ in
             dimmedView.removeFromSuperview()
         }
+    }
+    
+    private func getImageString() -> NSMutableAttributedString {
+        let attachment1 = NSTextAttachment()
+        attachment1.image = UIImage(systemName: "hand.tap")?.withTintColor(.white)
+        let attachment2 = NSTextAttachment()
+        attachment2.image = UIImage(systemName: "plus.circle")?.withTintColor(.white)
+        let attachment3 = NSTextAttachment()
+        attachment3.image = UIImage(systemName: "goforward")?.withTintColor(.white)
+        let imageString = NSMutableAttributedString()
+        let tapString = NSMutableAttributedString(attachment: attachment1)
+        let plusString = NSMutableAttributedString(attachment: attachment2)
+        let goforwardString = NSMutableAttributedString(attachment: attachment3)
+        let equalString = NSAttributedString(string: "  =  ")
+        let newLineString = NSAttributedString(string: "\n")
+        let spaceString = NSAttributedString(string: " ")
+        
+        imageString.append(tapString)
+        imageString.append(equalString)
+        imageString.append(plusString)
+        imageString.append(newLineString)
+        imageString.append(tapString)
+        imageString.append(spaceString)
+        imageString.append(tapString)
+        imageString.append(equalString)
+        imageString.append(goforwardString)
+       
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 12
+        paragraphStyle.alignment = .center
+        imageString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, imageString.length))
+      
+        return imageString
     }
 }

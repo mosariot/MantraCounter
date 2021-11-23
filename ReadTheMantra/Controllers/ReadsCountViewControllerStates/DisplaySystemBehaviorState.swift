@@ -18,7 +18,7 @@ final class DisplaySystemBehaviorState: ReadsCountViewControllerState {
     
     private func showUpdatingAlert(adjustingType: AdjustingType) {
         guard let mantra = context?.mantra, let context = context else { return }
-        let alert = AlertControllerFactory.updatingAlert(mantra: mantra, updatingType: adjustingType, delegate: context) { [weak self] (value) in
+        let alert = AlertControllerFactory.updatingAlert(mantra: mantra, updatingType: adjustingType, delegate: context) { [weak self] value in
             guard let self = self else { return }
             self.mediumHapticGenerator.impactOccurred()
             self.adjustMantra(with: value, adjustingType: adjustingType)

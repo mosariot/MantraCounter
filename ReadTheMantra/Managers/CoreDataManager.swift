@@ -26,7 +26,7 @@ final class CoreDataManager {
         description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
         description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
         
-        container.loadPersistentStores(completionHandler: { (_, error) in
+        container.loadPersistentStores(completionHandler: { _, error in
             guard let error = error as NSError? else { return }
             fatalError("Failed to load persistent stores: \(error)")
         })
@@ -48,6 +48,7 @@ final class CoreDataManager {
         let context = persistentContainer.viewContext
         guard context.hasChanges else { return }
         
+        // saving context in background
         let savingContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         savingContext.parent = context
         savingContext.perform {
@@ -69,10 +70,10 @@ extension CoreDataManager: DataBaseManager {
     
     func preloadData() {
         let context = persistentContainer.viewContext
-        PreloadedMantras.data.forEach { (data) in
+        PreloadedMantras.data.forEach { data in
             let mantra = Mantra(context: context)
             mantra.uuid = UUID()
-            data.forEach { (key, value) in
+            data.forEach { key, value in
                 switch key {
                 case .title:
                     mantra.title = value

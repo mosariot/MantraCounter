@@ -58,7 +58,7 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
         self.mantra = mantra
         self.initialState = state
         self.mantraDataManager = mantraDataManager
-        self.mantraTitles = mantraDataManager.fetchedMantras.compactMap{ $0.title }
+        self.mantraTitles = mantraDataManager.fetchedMantras.compactMap { $0.title }
         self.callerController = callerController
         
         super.init(coder: coder)
@@ -68,8 +68,6 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(pasteboardChanged), name: UIPasteboard.changedNotification, object: pasteboard)
         
         hideKeyboardWhenTappedAround()
         view.fixInputAssistant()
@@ -86,10 +84,6 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
         addHapticGenerator.prepare()
         
         setupData()
-    }
-    
-    @objc func pasteboardChanged() {
-        print("!")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -238,7 +232,7 @@ extension DetailsViewController {
         }
         
         present(vc, animated: true) {
-            self.checkForFirstSearchOnTheInternet { [weak vc] (alert) in
+            self.checkForFirstSearchOnTheInternet { [weak vc] alert in
                 guard let vc = vc else { return }
                 vc.present(alert, animated: true, completion: nil)
             }

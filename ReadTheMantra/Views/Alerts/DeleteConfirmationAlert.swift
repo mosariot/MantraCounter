@@ -19,7 +19,7 @@ extension AlertControllerFactory {
             preferredStyle: idiom == .phone ? .actionSheet : .alert)
         let deleteAction = UIAlertAction(
             title: NSLocalizedString("Delete", comment: "Alert Button on MantraViewController"),
-            style: .destructive) { action in
+            style: .destructive) { _ in
             deleteActionHandler(mantra)
         }
         let cancelAction = UIAlertAction(

@@ -40,14 +40,16 @@ final class PreloadedMantraController: UIViewController {
     private var preloadedMantras: [PreloadedMantra] = []
     
     private var selectedMantrasTitles: [String] {
-        preloadedMantras.filter{ $0.isSelected }.map{ $0.title }
+        preloadedMantras
+            .filter { $0.isSelected }
+            .map { $0.title }
     }
     
     private let addHapticGenerator = UINotificationFeedbackGenerator()
     
     init(mantraDataManager: DataManager) {
         self.mantraDataManager = mantraDataManager
-        self.mantraTitles = mantraDataManager.fetchedMantras.compactMap{ $0.title }
+        self.mantraTitles = mantraDataManager.fetchedMantras.compactMap { $0.title }
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -86,7 +88,7 @@ extension PreloadedMantraController {
     }
     
     private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, PreloadedMantra> { (cell, indexPath, mantra) in
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, PreloadedMantra> { cell, indexPath, mantra in
             var configuration = cell.defaultContentConfiguration()
             configuration.text = mantra.title
             configuration.image = mantra.image
@@ -102,7 +104,7 @@ extension PreloadedMantraController {
             cell.accessories = [badgeAccessory]
         }
         
-        dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, mantraID) -> UICollectionViewCell? in
+        dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, mantraID -> UICollectionViewCell? in
             let mantra = self.preloadedMantras.first(where: { $0.id == mantraID })
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: mantra)
         }
@@ -144,9 +146,9 @@ extension PreloadedMantraController {
     
     private func getPreloadedMantras() -> [PreloadedMantra] {
         var mantras: [PreloadedMantra] = []
-        PreloadedMantras.sortedData().forEach { (data) in
+        PreloadedMantras.sortedData().forEach { data in
             let mantra = PreloadedMantra()
-            data.forEach { (key, value) in
+            data.forEach { key, value in
                 if key == .title {
                     mantra.title = value
                 }
@@ -174,7 +176,7 @@ extension PreloadedMantraController {
     
     private func isMantraDuplicating() -> Bool {
         var isDuplicating = false
-        mantraTitles.forEach { (title) in
+        mantraTitles.forEach { title in
             if selectedMantrasTitles.contains(where: { $0.caseInsensitiveCompare(title) == .orderedSame }) {
                 isDuplicating = true
             }
@@ -214,7 +216,7 @@ extension PreloadedMantraController: UICollectionViewDelegate {
         else { return }
         collectionView.deselectItem(at: indexPath, animated: true)
         mantra.isSelected.toggle()
-        navigationItem.rightBarButtonItem?.isEnabled = !preloadedMantras.filter{ $0.isSelected }.isEmpty
+        navigationItem.rightBarButtonItem?.isEnabled = !preloadedMantras.filter { $0.isSelected }.isEmpty
         
         var newSnapshot = dataSource.snapshot()
         
