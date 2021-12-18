@@ -132,17 +132,21 @@ final class MantraViewController: UICollectionViewController {
     
     private func checkForOnboardingAlert() {
         if isOnboarding {
-            if let onboardingViewController = storyboard?.instantiateViewController(
-                identifier: Constants.onboardingViewController) as? OnboardingViewController {
-                onboardingViewController.delegate = self
-                if isPhoneIdiom {
-                    onboardingViewController.modalPresentationStyle = .fullScreen
-                } else if isPadOrMacIdiom {
-                    blurEffectView.animateIn()
-                    onboardingViewController.modalTransitionStyle = .crossDissolve
-                }
-                present(onboardingViewController, animated: true)
+            showOnboardingViewController()
+        }
+    }
+    
+    private func showOnboardingViewController() {
+        if let onboardingViewController = storyboard?.instantiateViewController(
+            identifier: Constants.onboardingViewController) as? OnboardingViewController {
+            onboardingViewController.delegate = self
+            if isPhoneIdiom {
+                onboardingViewController.modalPresentationStyle = .fullScreen
+            } else if isPadOrMacIdiom {
+                blurEffectView.animateIn()
+                onboardingViewController.modalTransitionStyle = .crossDissolve
             }
+            present(onboardingViewController, animated: true)
         }
     }
     
