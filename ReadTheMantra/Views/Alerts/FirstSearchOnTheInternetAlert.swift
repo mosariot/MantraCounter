@@ -8,10 +8,9 @@
 
 import UIKit
 
-extension AlertControllerFactory {
+extension AlertCenter {
     
     static func firstSearchOnTheInternetAlert() -> UIAlertController {
-        
         let alert = UIAlertController(
             title: NSLocalizedString("Pick Photo",
                                      comment: "Alert Title for first search on the Internet"),

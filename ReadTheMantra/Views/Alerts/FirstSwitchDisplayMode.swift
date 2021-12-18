@@ -8,10 +8,9 @@
 
 import UIKit
 
-extension AlertControllerFactory {
+extension AlertCenter {
     
-    static func firstSwitchDisplayMode() -> UIAlertController {
-        
+    static func showFirstSwitchDisplayModeAlert(in vc: UIViewController) {
         let alert = UIAlertController(
             title: NSLocalizedString("'Mantra Counter' Mode",
                                      comment: "Alert Title for first switch display mode"),
@@ -21,6 +20,6 @@ extension AlertControllerFactory {
         let okAction = UIAlertAction(title: "OK", style: .default)
         alert.addAction(okAction)
         alert.view.tintColor = Constants.accentColor ?? .systemOrange
-        return alert
+        vc.present(alert, animated: true, completion: nil)
     }
 }

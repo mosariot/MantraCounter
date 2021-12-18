@@ -9,7 +9,7 @@
 import UIKit
 
 protocol MantraCellDelegate: AnyObject {
-    func showDeleteConfirmationAlert(for: Mantra)
+    func showDeleteConfirmationAlert(for: Mantra) async
 }
 
 final class MantraCell: UICollectionViewListCell {
@@ -81,10 +81,9 @@ final class MantraCell: UICollectionViewListCell {
             let favoriteAccessoryConfiguration = UICellAccessory.CustomViewConfiguration(customView: favoriteButton,
                                                                                          placement: .leading(displayed: .whenEditing))
             let favoriteAccessory = UICellAccessory.customView(configuration: favoriteAccessoryConfiguration)
-            let deleteAccessory = UICellAccessory.delete(displayed: .whenEditing,
-                                                         actionHandler: { [weak self] in
-                                                            guard let self = self else { return }
-                                                            self.delegate?.showDeleteConfirmationAlert(for: mantra) })
+            let deleteAccessory = UICellAccessory.delete(displayed: .whenEditing) { [weak self] in
+                guard let self = self else { return }
+                Task { await self.delegate?.showDeleteConfirmationAlert(for: mantra) } }
             let badge = UIImage(systemName: "checkmark.circle.fill",
                                 withConfiguration: UIImage.SymbolConfiguration(weight: .semibold))?
                 .withTintColor(.systemGreen, renderingMode: .alwaysOriginal)

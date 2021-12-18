@@ -168,11 +168,17 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 /* Menu Item on DetailsViewController */
 "Search on the Internet" = "Искать в Интернете";
 
-/* Alert Message for Cancel New Mantra */
+/* Alert Message for discard changes */
 "Are you sure you want to discard changes?" = "Вы уверены, что хотите отменить все изменения?";
 
 /* Alert button */
 "Discard Changes" = "Сбросить изменения";
+
+/* Alert Message for discard changes */
+"Are you sure you want to discard this Mantra?" = "Вы уверены, что хотите отменить создание этой мантры?";
+
+/* Alert button */
+"Discard Mantra" = "Отменить создание мантры";
 
 /* Alert Title for add missing title */
 "Please add some title to mantra" = "Пожалуйста, добавьте название мантры";

@@ -12,18 +12,16 @@ final class DisplaySystemBehaviorState: ReadsCountViewControllerState {
     
     private let mediumHapticGenerator = UIImpactFeedbackGenerator(style: .medium)
     
-    override func handleAdjustMantraCount(adjustingType: AdjustingType) {
-        showUpdatingAlert(adjustingType: adjustingType)
+    override func handleAdjustMantraCount(adjustingType: AdjustingType) async {
+        await showUpdatingAlert(adjustingType: adjustingType)
     }
     
-    private func showUpdatingAlert(adjustingType: AdjustingType) {
+    private func showUpdatingAlert(adjustingType: AdjustingType) async {
         guard let mantra = context?.mantra, let context = context else { return }
-        let alert = AlertControllerFactory.updatingAlert(mantra: mantra, updatingType: adjustingType, delegate: context) { [weak self] value in
-            guard let self = self else { return }
-            self.mediumHapticGenerator.impactOccurred()
-            self.adjustMantra(with: value, adjustingType: adjustingType)
+        if let updatingValue = await AlertCenter.updatingValueRequest(in: context, mantra: mantra, updatingType: adjustingType) {
+            await mediumHapticGenerator.impactOccurred()
+            adjustMantra(with: updatingValue, adjustingType: adjustingType)
         }
-        context.present(alert, animated: true, completion: nil)
     }
     
     override func apply() {

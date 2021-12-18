@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import PhotosUI
 import SafariServices
 
 final class DetailsViewController: UIViewController, DetailsStateContext, DetailsButtonHandlerContext {
@@ -34,8 +33,6 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
     private var initialState: DetailsViewControllerState
     
     let addHapticGenerator = UINotificationFeedbackGenerator()
-    
-    private let pasteboard = UIPasteboard.general
     
     private(set) var mantraImageData: Data?
     private(set) var mantraImageForTableViewData: Data?
@@ -77,13 +74,30 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
         mantraImageData = mantra.image ?? nil
         mantraImageForTableViewData = mantra.imageForTableView ?? nil
         
-        detailsView.titleTextField.delegate = self
-        detailsView.mantraTextTextView.delegate = self
-        detailsView.detailsTextView.delegate = self
+        let textDelegateHandler = TextDelegateHandler(
+            textViews: detailsView.mantraTextTextView, detailsView.detailsTextView,
+            textFields: detailsView.titleTextField)
+        Task { await listenForTextFieldChange(textDelegateHandler) }
+        Task { await listenForTextViewChange(textDelegateHandler) }
         
         addHapticGenerator.prepare()
         
         setupData()
+    }
+    
+    @MainActor
+    private func listenForTextFieldChange(_ textDelegateHandler: TextDelegateHandler) async {
+        for await isThereAnySymbols in await textDelegateHandler.listenForTextFieldChangeSelection() {
+            navigationItem.rightBarButtonItem?.isEnabled = isThereAnySymbols
+        }
+    }
+    
+    @MainActor
+    private func listenForTextViewChange(_ textDelegateHandler: TextDelegateHandler) async {
+        for await _ in await textDelegateHandler.listenForTextViewChange() {
+            detailsView.mantraTextTextView.placeHolder.isHidden = !detailsView.mantraTextTextView.text.isEmpty
+            detailsView.detailsTextView.placeHolder.isHidden = !detailsView.detailsTextView.text.isEmpty
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,13 +124,13 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
         detailsView.setPhotoButtonMenu (
             imagePickerHandler: { [weak self] in
                 guard let self = self else { return }
-                self.showImagePicker()},
+                Task { await self.getImageFromGallery() }},
             defaultImageHandler: { [weak self] in
                 guard let self = self else { return }
                 self.setDefaultImage()},
             searchOnTheInternetHandler: { [weak self] in
                 guard let self = self else { return }
-                self.searchOnTheInternet()
+                Task { await self.getImageFromSafari(with: self.detailsView.titleTextField.text ?? "") }
             })
     }
     
@@ -175,23 +189,35 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
 
 extension DetailsViewController {
     
-    private func showImagePicker() {
-        var configuration = PHPickerConfiguration()
-        configuration.filter = .images
-        let picker = PHPickerViewController(configuration: configuration)
-        picker.delegate = self
-        
-        if #available (iOS 15, *) {
-            if let sheet = picker.presentationController as? UISheetPresentationController {
-                sheet.detents = [.medium(), .large()]
-                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-                sheet.prefersGrabberVisible = true
-                sheet.prefersEdgeAttachedInCompactHeight = true
-                sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
-            }
+    @MainActor
+    private func getImageFromGallery() async {
+        let galleryImagePicker = GalleryImagePicker(in: self)
+        do {
+            let image = try await galleryImagePicker.getImage()
+            detailsView.setPhotoButton.setProcessMode()
+            let resultImage = self.processImage(image: image)
+            let downsampledImage = resultImage?.resize(to: self.detailsView.setPhotoButton.bounds.size)
+            self.detailsView.setPhotoButton.setImage(downsampledImage, for: .normal)
+            self.detailsView.setPhotoButton.setEditMode()
+            self.addTransition()
+        } catch {
+            self.detailsView.setPhotoButton.setEditMode()
+            Task { await self.showNoImageAlert() }
         }
-        
-        present(picker, animated: true, completion: nil)
+    }
+    
+    private func showNoImageAlert() async {
+        if await AlertCenter.confirmNoValidImage(in: self) {
+            await getImageFromGallery()
+        }
+    }
+    
+    private func addTransition() {
+        let transition = CATransition()
+        transition.type = .fade
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: .easeOut)
+        view.layer.add(transition, forKey: nil)
     }
     
     private func setDefaultImage() {
@@ -201,41 +227,13 @@ extension DetailsViewController {
         mantraImageForTableViewData = nil
     }
     
-    private func checkForFirstSearchOnTheInternet(handler: @escaping (UIAlertController) -> ()) {
-        let defaults = UserDefaults.standard
-        let isFirstSearchOnTheInternet = defaults.bool(forKey: "isFirstSearchOnTheInternet")
-        if isFirstSearchOnTheInternet {
-            let alert = AlertControllerFactory.firstSearchOnTheInternetAlert()
-            defaults.setValue(false, forKey: "isFirstSearchOnTheInternet")
-            handler(alert)
-        }
-    }
-    
-    private func searchOnTheInternet() {
-        guard let search = detailsView.titleTextField.text else { return }
-        guard let urlString = "https://www.google.com/search?q=\(search)&tbm=isch"
-                .addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed) else { return }
-        guard let url = URL(string: urlString) else { return }
-        let vc = SFSafariViewController(url: url)
-        vc.delegate = self
-        vc.modalPresentationStyle = .pageSheet
-        vc.preferredControlTintColor = view.tintColor
-        
-        if #available (iOS 15, *) {
-            if let sheet = vc.presentationController as? UISheetPresentationController {
-                sheet.detents = [.medium(), .large()]
-                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-                sheet.prefersGrabberVisible = true
-                sheet.prefersEdgeAttachedInCompactHeight = true
-                sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
-            }
-        }
-        
-        present(vc, animated: true) {
-            self.checkForFirstSearchOnTheInternet { [weak vc] alert in
-                guard let vc = vc else { return }
-                vc.present(alert, animated: true, completion: nil)
-            }
+    private func getImageFromSafari(with search: String) async {
+        let safariImagePicker = SafariImagePicker(in: self, search: search)
+        let image = await safariImagePicker.getImage()
+        let resultImage = processImage(image: image)
+        await MainActor.run {
+            let downsampledImage = resultImage?.resize(to: detailsView.setPhotoButton.bounds.size)
+            detailsView.setPhotoButton.setImage(downsampledImage, for: .normal)
         }
     }
 }
@@ -258,102 +256,5 @@ extension DetailsViewController {
         }
         
         return resizedCircledImage
-    }
-}
-
-//MARK: - TextField Delegate (Validating Mantra Title)
-
-extension DetailsViewController: UITextFieldDelegate {
-    
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        navigationItem.rightBarButtonItem?.isEnabled = (textField.text?.trimmingCharacters(in: .whitespaces) != "")
-    }
-}
-
-//MARK: - TextViewDelegate (Handling TextViews Placeholders)
-
-extension DetailsViewController: UITextViewDelegate {
-    
-    func textViewDidChange(_ textView: UITextView) {
-        detailsView.mantraTextTextView.placeHolder.isHidden = !detailsView.mantraTextTextView.text.isEmpty
-        detailsView.detailsTextView.placeHolder.isHidden = !detailsView.detailsTextView.text.isEmpty
-    }
-}
-
-//MARK: - PHPickerViewControllerDelegate
-
-extension DetailsViewController: PHPickerViewControllerDelegate {
-    
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        dismiss(animated: true, completion: nil)
-        
-        guard !results.isEmpty else { return }
-        
-        detailsView.setPhotoButton.setProcessMode()
-        
-        results.forEach { result in
-            let provider = result.itemProvider
-            if provider.canLoadObject(ofClass: UIImage.self) {
-                provider.loadObject(ofClass: UIImage.self, completionHandler: { [weak self] (object, _) in
-                    guard let self = self else { return }
-                    if let image = object as? UIImage {
-                        let resultImage = self.processImage(image: image)
-                        DispatchQueue.main.async {
-                            let downsampledImage = resultImage?.resize(to: self.detailsView.setPhotoButton.bounds.size)
-                            self.detailsView.setPhotoButton.setImage(downsampledImage, for: .normal)
-                            self.detailsView.setPhotoButton.setEditMode()
-                            self.addTransition()
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            self.detailsView.setPhotoButton.setEditMode()
-                            self.showNoImageAlert()
-                        }
-                    }
-                })
-            }
-        }
-    }
-    
-    private func showNoImageAlert() {
-        let alert = AlertControllerFactory.noImageAlert { [weak self] in
-            guard let self = self else { return }
-            self.showImagePicker()
-        }
-        present(alert, animated: true, completion: nil)
-    }
-    
-    private func addTransition() {
-        let transition = CATransition()
-        transition.type = .fade
-        transition.duration = 0.5
-        transition.timingFunction = CAMediaTimingFunction(name: .easeOut)
-        view.layer.add(transition, forKey: nil)
-    }
-}
-
-//MARK: - SFSafariViewControllerDelegate
-
-extension DetailsViewController: SFSafariViewControllerDelegate {
-    
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        if pasteboard.hasImages {
-            guard let image = pasteboard.image else { return }
-            didSelectImageFromSafariController(image: image)
-        } else if pasteboard.hasURLs {
-            guard let url = pasteboard.url else { return }
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    didSelectImageFromSafariController(image: image)
-                }
-            }
-        }
-        pasteboard.items.removeAll()
-    }
-    
-    private func didSelectImageFromSafariController(image: UIImage) {
-        let resultImage = processImage(image: image)
-        let downsampledImage = resultImage?.resize(to: detailsView.setPhotoButton.bounds.size)
-        detailsView.setPhotoButton.setImage(downsampledImage, for: .normal)
     }
 }

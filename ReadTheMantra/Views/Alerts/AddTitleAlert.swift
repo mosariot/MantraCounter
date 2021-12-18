@@ -8,9 +8,9 @@
 
 import UIKit
 
-extension AlertControllerFactory {
+extension AlertCenter {
     
-    static func addTitleAlert() -> UIAlertController {
+    static func showAddTitleAlert(in vc: UIViewController) {
         let alert = UIAlertController(
             title: NSLocalizedString("Please add some title to mantra",
                                      comment: "Alert Title for add missing title"),
@@ -19,6 +19,6 @@ extension AlertControllerFactory {
         let okAction = UIAlertAction(title: "OK", style: .default)
         alert.addAction(okAction)
         alert.view.tintColor = Constants.accentColor ?? .systemOrange
-        return alert
+        vc.present(alert, animated: true, completion: nil)
     }
 }

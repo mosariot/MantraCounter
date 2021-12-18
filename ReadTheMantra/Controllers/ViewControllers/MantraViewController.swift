@@ -29,11 +29,9 @@ final class MantraViewController: UICollectionViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Mantra.ID>
     private lazy var dataSource = makeDataSource()
     
-    private(set) lazy var mantraDataManager: DataManager = MantraDataManager(delegate: self)
-    
+    private(set) lazy var mantraDataManager: DataManager = MantraDataManager()
     private let mantraWidgetManager: WidgetManager = MantraWidgetManager()
-
-    private lazy var dataStore = DataStore(mantraDataManager: mantraDataManager, delegate: self)
+    private lazy var dataStore = DataStore(dataManager: mantraDataManager)
     private var selectedMantra: Mantra? {
         didSet { delegate?.mantraSelected(selectedMantra) }
     }
@@ -97,8 +95,10 @@ final class MantraViewController: UICollectionViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if isColdStart {
-            checkForOnboardingAlert()
+            Task { await checkForOnboarding() }
             mantraDataManager.loadMantras()
+            Task { await listenForSortingChange() }
+            Task { await listenForDataChange() }
             loadFirstMantraForSecondaryView()
             applySnapshot()
             mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
@@ -108,6 +108,58 @@ final class MantraViewController: UICollectionViewController {
             isColdStart = false
         }
     }
+    
+    private func listenForSortingChange() async {
+        for await _ in await dataStore.listenForSortingChange() {
+            mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
+            await MainActor.run { applySnapshot() }
+        }
+    }
+    
+    @MainActor
+    private func listenForDataChange() async {
+        for await isUserInitiatedChange in await mantraDataManager.listenForDataChange() {
+            handleSearchControllerResultsIfNeeded()
+            applySnapshot(withReconfiguration: true)
+            reselectSelectedMantraIfNeeded()
+            if !isUserInitiatedChange {
+                updateSecondaryView()
+            }
+            stopActivityIndicatorForInitialDataLoadingIfNeeded()
+            mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
+            afterDelay(0.1) { self.mantraDataManager.saveMantras() }
+        }
+    }
+    
+    private func handleSearchControllerResultsIfNeeded() {
+        if searchController.isActive {
+            searchController.searchBar.text! += " "
+            searchController.searchBar.text! = String(searchController.searchBar.text!.dropLast())
+        } else {
+            dataStore.syncDisplayedMantrasWithOverallMantras()
+        }
+    }
+    
+    private func updateSecondaryView() {
+            guard let selectedMantra = self.selectedMantra else { return }
+            if !self.dataStore.overallMantras.contains(selectedMantra) {
+                self.selectedMantra = nil
+            }
+            self.delegate?.mantraSelected(self.selectedMantra)
+    }
+    
+    private func stopActivityIndicatorForInitialDataLoadingIfNeeded() {
+        if isInitalDataLoading {
+            if !dataStore.overallMantras.isEmpty {
+                activityIndicator.removeFromSuperview()
+                loadFirstMantraForSecondaryView()
+                reselectSelectedMantraIfNeeded()
+                mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
+                isInitalDataLoading = false
+            }
+        }
+    }
+    
     
     private func loadFirstMantraForSecondaryView() {
         if let firstFavoriteMantra = dataStore.favoritesSectionMantras.first {
@@ -130,23 +182,20 @@ final class MantraViewController: UICollectionViewController {
         }
     }
     
-    private func checkForOnboardingAlert() {
+    @MainActor
+    private func checkForOnboarding() async {
         if isOnboarding {
-            showOnboardingViewController()
-        }
-    }
-    
-    private func showOnboardingViewController() {
-        if let onboardingViewController = storyboard?.instantiateViewController(
-            identifier: Constants.onboardingViewController) as? OnboardingViewController {
-            onboardingViewController.delegate = self
-            if isPhoneIdiom {
-                onboardingViewController.modalPresentationStyle = .fullScreen
-            } else if isPadOrMacIdiom {
-                blurEffectView.animateIn()
-                onboardingViewController.modalTransitionStyle = .crossDissolve
+            blurEffectView.animateIn()
+            let onboardingHandler = OnboardingHandler(caller: self)
+            if await onboardingHandler.isOnboardingCompleted() {
+                blurEffectView.animateOut()
+                isOnboarding = false
+                if isPreloadedMantrasDueToNoInternetConnection {
+                    AlertCenter.showPreloadedMantrasDueToNoInternetConnectionAlert(in: self)
+                    mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
+                    isPreloadedMantrasDueToNoInternetConnection = false
+                }
             }
-            present(onboardingViewController, animated: true)
         }
     }
     
@@ -218,11 +267,42 @@ final class MantraViewController: UICollectionViewController {
     }
     
     private func setupSearchController() {
-        searchController.searchResultsUpdater = self
-        searchController.delegate = self
+        let searchControllerHandler = SearchControllerHandler(searchController)
+        Task { await listenForSearchUpdating(searchControllerHandler) }
+        Task { await listenForSearchControllerDismiss(searchControllerHandler) }
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = NSLocalizedString("Search", comment: "Search Placeholder")
         searchController.definesPresentationContext = true
+    }
+    
+    @MainActor
+    private func listenForSearchUpdating(_ searchControllerHandler: SearchControllerHandler) async {
+        for await _ in await searchControllerHandler.listenForSearchUpdating() {
+            performSearch()
+            if dataStore.displayedMantras.isEmpty {
+                noResultsForSearchLabel.isHidden = false
+            } else {
+                noResultsForSearchLabel.isHidden = true
+            }
+        }
+    }
+    
+    private func performSearch() {
+        guard let text = searchController.searchBar.text else { return }
+        if text.isEmpty {
+            dataStore.syncDisplayedMantrasWithOverallMantras()
+            noResultsForSearchLabel.isHidden = true
+            applySnapshot()
+            return
+        }
+        dataStore.filterDisplayedMantrasWith(text)
+        applySnapshot()
+    }
+    
+    private func listenForSearchControllerDismiss(_ searchControllerHandler: SearchControllerHandler) async {
+        for await _ in await searchControllerHandler.listenForSearchControllerDismiss() {
+            await MainActor.run { noResultsForSearchLabel.isHidden = true }
+        }
     }
     
     private func setupCollectionView() {
@@ -359,9 +439,9 @@ extension MantraViewController {
                 let delete = UIContextualAction(
                     style: .destructive,
                     title: NSLocalizedString("Delete", comment: "Menu Action on MantraViewController")) { _, _, completion in
-                    self.showDeleteConfirmationAlert(for: mantra)
-                    completion(true)
-                }
+                        Task { await self.showDeleteConfirmationAlert(for: mantra) }
+                        completion(true)
+                    }
                 delete.image = UIImage(systemName: "trash")
                 return UISwipeActionsConfiguration(actions: [delete, favorite])
             }
@@ -447,7 +527,7 @@ extension MantraViewController {
                               image: UIImage(systemName: "trash"),
                               attributes: [.destructive]) { [weak self] _ in
             guard let self = self else { return }
-            self.showDeleteConfirmationAlert(for: mantra)
+            Task { await self.showDeleteConfirmationAlert(for: mantra) }
         }
         
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
@@ -491,118 +571,13 @@ extension MantraViewController {
 
 extension MantraViewController: MantraCellDelegate {
     
-    func showDeleteConfirmationAlert(for mantra: Mantra) {
-        let alert = AlertControllerFactory.deleteConfirmationAlert(for: mantra, idiom: traitCollection.userInterfaceIdiom) { [weak self] mantra in
-            guard let self = self else { return }
-            if self.selectedMantra == mantra {
-                self.selectedMantra = nil
+    @MainActor
+    func showDeleteConfirmationAlert(for mantra: Mantra) async {
+        if await AlertCenter.confirmDeletion(in: self, for: mantra, idiom: traitCollection.userInterfaceIdiom) {
+            if selectedMantra == mantra {
+                selectedMantra = nil
             }
-            self.mantraDataManager.deleteMantra(mantra)
-        }
-        present(alert, animated: true, completion: nil)
-    }
-}
-
-// MARK: - MantraDataManager Delegate
-
-extension MantraViewController: MantraDataManagerDelegate {
-    
-    func mantraDataManagerDidChangeContent(_ isUserInitiatedChange: Bool) {
-        handleSearchControllerResultsIfNeeded()
-        applySnapshot(withReconfiguration: true)
-        reselectSelectedMantraIfNeeded()
-        if !isUserInitiatedChange {
-            updateSecondaryView()
-        }
-        stopActivityIndicatorForInitialDataLoadingIfNeeded()
-        mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
-    }
-    
-    private func handleSearchControllerResultsIfNeeded() {
-        if searchController.isActive {
-            searchController.searchBar.text! += " "
-            searchController.searchBar.text! = String(searchController.searchBar.text!.dropLast())
-        } else {
-            dataStore.syncDisplayedMantrasWithOverallMantras()
-        }
-    }
-    
-    private func stopActivityIndicatorForInitialDataLoadingIfNeeded() {
-        if isInitalDataLoading {
-            if !dataStore.overallMantras.isEmpty {
-                activityIndicator.removeFromSuperview()
-                loadFirstMantraForSecondaryView()
-                reselectSelectedMantraIfNeeded()
-                mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
-                isInitalDataLoading = false
-            }
-        }
-    }
-    
-    private func updateSecondaryView() {
-//        afterDelay(Constants.progressAnimationDuration) {
-            guard let selectedMantra = self.selectedMantra else { return }
-            if !self.dataStore.overallMantras.contains(selectedMantra) {
-                self.selectedMantra = nil
-            }
-            self.delegate?.mantraSelected(self.selectedMantra)
-//        }
-    }
-}
-
-// MARK: - UISearchResultsUpdating
-
-extension MantraViewController: UISearchResultsUpdating {
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        performSearch()
-        if dataStore.displayedMantras.isEmpty {
-            noResultsForSearchLabel.isHidden = false
-        } else {
-            noResultsForSearchLabel.isHidden = true
-        }
-    }
-    
-    private func performSearch() {
-        guard let text = searchController.searchBar.text else { return }
-        if text.isEmpty {
-            dataStore.syncDisplayedMantrasWithOverallMantras()
-            noResultsForSearchLabel.isHidden = true
-            applySnapshot()
-            return
-        }
-        dataStore.filterDisplayedMantrasWith(text)
-        applySnapshot()
-    }
-}
-
-// MARK: - DataStore Delegate
-
-extension MantraViewController: DataStoreDelegate {
-    func sortingDidChanged() {
-        applySnapshot()
-        mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
-    }
-}
-
-extension MantraViewController: UISearchControllerDelegate {
-    func didDismissSearchController(_ searchController: UISearchController) {
-        noResultsForSearchLabel.isHidden = true
-    }
-}
-
-//MARK: - OnboardingViewController Delegate
-
-extension MantraViewController: OnboardingViewControllerDelegate {
-    
-    func dismissButtonPressed() {
-        blurEffectView.animateOut()
-        isOnboarding = false
-        if isPreloadedMantrasDueToNoInternetConnection {
-            let alert = AlertControllerFactory.preloadedMantrasDueToNoInternetConnection()
-            mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
-            isPreloadedMantrasDueToNoInternetConnection = false
-            present(alert, animated: true, completion: nil)
+            mantraDataManager.deleteMantra(mantra)
         }
     }
 }

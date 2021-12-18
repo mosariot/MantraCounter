@@ -8,15 +8,11 @@
 
 import Foundation
 
-protocol DataStoreDelegate: AnyObject {
-    func sortingDidChanged()
-}
-
 final class DataStore {
     
     private var mantraDataManager: DataManager
-    private weak var delegate: DataStoreDelegate?
     private let defaults = UserDefaults.standard
+    private var continuation: AsyncStream<Void>.Continuation?
     var isAlphabeticalSorting: Bool {
         get {
             defaults.bool(forKey: "isAlphabeticalSorting")
@@ -24,16 +20,16 @@ final class DataStore {
         set {
             defaults.set(newValue, forKey: "isAlphabeticalSorting")
             syncDisplayedMantrasWithOverallMantras()
-            delegate?.sortingDidChanged()
+            sortingDidChanged()
         }
     }
     
     var overallMantras: [Mantra] {
         isAlphabeticalSorting ?
-            mantraDataManager.fetchedMantras.sorted {
-                guard let title1 = $0.title, let title2 = $1.title else { return false }
-                return title1.localizedStandardCompare(title2) == .orderedAscending } :
-            mantraDataManager.fetchedMantras.sorted { $0.reads > $1.reads }
+        mantraDataManager.fetchedMantras.sorted {
+            guard let title1 = $0.title, let title2 = $1.title else { return false }
+            return title1.localizedStandardCompare(title2) == .orderedAscending } :
+        mantraDataManager.fetchedMantras.sorted { $0.reads > $1.reads }
     }
     
     lazy var displayedMantras = overallMantras
@@ -45,9 +41,8 @@ final class DataStore {
         displayedMantras.filter { !$0.isFavorite }
     }
     
-    init(mantraDataManager: DataManager, delegate: DataStoreDelegate) {
-        self.mantraDataManager = mantraDataManager
-        self.delegate = delegate
+    init(dataManager: DataManager) {
+        self.mantraDataManager = dataManager
     }
     
     func mantraFor(_ mantraID: ObjectIdentifier) -> Mantra? {
@@ -78,5 +73,17 @@ final class DataStore {
                 return false
             }
         }
+    }
+    
+    func listenForSortingChange() async -> AsyncStream<Void> {
+        AsyncStream<Void> { continuation in self.continuation = continuation }
+    }
+    
+    private func sortingDidChanged() {
+        continuation?.yield()
+    }
+    
+    deinit {
+        continuation?.finish()
     }
 }

@@ -35,13 +35,14 @@ struct MantraDetailsButtonsHandler: DetailsButtonsHandler {
         guard let context = context else { return }
         guard let title = context.detailsView.titleTextField.text else { return }
         if isMantraDuplicating(for: title) {
-            showDuplicatingAlert(for: title)
+            Task { await showDuplicatingAlert(for: title) }
         } else {
             handleAddNewMantra(for: title)
         }
     }
     
-    func cancelButtonPressed(_ sender: UIBarButtonItem?) {
+    @MainActor
+    func cancelButtonPressed(_ sender: UIBarButtonItem?) async {
         guard let context = context else { return }
         if context.detailsView.titleTextField.text?.trimmingCharacters(in: .whitespaces) == ""
             && context.detailsView.mantraTextTextView.text == ""
@@ -51,12 +52,11 @@ struct MantraDetailsButtonsHandler: DetailsButtonsHandler {
             context.dismiss(animated: true, completion: nil)
             return
         }
-        let alert = AlertControllerFactory.cancelOrCloseMantraAlert(sender) { [weak context] in
-                guard let context = context else { return }
-                context.mantraDataManager.deleteMantra(context.mantra)
-                context.dismiss(animated: true, completion: nil)
-            }
-        context.present(alert, animated: true, completion: nil)
+        
+        if await AlertCenter.confirmCancelMantra(in: context, with: sender) {
+            context.mantraDataManager.deleteMantra(context.mantra)
+            context.dismiss(animated: true, completion: nil)
+        }
     }
     
     func editButtonPressed() {
@@ -74,17 +74,16 @@ struct MantraDetailsButtonsHandler: DetailsButtonsHandler {
         context.currentState = context.states.viewState
     }
     
-    func closeButtonPressed(_ sender: UIBarButtonItem?) {
+    @MainActor
+    func closeButtonPressed(_ sender: UIBarButtonItem?) async {
         guard let context = context else { return }
         if context.detailsView.titleTextField.text != context.mantra.title
             || context.detailsView.mantraTextTextView.text != context.mantra.text ?? ""
             || context.detailsView.detailsTextView.text != context.mantra.details
             || context.mantraImageData != context.mantra.image {
-            let alert = AlertControllerFactory.cancelOrCloseMantraAlert(sender) { [weak context] in
-                guard let context = context else { return }
+            if await AlertCenter.confirmDiscardChanges(in: context, with: sender) {
                 context.dismiss(animated: true, completion: nil)
             }
-            context.present(alert, animated: true, completion: nil)
         } else {
             context.dismiss(animated: true, completion: nil)
         }
@@ -95,19 +94,19 @@ struct MantraDetailsButtonsHandler: DetailsButtonsHandler {
         return context.mantraTitles.contains(where: {$0.caseInsensitiveCompare(title) == .orderedSame})
     }
     
-    private func showDuplicatingAlert(for title: String) {
+    private func showDuplicatingAlert(for title: String) async {
         guard let context = context else { return }
-        let alert = AlertControllerFactory.duplicatingAlert(context.navigationItem.rightBarButtonItem) {
+        if await AlertCenter.confirmDuplicationOfMantra(in: context, with: context.navigationItem.rightBarButtonItem) {
             handleAddNewMantra(for: title)
-        } cancelActionHandler: { return }
-        context.present(alert, animated: true, completion: nil)
+        } else {
+            return
+        }
     }
     
     private func handleAddNewMantra(for title: String) {
         guard let context = context else { return }
         guard context.detailsView.titleTextField.text?.trimmingCharacters(in: .whitespaces) != "" else {
-            let alert = AlertControllerFactory.addTitleAlert()
-            context.present(alert, animated: true, completion: nil)
+            AlertCenter.showAddTitleAlert(in: context)
             return
         }
         

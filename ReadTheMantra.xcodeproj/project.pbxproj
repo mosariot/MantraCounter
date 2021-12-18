@@ -61,6 +61,12 @@
 		9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA97A382570177B005C9078 /* ReadsCountViewController.swift */; };
 		9FA9E0F1262A2A2B000A408A /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA9E0F0262A2A2B000A408A /* Functions.swift */; };
 		9FA9E0F7262A2FF4000A408A /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA9E0F6262A2FF4000A408A /* HudView.swift */; };
+		9FADCC1D276E3FAC0093D7B3 /* CloseMantraAlert copy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FADCC1C276E3FAC0093D7B3 /* CloseMantraAlert copy.swift */; };
+		9FADCC24276E427A0093D7B3 /* GalleryImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FADCC1F276E42680093D7B3 /* GalleryImagePicker.swift */; };
+		9FADCC25276E427A0093D7B3 /* SearchControllerHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FADCC21276E42680093D7B3 /* SearchControllerHandler.swift */; };
+		9FADCC26276E427A0093D7B3 /* SafariImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FADCC22276E42680093D7B3 /* SafariImagePicker.swift */; };
+		9FADCC27276E427A0093D7B3 /* OnboardingHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FADCC20276E42680093D7B3 /* OnboardingHandler.swift */; };
+		9FADCC28276E427A0093D7B3 /* TextDelegateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FADCC23276E42690093D7B3 /* TextDelegateHandler.swift */; };
 		9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */; };
 		9FC0B81525D9828100EDA40E /* BlurEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC0B81425D9828100EDA40E /* BlurEffectView.swift */; };
 		9FC3971925B14611002B1EE0 /* FirstSearchOnTheInternetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3971325B143C8002B1EE0 /* FirstSearchOnTheInternetAlert.swift */; };
@@ -73,14 +79,14 @@
 		9FCA5C93259349EC002E1D25 /* DuplicatingAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5C92259349EC002E1D25 /* DuplicatingAlert.swift */; };
 		9FCA5CB125936668002E1D25 /* AdjustingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CB025936668002E1D25 /* AdjustingType.swift */; };
 		9FCA5CB525936692002E1D25 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CB425936692002E1D25 /* Level.swift */; };
-		9FCA5CB92593672D002E1D25 /* UpdatingAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CB82593672D002E1D25 /* UpdatingAlert.swift */; };
+		9FCA5CB92593672D002E1D25 /* UpdatingValueAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CB82593672D002E1D25 /* UpdatingValueAlert.swift */; };
 		9FCA5CBF25936F16002E1D25 /* CongratulationsAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CBE25936F16002E1D25 /* CongratulationsAlert.swift */; };
 		9FCA5CCB2593BEC6002E1D25 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9FCA5CC92593BEAC002E1D25 /* Localizable.strings */; };
 		9FCA5CD5259F6938002E1D25 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA5CD4259F6936002E1D25 /* CoreDataManager.swift */; };
 		9FD06444262C804800F0054F /* PlaceholderLabelForEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD06433262C731500F0054F /* PlaceholderLabelForEmptyView.swift */; };
 		9FD06450262E13A500F0054F /* ActivityIndicatorViewWithText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1ED7260790F500D999CB /* ActivityIndicatorViewWithText.swift */; };
 		9FE827C0260E747600CBDFF2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9299AE250818B6003D5029 /* Constants.swift */; };
-		9FE827D72613C0AC00CBDFF2 /* CancelOrCloseMantraAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1EBA2607784500D999CB /* CancelOrCloseMantraAlert.swift */; };
+		9FE827D72613C0AC00CBDFF2 /* CancelMantraAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2B1EBA2607784500D999CB /* CancelMantraAlert.swift */; };
 		9FE827F0261E36B100CBDFF2 /* PreloadedMantraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE827EF261E36B100CBDFF2 /* PreloadedMantraController.swift */; };
 		9FE827FD261F960100CBDFF2 /* DuplicatingAlertForPreloadedMantras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE827F7261F953900CBDFF2 /* DuplicatingAlertForPreloadedMantras.swift */; };
 		9FE828092626227B00CBDFF2 /* MantraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F12CD18258112EE0089AFD8 /* MantraViewController.swift */; };
@@ -141,7 +147,7 @@
 		9F2362F526D3C8BA00F11D80 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
 		9F2715AF25B83D92002A98FD /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		9F293E3A2575503000B7B1C7 /* SetPhotoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPhotoButton.swift; sourceTree = "<group>"; };
-		9F2B1EBA2607784500D999CB /* CancelOrCloseMantraAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOrCloseMantraAlert.swift; sourceTree = "<group>"; };
+		9F2B1EBA2607784500D999CB /* CancelMantraAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelMantraAlert.swift; sourceTree = "<group>"; };
 		9F2B1EC026077AF200D999CB /* NoImageAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoImageAlert.swift; sourceTree = "<group>"; };
 		9F2B1ED7260790F500D999CB /* ActivityIndicatorViewWithText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorViewWithText.swift; sourceTree = "<group>"; };
 		9F2B1EE226079C4300D999CB /* SmallWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetView.swift; sourceTree = "<group>"; };
@@ -186,6 +192,12 @@
 		9FA97A382570177B005C9078 /* ReadsCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadsCountViewController.swift; sourceTree = "<group>"; };
 		9FA9E0F0262A2A2B000A408A /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		9FA9E0F6262A2FF4000A408A /* HudView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
+		9FADCC1C276E3FAC0093D7B3 /* CloseMantraAlert copy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CloseMantraAlert copy.swift"; sourceTree = "<group>"; };
+		9FADCC1F276E42680093D7B3 /* GalleryImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryImagePicker.swift; sourceTree = "<group>"; };
+		9FADCC20276E42680093D7B3 /* OnboardingHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingHandler.swift; sourceTree = "<group>"; };
+		9FADCC21276E42680093D7B3 /* SearchControllerHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchControllerHandler.swift; sourceTree = "<group>"; };
+		9FADCC22276E42680093D7B3 /* SafariImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariImagePicker.swift; sourceTree = "<group>"; };
+		9FADCC23276E42690093D7B3 /* TextDelegateHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDelegateHandler.swift; sourceTree = "<group>"; };
 		9FB47BEE250BF23C001955F5 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		9FC0B81425D9828100EDA40E /* BlurEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurEffectView.swift; sourceTree = "<group>"; };
 		9FC3971325B143C8002B1EE0 /* FirstSearchOnTheInternetAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstSearchOnTheInternetAlert.swift; sourceTree = "<group>"; };
@@ -196,7 +208,7 @@
 		9FCA5CAA259363E2002E1D25 /* AddTitleAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTitleAlert.swift; sourceTree = "<group>"; };
 		9FCA5CB025936668002E1D25 /* AdjustingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustingType.swift; sourceTree = "<group>"; };
 		9FCA5CB425936692002E1D25 /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
-		9FCA5CB82593672D002E1D25 /* UpdatingAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatingAlert.swift; sourceTree = "<group>"; };
+		9FCA5CB82593672D002E1D25 /* UpdatingValueAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatingValueAlert.swift; sourceTree = "<group>"; };
 		9FCA5CBE25936F16002E1D25 /* CongratulationsAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongratulationsAlert.swift; sourceTree = "<group>"; };
 		9FCA5CCA2593BEAC002E1D25 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9FCA5CD4259F6936002E1D25 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -321,14 +333,11 @@
 		9F5FE6A024E717FE00D0475E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9FADCC1E276E42480093D7B3 /* DelegateHandlers */,
 				9F2362E726D38A3C00F11D80 /* DetailsButtonHandler */,
 				9FFCF08626C19DC500984666 /* DetailsViewControllerState */,
 				9F0BDAEE26BAC95E0079FE48 /* ReadsCountViewControllerStates */,
-				9F5FE69A24E717A200D0475E /* DetailsViewController.swift */,
-				9F12CD18258112EE0089AFD8 /* MantraViewController.swift */,
-				9F3B62D1257CFFF800B4F5E4 /* OnboardingViewController.swift */,
-				9FE827EF261E36B100CBDFF2 /* PreloadedMantraController.swift */,
-				9FA97A382570177B005C9078 /* ReadsCountViewController.swift */,
+				9FADCC29276E443B0093D7B3 /* ViewControllers */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -362,6 +371,7 @@
 			isa = PBXGroup;
 			children = (
 				9FCA5CB025936668002E1D25 /* AdjustingType.swift */,
+				9FA216D72733C6B1008AC6D7 /* AlertControllerFactory.swift */,
 				9F9299AE250818B6003D5029 /* Constants.swift */,
 				9FF812AE272966FD00DEC7F7 /* DataStore.swift */,
 				9F5FE6A424E7183E00D0475E /* DetailsMode.swift */,
@@ -397,12 +407,36 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		9FADCC1E276E42480093D7B3 /* DelegateHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				9FADCC1F276E42680093D7B3 /* GalleryImagePicker.swift */,
+				9FADCC20276E42680093D7B3 /* OnboardingHandler.swift */,
+				9FADCC22276E42680093D7B3 /* SafariImagePicker.swift */,
+				9FADCC21276E42680093D7B3 /* SearchControllerHandler.swift */,
+				9FADCC23276E42690093D7B3 /* TextDelegateHandler.swift */,
+			);
+			path = DelegateHandlers;
+			sourceTree = "<group>";
+		};
+		9FADCC29276E443B0093D7B3 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9F5FE69A24E717A200D0475E /* DetailsViewController.swift */,
+				9F12CD18258112EE0089AFD8 /* MantraViewController.swift */,
+				9F3B62D1257CFFF800B4F5E4 /* OnboardingViewController.swift */,
+				9FE827EF261E36B100CBDFF2 /* PreloadedMantraController.swift */,
+				9FA97A382570177B005C9078 /* ReadsCountViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		9FCA5C8F2593496B002E1D25 /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
-				9FA216D72733C6B1008AC6D7 /* AlertControllerFactory.swift */,
 				9FCA5CAA259363E2002E1D25 /* AddTitleAlert.swift */,
-				9F2B1EBA2607784500D999CB /* CancelOrCloseMantraAlert.swift */,
+				9F2B1EBA2607784500D999CB /* CancelMantraAlert.swift */,
+				9FADCC1C276E3FAC0093D7B3 /* CloseMantraAlert copy.swift */,
 				9FCA5CBE25936F16002E1D25 /* CongratulationsAlert.swift */,
 				9FCA5C8B259347A5002E1D25 /* DeleteConfirmationAlert.swift */,
 				9FCA5C92259349EC002E1D25 /* DuplicatingAlert.swift */,
@@ -412,7 +446,7 @@
 				9F2B1EC026077AF200D999CB /* NoImageAlert.swift */,
 				9F1769F2262EE13A00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift */,
 				9FFF85AF25EEAEB200131AA7 /* UndoAlert.swift */,
-				9FCA5CB82593672D002E1D25 /* UpdatingAlert.swift */,
+				9FCA5CB82593672D002E1D25 /* UpdatingValueAlert.swift */,
 			);
 			path = Alerts;
 			sourceTree = "<group>";
@@ -595,19 +629,23 @@
 				9F5FE68424E7141400D0475E /* AppDelegate.swift in Sources */,
 				9FA9E0F1262A2A2B000A408A /* Functions.swift in Sources */,
 				9F5FE68E24E7141400D0475E /* ReadTheMantra.xcdatamodeld in Sources */,
+				9FADCC26276E427A0093D7B3 /* SafariImagePicker.swift in Sources */,
 				9FE828092626227B00CBDFF2 /* MantraViewController.swift in Sources */,
 				9F5FE68624E7141400D0475E /* SceneDelegate.swift in Sources */,
 				9FFCF08A26C1C26700984666 /* AddDetailsState.swift in Sources */,
 				9FD06444262C804800F0054F /* PlaceholderLabelForEmptyView.swift in Sources */,
 				9FE827F0261E36B100CBDFF2 /* PreloadedMantraController.swift in Sources */,
+				9FADCC24276E427A0093D7B3 /* GalleryImagePicker.swift in Sources */,
 				9F0BDAF426BACB7B0079FE48 /* AlwaysOnDisplayState.swift in Sources */,
 				9F2B1EC826077CC300D999CB /* AddTitleAlert.swift in Sources */,
-				9FCA5CB92593672D002E1D25 /* UpdatingAlert.swift in Sources */,
+				9FCA5CB92593672D002E1D25 /* UpdatingValueAlert.swift in Sources */,
 				9F65C46025AB5BBE0037A8F7 /* UIVew+FixInputAssistant.swift in Sources */,
 				9F1769FA262EECAE00E3FCA3 /* PreloadedMantrasDueToNoInternetConnection.swift in Sources */,
 				9FA9E0F7262A2FF4000A408A /* HudView.swift in Sources */,
 				9F3B62A72578E51E00B4F5E4 /* AdjustReadsButton.swift in Sources */,
 				9FE855A5258E2B8000771BA1 /* WidgetModel.swift in Sources */,
+				9FADCC28276E427A0093D7B3 /* TextDelegateHandler.swift in Sources */,
+				9FADCC27276E427A0093D7B3 /* OnboardingHandler.swift in Sources */,
 				9F2B1EC126077AF200D999CB /* NoImageAlert.swift in Sources */,
 				9FC3971925B14611002B1EE0 /* FirstSearchOnTheInternetAlert.swift in Sources */,
 				9F3766112513C5B9007E6BED /* Int+FormattedNumber.swift in Sources */,
@@ -631,6 +669,7 @@
 				9FEB07F026CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift in Sources */,
 				9F22713A26348AA2001F92BD /* UIImage+ResizeUIImage.swift in Sources */,
 				9F08B662268B4C75008F20B1 /* ReadsCountView.swift in Sources */,
+				9FADCC25276E427A0093D7B3 /* SearchControllerHandler.swift in Sources */,
 				9F08B65E268B4A1E008F20B1 /* OnboardingView.swift in Sources */,
 				9FA2171F273BA25E008AC6D7 /* NotNegativePropertyWrapper.swift in Sources */,
 				9FFCF08E26C1C28800984666 /* ViewDetailsState.swift in Sources */,
@@ -645,10 +684,11 @@
 				9FB47BEF250BF23C001955F5 /* CircularProgressView.swift in Sources */,
 				9FC0B81525D9828100EDA40E /* BlurEffectView.swift in Sources */,
 				9F3B1C032538F50200BEE838 /* UIFont+RoundedSystemFont.swift in Sources */,
-				9FE827D72613C0AC00CBDFF2 /* CancelOrCloseMantraAlert.swift in Sources */,
+				9FE827D72613C0AC00CBDFF2 /* CancelMantraAlert.swift in Sources */,
 				9FD06450262E13A500F0054F /* ActivityIndicatorViewWithText.swift in Sources */,
 				9F72DC2826CFC7C600D96038 /* DetailsButtonsHandler.swift in Sources */,
 				9F7EAC1C25B9360400AEC901 /* NetworkMonitor.swift in Sources */,
+				9FADCC1D276E3FAC0093D7B3 /* CloseMantraAlert copy.swift in Sources */,
 				9F91804725BB48F20016FEB6 /* UIDevice+ModelDetection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

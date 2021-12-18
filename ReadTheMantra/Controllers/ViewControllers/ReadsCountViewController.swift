@@ -137,7 +137,7 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
     }
     
     private func undoButtonPressed() {
-        showUndoAlert()
+        Task { await showUndoAlert() }
     }
     
     private func infoButtonPressed() {
@@ -201,36 +201,34 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
         let defaults = UserDefaults.standard
         let isFirstSwitchDisplayMode = defaults.bool(forKey: "isFirstSwitchDisplayMode")
         if isFirstSwitchDisplayMode {
-            let alert = AlertControllerFactory.firstSwitchDisplayMode()
-            present(alert, animated: true)
+            AlertCenter.showFirstSwitchDisplayModeAlert(in: self)
+            defaults.setValue(false, forKey: "isFirstSwitchDisplayMode")
         }
     }
     
     //MARK: - Adjusting ReadsCount and ReadsGoal
     
     @IBAction private func setGoalButtonPressed(_ sender: UIButton) {
-        currentState.handleAdjustMantraCount(adjustingType: .goal)
+        Task { await currentState.handleAdjustMantraCount(adjustingType: .goal) }
     }
     
     @IBAction private func addReadsButtonPressed(_ sender: UIButton) {
-        currentState.handleAdjustMantraCount(adjustingType: .reads)
+        Task { await currentState.handleAdjustMantraCount(adjustingType: .reads) }
     }
     
     @IBAction private func addRoundsButtonPressed(_ sender: UIButton) {
-        currentState.handleAdjustMantraCount(adjustingType: .rounds)
+        Task { await currentState.handleAdjustMantraCount(adjustingType: .rounds) }
     }
     
     @IBAction private func setProperValueButtonPressed(_ sender: UIButton) {
-        currentState.handleAdjustMantraCount(adjustingType: .properValue)
+        Task { await currentState.handleAdjustMantraCount(adjustingType: .properValue) }
     }
     
-    private func showUndoAlert() {
-        let alert = AlertControllerFactory.undoAlert { [weak self] in
-            guard let self = self else { return }
-            self.mediumHapticGenerator.impactOccurred()
-            self.undoReadsCount()
+    private func showUndoAlert() async {
+        if await AlertCenter.confirmUndo(in: self) {
+            mediumHapticGenerator.impactOccurred()
+            undoReadsCount()
         }
-        present(alert, animated: true, completion: nil)
     }
     
     private func undoReadsCount() {
@@ -248,14 +246,5 @@ extension ReadsCountViewController: MantraViewControllerDelegate {
     
     func mantraSelected(_ newMantra: Mantra?) {
         mantra = newMantra
-    }
-}
-
-//MARK: - TextFieldDelegate
-
-extension ReadsCountViewController: UITextFieldDelegate {
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: string))
     }
 }

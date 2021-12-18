@@ -8,9 +8,9 @@
 
 import UIKit
 
-extension AlertControllerFactory {
+extension AlertCenter {
     
-    static func congratulationsAlert(level: Level) -> UIAlertController {
+    static func showCongratulationsAlert(in vc: UIViewController, level: Level) {
         
         func congratulationsAlertMessage(for level: Level) -> String {
             switch level {
@@ -28,6 +28,7 @@ extension AlertControllerFactory {
         let okAction = UIAlertAction(title: "OK", style: .default)
         alert.addAction(okAction)
         alert.view.tintColor = Constants.accentColor ?? .systemOrange
-        return alert
+        
+        vc.present(alert, animated: true, completion: nil)
     }
 }

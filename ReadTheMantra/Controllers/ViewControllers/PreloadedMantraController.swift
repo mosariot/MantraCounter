@@ -167,7 +167,7 @@ extension PreloadedMantraController {
     
     private func addButtonPressed() {
         if isMantraDuplicating() {
-            showDuplicatingAlert()
+            Task { await showDuplicatingAlert() }
         } else {
             handleAddPreloadedMantra()
         }
@@ -184,12 +184,11 @@ extension PreloadedMantraController {
         return isDuplicating
     }
     
-    private func showDuplicatingAlert() {
-        let alert = AlertControllerFactory.duplicatingAlertForPreloadedMantras(navigationItem.rightBarButtonItem) { [weak self] in
-            guard let self = self else { return }
-            self.handleAddPreloadedMantra()
+    @MainActor
+    private func showDuplicatingAlert() async {
+        if await AlertCenter.confirmDuplicationOfMantras(in: self, with: navigationItem.rightBarButtonItem) {
+            handleAddPreloadedMantra()
         }
-        present(alert, animated: true, completion: nil)
     }
     
     private func handleAddPreloadedMantra() {

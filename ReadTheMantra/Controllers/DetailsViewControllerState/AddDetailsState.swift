@@ -23,7 +23,7 @@ final class AddDetailsState: DetailsViewControllerState {
             systemItem: .cancel,
             primaryAction: UIAction(handler: { [weak context] _ in
                 guard let context = context else { return }
-                context.buttonsHandler.cancelButtonPressed(context.navigationItem.leftBarButtonItem ?? nil)
+                Task { await context.buttonsHandler.cancelButtonPressed(context.navigationItem.leftBarButtonItem ?? nil) }
             }))
         context.navigationItem.rightBarButtonItem?.isEnabled = (context.detailsView.titleTextField.text != "")
         context.detailsView.setPhotoButton.setEditMode()

@@ -11,8 +11,8 @@ import UIKit
 protocol DetailsButtonsHandler {
     
     func addButtonPressed()
-    func cancelButtonPressed(_ sender: UIBarButtonItem?)
+    func cancelButtonPressed(_ sender: UIBarButtonItem?) async
     func editButtonPressed()
     func doneButtonPressed()
-    func closeButtonPressed(_ sender: UIBarButtonItem?)
+    func closeButtonPressed(_ sender: UIBarButtonItem?) async
 }

@@ -9,16 +9,12 @@
 import UIKit
 import CoreData
 
-protocol MantraDataManagerDelegate: AnyObject {
-    func mantraDataManagerDidChangeContent(_ isUserInitiatedChange: Bool)
-}
-
 final class MantraDataManager: NSObject, DataManager {
     
     private lazy var coreDataManager = CoreDataManager.shared
-    private weak var delegate: MantraDataManagerDelegate?
     private(set) var fetchedResultsController: NSFetchedResultsController<Mantra>?
     private lazy var sortedInitialMantraData = PreloadedMantras.sortedData()
+    private var continuation: AsyncStream<Bool>.Continuation?
     
     private var isUserInitiatedChange = false
     
@@ -26,20 +22,16 @@ final class MantraDataManager: NSObject, DataManager {
         fetchedResultsController?.fetchedObjects?.filter { $0.title != "" } ?? []
     }
     
-    init(delegate: MantraDataManagerDelegate? = nil) {
-        self.delegate = delegate
-    }
-    
     func loadMantras() {
         let request: NSFetchRequest<Mantra> = Mantra.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         request.fetchBatchSize = 20
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: request,
-                                                              managedObjectContext: coreDataManager.persistentContainer.viewContext,
-                                                              sectionNameKeyPath: nil,
-                                                              cacheName: "Mantras")
+        fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: request,
+            managedObjectContext: coreDataManager.persistentContainer.viewContext,
+            sectionNameKeyPath: nil,
+            cacheName: "Mantras")
         fetchedResultsController?.delegate = self
-        
         do {
             try fetchedResultsController?.performFetch()
             deleteEmptyMantrasIfNeeded()
@@ -49,7 +41,7 @@ final class MantraDataManager: NSObject, DataManager {
     }
     
     func addPreloadedMantras(with selectedMantrasTitles: [String]) {
-        let selectedMantras = sortedInitialMantraData.filter { 
+        let selectedMantras = sortedInitialMantraData.filter {
             guard let title = $0[.title] else { return false }
             return selectedMantrasTitles.contains(title)
         }
@@ -105,15 +97,20 @@ final class MantraDataManager: NSObject, DataManager {
             .filter { $0.title == "" }
             .forEach { mantra in coreDataManager.deleteMantra(mantra) }
     }
+    
+    func listenForDataChange() async -> AsyncStream<Bool> {
+        AsyncStream<Bool> { continuation in self.continuation = continuation }
+    }
+    
+    deinit {
+        continuation?.finish()
+    }
 }
 
 extension MantraDataManager: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        delegate?.mantraDataManagerDidChangeContent(isUserInitiatedChange)
+        continuation?.yield(isUserInitiatedChange)
         isUserInitiatedChange = false
-        afterDelay(0.1) {
-            self.saveMantras()
-        }
     }
 }

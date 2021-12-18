@@ -28,7 +28,7 @@ class ReadsCountViewControllerState {
         congratulationsGenerator.prepare()
     }
     
-    func handleAdjustMantraCount(adjustingType: AdjustingType) { }
+    func handleAdjustMantraCount(adjustingType: AdjustingType) async { }
     func apply() { }
 }
 
@@ -85,7 +85,7 @@ extension ReadsCountViewControllerState {
     }
     
     private func showReadsCongratulationsAlert(level: Level) {
-        let alert = AlertControllerFactory.congratulationsAlert(level: level)
-        context?.present(alert, animated: true, completion: nil)
+        guard let context = context else { return }
+        AlertCenter.showCongratulationsAlert(in: context, level: level)
     }
 }

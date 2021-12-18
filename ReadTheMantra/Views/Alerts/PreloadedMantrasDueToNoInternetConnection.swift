@@ -8,9 +8,9 @@
 
 import UIKit
 
-extension AlertControllerFactory {
+extension AlertCenter {
     
-    static func preloadedMantrasDueToNoInternetConnection() -> UIAlertController {
+    static func showPreloadedMantrasDueToNoInternetConnectionAlert(in vc: UIViewController) {
         let alert = UIAlertController(
             title: NSLocalizedString("No Internet Connection",
                                      comment: "Alert Title for preloading mantras due to no internet connection"),
@@ -20,6 +20,6 @@ extension AlertControllerFactory {
         let okAction = UIAlertAction(title: "OK", style: .default)
         alert.addAction(okAction)
         alert.view.tintColor = Constants.accentColor ?? .systemOrange
-        return alert
+        vc.present(alert, animated: true, completion: nil)
     }
 }
