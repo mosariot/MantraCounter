@@ -202,7 +202,6 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
         let isFirstSwitchDisplayMode = defaults.bool(forKey: "isFirstSwitchDisplayMode")
         if isFirstSwitchDisplayMode {
             AlertCenter.showFirstSwitchDisplayModeAlert(in: self)
-            defaults.setValue(false, forKey: "isFirstSwitchDisplayMode")
         }
     }
     

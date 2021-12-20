@@ -191,18 +191,17 @@ extension DetailsViewController {
     
     @MainActor
     private func getImageFromGallery() async {
-        let galleryImagePicker = GalleryImagePicker(in: self)
+        let galleryImagePicker = GalleryImagePicker(in: self, button: detailsView.setPhotoButton)
         do {
             let image = try await galleryImagePicker.getImage()
-            detailsView.setPhotoButton.setProcessMode()
             let resultImage = self.processImage(image: image)
             let downsampledImage = resultImage?.resize(to: self.detailsView.setPhotoButton.bounds.size)
-            self.detailsView.setPhotoButton.setImage(downsampledImage, for: .normal)
-            self.detailsView.setPhotoButton.setEditMode()
-            self.addTransition()
+            detailsView.setPhotoButton.setImage(downsampledImage, for: .normal)
+            detailsView.setPhotoButton.setEditMode()
+            addTransition()
         } catch {
-            self.detailsView.setPhotoButton.setEditMode()
-            Task { await self.showNoImageAlert() }
+            detailsView.setPhotoButton.setEditMode()
+            await self.showNoImageAlert()
         }
     }
     

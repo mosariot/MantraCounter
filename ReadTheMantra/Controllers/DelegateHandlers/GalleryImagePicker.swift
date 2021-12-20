@@ -12,8 +12,10 @@ import PhotosUI
 final class GalleryImagePicker {
     
     private var continuation: CheckedContinuation<UIImage, Error>?
+    private var button: SetPhotoButton?
     
-    init(in caller: UIViewController) {
+    init(in caller: UIViewController, button: SetPhotoButton) {
+        self.button = button
         var configuration = PHPickerConfiguration()
         configuration.filter = .images
         let picker = PHPickerViewController(configuration: configuration)
@@ -43,7 +45,8 @@ extension GalleryImagePicker: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true, completion: nil)
-        guard !results.isEmpty else { return }
+        guard let button = button, !results.isEmpty else { return }
+        button.setProcessMode()
         
         results.forEach { result in
             let provider = result.itemProvider
