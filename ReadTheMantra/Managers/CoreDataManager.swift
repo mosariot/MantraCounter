@@ -48,15 +48,10 @@ final class CoreDataManager {
         let context = persistentContainer.viewContext
         guard context.hasChanges else { return }
         
-        // saving context in background
-        let savingContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        savingContext.parent = context
-        savingContext.perform {
-            do {
-                try context.save()
-            } catch {
-                fatalCoreDataError(error)
-            }
+        do {
+            try context.save()
+        } catch {
+            fatalCoreDataError(error)
         }
     }
     

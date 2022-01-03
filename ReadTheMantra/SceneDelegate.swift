@@ -107,7 +107,7 @@ extension SceneDelegate {
     
     func listenForFatalCoreDataNotifications() {
         NotificationCenter.default.addObserver(forName: dataSaveFailedNotification, object: nil, queue: OperationQueue.main) { _ in
-            let message = NSLocalizedString("There was a fatal error in the app and it cannot continue. Press OK to terminate the app. Sorry for inconvinience.", comment: "Core Data Fatal Error Message") 
+            let message = NSLocalizedString("There was a fatal error in the app and it cannot continue. Press OK to terminate the app. Sorry for inconvenience.", comment: "Core Data Fatal Error Message") 
             let alert = UIAlertController(
                 title: NSLocalizedString("Internal Error", comment: "Internal Error"),
                 message: message,

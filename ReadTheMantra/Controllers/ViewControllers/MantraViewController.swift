@@ -118,16 +118,17 @@ final class MantraViewController: UICollectionViewController {
     
     @MainActor
     private func listenForDataChange() async {
-        for await isUserInitiatedChange in await mantraDataManager.listenForDataChange() {
+        for await isValueChangedByUser in await mantraDataManager.listenForDataChange() {
             handleSearchControllerResultsIfNeeded()
             applySnapshot(withReconfiguration: true)
             reselectSelectedMantraIfNeeded()
-            if !isUserInitiatedChange {
+            if !isValueChangedByUser {
                 updateSecondaryView()
             }
             stopActivityIndicatorForInitialDataLoadingIfNeeded()
             mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
-            afterDelay(0.1) { self.mantraDataManager.saveMantras() }
+            afterDelay(Constants.progressAnimationDuration) { self.mantraDataManager.saveMantras() }
+//            mantraDataManager.saveMantras()
         }
     }
     

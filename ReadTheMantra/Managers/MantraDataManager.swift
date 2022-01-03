@@ -16,7 +16,7 @@ final class MantraDataManager: NSObject, DataManager {
     private lazy var sortedInitialMantraData = PreloadedMantras.sortedData()
     private var continuation: AsyncStream<Bool>.Continuation?
     
-    private var isUserInitiatedChange = false
+    private var isValueChangedbyUser = false
     
     var fetchedMantras: [Mantra] {
         fetchedResultsController?.fetchedObjects?.filter { $0.title != "" } ?? []
@@ -69,7 +69,7 @@ final class MantraDataManager: NSObject, DataManager {
         case .properValue:
             mantra.reads = value
         }
-        isUserInitiatedChange = true
+        isValueChangedbyUser = true
     }
     
     func buildOrUpdateMantra(_ mantra: Mantra, title: String, text: String, details: String, imageData: Data?, imageForTableViewData: Data?) {
@@ -110,7 +110,7 @@ final class MantraDataManager: NSObject, DataManager {
 extension MantraDataManager: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        continuation?.yield(isUserInitiatedChange)
-        isUserInitiatedChange = false
+        continuation?.yield(isValueChangedbyUser)
+        isValueChangedbyUser = false
     }
 }
