@@ -58,10 +58,11 @@
 		9FA05ED2270489FF00163DA1 /* ButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA05ED1270489FF00163DA1 /* ButtonStackView.swift */; };
 		9FA216D82733C6B1008AC6D7 /* AlertControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA216D72733C6B1008AC6D7 /* AlertControllerFactory.swift */; };
 		9FA2171F273BA25E008AC6D7 /* NotNegativePropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA2171E273BA25E008AC6D7 /* NotNegativePropertyWrapper.swift */; };
+		9FA2694427849E2F00DD5254 /* DataSaveFailedAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA2694327849E2F00DD5254 /* DataSaveFailedAlert.swift */; };
 		9FA97A392570177B005C9078 /* ReadsCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA97A382570177B005C9078 /* ReadsCountViewController.swift */; };
 		9FA9E0F1262A2A2B000A408A /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA9E0F0262A2A2B000A408A /* Functions.swift */; };
 		9FA9E0F7262A2FF4000A408A /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA9E0F6262A2FF4000A408A /* HudView.swift */; };
-		9FADCC1D276E3FAC0093D7B3 /* CloseMantraAlert copy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FADCC1C276E3FAC0093D7B3 /* CloseMantraAlert copy.swift */; };
+		9FADCC1D276E3FAC0093D7B3 /* CloseMantraAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FADCC1C276E3FAC0093D7B3 /* CloseMantraAlert.swift */; };
 		9FADCC24276E427A0093D7B3 /* GalleryImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FADCC1F276E42680093D7B3 /* GalleryImagePicker.swift */; };
 		9FADCC25276E427A0093D7B3 /* SearchControllerHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FADCC21276E42680093D7B3 /* SearchControllerHandler.swift */; };
 		9FADCC26276E427A0093D7B3 /* SafariImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FADCC22276E42680093D7B3 /* SafariImagePicker.swift */; };
@@ -189,10 +190,11 @@
 		9FA05ED1270489FF00163DA1 /* ButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStackView.swift; sourceTree = "<group>"; };
 		9FA216D72733C6B1008AC6D7 /* AlertControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerFactory.swift; sourceTree = "<group>"; };
 		9FA2171E273BA25E008AC6D7 /* NotNegativePropertyWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotNegativePropertyWrapper.swift; sourceTree = "<group>"; };
+		9FA2694327849E2F00DD5254 /* DataSaveFailedAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSaveFailedAlert.swift; sourceTree = "<group>"; };
 		9FA97A382570177B005C9078 /* ReadsCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadsCountViewController.swift; sourceTree = "<group>"; };
 		9FA9E0F0262A2A2B000A408A /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		9FA9E0F6262A2FF4000A408A /* HudView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
-		9FADCC1C276E3FAC0093D7B3 /* CloseMantraAlert copy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CloseMantraAlert copy.swift"; sourceTree = "<group>"; };
+		9FADCC1C276E3FAC0093D7B3 /* CloseMantraAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseMantraAlert.swift; sourceTree = "<group>"; };
 		9FADCC1F276E42680093D7B3 /* GalleryImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryImagePicker.swift; sourceTree = "<group>"; };
 		9FADCC20276E42680093D7B3 /* OnboardingHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingHandler.swift; sourceTree = "<group>"; };
 		9FADCC21276E42680093D7B3 /* SearchControllerHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchControllerHandler.swift; sourceTree = "<group>"; };
@@ -436,8 +438,9 @@
 			children = (
 				9FCA5CAA259363E2002E1D25 /* AddTitleAlert.swift */,
 				9F2B1EBA2607784500D999CB /* CancelMantraAlert.swift */,
-				9FADCC1C276E3FAC0093D7B3 /* CloseMantraAlert copy.swift */,
+				9FADCC1C276E3FAC0093D7B3 /* CloseMantraAlert.swift */,
 				9FCA5CBE25936F16002E1D25 /* CongratulationsAlert.swift */,
+				9FA2694327849E2F00DD5254 /* DataSaveFailedAlert.swift */,
 				9FCA5C8B259347A5002E1D25 /* DeleteConfirmationAlert.swift */,
 				9FCA5C92259349EC002E1D25 /* DuplicatingAlert.swift */,
 				9FE827F7261F953900CBDFF2 /* DuplicatingAlertForPreloadedMantras.swift */,
@@ -686,9 +689,10 @@
 				9F3B1C032538F50200BEE838 /* UIFont+RoundedSystemFont.swift in Sources */,
 				9FE827D72613C0AC00CBDFF2 /* CancelMantraAlert.swift in Sources */,
 				9FD06450262E13A500F0054F /* ActivityIndicatorViewWithText.swift in Sources */,
+				9FA2694427849E2F00DD5254 /* DataSaveFailedAlert.swift in Sources */,
 				9F72DC2826CFC7C600D96038 /* DetailsButtonsHandler.swift in Sources */,
 				9F7EAC1C25B9360400AEC901 /* NetworkMonitor.swift in Sources */,
-				9FADCC1D276E3FAC0093D7B3 /* CloseMantraAlert copy.swift in Sources */,
+				9FADCC1D276E3FAC0093D7B3 /* CloseMantraAlert.swift in Sources */,
 				9F91804725BB48F20016FEB6 /* UIDevice+ModelDetection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -884,14 +888,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.7.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -907,14 +911,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ReadTheMantra/MantraCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = ReadTheMantra/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.7.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -929,7 +933,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = MantraWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -938,7 +942,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.7.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -954,7 +958,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = FavoritesWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R89YUVSKU6;
 				INFOPLIST_FILE = MantraWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -963,7 +967,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.7.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
