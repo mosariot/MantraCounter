@@ -12,7 +12,7 @@ extension AlertCenter {
     
     @MainActor
     static func confirmNoValidImage(in vc: UIViewController) async -> Bool {
-        await withCheckedContinuation { continuation in
+        await withCheckedContinuation { [weak vc] continuation in
             let alert = UIAlertController(
                 title: NSLocalizedString("Unavailable Photo",
                                          comment: "Alert Title for unavailable photo"),
@@ -25,7 +25,7 @@ extension AlertCenter {
             alert.addAction(okAction)
             
             alert.view.tintColor = Constants.accentColor ?? .systemOrange
-            vc.present(alert, animated: true, completion: nil)
+            vc?.present(alert, animated: true, completion: nil)
         }
     }
 }

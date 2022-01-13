@@ -12,7 +12,7 @@ extension AlertCenter {
     
     @MainActor
     static func confirmDiscardChanges(in vc: UIViewController, with sender: UIBarButtonItem?) async -> Bool {
-        await withCheckedContinuation { continuation in
+        await withCheckedContinuation { [weak vc] continuation in
             
             let alert = UIAlertController(
                 title: nil,
@@ -37,7 +37,7 @@ extension AlertCenter {
                 popoverController.barButtonItem = sender
             }
             
-            vc.present(alert, animated: true, completion: nil)
+            vc?.present(alert, animated: true, completion: nil)
         }
     }
 }

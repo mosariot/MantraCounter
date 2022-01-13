@@ -12,7 +12,7 @@ extension AlertCenter {
     
     @MainActor
     static func confirmUndo(in vc: UIViewController) async -> Bool {
-        await withCheckedContinuation { continuation in
+        await withCheckedContinuation { [weak vc] continuation in
             let alert = UIAlertController(
                 title: NSLocalizedString("Undo Changes",
                                          comment: "Alert Title for Undo Action"),
@@ -31,7 +31,7 @@ extension AlertCenter {
             alert.addAction(cancelAction)
             alert.addAction(okAction)
             alert.view.tintColor = Constants.accentColor ?? .systemOrange
-            vc.present(alert, animated: true, completion: nil)
+            vc?.present(alert, animated: true, completion: nil)
         }
     }
 }

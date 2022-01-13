@@ -15,7 +15,7 @@ extension AlertCenter {
                                      mantra: Mantra,
                                      updatingType: AdjustingType) async -> Int32? {
         let textDelegateHandler = AlertTextFieldDelegate()
-        return await withCheckedContinuation { continuation in
+        return await withCheckedContinuation { [weak vc] continuation in
             
             func isValidUpdatingNumber(text: String?, updatingType: AdjustingType) -> Bool {
                 guard let alertText = text, let alertNumber = UInt32(alertText) else { return false }
@@ -82,7 +82,7 @@ extension AlertCenter {
             alert.addAction(positiveAction)
             alert.view.tintColor = Constants.accentColor ?? .systemOrange
             
-            vc.present(alert, animated: true, completion: nil)
+            vc?.present(alert, animated: true, completion: nil)
         }
     }
 }

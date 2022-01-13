@@ -12,7 +12,7 @@ extension AlertCenter {
     
     @MainActor
     static func confirmDuplicationOfMantras(in vc: UIViewController, with sender: UIBarButtonItem?) async -> Bool {
-        await withCheckedContinuation { continuation in
+        await withCheckedContinuation { [weak vc, sender] continuation in
             
             let alert = UIAlertController(
                 title: NSLocalizedString("Duplicating Mantras",
@@ -38,7 +38,7 @@ extension AlertCenter {
                 popoverController.barButtonItem = sender
             }
             
-            vc.present(alert, animated: true, completion: nil)
+            vc?.present(alert, animated: true, completion: nil)
         }
     }
 }

@@ -12,7 +12,7 @@ extension AlertCenter {
     
     @MainActor
     static func confirmDeletion(in vc: UIViewController, for mantra: Mantra, idiom: UIUserInterfaceIdiom) async -> Bool {
-        await withCheckedContinuation { continuation in
+        await withCheckedContinuation { [weak vc] continuation in
             
             let alert = UIAlertController(
                 title: NSLocalizedString("Delete Mantra",
@@ -34,7 +34,7 @@ extension AlertCenter {
             alert.addAction(deleteAction)
             alert.view.tintColor = Constants.accentColor ?? .systemOrange
             
-            vc.present(alert, animated: true, completion: nil)
+            vc?.present(alert, animated: true, completion: nil)
         }
     }
 }
