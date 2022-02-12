@@ -171,7 +171,6 @@ extension PreloadedMantraController {
         } else {
             handleAddPreloadedMantra()
         }
-        
     }
     
     private func isMantraDuplicating() -> Bool {

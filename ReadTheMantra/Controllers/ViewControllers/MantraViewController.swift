@@ -73,6 +73,8 @@ final class MantraViewController: UICollectionViewController {
     
     private let searchController = UISearchController(searchResultsController: nil)
     
+    private var listenForSortingChangeTask: Task<Void, Never>?
+    private var listenForDataChangeTask: Task<Void, Never>?
     
     //MARK: - View Lifecycle
     
@@ -97,8 +99,6 @@ final class MantraViewController: UICollectionViewController {
         if isColdStart {
             Task { await checkForOnboarding() }
             mantraDataManager.loadMantras()
-            Task { await listenForSortingChange() }
-            Task { await listenForDataChange() }
             loadFirstMantraForSecondaryView()
             applySnapshot()
             mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
@@ -107,6 +107,14 @@ final class MantraViewController: UICollectionViewController {
             isAppReadyForDeeplinkOrShortcut = true
             isColdStart = false
         }
+        listenForSortingChangeTask = Task { await listenForSortingChange() }
+        listenForDataChangeTask = Task { await listenForDataChange() }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        listenForSortingChangeTask?.cancel()
+        listenForDataChangeTask?.cancel()
     }
     
     private func listenForSortingChange() async {
@@ -128,7 +136,6 @@ final class MantraViewController: UICollectionViewController {
             stopActivityIndicatorForInitialDataLoadingIfNeeded()
             mantraWidgetManager.updateWidgetData(with: dataStore.overallMantras)
             afterDelay(Constants.progressAnimationDuration) { self.mantraDataManager.saveMantras() }
-//            mantraDataManager.saveMantras()
         }
     }
     
@@ -160,7 +167,6 @@ final class MantraViewController: UICollectionViewController {
             }
         }
     }
-    
     
     private func loadFirstMantraForSecondaryView() {
         if let firstFavoriteMantra = dataStore.favoritesSectionMantras.first {

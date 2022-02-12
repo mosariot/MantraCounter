@@ -41,6 +41,9 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
     private(set) var mantraTitles: [String]
     private weak var callerController: UIViewController?
     
+    private var listenForTextFieldChangeTask: Task<Void, Never>?
+    private var listenForTextViewChangeTask: Task<Void, Never>?
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -77,12 +80,18 @@ final class DetailsViewController: UIViewController, DetailsStateContext, Detail
         let textDelegateHandler = TextDelegateHandler(
             textViews: detailsView.mantraTextTextView, detailsView.detailsTextView,
             textFields: detailsView.titleTextField)
-        Task { await listenForTextFieldChange(textDelegateHandler) }
-        Task { await listenForTextViewChange(textDelegateHandler) }
+        listenForTextFieldChangeTask = Task { await listenForTextFieldChange(textDelegateHandler) }
+        listenForTextViewChangeTask = Task { await listenForTextViewChange(textDelegateHandler) }
         
         addHapticGenerator.prepare()
         
         setupData()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        listenForTextFieldChangeTask?.cancel()
+        listenForTextViewChangeTask?.cancel()
     }
     
     @MainActor
