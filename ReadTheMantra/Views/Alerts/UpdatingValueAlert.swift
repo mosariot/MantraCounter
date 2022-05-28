@@ -27,7 +27,11 @@ extension AlertCenter {
                     return 0...1_000_000 ~= UInt32(mantra.reads) + alertNumber
                 case .rounds:
                     let multiplied = alertNumber.multipliedReportingOverflow(by: 108)
-                    return 0...1_000_000 ~= UInt32(mantra.reads) + (!multiplied.overflow ? multiplied.partialValue : 1000000)
+                    if multiplied.overflow {
+                        return false
+                    } else {
+                        return 0...1_000_000 ~= UInt32(mantra.reads) + multiplied.partialValue
+                    }
                 }
             }
             
