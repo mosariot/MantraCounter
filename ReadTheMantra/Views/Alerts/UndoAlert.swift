@@ -16,7 +16,7 @@ extension AlertCenter {
             let alert = UIAlertController(
                 title: NSLocalizedString("Undo Changes",
                                          comment: "Alert Title for Undo Action"),
-                message: NSLocalizedString("Are you sure you want to revert last readings count changes?",
+                message: NSLocalizedString("Are you sure you want to undo the last change?",
                                            comment: "Alert Message for Undo Action"),
                 preferredStyle: .alert)
             let okAction = UIAlertAction(

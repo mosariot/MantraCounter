@@ -130,7 +130,7 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 "Undo Changes" = "Отмена изменений";
 
 /* Alert Message for Undo Action */
-"Are you sure you want to revert last readings count changes?" = "Вы уверены, что хотите отменить последнее изменение числа начиток?";
+"Are you sure you want to undo the last change?" = "Вы уверены, что хотите отменить последнее изменение?";
 
 /* Alert Button on ReadsCountViewController */
 "Yes" = "Да";
