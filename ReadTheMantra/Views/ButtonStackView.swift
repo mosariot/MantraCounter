@@ -9,7 +9,7 @@
 import UIKit
 
 class ButtonStackView: UIStackView {
-    init(with mantra: Mantra, previousReadsCount: Int32?,
+    init(with mantra: Mantra, previousValue: UndoType?,
          undoButtonHandler: @escaping () -> (),
          infoButtonHandler: @escaping () -> (),
          favoriteButtonHandler: @escaping () -> ()) {
@@ -18,7 +18,7 @@ class ButtonStackView: UIStackView {
             undoButtonHandler()
         }))
         undoButton.setImage(UIImage(systemName: "arrow.uturn.backward.circle"), for: .normal)
-        undoButton.isEnabled = previousReadsCount != nil
+        undoButton.isEnabled = previousValue != nil
         
         let infoButton = UIButton(
             type: .infoLight,

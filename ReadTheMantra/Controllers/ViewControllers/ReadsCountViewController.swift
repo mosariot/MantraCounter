@@ -25,7 +25,7 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
         didSet { currentState.apply() }
     }
     
-    var previousReadsCount: Int32? = nil {
+    var previousValue: UndoType? = nil {
         didSet { setupNavButtons() }
     }
     var shouldInvalidatePreviousState = false
@@ -69,12 +69,12 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
             if currentMantra == nil {
                 currentState = states.displaySystemBehavior
                 currentMantra = mantra
-                previousReadsCount = nil
+                previousValue = nil
             }
             if let currentMantra = currentMantra, mantra !== currentMantra {
                 currentState = states.displaySystemBehavior
                 self.currentMantra = mantra
-                previousReadsCount = nil
+                previousValue = nil
                 invalidatePreviousState()
             }
             navigationItem.largeTitleDisplayMode = .never
@@ -93,6 +93,13 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         defaults.set(true, forKey: "collapseSecondaryViewController")
+    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            guard let _ = previousValue else { return }
+            Task { await showUndoAlert() }
+           }
     }
     
     //MARK: - Setup UI
@@ -121,7 +128,7 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
         
         let buttonStackView = ButtonStackView(
             with: mantra,
-            previousReadsCount: previousReadsCount,
+            previousValue: previousValue,
             undoButtonHandler: { [weak self] in
                 guard let self = self else { return }
                 self.undoButtonPressed()},
@@ -226,16 +233,25 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
     private func showUndoAlert() async {
         if await AlertCenter.confirmUndo(in: self) {
             mediumHapticGenerator.impactOccurred()
-            undoReadsCount()
+            undoAction()
         }
     }
     
-    private func undoReadsCount() {
-        guard let mantra = mantra, let previousReadsCount = previousReadsCount else { return }
-        mantra.reads = previousReadsCount
-        readsCountView.circularProgressView.value = Int(previousReadsCount)
+    private func undoAction() {
+        guard let mantra = mantra, let previousReadsCount = previousValue else { return }
+        switch previousReadsCount {
+        case .goal(let newGoal):
+            mantra.readsGoal = newGoal
+            readsCountView.readsGoalButton.setTitle(
+                NSLocalizedString("Goal: ",
+                                  comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),
+                for: .normal)
+        case .reads(let newReads):
+            mantra.reads = newReads
+            readsCountView.circularProgressView.value = Int(newReads)
+        }
         setupUI()
-        self.previousReadsCount = nil
+        self.previousValue = nil
     }
 }
 
