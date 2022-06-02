@@ -5,9 +5,9 @@
 "Welcome to the path of Enlightenment!" = "Добро пожаловать на путь Просветления!";
 
 /* Onboarding Alert Message */
-"Recitation of mantras - is a sacrament.
+"Recitation of mantras is a sacrament.
 Approach this issue with all your awareness.
-In order for the practice of reciting the mantra to be correct, one must receive the transmission of the mantra from the teacher. Transmission is essential to maintain the strength of the original source of the mantra. It is not enough just to read it in a book or on the Internet.
+In order for the practice of reciting the mantra to be correct, one must receive the transmission of the mantra from the teacher. Transmission is essential to maintain the strength of the original source of the mantra. It’s not enough just to read it in a book or on the Internet.
 For this reason, at start application doesn't include the mantra texts themselves (except Vajrasattva). They must be given to you by your spiritual mentor and can be added manually later.
 We wish you deep awarenesses and spiritual growth!" = "Чтение мантр - это таинство.
 Подойдите к данному вопросу со всей своей осознанностью.
@@ -19,7 +19,7 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 "No Internet Connection" = "Нет подключения к интернету";
 
 /* Alert Title for preloading mantras due to no internet connection */
-"It seems like there is no internet connection right now. New set of mantras was preloaded. If you were using 'Mantra Reader' previously with enabled iCloud account, your recordings will be added to the list automatically, when internet connection will be available (you may need to relaunch the app)." = "Похоже, что сейчас нет подключения к Интернету. Был предварительно загружен новый набор мантр. Если вы ранее использовали 'Начитай!' с включенной учетной записью iCloud, ваши данные будут добавлены в список автоматически, когда станет доступно подключение к Интернету (возможно, необходимо будет перезапустить приложение).";
+"It seems like there is no internet connection right now. New set of mantras was preloaded. If you were using 'Mantra Reader' previously with enabled iCloud account, your recordings will be added to the list automatically when internet connection will be available (you may need to relaunch the app)." = "Похоже, что сейчас нет подключения к Интернету. Был предварительно загружен новый набор мантр. Если вы ранее использовали 'Начитай!' с включенной учетной записью iCloud, ваши данные будут добавлены в список автоматически, когда станет доступно подключение к Интернету (возможно, необходимо будет перезапустить приложение).";
 
 /* Onboarding Alert Button */
 "UNDERSTAND!" = "ПОНЯТНО!";
@@ -187,13 +187,13 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 "'Mantra Counter' Mode" = "Режим 'Счетчик мантр'";
 
 /* Alert Message for first switch display mode */
-"You have entered the 'Mantra Counter' mode. Single tap on the screen will add one reading, double tap will add one round. The screen will not dim. The edit buttons at the bottom are disabled." = "Вы вошли в режим 'Счетчик мантр'. Один тап по экрану добавит одну начитку, двойной тап - добавит один круг. Экран не будет затемняться. Кнопки редактирования внизу отключены.";
+"You have entered the 'Mantra Counter' mode. Single tap on the screen will add one reading, double tap will add one round. The screen won’t dim. The edit buttons at the bottom are disabled." = "Вы вошли в режим 'Счетчик мантр'. Один тап по экрану добавит одну начитку, двойной тап - добавит один круг. Экран не будет затемняться. Кнопки редактирования внизу отключены.";
 
 /* Alert Title for first search on the Internet */
 "Pick Photo" = "Выберите фото";
 
 /* Alert Message for first search on the Internet */
-"Just longpress on the image you liked, choose 'Copy' in contextual menu and confirm by 'Done'" = "Просто удерживайте понравившееся изображение, выберите 'Скопировать' в контекстном меню и нажмите 'Готово'";
+"Just longpress on the image you liked, choose 'Copy' in contextual menu and confirm it by 'Done'" = "Просто удерживайте понравившееся изображение, выберите 'Скопировать' в контекстном меню и нажмите 'Готово'";
 
 /* Alert Title for unavailable photo */
 "Unavailable Photo" = "Фото недоступно";
@@ -253,19 +253,19 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 "There was a fatal error in the app and it cannot continue. Press OK to terminate the app. Sorry for inconvenience." = "Произошла критическая ошибка в приложении, работа не может быть продолжена. Нажмите ОК для закрытия приложения. Просим прощения за неудобства.";
 
 /* Buddha Shakyamuni Description */
-"Thanks to the repetition of this mantra, all obscurations and hindrances go away, a person approaches the state of Enlightenment, receives inspiration, blessings, rapid progress on the path of perfection, and a connection is established with Buddha Shakyamuni." = "Благодаря повторению этой мантры уходят все омрачения, помехи, человек приближается к состоянию Просветления, получает воодушевление, благословение, быстрый прогресс на пути совершенствования, происходит установление связи с Буддой Шакьямуни.";
+"Thanks to the repetition of this mantra all obscurations and hindrances go away, a person approaches the state of Enlightenment, receives inspiration, blessings, rapid progress on the path of perfection, and a connection is established with Buddha Shakyamuni." = "Благодаря повторению этой мантры уходят все омрачения, помехи, человек приближается к состоянию Просветления, получает воодушевление, благословение, быстрый прогресс на пути совершенствования, происходит установление связи с Буддой Шакьямуни.";
 
 /* Buddha Medicine */
 "Buddha Medicine" = "Будда Медицины";
 
 /* Buddha Medicine Description */
-"Reading a mantra creates a special vibration that affects energy channels, expands and purifies the aura, enhances vital energy, including the mantra helps to transform negative emotions and obscurations." = "Чтение мантры создает особую вибрацию, воздействующую на энергетические каналы, расширяет и очищает ауру, усиливает жизненную энергию, в том числе мантра помогает преобразовать отрицательные эмоции и омрачения.";
+"Reading the mantra creates a special vibration that affects energy channels, expands and purifies the aura, enhances vital energy. Including the mantra helps to transform negative emotions and obscurations." = "Чтение мантры создает особую вибрацию, воздействующую на энергетические каналы, расширяет и очищает ауру, усиливает жизненную энергию. В том числе мантра помогает преобразовать отрицательные эмоции и омрачения.";
 
 /* Buddha Amitabha */
 "Buddha Amitabha" = "Будда Амитабха";
 
 /* Buddha Amitabha Description */
-"Reading a mantra personifies the discriminating mind and bestows the yogic power of knowing each thing separately, as well as all things in unity." = "Чтение мантры персонифицирует различающий разум и дарует йогическую силу познания каждой вещи в отдельности, а также всех вещей в единстве.";
+"Reading the mantra personifies the discriminating mind and bestows the yogic power of knowing each thing separately as well as all things in unity." = "Чтение мантры персонифицирует различающий разум и дарует йогическую силу познания каждой вещи в отдельности, а также всех вещей в единстве.";
 
 /* Avalokitesvara */
 "Avalokitesvara" = "Ченрезиг";
@@ -277,7 +277,7 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 "Vajrapani" = "Ваджрапани";
 
 /* Vajrapani Description */
-"Reciting the mantra of the bodhisattva Vajrapani with sincere good intentions helps to overcome various ailments, delusions, brings self-confidence, firm support in any endeavors, determination, purposefulness, increases the strength and capabilities of a person." = "Начитывание мантры бодхисаттвы Ваджрапани с искренними благими намерениями способствует преодолению различных недомоганий, заблуждений, приносит уверенность в своих силах, твёрдую поддержку в любых начинаниях, решительность, целеустремленность, увеличивает силы и возможности человека.";
+"Reciting the mantra of the Bodhisattva Vajrapani with sincere good intentions helps to overcome various ailments, delusions, brings self-confidence, firm support in any endeavors, determination, purposefulness, increases the strength and capabilities of a person." = "Начитывание мантры бодхисаттвы Ваджрапани с искренними благими намерениями способствует преодолению различных недомоганий, заблуждений, приносит уверенность в своих силах, твёрдую поддержку в любых начинаниях, решительность, целеустремленность, увеличивает силы и возможности человека.";
 
 /* Hayagriva */
 "Hayagriva" = "Хаягрива";
@@ -289,13 +289,13 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 "Vasundhara" = "Золотая тара";
 
 /* Vasundhara Description */
-"Reading a mantra bestows piously acquired wealth and also ensures that spiritual wisdom is accompanied by favorable circumstances: a high standard of living, longevity, and happiness." = "Чтение мантры дарует благочестиво приобретенное богатство, а также обеспечивает, чтобы духовной мудрости сопутствовали благоприятные обстоятельства: высокий уровень жизни, долголетие и счастье.";
+"Reading the mantra bestows piously acquired wealth and also ensures that spiritual wisdom is accompanied by favorable circumstances - a high standard of living, longevity, and happiness." = "Чтение мантры дарует благочестиво приобретенное богатство, а также обеспечивает, чтобы духовной мудрости сопутствовали благоприятные обстоятельства - высокий уровень жизни, долголетие и счастье.";
 
 /* Manjusri */
 "Manjusri" = "Манджушри";
 
 /* Manjusri Description */
-"Reading a mantra dispels the roots of ignorance and defilement, develops wisdom, intelligence, assimilation of knowledge, strengthens memory, develops eloquence, allows you to control the mind and contributes to comprehending the true nature of all things." = "Чтение мантры рассеивает корни неведения и омрачения, развивает мудрость, сообразительность, усвоение знаний, укрепляет память, развивает красноречие, позволяет контролировать ум и способствует постижению истинной природы всех вещей.";
+"Reading the mantra dispels the roots of ignorance and defilement, develops wisdom, intelligence, assimilation of knowledge, strengthens memory, develops eloquence, allows you to control the mind and contributes to comprehending the true nature of all things." = "Чтение мантры рассеивает корни неведения и омрачения, развивает мудрость, сообразительность, усвоение знаний, укрепляет память, развивает красноречие, позволяет контролировать ум и способствует постижению истинной природы всех вещей.";
 
 /* Green Tara */
 "Green Tara" = "Зеленая тара";
@@ -346,7 +346,7 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 "Maytreya" = "Майтрейя";
 
 /* Maytreya Description */
-"Maitreya symbolizes the loving kindness of the Buddha, as well as the aspect of vision, the sense of sight. He embodies the future Buddha, who will be reborn and appear before people. If the practitioner does not succeed in achieving full enlightenment in this incarnation, the Maitreya mantra will bring him closer to the highest good in subsequent reincarnations." = "Майтрейя символизирует любящую доброту Будды, а также аспект видения, чувство зрения. Он воплощает собой будущего Будду, который возродится и предстанет перед людьми. Если у практикующего не получается достигнуть полного просвещения в этой инкарнации, мантра Майтрейи приблизит к высшему благу в последующих перевоплощениях.";
+"Maitreya symbolizes the loving kindness of the Buddha as well as the aspect of vision, the sense of sight. He embodies the future Buddha, who will be reborn and appear before people. If the practitioner doesn’t succeed in achieving full enlightenment in this incarnation, the Maitreya mantra will bring him closer to the highest good in subsequent reincarnations." = "Майтрейя символизирует любящую доброту Будды, а также аспект видения, чувство зрения. Он воплощает собой будущего Будду, который возродится и предстанет перед людьми. Если у практикующего не получается достигнуть полного просвещения в этой инкарнации, мантра Майтрейи приблизит к высшему благу в последующих перевоплощениях.";
 
 /* Vajrakilaya */
 "Vajrakilaya" = "Ваджракилайя";
@@ -358,10 +358,10 @@ We wish you deep awarenesses and spiritual growth!" = "Чтение мантр -
 "Guru Padmasambhava" = "Гуру Падмасамбхава";
 
 /* Guru Padmasambhava Description */
-"Guru Padmasambhava himself eloquently and extensively described the benefits of reciting this mantra: 'The essential Vajra Guru mantra, if it is recited with unlimited aspiration as much as possible - one hundred, one thousand, ten thousand, one hundred thousand, ten million, one hundred million, and so on, will bring unimaginable benefits and strengths. Countries everywhere are protected from all epidemics, hunger, wars, armed violence, crop failure, bad omens and evil spells. The rains will come in due season, the harvests and livestock will be excellent, and the lands will prosper. In this life, in future lives, successful practitioners will meet me again and again - the best in reality, or in visions, the lowest in dreams'." = "Сам Гуру Падмасамбхава красноречиво и подробно описал блага от чтения этой мантры: 'Сущностная Ваджра Гуру мантра, если её начитывают с безграничным устремлением столько, сколько возможно - сто, тысячу, десять тысяч, сто тысяч, десять миллионов, сто миллионов и так далее - принесёт невообразимые блага и силы. Страны везде защищены от всех эпидемий, голода, войн, вооружённого насилия, неурожая, плохих знамений и злых заклинаний. Дожди будут идти в своё время, урожаи и скот будут отличными, а земли будут процветать. В этой жизни, в будущих жизнях удачливые практикующие будут встречать меня снова и снова - лучшие в реальности, или же в видениях, низшие - во снах'.";
+"Guru Padmasambhava himself eloquently and extensively described the benefits of reciting this mantra: 'The essential Vajra Guru mantra, if it’s recited with unlimited aspiration as much as possible - one hundred, one thousand, ten thousand, one hundred thousand, ten million, one hundred million, and so on, will bring unimaginable benefits and strengths. Countries everywhere are protected from all epidemics, hunger, wars, armed violence, crop failure, bad omens and evil spells. The rains will come in due season, the harvests and livestock will be excellent, and the lands will prosper. In this life, in future lives, successful practitioners will meet me again and again - the best in reality, or in visions, the lowest in dreams'." = "Сам Гуру Падмасамбхава красноречиво и подробно описал блага от чтения этой мантры: 'Сущностная Ваджра Гуру мантра, если её начитывают с безграничным устремлением столько, сколько возможно - сто, тысячу, десять тысяч, сто тысяч, десять миллионов, сто миллионов и так далее - принесёт невообразимые блага и силы. Страны везде защищены от всех эпидемий, голода, войн, вооружённого насилия, неурожая, плохих знамений и злых заклинаний. Дожди будут идти в своё время, урожаи и скот будут отличными, а земли будут процветать. В этой жизни, в будущих жизнях удачливые практикующие будут встречать меня снова и снова - лучшие в реальности, или же в видениях, низшие - во снах'.";
 
 /* Parnashavari */
 "Parnashavari" = "Парнашавари";
 
 /* Parnashavari Description */
-"Meditation on Parnashavari and the practice of her mantra strengthens immunity and resistance to infectious diseases. Parnashavari's call declares that she prevents all epidemics, disease and suffering." = "Медитация на Парнашавари и практика ее мантры укрепляют иммунитет и сопротивляемость к заразным болезням. Призыв Парнашавари заявляет, что она предотвращает все эпидемии, болезни и страдания.";
+"Meditation on Parnashavari and the practice of her mantra strengthens immunity and resistance to infectious diseases. Parnashavari's call declares that she prevents all epidemics, diseases and suffering." = "Медитация на Парнашавари и практика ее мантры укрепляют иммунитет и сопротивляемость к заразным болезням. Призыв Парнашавари заявляет, что она предотвращает все эпидемии, болезни и страдания.";
