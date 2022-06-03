@@ -20,17 +20,17 @@ enum PreloadedMantras {
     static let data: [[MantraAttributes: String]] = [
         [
             .title: NSLocalizedString("Buddha Shakyamuni", comment: "Buddha Shakyamuni"),
-            .details: NSLocalizedString("Thanks to the repetition of this mantra, all obscurations and hindrances go away, a person approaches the state of Enlightenment, receives inspiration, blessings, rapid progress on the path of perfection, and a connection is established with Buddha Shakyamuni.", comment: "Buddha Shakyamuni Description"),
+            .details: NSLocalizedString("Thanks to the repetition of this mantra all obscurations and hindrances go away, a person approaches the state of Enlightenment, receives inspiration, blessings, rapid progress on the path of perfection, and a connection is established with Buddha Shakyamuni.", comment: "Buddha Shakyamuni Description"),
             .image: "Buddha_Shakyamuni"
         ],
         [
             .title: NSLocalizedString("Buddha Medicine", comment: "Buddha Medicine"),
-            .details: NSLocalizedString("Reading a mantra creates a special vibration that affects energy channels, expands and purifies the aura, enhances vital energy, including the mantra helps to transform negative emotions and obscurations.", comment: "Buddha Medicine Description"),
+            .details: NSLocalizedString("Reading the mantra creates a special vibration that affects energy channels, expands and purifies the aura, enhances vital energy. Including the mantra helps to transform negative emotions and obscurations.", comment: "Buddha Medicine Description"),
             .image: "Buddha_Medicine"
         ],
         [
             .title: NSLocalizedString("Buddha Amitabha", comment: "Buddha Amitabha"),
-            .details: NSLocalizedString("Reading a mantra personifies the discriminating mind and bestows the yogic power of knowing each thing separately, as well as all things in unity.", comment: "Buddha Amitabha Description"),
+            .details: NSLocalizedString("Reading the mantra personifies the discriminating mind and bestows the yogic power of knowing each thing separately as well as all things in unity.", comment: "Buddha Amitabha Description"),
             .image: "Buddha_Amitabha"
         ],
         [
@@ -40,12 +40,12 @@ enum PreloadedMantras {
         ],
         [
             .title: NSLocalizedString("Vajrapani", comment: "Vajrapani"),
-            .details: NSLocalizedString("Reciting the mantra of the bodhisattva Vajrapani with sincere good intentions helps to overcome various ailments, delusions, brings self-confidence, firm support in any endeavors, determination, purposefulness, increases the strength and capabilities of a person.", comment: "Vajrapani Description"),
+            .details: NSLocalizedString("Reciting the mantra of the Bodhisattva Vajrapani with sincere good intentions helps to overcome various ailments, delusions, brings self-confidence, firm support in any endeavors, determination, purposefulness, increases the strength and capabilities of a person.", comment: "Vajrapani Description"),
             .image: "Vajrapani"
         ],
         [
             .title: NSLocalizedString("Vasundhara", comment: "Vasundhara"),
-            .details: NSLocalizedString("Reading a mantra bestows piously acquired wealth and also ensures that spiritual wisdom is accompanied by favorable circumstances: a high standard of living, longevity, and happiness.", comment: "Vasundhara Description"),
+            .details: NSLocalizedString("Reading the mantra bestows piously acquired wealth and also ensures that spiritual wisdom is accompanied by favorable circumstances - a high standard of living, longevity, and happiness.", comment: "Vasundhara Description"),
             .image: "Vasundhara"
         ],
         [
@@ -55,7 +55,7 @@ enum PreloadedMantras {
         ],
         [
             .title: NSLocalizedString("Manjusri", comment: "Manjusri"),
-            .details: NSLocalizedString("Reading a mantra dispels the roots of ignorance and defilement, develops wisdom, intelligence, assimilation of knowledge, strengthens memory, develops eloquence, allows you to control the mind and contributes to comprehending the true nature of all things.", comment: "Manjusri Description"),
+            .details: NSLocalizedString("Reading the mantra dispels the roots of ignorance and defilement, develops wisdom, intelligence, assimilation of knowledge, strengthens memory, develops eloquence, allows you to control the mind and contributes to comprehending the true nature of all things.", comment: "Manjusri Description"),
             .image: "Manjusri"
         ],
         [
@@ -96,7 +96,7 @@ enum PreloadedMantras {
         ],
         [
             .title: NSLocalizedString("Maytreya", comment: "Maytreya"),
-            .details: NSLocalizedString("Maitreya symbolizes the loving kindness of the Buddha, as well as the aspect of vision, the sense of sight. He embodies the future Buddha, who will be reborn and appear before people. If the practitioner does not succeed in achieving full enlightenment in this incarnation, the Maitreya mantra will bring him closer to the highest good in subsequent reincarnations.", comment: "Maytreya Description"),
+            .details: NSLocalizedString("Maitreya symbolizes the loving kindness of the Buddha as well as the aspect of vision, the sense of sight. He embodies the future Buddha, who will be reborn and appear before people. If the practitioner doesn’t succeed in achieving full enlightenment in this incarnation, the Maitreya mantra will bring him closer to the highest good in subsequent reincarnations.", comment: "Maytreya Description"),
             .image: "Maytreya"
         ],
         [
@@ -106,12 +106,12 @@ enum PreloadedMantras {
         ],
         [
             .title: NSLocalizedString("Guru Padmasambhava", comment: "Guru Padmasambhava"),
-            .details: NSLocalizedString("Guru Padmasambhava himself eloquently and extensively described the benefits of reciting this mantra: 'The essential Vajra Guru mantra, if it is recited with unlimited aspiration as much as possible - one hundred, one thousand, ten thousand, one hundred thousand, ten million, one hundred million, and so on, will bring unimaginable benefits and strengths. Countries everywhere are protected from all epidemics, hunger, wars, armed violence, crop failure, bad omens and evil spells. The rains will come in due season, the harvests and livestock will be excellent, and the lands will prosper. In this life, in future lives, successful practitioners will meet me again and again - the best in reality, or in visions, the lowest in dreams'.", comment: "Guru Padmasambhava Description"),
+            .details: NSLocalizedString("Guru Padmasambhava himself eloquently and extensively described the benefits of reciting this mantra: 'The essential Vajra Guru mantra, if it’s recited with unlimited aspiration as much as possible - one hundred, one thousand, ten thousand, one hundred thousand, ten million, one hundred million, and so on, will bring unimaginable benefits and strengths. Countries everywhere are protected from all epidemics, hunger, wars, armed violence, crop failure, bad omens and evil spells. The rains will come in due season, the harvests and livestock will be excellent, and the lands will prosper. In this life, in future lives, successful practitioners will meet me again and again - the best in reality, or in visions, the lowest in dreams'.", comment: "Guru Padmasambhava Description"),
             .image: "Guru_Padmasambhava"
         ],
         [
             .title: NSLocalizedString("Parnashavari", comment: "Parnashavari"),
-            .details: NSLocalizedString("Meditation on Parnashavari and the practice of her mantra strengthens immunity and resistance to infectious diseases. Parnashavari's call declares that she prevents all epidemics, disease and suffering.", comment: "Parnashavari Description"),
+            .details: NSLocalizedString("Meditation on Parnashavari and the practice of her mantra strengthens immunity and resistance to infectious diseases. Parnashavari's call declares that she prevents all epidemics, diseases and suffering.", comment: "Parnashavari Description"),
             .image: "Parnashavari"
         ]
     ]

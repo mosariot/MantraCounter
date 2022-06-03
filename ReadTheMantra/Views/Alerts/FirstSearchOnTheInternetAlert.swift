@@ -14,7 +14,7 @@ extension AlertCenter {
         let alert = UIAlertController(
             title: NSLocalizedString("Pick Photo",
                                      comment: "Alert Title for first search on the Internet"),
-            message: NSLocalizedString("Just longpress on the image you liked, choose 'Copy' in contextual menu and confirm by 'Done'",
+            message: NSLocalizedString("Just longpress on the image you liked, choose 'Copy' in contextual menu and confirm it by 'Done'",
                                        comment: "Alert Message for first search on the Internet"),
             preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)

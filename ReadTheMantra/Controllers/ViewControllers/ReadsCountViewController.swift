@@ -240,15 +240,16 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
     private func undoAction() {
         guard let mantra = mantra, let previousReadsCount = previousValue else { return }
         switch previousReadsCount {
-        case .goal(let newGoal):
-            mantra.readsGoal = newGoal
+        case .goal(let oldGoal):
+            mantra.readsGoal = oldGoal
             readsCountView.readsGoalButton.setTitle(
                 NSLocalizedString("Goal: ",
                                   comment: "Button on ReadsCountViewController") + Int(mantra.readsGoal).formattedNumber(),
                 for: .normal)
-        case .reads(let newReads):
-            mantra.reads = newReads
-            readsCountView.circularProgressView.value = Int(newReads)
+        case .reads(let oldReads):
+            readsCountView.circularProgressView.currentSessionValue -= Int(mantra.reads - oldReads)
+            mantra.reads = oldReads
+            readsCountView.circularProgressView.value = Int(oldReads)
         }
         setupUI()
         self.previousValue = nil
