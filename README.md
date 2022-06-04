@@ -10,12 +10,13 @@ In this app:
 - Add most actual mantras to Favorites.
 - Enjoy the user-friendly interface and beautiful design on both your iPhone and iPad with support for light and dark appearance.
 - Take advantage of data sync across all your devices via iCloud (works automatically for signed-in users). All data is saved in iCloud and will not be lost even if the application is deleted.
-- Use widgets with the necessary data both on the left-side and home screen.
+- Use widgets with the necessary data both on the side and home screen.
 
 Important information:
-Recitation of mantras - is a sacrament. Approach this issue with all your awareness.
-In order for the practice of reciting to be correct, one must receive the transmission of the mantra from the teacher. Transmission is essential to maintain the strength of the original source of the mantra. It is not enough just to read it in a book or on the Internet.
-For this reason, application doesn't include the mantra texts themselves (except Vajrasattva). They must be given to you by your spiritual mentor and can be added manually later.
+Recitation of mantras is a sacrament.
+Approach this issue with all your awareness.
+In order for the practice of reciting the mantra to be correct, one must receive the transmission of the mantra from the teacher. Transmission is essential to maintain the strength of the original source of the mantra. It’s not enough just to read it in a book or on the Internet.
+For this reason, at start application doesn't include the mantra texts themselves (except Vajrasattva). They must be given to you by your spiritual mentor and can be added manually later.
 
 We wish you deep awarenesses and spiritual growth!
 
