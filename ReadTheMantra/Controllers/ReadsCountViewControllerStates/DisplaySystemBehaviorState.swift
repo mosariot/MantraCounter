@@ -20,7 +20,7 @@ final class DisplaySystemBehaviorState: ReadsCountViewControllerState {
         guard let mantra = context?.mantra, let context = context else { return }
         if let updatingValue = await AlertCenter.updatingValueRequest(in: context, mantra: mantra, updatingType: adjustingType) {
             await mediumHapticGenerator.impactOccurred()
-            adjustMantra(with: updatingValue, adjustingType: adjustingType)
+            await adjustMantra(with: updatingValue, adjustingType: adjustingType)
         }
     }
     

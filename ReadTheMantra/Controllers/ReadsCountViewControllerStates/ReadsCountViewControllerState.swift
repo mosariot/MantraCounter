@@ -36,6 +36,7 @@ class ReadsCountViewControllerState {
 
 extension ReadsCountViewControllerState {
     
+    @MainActor
     func adjustMantra(with value: Int32, adjustingType: AdjustingType, animated: Bool = true) {
         guard let mantra = context?.mantra else { return }
         let oldReads = mantra.reads

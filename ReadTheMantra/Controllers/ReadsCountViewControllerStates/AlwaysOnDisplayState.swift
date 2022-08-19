@@ -58,12 +58,14 @@ final class AlwaysOnDisplayState: ReadsCountViewControllerState {
         singleTap.require(toFail: doubleTap)
     }
     
+    @MainActor
     @objc private func singleTapped() {
         lightHapticGenerator.impactOccurred()
         adjustMantra(with: 1, adjustingType: .reads, animated: false)
         flashScreen()
     }
     
+    @MainActor
     @objc private func doubleTapped() {
         lightHapticGenerator.impactOccurred()
         adjustMantra(with: 1, adjustingType: .rounds)

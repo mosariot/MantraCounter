@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import Combine
 
 extension AlertCenter {
+    static var subscriptions = Set<AnyCancellable>()
     
     @MainActor
     static func updatingValueRequest(in vc: UIViewController,
@@ -16,8 +18,7 @@ extension AlertCenter {
                                      updatingType: AdjustingType) async -> Int32? {
         let textDelegateHandler = AlertTextFieldDelegate()
         return await withCheckedContinuation { [weak vc] continuation in
-            
-            func isValidUpdatingNumber(text: String?, updatingType: AdjustingType) -> Bool {
+            @Sendable func isValidUpdatingNumber(text: String?, updatingType: AdjustingType) -> Bool {
                 guard let alertText = text, let alertNumber = UInt32(alertText) else { return false }
                 
                 switch updatingType {
@@ -66,18 +67,21 @@ extension AlertCenter {
                 
                 alertTextField.delegate = textDelegateHandler
                 positiveAction.isEnabled = false
-                NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: alertTextField, queue: .main) { _ in
-                    if isValidUpdatingNumber(text: alertTextField.text, updatingType: updatingType) {
-                        positiveAction.isEnabled = true
-                        guard
-                            let textValue = alertTextField.text,
-                            let numberValue = Int32(textValue)
-                        else { return }
-                        value = numberValue
-                    } else {
-                        positiveAction.isEnabled = false
+                let _ = NotificationCenter.default
+                    .publisher(for: UITextField.textDidChangeNotification)
+                    .sink { _ in
+                        if isValidUpdatingNumber(text: alertTextField.text, updatingType: updatingType) {
+                            positiveAction.isEnabled = true
+                            guard
+                                let textValue = alertTextField.text,
+                                let numberValue = Int32(textValue)
+                            else { return }
+                            value = numberValue
+                        } else {
+                            positiveAction.isEnabled = false
+                        }
                     }
-                }
+                    .store(in: &subscriptions)
             }
             let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Alert Button on ReadsCountViewController"),
                                              style: .default) { _ in

@@ -123,6 +123,7 @@ final class ReadsCountViewController: UIViewController, ReadsCountStateContext {
         readsCountView.setup(with: mantra)
     }
     
+    @MainActor
     private func setupNavButtons() {
         guard let mantra = mantra else { return }
         
