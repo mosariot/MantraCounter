@@ -98,7 +98,7 @@
 		9FE855BD258E51BF00771BA1 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE855BC258E51BF00771BA1 /* SwiftUI.framework */; };
 		9FE855C0258E51BF00771BA1 /* MantraWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE855BF258E51BF00771BA1 /* MantraWidget.swift */; };
 		9FE855C2258E51C300771BA1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FE855C1258E51C300771BA1 /* Assets.xcassets */; };
-		9FE855C6258E51C300771BA1 /* FavoritesWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9FE855B8258E51BF00771BA1 /* FavoritesWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9FE855C6258E51C300771BA1 /* FavoritesWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9FE855B8258E51BF00771BA1 /* FavoritesWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9FEB07F026CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB07EF26CA5D3A005AD2E3 /* MantraDetailsButtonsHandler.swift */; };
 		9FEB07F326CBA183005AD2E3 /* MantraLaunchPreparer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB07F226CBA183005AD2E3 /* MantraLaunchPreparer.swift */; };
 		9FEB07F526CBA8A7005AD2E3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB07F426CBA8A7005AD2E3 /* DataManager.swift */; };
@@ -121,15 +121,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		9FE855CA258E51C300771BA1 /* Embed App Extensions */ = {
+		9FE855CA258E51C300771BA1 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				9FE855C6258E51C300771BA1 /* FavoritesWidgetExtension.appex in Embed App Extensions */,
+				9FE855C6258E51C300771BA1 /* FavoritesWidgetExtension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -515,7 +515,7 @@
 				9F5FE67C24E7141400D0475E /* Sources */,
 				9F5FE67D24E7141400D0475E /* Frameworks */,
 				9F5FE67E24E7141400D0475E /* Resources */,
-				9FE855CA258E51C300771BA1 /* Embed App Extensions */,
+				9FE855CA258E51C300771BA1 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -554,7 +554,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1230;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = "Александр Воробьев";
 				TargetAttributes = {
 					9F5FE67F24E7141400D0475E = {
@@ -899,7 +899,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.5;
+				MARKETING_VERSION = 1.7.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -922,7 +922,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.5;
+				MARKETING_VERSION = 1.7.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter;
 				PRODUCT_NAME = MantraReader;
 				SWIFT_VERSION = 5.0;
@@ -946,7 +946,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.7.5;
+				MARKETING_VERSION = 1.7.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -971,7 +971,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.7.5;
+				MARKETING_VERSION = 1.7.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosariot.MantraCounter.FavoritesWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
