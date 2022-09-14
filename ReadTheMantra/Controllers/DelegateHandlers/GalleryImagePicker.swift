@@ -55,7 +55,7 @@ extension GalleryImagePicker: PHPickerViewControllerDelegate {
                     if let image = object as? UIImage {
                         self?.continuation?.resume(returning: image)
                     }
-                    if let error = error {
+                    if let error {
                         self?.continuation?.resume(throwing: error)
                     }
                 })
